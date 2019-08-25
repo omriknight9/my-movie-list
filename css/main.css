@@ -39,8 +39,9 @@ main {
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: #EAEAEA;
     height: 15rem;
+    background-color: #EAEAEA;
+    box-shadow: 0 3px 8px 3px #848484;
     transition: .5s;
     -webkit-transition: .5s;
     -o-transition: .5s;
@@ -402,7 +403,7 @@ hr {
     display: block;
     position: fixed;
     width: 40rem;
-    height: 20rem;
+    /*height: 25rem;*/
     background: #fff;
     padding:3em;
     top: 20%;
@@ -458,6 +459,7 @@ hr {
 .imdbWrapper {
     width: 100%;
     text-align: center;
+    margin-bottom: 6rem;
 }
 
 #imdbLink {
@@ -540,6 +542,9 @@ hr {
     #disney {
         width: 150px;
         height: 80px;
+    }
+    .popupCont {
+        /*height: 30rem;*/
     }
 }
 
