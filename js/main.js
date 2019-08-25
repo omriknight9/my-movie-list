@@ -79,6 +79,7 @@ function loadJson() {
             buildMovies('otherMovie', $('#othersContainer'), otherMovies);
         }, 500);
     });
+
     $.get('./lists/animation.txt', function (data) {
         animationMovies.push(JSON.parse(data));
         setTimeout(function () {
@@ -111,9 +112,17 @@ function buildMovies(div, wrapper, arr) {
             'movieId': movieType,
             'quality': movies[i].quality,
             'imdbId': movies[i].imdbId,
+            'revenue': movies[i].revenue,
             'mcu': movies[i].mcu,
             'dceu': movies[i].dceu,
             click: function () {
+                if ($(this).attr('revenue') == undefined || $(this).attr('revenue') == 'Unknown') {
+                    $('.movieRevenuePop').hide();
+                } else {
+                    $('.movieRevenuePop').html('Revenue: $' + $(this).attr('revenue'));
+                    $('.movieRevenuePop').show();
+                }
+                
                 $('.movieNamePop').html($(this).attr('name'));
                 $('.movieQualityPop').html('Quality: ' + $(this).attr('quality'));
                 $('#imdbLink').attr('href', 'https://www.imdb.com/title/' + $(this).attr('imdbId'));
@@ -164,7 +173,7 @@ function showCinematicUniverse(div, elem) {
             $($(div)[i]).hide();
         }
     }
-    goToDiv($(div).parent());
+    //goToDiv($(div).parent());
 }
 
 function hideCinematicUniverse(div, elem) {
@@ -174,14 +183,14 @@ function hideCinematicUniverse(div, elem) {
             $($(div)[i]).hide();
         }
     }
-    goToDiv($(div).parent());
+    //goToDiv($(div).parent());
 }
 
 function allOfKind(div) {
     for (var i = 0; i < $(div).length; i++) {
         $($(div)[i]).show();
     }
-    goToDiv($(div).parent());
+    //goToDiv($(div).parent());
 }
 
 function goToTop() {
