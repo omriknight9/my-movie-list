@@ -1,4 +1,4 @@
-﻿
+
 var marvelMovies = [];
 var dcMovies = [];
 var otherMovies = [];
@@ -110,12 +110,28 @@ function buildMovies(div, wrapper, arr) {
             'name': movies[i].name,
             'movieId': movieType,
             'quality': movies[i].quality,
+            'imdbId': movies[i].imdbId,
             'mcu': movies[i].mcu,
             'dceu': movies[i].dceu,
             click: function () {
                 $('.movieNamePop').html($(this).attr('name'));
                 $('.movieQualityPop').html('Quality: ' + $(this).attr('quality'));
+                $('#imdbLink').attr('href', 'https://www.imdb.com/title/' + $(this).attr('imdbId'));
                 $('#movieDetails').show();
+                switch ($(this).parent().attr('id')) {
+                    case 'marvelContainer':
+                        $('.popupBtn').css('background-color', '#e62429');
+                        break;
+                    case 'dcContainer':
+                        $('.popupBtn').css('background-color', '#0282f9');
+                        break;
+                    case 'othersContainer':
+                        $('.popupBtn').css('background-color', 'rgba(100, 100, 255, .9)');
+                        break;
+                    case 'animationContainer':
+                        $('.popupBtn').css('background-color', 'rgba(100, 200, 100, .9)');
+                        break;
+                }
             }
         }).appendTo(wrapper);
 
