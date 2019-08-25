@@ -1,0 +1,104 @@
+﻿<!doctype html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>My Movies</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="description" content="My Movie List">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="icon" href="images/movie.png">
+
+        <link href="https://fonts.googleapis.com/css?family=David+Libre&display=swap" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="js/main.js"></script>
+
+    </head>
+<body>
+
+    <header>
+        <div class="headerContainer">
+            <div class="header">
+                <div class="imgWrapper">                 
+                    <img src="./images/ironMan.png" id="marvel" alt="iron man" onclick="goToDiv('#marvelContainer')" />
+                    <img src="./images/Superman.png" id="dc" alt="superman" onclick="goToDiv('#dcContainer')" />
+                    <img src="./images/others.png" id="others" alt="delorean" onclick="goToDiv('#othersContainer')" />
+                    <img src="./images/disney.png" id="disney" alt="mickey mouse" onclick="goToDiv('#animationContainer')" />
+                </div>
+                <div class="searchContainer">
+                    <input type="text" placeholder="Search A Movie" id="search" aria-label="Search" />
+                </div>
+                
+            </div>
+        </div>
+
+    </header>
+
+    <main>
+
+        <div class="spinnerWrapper">
+            <div class="loader loader-1">
+                <div class="loader-outter"></div>
+                <div class="loader-inner"></div>
+            </div>
+        </div>
+
+        <div class="container" id="marvelContainer">
+            <h2>Marvel</h2>
+            <div class="btnWrapper">
+                <button onclick="sortMovies($('#marvelContainer'), 'year')">Sort By Year</button>
+                <button onclick="sortMovies($('#marvelContainer'), 'movieId')">Sort By Name</button>
+                <button class="marvelBtn" id="btnMCU" onclick="showCinematicUniverse($('.marvelMovie'), 'mcu')">MCU Only</button>
+                <button class="marvelBtn" id="btnNonMCU" onclick="hideCinematicUniverse($('.marvelMovie'), 'mcu')">Non MCU Only</button>
+                <button class="marvelBtn" id="btnAllMarvel" onclick="allOfKind($('.marvelMovie'))">All marvel</button>
+            </div>
+        </div>
+
+        <div class="container" id="dcContainer">
+            <h2>DC</h2>
+            <div class="btnWrapper">
+                <button onclick="sortMovies($('#dcContainer'), 'year')">Sort By Year</button>
+                <button onclick="sortMovies($('#dcContainer'), 'movieId')">Sort By Name</button>
+                <button class="dcBtn" id="btnDCEU" onclick="showCinematicUniverse($('.dcMovie'), 'dceu')">DCEU Only</button>
+                <button class="dcBtn" id="btnNonDCEU" onclick="hideCinematicUniverse($('.dcMovie'), 'dceu')">Non DCEU Only</button>
+                <button class="dcBtn" id="btnAllDC" onclick="allOfKind($('.dcMovie'))">All DC</button>
+            </div>
+        </div>
+
+        <div class="container" id="othersContainer">
+            <h2>Others</h2>
+            <div class="btnWrapper">
+                <button onclick="sortMovies($('#othersContainer'), 'year')">Sort By Year</button>
+                <button onclick="sortMovies($('#othersContainer'), 'movieId')">Sort By Name</button>
+            </div>
+        </div>
+        <div class="container" id="animationContainer">
+            <h2>Animation</h2>
+            <div class="btnWrapper">
+                <button onclick="sortMovies($('#animationContainer'), 'year')">Sort By Year</button>
+                <button onclick="sortMovies($('#animationContainer'), 'movieId')">Sort By Name</button>
+            </div>
+        </div>
+    </main>
+
+    <img src="images/upBtn.png" alt="up arrow" class="goToTopBtn" onclick="goToTop()" />
+
+    <!----------------POPUPS---------------->
+    <!------------Country Details----------->
+
+    <div id="movieDetails" class="popUpInfo">
+        <div class="popupCont">
+            <div class="popupContent"></div>
+            <div class="Xbtn"></div>
+            <h2 class="movieNamePop"></h2>
+            <p class="movieQualityPop"></p>
+            <div class="popupBtnsWrapper">
+                <button class="popupBtn" id="" onclick="closeCurrentPopup($(this))">Close</button>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

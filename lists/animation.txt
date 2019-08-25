@@ -1,0 +1,30 @@
+﻿
+{
+    "movies" : [
+        { "name": "101 Dalmatians", "year": 1961, "image": "Animation/101Dalmatians.jpg", "group": 1, "quality": "720p"},
+        { "name": "Aladdin", "year": "1992", "image": "Animation/aladdin.jpg", "group": 2, "quality": "720p"},
+        { "name": "Aladdin And The King Of Thieves", "year": "1996", "image": "Animation/aladdinAndTheKingOfThieves.jpg", "group": 2, "quality": "720p"},
+        { "name": "The Return Of Jafar", "year": "1994", "image": "Animation/theReturnOfJafar.jpg", "group": 2, "quality": "720p"},
+        { "name": "Bambi", "year": "1942", "image": "Animation/bambi.jpg", "group": 3, "quality": "720p"},
+        { "name": "Beauty And The Beast", "year": "1991", "image": "Animation/beautyAndTheBeast.jpg", "group": 4, "quality": "720p"},
+        { "name": "Cinderella", "year": "1950", "image": "Animation/cinderella.jpg", "group": 5, "quality": "720p"},
+        { "name": "Dumbo", "year": "1941", "image": "Animation/dumbo.jpg", "group": 6, "quality": "720p"},
+        { "name": "Frozen", "year": "2010", "image": "Animation/frozen.jpg", "group": 7, "quality": "720p"},
+        { "name": "Hercules", "year": "1997", "image": "Animation/hercules.jpg", "group": 8, "quality": "720p"},
+        { "name": "Mulan", "year": "1998", "image": "Animation/mulan.jpg", "group": 9, "quality": "720p"},
+        { "name": "Peter Pan", "year": "1953", "image": "Animation/peterPan.jpg", "group": 10, "quality": "720p"},
+        { "name": "Pinocchio", "year": "1940", "image": "Animation/pinocchio.jpg", "group": 11, "quality": "720p"},
+        { "name": "Pocahontas", "year": "1995", "image": "Animation/pocahontas.jpg", "group": 12, "quality": "720p"},
+        { "name": "Sausage Party", "year": "2016", "image": "Animation/sausageParty.jpg", "group": 13, "quality": "720p"},
+        { "name": "Sleeping Beauty", "year": "1959", "image": "Animation/sleepingBeauty.jpg", "group": 14, "quality": "720p"},
+        { "name": "Snow White And The Seven Dwarfs", "year": "1937", "image": "Animation/snowWhiteAndTheSevenDwarfs.jpg", "group": 15, "quality": "720p"},
+        { "name": "Tangled", "year": "2010", "image": "Animation/tangled.jpg", "group": 16, "quality": "720p"},
+        { "name": "Tarzan", "year": "1999", "image": "Animation/tarzan.jpg", "group": 17, "quality": "720p"},
+        { "name": "The Hunchback Of Notre Dame", "year": "1996", "image": "Animation/theHunchbackOfNotreDame.jpg", "group": 18, "quality": "720p"},
+        { "name": "The Jungle Book", "year": "1967", "image": "Animation/theJungleBook.jpg", "group": 19, "quality": "720p"},
+        { "name": "The Lion King", "year": "1994", "image": "Animation/theLionKing.jpg", "group": 20, "quality": "720p"},
+        { "name": "The Lion King 2", "year": "1998", "image": "Animation/theLionKing2.jpg", "group": 20, "quality": "720p"},
+        { "name": "The Little Mermaid", "year": "1989", "image": "Animation/theLittleMermaid.jpg", "group": 21, "quality": "720p"},
+        { "name": "The Prince Of Egypt", "year": "1998", "image": "Animation/thePrinceOfEgypt.jpg", "group": 22, "quality": "720p"}
+    ]
+}

@@ -1,0 +1,633 @@
+
+html {
+    position: relative;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+body {
+	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    margin: 0;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+main {
+    margin-top: 15rem;
+}
+
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.3);
+}
+
+::-webkit-scrollbar {
+	width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+	-webkit-box-shadow: inset 0 0 1px rgba(0,0,0,.3);
+	background-color: #ff5a4e;
+}
+
+.headerContainer {
+    width: 100%;
+    z-index: 1;
+}
+
+.header {
+    display: block;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #EAEAEA;
+    height: 15rem;
+    transition: .5s;
+    -webkit-transition: .5s;
+    -o-transition: .5s;
+    -moz-transition: .5s;
+    z-index: 1;
+}
+
+.imgWrapper {
+    position: absolute;
+    top: 2rem;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    justify-content: center;
+}
+
+.imgWrapper img {
+    margin-left: 2rem;
+    margin-right: 2rem;
+    cursor: pointer;
+}
+
+#marvel {
+    width: 130px;
+    height: 90px;
+}
+#dc {
+    width: 130px;
+    height: 90px;
+}
+#others {
+    width: 130px;
+    height: 90px;
+}
+#disney {
+    width: 190px;
+    height: 90px;
+}
+
+h1 {
+	text-align: center;
+	margin-top: 2rem;
+}
+
+.btnWrapper {
+    display: flex;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 3rem;
+    width: 100%;
+}
+
+button {
+    display: none;
+    border: none;
+    width: 7rem;
+    height: 3rem;
+    margin: 1rem;
+    background: white;
+    outline: none;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px 3px #848484;
+    transition: .3s;
+    -webkit-transition: .3s;
+    -o-transition: .3s;
+    -moz-transition: .3s;
+}
+
+.marvelBtn:hover {
+    background: #FE5449;
+    border: 1px solid white;
+}
+
+.dcBtn:hover {
+    background: #466DFF;
+    border: 1px solid white;
+}
+
+button:active {
+  box-shadow: 0 5px 5px #666;
+  transform: translateY(4px);
+  -ms-transform: translateY(4px);
+  -moz-transform: translateY(4px);
+  -webkit-transform: translateY(4px);
+  -o-transform: translateY(4px);
+}
+
+.searchContainer {
+    display: none;
+    position: absolute;
+    top: 10rem;
+    width: 100%;
+    text-align: center;
+    z-index: 1;
+    padding-bottom: 3rem;
+}
+
+#search {
+    border-radius: 5px;
+    box-shadow: 0 3px 8px 3px #848484;
+    border: none;
+    width: 30%;
+    height: 2rem;
+    text-indent: 1rem;
+    font-size: 1.3rem;
+    outline: none;
+}
+
+.spinnerWrapper {
+    position: absolute;
+    top: 12rem;
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    min-height: 215px;
+    vertical-align: top;
+}
+
+.loader {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 75px;
+    display: inline-block;
+    vertical-align: middle;
+}
+    
+.loader-1 .loader-outter {
+    position: absolute;
+    border: 4px solid #ef5350;
+    border-left-color: transparent;
+    border-bottom: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    animation: loader-1-outter 1s cubic-bezier(.42, .61, .58, .41) infinite;
+    -webkit-animation: loader-1-outter 1s cubic-bezier(.42, .61, .58, .41) infinite;
+    
+}
+    
+.loader-1 .loader-inner {
+    position: absolute;
+    border: 4px solid #ef5350;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    left: calc(50% - 20px);
+    top: calc(50% - 20px);
+    border-right: 0;
+    border-top-color: transparent;
+    animation: loader-1-inner 1s cubic-bezier(.42, .61, .58, .41) infinite;
+    -webkit-animation: loader-1-inner 1s cubic-bezier(.42, .61, .58, .41) infinite;
+}
+
+@-webkit-keyframes loader-1-outter {
+
+    0% {
+         transform: rotate(0); 
+        -webkit-transform: rotate(0);
+        -ms-transform: rotate(0);
+        -moz-transform: rotate(0);
+        -o-transform: rotate(0);
+    }
+
+    100% {
+         transform: rotate(360deg); 
+        -webkit-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+    }
+}
+    
+@keyframes loader-1-outter {
+
+    0% {
+         transform: rotate(0); 
+        -webkit-transform: rotate(0);
+        -ms-transform: rotate(0);
+        -moz-transform: rotate(0);
+        -o-transform: rotate(0);
+    }
+
+    100% {
+         transform: rotate(360deg); 
+        -webkit-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+    }
+}
+    
+@-webkit-keyframes loader-1-inner {
+    0% {
+         transform: rotate(0); 
+        -webkit-transform: rotate(0);
+        -ms-transform: rotate(0);
+        -moz-transform: rotate(0);
+        -o-transform: rotate(0);
+    }
+    100% {
+         transform: rotate(-360deg); 
+        -webkit-transform: rotate(-360deg);
+        -ms-transform: rotate(-360deg);
+        -moz-transform: rotate(-360deg);
+        -o-transform: rotate(-360deg);
+    }
+}
+    
+@keyframes loader-1-inner {
+
+    0% {
+         transform: rotate(0); 
+        -webkit-transform: rotate(0);
+        -ms-transform: rotate(0);
+        -moz-transform: rotate(0);
+        -o-transform: rotate(0);
+    }
+    100% {
+         transform: rotate(-360deg); 
+        -webkit-transform: rotate(-360deg);
+        -ms-transform: rotate(-360deg);
+        -moz-transform: rotate(-360deg);
+        -o-transform: rotate(-360deg);
+    }
+}
+
+h2 {
+	font-size: 4rem;
+	text-align: center;
+    display: block;
+    width: 100%;
+}
+
+p {
+    width: 100%;
+    text-align: center;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
+
+.container {
+    display: flex;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    justify-content: center;
+}
+
+#marvelContainer {
+    display: none;
+    background-color: #e62429;
+}
+
+#dcContainer {
+    display: none;
+    background-color: #0282f9;
+}
+
+#othersContainer {
+    display: none;
+    background-color: rgba(100, 100, 255, .9);
+}
+
+#animationContainer {
+    display: none;
+    background-color: rgba(100, 200, 100, .9);
+}
+
+.movieWrapper {
+    box-shadow: 0 3px 8px 3px #848484;
+    border-radius: 5px;
+    margin: 2rem;
+    text-align: center;
+    background-color: white;
+    transition: .3s;
+    -webkit-transition: .3s;
+    -o-transition: .3s;
+    -moz-transition: .3s;
+    cursor: pointer;
+}
+
+.marvelMovie, .dcMovie, .otherMovie, .animationMovie {
+    position: relative;
+    width: 20rem;
+    height: 18rem;
+}
+
+.movieImgWrapper {
+    width: 100%;
+    position: absolute;
+    bottom: 1rem;
+    text-align: center;
+}
+
+.movieImg {
+    width: 8rem;
+    height: 10rem;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px 3px #848484;
+}
+
+.goToTopBtn {
+    display: none;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    position: fixed;
+    bottom: 6rem;
+    right: 1.5rem;
+    z-index: 999;
+}
+
+/*------------------------Popups-------------------------*/
+    
+.popUpInfo {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+    min-height: 900px;
+    background: rgba(210,220,225,.8);
+    top: 0;
+}
+
+.popUpInfo h2 {
+    font-size: 2rem;
+}
+
+.popupCont {
+    display: block;
+    position: fixed;
+    width: 40rem;
+    height: 20rem;
+    background: #fff;
+    padding:3em;
+    top: 20%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    border-radius: 10px;
+}
+
+.popupContent {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: .3;
+    border-radius: 10px;
+}
+
+.popupBtnsWrapper {
+    position: absolute;
+    width: 100%;
+    bottom: 3rem;
+    left: 0;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.popupBtn {
+    background-color: rgba(239, 83, 80, .9);
+    padding: .7rem;
+    width: 7rem;
+    margin: auto;
+    color: white;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    cursor:pointer;
+}
+
+.Xbtn {
+    display: block;
+    position: absolute;
+    width:25px;
+    height:25px;
+    background:url(../images/closeBtn.png) no-repeat top center;
+    background-Size:100% auto;
+    top: 1em;
+    right: 1em;
+    cursor:pointer;
+}
+
+@media only screen and (max-width: 1200px) {
+    .marvelMovie, .dcMovie, .otherMovie, .animationMovie {
+        width: 15rem;
+        height: 17rem;
+    }
+
+    .movieImg {
+        width: 6rem;
+        height: 8rem;
+    }
+
+    .movieWrapper {
+        margin: 1rem;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .popupCont {
+        width: 65%;
+    }
+
+    #search {
+        width: 75%;
+    }
+}
+
+@media only screen and (max-width: 880px) {
+
+    .imgWrapper img {
+        margin-right: 0;
+    }
+}
+
+@media only screen and (min-width: 765px) {
+    .movieWrapper:hover {
+        transform: scale(1.05);
+        -webkit-transform: scale(1.05);
+        -moz-transform: scale(1.05);
+        -ms-transform: scale(1.05);
+        -o-transform: scale(1.05);
+    }
+}
+
+@media only screen and (max-width: 765px) {
+
+    .header {
+        height: 12rem;
+    }
+
+    .searchContainer {
+        top: 8rem;
+    }
+
+    main {
+        margin-top: 12rem;
+    }
+
+    .spinnerWrapper {
+        top: 8rem;
+    }
+
+    #marvel {
+        width: 120px;
+        height: 80px;
+    }
+    #dc {
+        width: 120px;
+        height: 80px;
+    }
+    #others {
+        width: 120px;
+        height: 80px;
+    }
+    #disney {
+        width: 150px;
+        height: 80px;
+    }
+}
+
+@media only screen and (max-width: 670px) {
+
+    #marvel {
+        width: 95px;
+        height: 70px;
+    }
+    #dc {
+        width: 95px;
+        height: 70px;
+    }
+    #others {
+        width: 95px;
+        height: 70px;
+    }
+    #disney {
+        width: 115px;
+        height: 70px;
+    }
+}
+
+@media only screen and (max-width: 550px) {
+
+    .marvelMovie, .dcMovie, .otherMovie, .animationMovie {
+        width: 12rem;
+    }
+
+    #marvel {
+        width: 75px;
+        height: 60px;
+    }
+    #dc {
+        width: 75px;
+        height: 60px;
+    }
+    #others {
+        width: 75px;
+        height: 60px;
+    }
+    #disney {
+        width: 100px;
+        height: 60px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+
+    .imgWrapper img {
+        margin-left: 1rem;
+    }
+}
+
+
+@media only screen and (max-width: 460px) {
+
+    .marvelMovie, .dcMovie, .otherMovie, .animationMovie {
+        width: 9rem;
+    }
+}
+
+@media only screen and (max-width: 410px) {
+
+    #marvel {
+        width: 53px;
+        height: 50px;
+    }
+    #dc {
+        width: 53px;
+        height: 50px;
+    }
+    #others {
+        width: 53px;
+        height: 50px;
+    }
+    #disney {
+        width: 75px;
+        height: 45px;
+    }
+}
+
+@media only screen and (max-width: 370px) {
+
+    .marvelMovie, .dcMovie, .otherMovie, .animationMovie {
+        width: 7rem;
+    }
+}
+
+
+@media only screen and (max-width: 350px) {
+
+    #marvel {
+        width: 45px;
+        height: 45px;
+    }
+    #dc {
+        width: 45px;
+        height: 45px;
+    }
+    #others {
+        width: 45px;
+        height: 45px;
+    }
+    #disney {
+        width: 70px;
+        height: 40px;
+    }
+}
