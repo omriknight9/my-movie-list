@@ -129,6 +129,16 @@ button {
     border: 1px solid white;
 }
 
+.othersBtn:hover {
+    background: #8B8BFE;
+    border: 1px solid white;
+}
+
+.animationBtn:hover {
+    background: #72EA72;
+    border: 1px solid white;
+}
+
 button:active {
   box-shadow: 0 5px 5px #666;
   transform: translateY(4px);
@@ -423,7 +433,6 @@ hr {
 }
 
 .popupBtn {
-    background-color: rgba(239, 83, 80, .9);
     padding: .7rem;
     width: 7rem;
     margin: auto;
@@ -444,6 +453,15 @@ hr {
     top: 1em;
     right: 1em;
     cursor:pointer;
+}
+
+.imdbWrapper {
+    width: 100%;
+    text-align: center;
+}
+
+#imdbLink {
+    width: 100px;
 }
 
 @media only screen and (max-width: 1200px) {
@@ -610,7 +628,6 @@ hr {
         width: 7rem;
     }
 }
-
 
 @media only screen and (max-width: 350px) {
 
