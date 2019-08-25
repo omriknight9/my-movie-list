@@ -1,17 +1,17 @@
-﻿{
+{
     "movies" : [
-        { "name": "Aquaman", "year": 2018, "image": "DC/aquaman.jpg", "group": 1, "dceu": true, "quality": "1080p", "imdbId": "tt1477834"},
-        { "name": "Batman", "year": "1989", "image": "DC/batman.jpg", "group": 2, "dceu": false, "quality": "1080p", "imdbId": "tt0096895"},
-        { "name": "Batman Returns", "year": "1992", "image": "DC/batmanReturns.jpg", "group": 2, "dceu": false, "quality": "1080p", "imdbId": "tt0103776"},
-        { "name": "Batman Forever", "year": "1995", "image": "DC/batmanForever.jpg", "group": 2, "dceu": false, "quality": "1080p", "imdbId": "tt0112462"},
-        { "name": "Batman Begins", "year": "2005", "image": "DC/batmanBegins.jpg", "group": 2, "dceu": false, "quality": "1080p", "imdbId": "tt0372784"},
-        { "name": "The Dark Knight", "year": "2008", "image": "DC/theDarkKnight.jpg", "group": 2, "dceu": false, "quality": "1080p", "imdbId": "tt0468569"},
-        { "name": "The Dark Knight Rises", "year": "2012", "image": "DC/theDarkKnightRises.jpg", "group": 2, "dceu": false, "quality": "1080p", "imdbId": "tt1345836"},
-        { "name": "Constantine", "year": "2005", "image": "DC/constantine.jpg", "group": 3, "dceu": false, "quality": "1080p", "imdbId": "tt0360486"},
-        { "name": "Justice League", "year": "2017", "image": "DC/justiceLeague.jpg", "group": 4, "dceu": true, "quality": "1080p", "imdbId": "tt0974015"},
-        { "name": "Man Of Steel", "year": "2013", "image": "DC/manOfSteel.jpg", "group": 5, "dceu": true, "quality": "1080p", "imdbId": "tt0770828"},
-        { "name": "Shazam", "year": "2019", "image": "DC/shazam.jpg", "group": 6, "dceu": true, "quality": "1080p", "imdbId": "tt0448115"},
-        { "name": "Suicide Squad", "year": "2016", "image": "DC/suicideSquad.jpg", "group": 7, "dceu": true, "quality": "1080p", "imdbId": "tt1386697"},
-        { "name": "Wonder Woman", "year": "2017", "image": "DC/wonderWoman.jpg", "group": 8, "dceu": true, "quality": "1080p", "imdbId": "tt0451279"}
+        { "name": "Aquaman", "year": 2018, "image": "DC/aquaman.jpg", "group": 1, "dceu": true, "quality": "1080p", "imdbId": "tt1477834", "revenue": "1,148,061,807"},
+        { "name": "Batman", "year": "1989", "image": "DC/batman.jpg", "group": 2, "dceu": false, "quality": "1080p", "imdbId": "tt0096895", "revenue": "411,508,343"},
+        { "name": "Batman Returns", "year": "1992", "image": "DC/batmanReturns.jpg", "group": 2, "dceu": false, "quality": "1080p", "imdbId": "tt0103776", "revenue": "266,892,996"},
+        { "name": "Batman Forever", "year": "1995", "image": "DC/batmanForever.jpg", "group": 2, "dceu": false, "quality": "1080p", "imdbId": "tt0112462", "revenue": "336,567,158"},
+        { "name": "Batman Begins", "year": "2005", "image": "DC/batmanBegins.jpg", "group": 2, "dceu": false, "quality": "1080p", "imdbId": "tt0372784", "revenue": "374,218,673"},
+        { "name": "The Dark Knight", "year": "2008", "image": "DC/theDarkKnight.jpg", "group": 2, "dceu": false, "quality": "1080p", "imdbId": "tt0468569", "revenue": "1,004,934,033"},
+        { "name": "The Dark Knight Rises", "year": "2012", "image": "DC/theDarkKnightRises.jpg", "group": 2, "dceu": false, "quality": "1080p", "imdbId": "tt1345836", "revenue": "1,084,939,099"},
+        { "name": "Constantine", "year": "2005", "image": "DC/constantine.jpg", "group": 3, "dceu": false, "quality": "1080p", "imdbId": "tt0360486", "revenue": "230,884,728"},
+        { "name": "Justice League", "year": "2017", "image": "DC/justiceLeague.jpg", "group": 4, "dceu": true, "quality": "1080p", "imdbId": "tt0974015", "revenue": "657,924,295"},
+        { "name": "Man Of Steel", "year": "2013", "image": "DC/manOfSteel.jpg", "group": 5, "dceu": true, "quality": "1080p", "imdbId": "tt0770828", "revenue": "668,045,518"},
+        { "name": "Shazam", "year": "2019", "image": "DC/shazam.jpg", "group": 6, "dceu": true, "quality": "1080p", "imdbId": "tt0448115", "revenue": "364,471,656"},
+        { "name": "Suicide Squad", "year": "2016", "image": "DC/suicideSquad.jpg", "group": 7, "dceu": true, "quality": "1080p", "imdbId": "tt1386697", "revenue": "746,846,894"},
+        { "name": "Wonder Woman", "year": "2017", "image": "DC/wonderWoman.jpg", "group": 8, "dceu": true, "quality": "1080p", "imdbId": "tt0451279", "revenue": "821,847,012"}
     ]
 }
