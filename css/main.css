@@ -197,25 +197,6 @@ button:active {
     -webkit-animation: loader-1-inner 1s cubic-bezier(.42, .61, .58, .41) infinite;
 }
 
-@-webkit-keyframes loader-1-outter {
-
-    0% {
-         transform: rotate(0); 
-        -webkit-transform: rotate(0);
-        -ms-transform: rotate(0);
-        -moz-transform: rotate(0);
-        -o-transform: rotate(0);
-    }
-
-    100% {
-         transform: rotate(360deg); 
-        -webkit-transform: rotate(360deg);
-        -ms-transform: rotate(360deg);
-        -moz-transform: rotate(360deg);
-        -o-transform: rotate(360deg);
-    }
-}
-    
 @keyframes loader-1-outter {
 
     0% {
@@ -234,8 +215,9 @@ button:active {
         -o-transform: rotate(360deg);
     }
 }
-    
-@-webkit-keyframes loader-1-inner {
+
+@-webkit-keyframes loader-1-outter {
+
     0% {
          transform: rotate(0); 
         -webkit-transform: rotate(0);
@@ -243,12 +225,13 @@ button:active {
         -moz-transform: rotate(0);
         -o-transform: rotate(0);
     }
+
     100% {
-         transform: rotate(-360deg); 
-        -webkit-transform: rotate(-360deg);
-        -ms-transform: rotate(-360deg);
-        -moz-transform: rotate(-360deg);
-        -o-transform: rotate(-360deg);
+         transform: rotate(360deg); 
+        -webkit-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
     }
 }
     
@@ -269,7 +252,24 @@ button:active {
         -o-transform: rotate(-360deg);
     }
 }
-
+    
+@-webkit-keyframes loader-1-inner {
+    0% {
+         transform: rotate(0); 
+        -webkit-transform: rotate(0);
+        -ms-transform: rotate(0);
+        -moz-transform: rotate(0);
+        -o-transform: rotate(0);
+    }
+    100% {
+         transform: rotate(-360deg); 
+        -webkit-transform: rotate(-360deg);
+        -ms-transform: rotate(-360deg);
+        -moz-transform: rotate(-360deg);
+        -o-transform: rotate(-360deg);
+    }
+}
+    
 h2 {
 	font-size: 4rem;
 	text-align: center;
@@ -280,12 +280,6 @@ h2 {
 p {
     width: 100%;
     text-align: center;
-}
-
-hr {
-    border: 0;
-    height: 1px;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
 }
 
 .container {
@@ -383,7 +377,6 @@ hr {
     display: block;
     position: fixed;
     width: 40rem;
-    /*height: 25rem;*/
     background: #fff;
     padding:3em;
     top: 20%;
@@ -436,7 +429,7 @@ hr {
     cursor:pointer;
 }
 
-.imdbWrapper {
+.linksWrapper {
     display: flex;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -445,12 +438,12 @@ hr {
     -webkit-flex-wrap: nowrap;
     justify-content: center;
     width: 100%;
-    /*text-align: center;*/
     margin-bottom: 6rem;
 }
 
 #imdbLink {
     margin: 1.5rem;
+    z-index: 2;
 }
 
 #imdbImage {
@@ -463,6 +456,21 @@ hr {
     width: 100px;
     height: 100px;
     cursor: pointer;
+    z-index: 2;
+}
+
+.movieCoverWrapper {
+    position: absolute;
+    top: 8rem;
+    left: 0;
+    width: 100%;
+    opacity: .1;
+    z-index: 0;
+    text-align: center;
+}
+
+#movieCover {
+    border-radius: 5px;
 }
 
 .videoWrapper {
@@ -511,7 +519,6 @@ hr {
         height: 26rem;
     }
 }
-
 
 @media only screen and (max-width: 1000px) {
     .popupCont {
