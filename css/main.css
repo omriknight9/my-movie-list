@@ -71,19 +71,19 @@ main {
 
 #marvel {
     width: 130px;
-    height: 90px;
+    height: 110px;
 }
 #dc {
     width: 130px;
-    height: 90px;
+    height: 110px;
 }
 #others {
     width: 130px;
-    height: 90px;
+    height: 110px;
 }
 #disney {
     width: 190px;
-    height: 90px;
+    height: 110px;
 }
 
 h1 {
@@ -118,26 +118,6 @@ button {
     -webkit-transition: .3s;
     -o-transition: .3s;
     -moz-transition: .3s;
-}
-
-.marvelBtn:hover {
-    background: #FE5449;
-    border: 1px solid white;
-}
-
-.dcBtn:hover {
-    background: #466DFF;
-    border: 1px solid white;
-}
-
-.othersBtn:hover {
-    background: #8B8BFE;
-    border: 1px solid white;
-}
-
-.animationBtn:hover {
-    background: #72EA72;
-    border: 1px solid white;
 }
 
 button:active {
@@ -457,13 +437,52 @@ hr {
 }
 
 .imdbWrapper {
+    display: flex;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    flex-wrap: nowrap;
+    -webkit-flex-wrap: nowrap;
+    justify-content: center;
     width: 100%;
-    text-align: center;
+    /*text-align: center;*/
     margin-bottom: 6rem;
 }
 
 #imdbLink {
+    margin: 1.5rem;
+}
+
+#imdbImage {
     width: 100px;
+    height: 100px;
+}
+
+#youtubeImage {
+    margin: 1.5rem;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+}
+
+.videoWrapper {
+    width: 100%;
+}
+
+#trailer .popupCont {
+    width: 60rem;
+    height: 35rem;
+}
+
+#videoFrame {
+    width: 100%;
+    height: 36rem;
+}
+
+#trailerVideo {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
 }
 
 @media only screen and (max-width: 1200px) {
@@ -481,6 +500,18 @@ hr {
         margin: 1rem;
     }
 }
+
+@media only screen and (max-width: 1100px) {
+    #trailer .popupCont {
+        width: 40rem;
+        height: 25rem;
+    }
+
+    #videoFrame {
+        height: 26rem;
+    }
+}
+
 
 @media only screen and (max-width: 1000px) {
     .popupCont {
@@ -506,6 +537,25 @@ hr {
         -moz-transform: scale(1.05);
         -ms-transform: scale(1.05);
         -o-transform: scale(1.05);
+    }
+    .marvelBtn:hover {
+        background: #FE5449;
+        border: 1px solid white;
+    }
+
+    .dcBtn:hover {
+        background: #466DFF;
+        border: 1px solid white;
+    }
+
+    .othersBtn:hover {
+        background: #8B8BFE;
+        border: 1px solid white;
+    }
+
+    .animationBtn:hover {
+        background: #72EA72;
+        border: 1px solid white;
     }
 }
 
@@ -543,8 +593,14 @@ hr {
         width: 150px;
         height: 80px;
     }
-    .popupCont {
-        /*height: 30rem;*/
+
+    #trailer .popupCont {
+        width: 30rem;
+        height: 20rem;
+    }
+
+    #videoFrame {
+        height: 21rem;
     }
 }
 
@@ -565,6 +621,19 @@ hr {
     #disney {
         width: 115px;
         height: 70px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    #trailer .popupCont {
+        width: 24rem;
+        height: 15rem;
+        padding-right: 2rem;
+        padding-left: 2rem;
+    }
+
+    #videoFrame {
+        height: 15rem;
     }
 }
 
@@ -599,6 +668,18 @@ hr {
     }
 }
 
+@media only screen and (max-width: 470px) {
+
+    #trailer .popupCont {
+        width: 19rem;
+        height: 12rem;
+    }
+
+    #videoFrame {
+        height: 13rem;
+    }
+}
+
 
 @media only screen and (max-width: 460px) {
 
@@ -626,6 +707,15 @@ hr {
         height: 45px;
     }
 }
+@media only screen and (max-width: 400px) {
+
+    #trailer .popupCont {
+        width: 19rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: 4rem;
+    }
+}
 
 @media only screen and (max-width: 370px) {
 
@@ -651,5 +741,9 @@ hr {
     #disney {
         width: 70px;
         height: 40px;
+    }
+
+     #trailer .popupCont {
+        width: 16rem;
     }
 }
