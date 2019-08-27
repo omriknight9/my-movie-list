@@ -4,7 +4,7 @@ var dcMovies = [];
 var otherMovies = [];
 var animationMovies = [];
 var type;
-var script;
+var counter = 0;
 
 $(document).ready(function (event) {
     loadJson();
@@ -115,6 +115,7 @@ function buildMovies(div, wrapper, arr) {
             'quality': movies[i].quality,
             'imdbId': movies[i].imdbId,
             'revenue': movies[i].revenue,
+            'runtime': movies[i].runtime,
             'trailer': movies[i].trailer,
             'mcu': movies[i].mcu,
             'dceu': movies[i].dceu,
@@ -125,16 +126,9 @@ function buildMovies(div, wrapper, arr) {
                     $('.movieRevenuePop').html('Revenue: $' + $(this).attr('revenue'));
                     $('.movieRevenuePop').show();
                 }
-
-                //$('#videoFrame').empty();
-
-                //var trailerVideo = $('<iframe>', {
-                //    id: 'trailerVideo',
-                //    allowfullscreen: true,
-                //    frameborder: 0,
-                //    src: 'https://www.youtube.com/embed/' + $(this).attr('trailer') + '?autoplay=1'
-                //}).appendTo($('#videoFrame'));
                 
+                $('#movieCover').attr('src', $(this).find('.movieImg').attr('src'));
+                $('.movieRuntimePop').html('Runtime: ' + convertMinsToHrsMins($(this).attr('runtime')));
                 $('.movieNamePop').html($(this).attr('name'));
                 $('.movieQualityPop').html('Quality: ' + $(this).attr('quality'));
                 $('#imdbLink').attr('href', 'https://www.imdb.com/title/' + $(this).attr('imdbId'));
@@ -160,30 +154,11 @@ function buildMovies(div, wrapper, arr) {
                     $('#movieDetails').hide();
                     $('#trailer').show();
                     setTimeout(function () {
-                        $('#trailerVideo').attr('src', $('#trailerVideo').attr('src').replace('?autoplay=1', ''));
-                        $('#trailerVideo').attr('src', $('#trailerVideo').attr('src') + '?autoplay=1');
-                    }, 0)
-
-                    //var videoURL = $('#trailerVideo').prop('src');
-                    //videoURL += "&autoplay=1";
-                    //$('#trailerVideo').prop('src', videoURL);
-                    //$('#trailerVideo').attr('src', $('#trailerVideo').attr('src') + '?autoplay=1');
-                    //var videoFrame = $('<div>', {
-                    //    id: 'videoFrame'
-                    //}).appendTo($('.videoWrapper'))
-
-                    //setTimeout(function () {
-                    //    script = document.createElement('script');
-                    //    script.type = 'text/javascript';
-                    //    script.src = 'https://www.youtube.com/iframe_api';
-                    //    $(script).addClass('youtubeScript');
-                    //    document.getElementsByTagName('head')[0].appendChild(script);
-                    //    onYouTubeIframeAPIReady();
-                    //}, 500);
-
-                    //setTimeout(function () {
-                    //    onYouTubeIframeAPIReady();
-                    //}, 1000);
+                        $('#trailerVideo').attr('src', $('#trailerVideo').attr('src').replace('?autoplay=1&amp;rel=0&enablejsapi=1', ''));
+                        $('#trailerVideo').attr('src', $('#trailerVideo').attr('src') + '?autoplay=1&amp;rel=0&enablejsapi=1');
+                    }, 500)
+                    
+                    $('#trailerVideo')[0].contentWindow.$("html").html()
                 })
             }
         }).appendTo(wrapper);
@@ -209,31 +184,6 @@ function buildMovies(div, wrapper, arr) {
         }).appendTo(movieImgWrapper);
     }
 }
-
-//function onYouTubeIframeAPIReady() {
-//    var player;
-//    player = new YT.Player('videoFrame', {
-//        events: {
-//            'onReady': onPlayerReady,
-//            'onStateChange': onPlayerStateChange
-//        },
-//        videoId: testId,
-//        playerVars: { rel: 0, showinfo: 0, ecver: 2 }
-//    });
-//    console.log(player);
-//    $('#videoFrame').attr('class', 'trailerVideo');
-//}
-
-//function onPlayerReady(event) {
-//    event.target.playVideo();
-//}
-
-//function onPlayerStateChange(event) {
-//    if (event.data == YT.PlayerState.PLAYING && !done) {
-//        setTimeout(stopVideo, 6000);
-//        done = true;
-//    }
-//}
 
 function showCinematicUniverse(div, elem) {
     for (var i = 0; i < $(div).length; i++) {
@@ -274,6 +224,7 @@ function scrollBtn() {
 }
 
 function sortMovies(container, elem1) {
+
     $.each($(container), function (key, value) {
         var ids = [], obj, i, len;
         var children = $(this).find('.movieWrapper');
@@ -284,7 +235,21 @@ function sortMovies(container, elem1) {
             obj.idNum = parseInt(elem2.replace(/[^\d]/g, ""), 10);
             ids.push(obj);
         }
-        ids.sort(function (a, b) { return (a.idNum - b.idNum); });
+
+        switch (counter) {
+            case 0:
+                counter = 1;
+                break;
+            case 1:
+                ids.sort(function (a, b) { return (a.idNum - b.idNum); });
+                counter = 2;
+                break;
+            case 2:
+                ids.sort(function (a, b) { return (b.idNum - a.idNum); });
+                counter = 1;
+                break;
+        }
+
         for (i = 0; i < ids.length; i++) {
             $(this).append(ids[i].element);
         }
@@ -304,4 +269,23 @@ function removePopup(container) {
 
 function closeCurrentPopup(that) {
     $($(that)[0].parentElement.parentElement.parentElement).hide();
+}
+
+function convertMinsToHrsMins(mins) {
+    let h = Math.floor(mins / 60);
+    let m = mins % 60;
+    h = h < 10 ? '' + h : h;
+    m = m < 10 ? '' + m : m;
+
+    if (h > 1) {
+        if (m == 0) {
+            return h + ' Hours'
+        }
+        return h + ' Hours ' + 'And ' + m + ' Minutes';
+    } else {
+        if (m == 0) {
+            return h + ' Hour'
+        }
+        return h + ' Hour ' + 'And ' + m + ' Minutes';
+    }
 }
