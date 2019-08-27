@@ -95,12 +95,26 @@
             <p class="movieQualityPop"></p>
             <p class="movieRevenuePop"></p>
             <div class="imdbWrapper">
-                <a href="" target="_blank" id="imdbLink"><img src="./images/imdb.png" alt="imdb image" /></a>
+                <a href="" target="_blank" id="imdbLink"><img src="./images/imdb.png" alt="imdb image" id="imdbImage"/></a>
+                <img src="./images/youtube.png" alt="youtube image" id="youtubeImage" />
             </div>
             <div class="popupBtnsWrapper">
                 <button class="popupBtn" id="" onclick="closeCurrentPopup($(this))">Close</button>
             </div>
 
+        </div>
+    </div>
+
+    <div id="trailer" class="popUpInfo">
+        <div class="popupCont">
+            <div class="popupContent"></div>
+            <div class="Xbtn"></div>
+            <div class="videoWrapper">
+                <div id="videoFrame">
+                    <iframe src="" id="trailerVideo" frameborder="0" allowfullscreen></iframe>
+                </div>
+                
+            </div>
         </div>
     </div>
 
