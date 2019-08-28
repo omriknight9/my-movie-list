@@ -47,8 +47,8 @@
         <div class="container" id="marvelContainer">
             <h2>Marvel</h2>
             <div class="btnWrapper">
-                <button class="marvelBtn" onclick="sortMovies($('#marvelContainer'), 'year')">Sort By Year</button>
-                <button class="marvelBtn" onclick="sortMovies($('#marvelContainer'), 'movieId')">Sort By Name</button>
+                <button class="marvelBtn" onclick="sortMovies($('#marvelContainer'), 'year', 1)">Sort By Year</button>
+                <button class="marvelBtn" onclick="sortMovies($('#marvelContainer'), 'name', 2)">Sort By Name</button>
                 <button class="marvelBtn" id="btnMCU" onclick="showCinematicUniverse($('.marvelMovie'), 'mcu')">MCU Only</button>
                 <button class="marvelBtn" id="btnNonMCU" onclick="hideCinematicUniverse($('.marvelMovie'), 'mcu')">Non MCU Only</button>
                 <button class="marvelBtn" id="btnAllMarvel" onclick="allOfKind($('.marvelMovie'))">All marvel</button>
@@ -58,8 +58,9 @@
         <div class="container" id="dcContainer">
             <h2>DC</h2>
             <div class="btnWrapper">
-                <button class="dcBtn" onclick="sortMovies($('#dcContainer'), 'year')">Sort By Year</button>
-                <button class="dcBtn" onclick="sortMovies($('#dcContainer'), 'movieId')">Sort By Name</button>
+                <button class="dcBtn" onclick="sortMovies($('#dcContainer'), 'year', 1)">Sort By Year</button>
+                <button class="dcBtn" onclick="sortMovies($('#dcContainer'), 'name', 2)">Sort By Name</button>
+                <button class="dcBtn" onclick="sortMovies($('#dcContainer'), 'runtime', 1)" id="dcRuntimeBtn">Sort By Runtime</button>
                 <button class="dcBtn" id="btnDCEU" onclick="showCinematicUniverse($('.dcMovie'), 'dceu')">DCEU Only</button>
                 <button class="dcBtn" id="btnNonDCEU" onclick="hideCinematicUniverse($('.dcMovie'), 'dceu')">Non DCEU Only</button>
                 <button class="dcBtn" id="btnAllDC" onclick="allOfKind($('.dcMovie'))">All DC</button>
@@ -69,15 +70,15 @@
         <div class="container" id="othersContainer">
             <h2>Others</h2>
             <div class="btnWrapper">
-                <button class="othersBtn" onclick="sortMovies($('#othersContainer'), 'year')">Sort By Year</button>
-                <button class="othersBtn" onclick="sortMovies($('#othersContainer'), 'movieId')">Sort By Name</button>
+                <button class="othersBtn" onclick="sortMovies($('#othersContainer'), 'year',1)">Sort By Year</button>
+                <button class="othersBtn" onclick="sortMovies($('#othersContainer'), 'name', 2)">Sort By Name</button>
             </div>
         </div>
         <div class="container" id="animationContainer">
             <h2>Animation</h2>
             <div class="btnWrapper">
-                <button class="animationBtn" onclick="sortMovies($('#animationContainer'), 'year')">Sort By Year</button>
-                <button class="animationBtn" onclick="sortMovies($('#animationContainer'), 'movieId')">Sort By Name</button>
+                <button class="animationBtn" onclick="sortMovies($('#animationContainer'), 'year',1)">Sort By Year</button>
+                <button class="animationBtn" onclick="sortMovies($('#animationContainer'), 'name', 2)">Sort By Name</button>
             </div>
         </div>
     </main>
@@ -94,7 +95,12 @@
             <h2 class="movieNamePop"></h2>
             <p class="movieQualityPop"></p>
             <p class="movieRevenuePop"></p>
-            <div class="imdbWrapper">
+            <p class="movieRuntimePop"></p>
+            <div class="movieCoverWrapper">
+                <img src="./images/Movies/Marvel/antMan.jpg" id="movieCover" alt="dvd cover" />
+            </div>
+            
+            <div class="linksWrapper">
                 <a href="" target="_blank" id="imdbLink"><img src="./images/imdb.png" alt="imdb image" id="imdbImage"/></a>
                 <img src="./images/youtube.png" alt="youtube image" id="youtubeImage" />
             </div>
