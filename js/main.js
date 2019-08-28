@@ -4,7 +4,7 @@ var dcMovies = [];
 var otherMovies = [];
 var animationMovies = [];
 var type;
-var counter = 0;
+var counter = 1;
 
 $(document).ready(function (event) {
     loadJson();
@@ -157,8 +157,6 @@ function buildMovies(div, wrapper, arr) {
                         $('#trailerVideo').attr('src', $('#trailerVideo').attr('src').replace('?autoplay=1&amp;rel=0&enablejsapi=1', ''));
                         $('#trailerVideo').attr('src', $('#trailerVideo').attr('src') + '?autoplay=1&amp;rel=0&enablejsapi=1');
                     }, 500)
-                    
-                    $('#trailerVideo')[0].contentWindow.$("html").html()
                 })
             }
         }).appendTo(wrapper);
@@ -223,7 +221,7 @@ function scrollBtn() {
     }
 }
 
-function sortMovies(container, elem1) {
+function sortMovies(container, elem1, kind) {
 
     $.each($(container), function (key, value) {
         var ids = [], obj, i, len;
@@ -232,22 +230,50 @@ function sortMovies(container, elem1) {
             obj = {};
             obj.element = children[i];
             var elem2 = $(children[i]).attr(elem1);
-            obj.idNum = parseInt(elem2.replace(/[^\d]/g, ""), 10);
+            if (kind == 1) {
+                obj.idNum = parseInt(elem2.replace(/[^\d]/g, ""), 10);
+            } else {
+                obj.idNum = elem2;
+            }
             ids.push(obj);
         }
 
-        switch (counter) {
-            case 0:
-                counter = 1;
-                break;
-            case 1:
-                ids.sort(function (a, b) { return (a.idNum - b.idNum); });
-                counter = 2;
-                break;
-            case 2:
-                ids.sort(function (a, b) { return (b.idNum - a.idNum); });
-                counter = 1;
-                break;
+        if (kind == 1) {
+            switch (counter) {
+                case 1:
+                    ids.sort(function (a, b) { return (a.idNum - b.idNum); });
+                    counter = 2;
+                    break;
+                case 2:
+                    ids.sort(function (a, b) { return (b.idNum - a.idNum); });
+                    counter = 1;
+                    break;
+            }
+        } else {
+            switch (counter) {
+                case 1:
+                    ids.sort(function (a, b) {
+                        if (a.idNum < b.idNum) {
+                            return 1;
+                        } else {
+                            return -1;
+                        }
+                    });
+
+                    counter = 2;
+                    break;
+
+                case 2:
+                    ids.sort(function (a, b) {
+                        if (a.idNum > b.idNum) {
+                            return 1;
+                        } else {
+                            return -1;
+                        }
+                    });
+                    counter = 1;
+                    break;
+            }
         }
 
         for (i = 0; i < ids.length; i++) {
