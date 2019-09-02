@@ -180,6 +180,38 @@ function buildMovies(div, wrapper, arr) {
             alt: 'movieImg',
             src: './images/movies/' + movies[i].image
         }).appendTo(movieImgWrapper);
+
+        if (movies[i].group % 2 == 0) {
+            switch (movieWrapper.attr('class')) {
+                case 'movieWrapper marvelMovie':
+                    $(movieWrapper).css('background-color', 'lightblue');
+                    break;
+                case 'movieWrapper dcMovie':
+                    $(movieWrapper).css({'background-color': '#e62429', 'color': 'white' });
+                    break;
+                case 'movieWrapper otherMovie':
+                    $(movieWrapper).css({ 'background-color': 'crimson', 'color': 'white' });
+                    break;
+                case 'movieWrapper animationMovie':
+                    $(movieWrapper).css('background-color', 'silver');
+                    break;
+            }
+        } else {
+            switch (movieWrapper.attr('class')) {
+                case 'movieWrapper marvelMovie':
+                    $(movieWrapper).css('background-color', 'orange');
+                    break;
+                case 'movieWrapper dcMovie':
+                    $(movieWrapper).css('background-color', 'lightgreen');
+                    break;
+                case 'movieWrapper otherMovie':
+                    $(movieWrapper).css('background-color', 'aqua');
+                    break;
+                case 'movieWrapper animationMovie':
+                    $(movieWrapper).css({'background-color': 'purple', 'color': 'white'});
+                    break;
+            }
+        }
     }
 }
 
