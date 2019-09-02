@@ -81,6 +81,13 @@
                 <button class="animationBtn" onclick="sortMovies($('#animationContainer'), 'name', 2)">Sort By Name</button>
             </div>
         </div>
+        <div class="container" id="tvShowContainer">
+            <h2>Tv Shows</h2>
+            <div class="btnWrapper">
+                <button class="tvShowBtn" onclick="sortMovies($('#tvShowContainer'), 'year',1)">Sort By Year</button>
+                <button class="tvShowBtn" onclick="sortMovies($('#tvShowContainer'), 'name', 2)">Sort By Name</button>
+            </div>
+        </div>
     </main>
 
     <img src="images/upBtn.png" alt="up arrow" class="goToTopBtn" onclick="goToTop()" />
@@ -97,12 +104,35 @@
             <p class="movieRevenuePop"></p>
             <p class="movieRuntimePop"></p>
             <div class="movieCoverWrapper">
-                <img src="./images/Movies/Marvel/antMan.jpg" id="movieCover" alt="dvd cover" />
+                <img src="" id="movieCover" alt="dvd cover" />
             </div>
             
             <div class="linksWrapper">
-                <a href="" target="_blank" id="imdbLink"><img src="./images/imdb.png" alt="imdb image" id="imdbImage"/></a>
-                <img src="./images/youtube.png" alt="youtube image" id="youtubeImage" />
+                <a href="" target="_blank" id="movieImdbLink"><img src="./images/imdb.png" alt="imdb image" id="movieImdbImage" /></a>
+                <img src="./images/youtube.png" alt="youtube image" id="movieYoutubeImage" />
+            </div>
+            <div class="popupBtnsWrapper">
+                <button class="popupBtn" id="" onclick="closeCurrentPopup($(this))">Close</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="tvShowDetails" class="popUpInfo">
+        <div class="popupCont">
+            <div class="popupContent"></div>
+            <div class="Xbtn"></div>
+            <h2 class="tvShowNamePop"></h2>
+            <p class="tvShowQualityPop"></p>
+            <p class="tvShowSeasonsPop"></p>
+            <p class="tvShowEpisodesPop"></p>
+            <div class="tvShowCoverWrapper">
+                <img src="" id="tvShowCover" alt="dvd cover" />
+            </div>
+
+            <div class="linksWrapper">
+                <a href="" target="_blank" id="tvShowImdbLink"><img src="./images/imdb.png" alt="imdb image" id="tvShowImdbImage" /></a>
+                <img src="./images/youtube.png" alt="youtube image" id="tvShowYoutubeImage" />
             </div>
             <div class="popupBtnsWrapper">
                 <button class="popupBtn" id="" onclick="closeCurrentPopup($(this))">Close</button>
