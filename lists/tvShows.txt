@@ -1,0 +1,9 @@
+﻿
+{
+    "tvShows" : [
+        { "name": "Braking Bad", "year": 2008, "image": "tvShows/breakingBad.jpg", "group": 1, "quality": "720p", "imdbId": "tt0903747", "trailer": "HhesaQXLuRY", "seasons": 5, "episodes": 62},
+        { "name": "Dexter", "year": "2006", "image": "tvShows/dexter.jpg", "group": 2, "quality": "720p", "imdbId": "tt0773262", "trailer": "YQeUmSD1c3g", "seasons": 8, "episodes": 96},
+        { "name": "Game Of Thrones", "year": "2011", "image": "tvShows/gameOfThrones.jpg", "group": 3, "quality": "720p", "imdbId": "tt0944947", "trailer": "gcTkNV5Vg1E", "seasons": 8, "episodes": 67},
+        { "name": "How I Met Your Mother", "year": "2005", "image": "tvShows/howIMetYourMother.jpg", "group": 4, "quality": "720p", "imdbId": "tt0460649", "trailer": "C8-4jMTOUJI", "seasons": 9, "episodes": 208}
+    ]
+}
