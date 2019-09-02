@@ -3,6 +3,7 @@ var marvelMovies = [];
 var dcMovies = [];
 var otherMovies = [];
 var animationMovies = [];
+var tvShows = [];
 var type;
 var counter = 1;
 
@@ -36,6 +37,8 @@ $(document).ready(function (event) {
         $('#dcContainer').css('display', 'flex');
         $('#othersContainer').css('display', 'flex');
         $('#animationContainer').css('display', 'flex');
+        $('#tvShowContainer').css('display', 'flex');
+        
     }, 1500);
 
     $('#search').on('input', function () {
@@ -86,6 +89,13 @@ function loadJson() {
             buildMovies('animationMovie', $('#animationContainer'), animationMovies);
         }, 500);
     });
+
+    $.get('./lists/tvShows.txt', function (data) {
+        tvShows.push(JSON.parse(data));
+        setTimeout(function () {
+            buildTvShow('tvShow', $('#tvShowContainer'), tvShows);
+        }, 500);
+    });
 }
 
 function goToDiv(div) {
@@ -131,7 +141,7 @@ function buildMovies(div, wrapper, arr) {
                 $('.movieRuntimePop').html('Runtime: ' + convertMinsToHrsMins($(this).attr('runtime')));
                 $('.movieNamePop').html($(this).attr('name'));
                 $('.movieQualityPop').html('Quality: ' + $(this).attr('quality'));
-                $('#imdbLink').attr('href', 'https://www.imdb.com/title/' + $(this).attr('imdbId'));
+                $('#movieImdbLink').attr('href', 'https://www.imdb.com/title/' + $(this).attr('imdbId'));
                 $('#trailerVideo').attr('src', 'https://www.youtube.com/embed/' + $(this).attr('trailer'));
                 $('#movieDetails').show();
 
@@ -150,7 +160,7 @@ function buildMovies(div, wrapper, arr) {
                         break;
                 }
 
-                $('#youtubeImage').click(function () {
+                $('#movieYoutubeImage').click(function () {
                     $('#movieDetails').hide();
                     $('#trailer').show();
                     setTimeout(function () {
@@ -211,6 +221,76 @@ function buildMovies(div, wrapper, arr) {
                     $(movieWrapper).css({'background-color': 'purple', 'color': 'white'});
                     break;
             }
+        }
+    }
+}
+
+function buildTvShow(div, wrapper, arr) {
+    $('#trailerVideo').attr('src', '');
+
+    var tvShows = arr[0].tvShows;
+
+    for (var i = 0; i < tvShows.length; i++) {
+        var tvShowType = tvShows[i].group;
+
+        var tvShowWrapper = $('<div>', {
+            class: 'tvShowWrapper ' + div,
+            'year': tvShows[i].year,
+            'name': tvShows[i].name,
+            'movieId': tvShowType,
+            'quality': tvShows[i].quality,
+            'imdbId': tvShows[i].imdbId,
+            'seasons': tvShows[i].seasons,
+            'episodes': tvShows[i].episodes,
+            'trailer': tvShows[i].trailer,
+
+            click: function () {
+                $('#tvShowCover').attr('src', $(this).find('.tvShowImg').attr('src'));
+                $('.tvShowSeasonsPop').html('Seasons: ' + $(this).attr('seasons'));
+                $('.tvShowEpisodesPop').html('Episodes: ' + $(this).attr('episodes'));
+                $('.tvShowNamePop').html($(this).attr('name'));
+                $('.tvShowQualityPop').html('Quality: ' + $(this).attr('quality'));
+                $('#tvShowImdbLink').attr('href', 'https://www.imdb.com/title/' + $(this).attr('imdbId'));
+                $('#trailerVideo').attr('src', 'https://www.youtube.com/embed/' + $(this).attr('trailer'));
+                $('#tvShowDetails').show();
+                $('.popupBtn').css('background-color', 'blue');
+
+                $('#tvShowYoutubeImage').click(function () {
+                    $('#tvShowDetails').hide();
+                    $('#trailer').show();
+                    setTimeout(function () {
+                        $('#trailerVideo').attr('src', $('#trailerVideo').attr('src').replace('?autoplay=1&amp;rel=0&enablejsapi=1', ''));
+                        $('#trailerVideo').attr('src', $('#trailerVideo').attr('src') + '?autoplay=1&amp;rel=0&enablejsapi=1');
+                    }, 500)
+                })
+            }
+        }).appendTo(wrapper);
+
+        var tvShowName = $('<p>', {
+            class: div + 'Name',
+            text: tvShows[i].name
+        }).appendTo(tvShowWrapper);
+
+        var tvShowYear = $('<p>', {
+            class: div + 'Year',
+            text: 'Year: ' + tvShows[i].year
+        }).appendTo(tvShowWrapper);
+
+        var tvShowImgWrapper = $('<div>', {
+            class: 'tvShowImgWrapper',
+        }).appendTo(tvShowWrapper);
+
+        var tvShowImg = $('<img>', {
+            class: 'tvShowImg',
+            alt: 'tvShowImg',
+            src: './images/' + tvShows[i].image
+        }).appendTo(tvShowImgWrapper);
+
+        if (tvShows[i].group % 2 == 0) {
+
+            $(tvShowWrapper).css('background-color', 'lightblue');
+        } else {
+            $(tvShowWrapper).css('background-color', 'lightgreen');
         }
     }
 }
