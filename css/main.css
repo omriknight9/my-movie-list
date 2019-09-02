@@ -312,7 +312,12 @@ p {
     background-color: rgba(100, 200, 100, .9);
 }
 
-.movieWrapper {
+#tvShowContainer {
+    display: none;
+    background-color: rgba(170, 100, 90, .9);
+}
+
+.movieWrapper, .tvShowWrapper {
     box-shadow: 0 3px 8px 3px #848484;
     border-radius: 5px;
     margin: 2rem;
@@ -325,20 +330,20 @@ p {
     cursor: pointer;
 }
 
-.marvelMovie, .dcMovie, .otherMovie, .animationMovie {
+.marvelMovie, .dcMovie, .otherMovie, .animationMovie, .tvShow {
     position: relative;
     width: 20rem;
     height: 18rem;
 }
 
-.movieImgWrapper {
+.movieImgWrapper, .tvShowImgWrapper {
     width: 100%;
     position: absolute;
     bottom: 1rem;
     text-align: center;
 }
 
-.movieImg {
+.movieImg, .tvShowImg {
     width: 8rem;
     height: 10rem;
     border-radius: 5px;
@@ -441,17 +446,17 @@ p {
     margin-bottom: 6rem;
 }
 
-#imdbLink {
+#movieImdbLink, #tvShowImdbLink {
     margin: 1.5rem;
     z-index: 2;
 }
 
-#imdbImage {
+#movieImdbImage, #tvShowImdbImage {
     width: 100px;
     height: 100px;
 }
 
-#youtubeImage {
+#movieYoutubeImage, #tvShowYoutubeImage {
     margin: 1.5rem;
     width: 100px;
     height: 100px;
@@ -459,7 +464,7 @@ p {
     z-index: 2;
 }
 
-.movieCoverWrapper {
+.movieCoverWrapper, .tvShowCoverWrapper {
     position: absolute;
     top: 8rem;
     left: 0;
@@ -469,7 +474,7 @@ p {
     text-align: center;
 }
 
-#movieCover {
+#movieCover, #tvShowCover {
     border-radius: 5px;
 }
 
@@ -496,17 +501,17 @@ p {
 }
 
 @media only screen and (max-width: 1200px) {
-    .marvelMovie, .dcMovie, .otherMovie, .animationMovie {
+    .marvelMovie, .dcMovie, .otherMovie, .animationMovie, .tvShow {
         width: 15rem;
         height: 17rem;
     }
 
-    .movieImg {
+    .movieImg, .tvShowImg {
         width: 6rem;
         height: 8rem;
     }
 
-    .movieWrapper {
+    .movieWrapper, .tvShowWrapper {
         margin: 1rem;
     }
 }
@@ -548,6 +553,15 @@ p {
         -ms-transform: scale(1.05);
         -o-transform: scale(1.05);
     }
+
+    .tvShowWrapper:hover {
+        transform: scale(1.05);
+        -webkit-transform: scale(1.05);
+        -moz-transform: scale(1.05);
+        -ms-transform: scale(1.05);
+        -o-transform: scale(1.05);
+    }
+
     .marvelBtn:hover {
         background: #FE5449;
         border: 1px solid white;
@@ -565,6 +579,11 @@ p {
 
     .animationBtn:hover {
         background: #72EA72;
+        border: 1px solid white;
+    }
+
+    .tvShowBtn:hover {
+        background: #D67B6E;
         border: 1px solid white;
     }
 }
@@ -653,7 +672,7 @@ p {
 
 @media only screen and (max-width: 550px) {
 
-    .marvelMovie, .dcMovie, .otherMovie, .animationMovie {
+    .marvelMovie, .dcMovie, .otherMovie, .animationMovie, .tvShow {
         width: 12rem;
     }
 
@@ -709,7 +728,7 @@ p {
 
 @media only screen and (max-width: 460px) {
 
-    .marvelMovie, .dcMovie, .otherMovie, .animationMovie {
+    .marvelMovie, .dcMovie, .otherMovie, .animationMovie, .tvShow {
         width: 9rem;
     }
 }
@@ -746,7 +765,7 @@ p {
 
 @media only screen and (max-width: 370px) {
 
-    .marvelMovie, .dcMovie, .otherMovie, .animationMovie {
+    .marvelMovie, .dcMovie, .otherMovie, .animationMovie, .tvShow {
         width: 7rem;
     }
 
