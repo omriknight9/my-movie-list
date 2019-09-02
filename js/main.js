@@ -253,7 +253,7 @@ function buildTvShow(div, wrapper, arr) {
                 $('#tvShowImdbLink').attr('href', 'https://www.imdb.com/title/' + $(this).attr('imdbId'));
                 $('#trailerVideo').attr('src', 'https://www.youtube.com/embed/' + $(this).attr('trailer'));
                 $('#tvShowDetails').show();
-                $('.popupBtn').css('background-color', 'blue');
+                $('.popupBtn').css('background-color', '#D67B6E');
 
                 $('#tvShowYoutubeImage').click(function () {
                     $('#tvShowDetails').hide();
@@ -335,9 +335,16 @@ function scrollBtn() {
 
 function sortMovies(container, elem1, kind) {
 
+    var children;
     $.each($(container), function (key, value) {
         var ids = [], obj, i, len;
-        var children = $(this).find('.movieWrapper');
+
+        if ($(container).attr('id') == 'tvShowContainer') {
+            children = $(this).find('.tvShowWrapper');
+        } else {
+            children = $(this).find('.movieWrapper');
+        }
+
         for (i = 0, len = children.length; i < len; i++) {
             obj = {};
             obj.element = children[i];
