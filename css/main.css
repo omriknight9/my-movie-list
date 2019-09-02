@@ -475,6 +475,7 @@ p {
 
 .videoWrapper {
     width: 100%;
+    height: 100%;
 }
 
 #trailer .popupCont {
@@ -484,7 +485,8 @@ p {
 
 #videoFrame {
     width: 100%;
-    height: 36rem;
+    height: 100%;
+    /*height: 36rem;*/
 }
 
 #trailerVideo {
@@ -516,7 +518,7 @@ p {
     }
 
     #videoFrame {
-        height: 26rem;
+        /*height: 26rem;*/
     }
 }
 
@@ -538,6 +540,7 @@ p {
 }
 
 @media only screen and (min-width: 765px) {
+
     .movieWrapper:hover {
         transform: scale(1.05);
         -webkit-transform: scale(1.05);
@@ -606,8 +609,12 @@ p {
         height: 20rem;
     }
 
+    .popupCont {
+        top: 10%;
+    }
+
     #videoFrame {
-        height: 21rem;
+        /*height: 21rem;*/
     }
 }
 
@@ -633,14 +640,14 @@ p {
 
 @media only screen and (max-width: 600px) {
     #trailer .popupCont {
-        width: 24rem;
-        height: 15rem;
+        width: 29rem;
+        height: 17rem;
         padding-right: 2rem;
         padding-left: 2rem;
     }
 
     #videoFrame {
-        height: 15rem;
+        /*height: 17rem;*/
     }
 }
 
@@ -666,6 +673,17 @@ p {
         width: 100px;
         height: 60px;
     }
+
+    #trailer .popupCont {
+        width: 26rem;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+
+    #trailer .popupCont {
+        width: 24rem;
+    }
 }
 
 @media only screen and (max-width: 480px) {
@@ -678,12 +696,13 @@ p {
 @media only screen and (max-width: 470px) {
 
     #trailer .popupCont {
-        width: 19rem;
-        height: 12rem;
+        width: 20rem;
+        /*width: 85%;*/
+        height: 13rem;
     }
 
     #videoFrame {
-        height: 13rem;
+        /*height: 13rem;*/
     }
 }
 
@@ -717,7 +736,8 @@ p {
 @media only screen and (max-width: 400px) {
 
     #trailer .popupCont {
-        width: 19rem;
+        /*width: 19rem;*/
+        /*width: 85%;*/
         padding-left: 1rem;
         padding-right: 1rem;
         padding-top: 4rem;
@@ -728,6 +748,11 @@ p {
 
     .marvelMovie, .dcMovie, .otherMovie, .animationMovie {
         width: 7rem;
+    }
+
+    #trailer .popupCont {
+        width: 18rem;
+        height: 11rem;
     }
 }
 
@@ -749,8 +774,12 @@ p {
         width: 70px;
         height: 40px;
     }
+}
+
+@media only screen and (max-width: 340px) {
 
      #trailer .popupCont {
-        width: 16rem;
+        width: 18rem;
+        height: 11rem;
     }
 }
