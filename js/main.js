@@ -335,6 +335,18 @@ function scrollBtn() {
 
 function sortMovies(container, elem1, kind) {
 
+    var btnWrapper = $(container).find($('.btnWrapper'));
+
+    console.log('counter: ' + counter);
+
+    if ($(btnWrapper).attr('kind') == kind) {
+        console.log('counter: ' + counter);
+    } else {
+        $(btnWrapper).attr('kind', kind);
+        counter = 1;
+        console.log('counter: ' + counter);
+    }
+
     var children;
     $.each($(container), function (key, value) {
         var ids = [], obj, i, len;
@@ -357,6 +369,8 @@ function sortMovies(container, elem1, kind) {
             ids.push(obj);
         }
 
+        console.log('counter: ' + counter);
+
         if (kind == 1) {
             switch (counter) {
                 case 1:
@@ -368,11 +382,12 @@ function sortMovies(container, elem1, kind) {
                     counter = 1;
                     break;
             }
+            $(btnWrapper).attr('kind', kind);
         } else {
             switch (counter) {
                 case 1:
                     ids.sort(function (a, b) {
-                        if (a.idNum < b.idNum) {
+                        if (a.idNum > b.idNum) {
                             return 1;
                         } else {
                             return -1;
@@ -384,7 +399,7 @@ function sortMovies(container, elem1, kind) {
 
                 case 2:
                     ids.sort(function (a, b) {
-                        if (a.idNum > b.idNum) {
+                        if (a.idNum < b.idNum) {
                             return 1;
                         } else {
                             return -1;
@@ -393,6 +408,7 @@ function sortMovies(container, elem1, kind) {
                     counter = 1;
                     break;
             }
+            $(btnWrapper).attr('kind', kind);
         }
 
         for (i = 0; i < ids.length; i++) {
