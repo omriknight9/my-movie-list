@@ -337,14 +337,11 @@ function sortMovies(container, elem1, kind) {
 
     var btnWrapper = $(container).find($('.btnWrapper'));
 
-    console.log('counter: ' + counter);
 
     if ($(btnWrapper).attr('kind') == kind) {
-        console.log('counter: ' + counter);
     } else {
         $(btnWrapper).attr('kind', kind);
         counter = 1;
-        console.log('counter: ' + counter);
     }
 
     var children;
@@ -368,8 +365,6 @@ function sortMovies(container, elem1, kind) {
             }
             ids.push(obj);
         }
-
-        console.log('counter: ' + counter);
 
         if (kind == 1) {
             switch (counter) {
