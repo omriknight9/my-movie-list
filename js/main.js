@@ -64,29 +64,28 @@ function loadJson() {
     $.get('./lists/marvel.txt', function (data) {
         marvelMovies.push(JSON.parse(data));
         setTimeout(function () {
-            buildMovies('marvelMovie', $('#marvelContainer'), marvelMovies);
+            buildMovies('marvelMovie', $('#marvelContainer'), marvelMovies, 1);
         }, 500);
-
     });
 
     $.get('./lists/dc.txt', function (data) {
         dcMovies.push(JSON.parse(data));
         setTimeout(function () {
-            buildMovies('dcMovie', $('#dcContainer'), dcMovies);
+            buildMovies('dcMovie', $('#dcContainer'), dcMovies, 2);
         }, 500);
     });
 
     $.get('./lists/others.txt', function (data) {
         otherMovies.push(JSON.parse(data));
         setTimeout(function () {
-            buildMovies('otherMovie', $('#othersContainer'), otherMovies);
+            buildMovies('otherMovie', $('#othersContainer'), otherMovies, 3);
         }, 500);
     });
 
     $.get('./lists/animation.txt', function (data) {
         animationMovies.push(JSON.parse(data));
         setTimeout(function () {
-            buildMovies('animationMovie', $('#animationContainer'), animationMovies);
+            buildMovies('animationMovie', $('#animationContainer'), animationMovies, 4);
         }, 500);
     });
 
@@ -109,17 +108,230 @@ function goToDiv(div) {
     }, 700);
 }
 
-function buildMovies(div, wrapper, arr) {
+function buildMovies(div, wrapper, arr, type) {
     $('#trailerVideo').attr('src', '');
 
     var movies = arr[0].movies;
+    //var headerText;
+
+    switch (type) {
+        case 1:
+            var typeheader = $('<h2>', {
+                class: 'typeheader',
+                text: 'Marvel'
+            }).appendTo(wrapper);
+
+            headerText = 'Marvel';
+            var btnWrapper = $('<div>', {
+                class: 'btnWrapper',
+            }).appendTo(wrapper);
+
+            var dateSortBtn = $('<button>', {
+                class: 'marvelBtn',
+                text: 'Sort By Date',
+                click: function () {
+                    sortMovies($('#marvelContainer'), 'date', 1);
+                }
+            }).appendTo(btnWrapper);
+
+            var nameSortBtn = $('<button>', {
+                class: 'marvelBtn',
+                text: 'Sort By Name',
+                click: function () {
+                    sortMovies($('#marvelContainer'), 'name', 2);
+                }
+            }).appendTo(btnWrapper);
+
+            var groupSortBtn = $('<button>', {
+                class: 'marvelBtn',
+                text: 'Sort By Group',
+                click: function () {
+                    sortMovies($('#marvelContainer'), 'group', 3);
+                }
+            }).appendTo(btnWrapper);
+
+            var MCUOnlyBtn = $('<button>', {
+                class: 'marvelBtn',
+                id: 'btnMCU',
+                text: 'MCU Only',
+                click: function () {
+                    showCinematicUniverse($('.marvelMovie'), 'mcu');
+                }
+            }).appendTo(btnWrapper);
+
+            var NonMCUBtn = $('<button>', {
+                class: 'marvelBtn',
+                id: 'btnNonMCU',
+                text: 'NON MCU Only',
+                click: function () {
+                    hideCinematicUniverse($('.marvelMovie'), 'mcu');
+                }
+            }).appendTo(btnWrapper);
+
+            var allMarvelBtn = $('<button>', {
+                class: 'marvelBtn',
+                id: 'btnAllMarvel',
+                text: 'All Marvel',
+                click: function () {
+                    allOfKind($('.marvelMovie'));
+                }
+            }).appendTo(btnWrapper);
+            break;
+        case 2:
+            var typeheader = $('<h2>', {
+                class: 'typeheader',
+                text: 'DC'
+            }).appendTo(wrapper);
+
+            var btnWrapper = $('<div>', {
+                class: 'btnWrapper',
+            }).appendTo(wrapper);
+
+            var dateSortBtn = $('<button>', {
+                class: 'dcBtn',
+                text: 'Sort By Date',
+                click: function () {
+                    sortMovies($('#dcContainer'), 'date', 1);
+                }
+            }).appendTo(btnWrapper);
+
+            var nameSortBtn = $('<button>', {
+                class: 'dcBtn',
+                text: 'Sort By Name',
+                click: function () {
+                    sortMovies($('#dcContainer'), 'name', 2);
+                }
+            }).appendTo(btnWrapper);
+
+            var groupSortBtn = $('<button>', {
+                class: 'dcBtn',
+                text: 'Sort By Group',
+                click: function () {
+                    sortMovies($('#dcContainer'), 'group', 3);
+                }
+            }).appendTo(btnWrapper);
+
+            var DCEUOnlyBtn = $('<button>', {
+                class: 'dcBtn',
+                id: 'btnDCEU',
+                text: 'DCEU Only',
+                click: function () {
+                    showCinematicUniverse($('.dcMovie'), 'dceu');
+                }
+            }).appendTo(btnWrapper);
+
+            var NonDCEUBtn = $('<button>', {
+                class: 'dcBtn',
+                id: 'btnNonDCEU',
+                text: 'NON DCEU Only',
+                click: function () {
+                    hideCinematicUniverse($('.dcMovie'), 'dceu');
+                }
+            }).appendTo(btnWrapper);
+
+            var allDCBtn = $('<button>', {
+                class: 'dcBtn',
+                id: 'btnAllDC',
+                text: 'All DC',
+                click: function () {
+                    allOfKind($('.dcMovie'));
+                }
+            }).appendTo(btnWrapper);
+            break;
+        case 3:
+            var typeheader = $('<h2>', {
+                class: 'typeheader',
+                text: 'Others'
+            }).appendTo(wrapper);
+
+            var btnWrapper = $('<div>', {
+                class: 'btnWrapper',
+            }).appendTo(wrapper);
+
+            var dateSortBtn = $('<button>', {
+                class: 'othersBtn',
+                text: 'Sort By Date',
+                click: function () {
+                    sortMovies($('#othersContainer'), 'date', 1);
+                }
+            }).appendTo(btnWrapper);
+
+            var nameSortBtn = $('<button>', {
+                class: 'othersBtn',
+                text: 'Sort By Name',
+                click: function () {
+                    sortMovies($('#othersContainer'), 'name', 2);
+                }
+            }).appendTo(btnWrapper);
+
+            var groupSortBtn = $('<button>', {
+                class: 'othersBtn',
+                text: 'Sort By Group',
+                click: function () {
+                    sortMovies($('#othersContainer'), 'group', 3);
+                }
+            }).appendTo(btnWrapper);
+            break;
+        case 4:
+            var typeheader = $('<h2>', {
+                class: 'typeheader',
+                text: 'Animations'
+            }).appendTo(wrapper);
+
+            var btnWrapper = $('<div>', {
+                class: 'btnWrapper',
+            }).appendTo(wrapper);
+
+            var dateSortBtn = $('<button>', {
+                class: 'animationBtn',
+                text: 'Sort By Date',
+                click: function () {
+                    sortMovies($('#animationContainer'), 'date', 1);
+                }
+            }).appendTo(btnWrapper);
+
+            var nameSortBtn = $('<button>', {
+                class: 'animationBtn',
+                text: 'Sort By Name',
+                click: function () {
+                    sortMovies($('#animationContainer'), 'name', 2);
+                }
+            }).appendTo(btnWrapper);
+
+            var groupSortBtn = $('<button>', {
+                class: 'animationBtn',
+                text: 'Sort By Group',
+                click: function () {
+                    sortMovies($('#animationContainer'), 'group', 3);
+                }
+            }).appendTo(btnWrapper);
+            break;
+    }
     
     for (var i = 0; i < movies.length; i++) {
+
+        var groupStr = JSON.stringify(movies[i].group);
+
+        var groupWrapper;
+
+        if ($(groupWrapper).hasClass("group" + groupStr)) {
+
+        } else {
+            groupWrapper = $('<div>', {
+                class: "group" + groupStr + ' groupWrapper'
+            }).appendTo(wrapper);
+
+            if (groupStr % 2 == 0) {
+                $(groupWrapper).addClass('evenGroup');
+            } else {
+                $(groupWrapper).addClass('oddGroup');
+            }
+        }
+
         var movieType = movies[i].group;
 
         var movieWrapper = $('<div>', {
             class: 'movieWrapper ' + div,
-            'year': movies[i].year,
             'name': movies[i].name,
             'movieId': movieType,
             'quality': movies[i].quality,
@@ -127,6 +339,7 @@ function buildMovies(div, wrapper, arr) {
             'revenue': movies[i].revenue,
             'runtime': movies[i].runtime,
             'trailer': movies[i].trailer,
+            'date': movies[i].date,
             'mcu': movies[i].mcu,
             'dceu': movies[i].dceu,
             click: function () {
@@ -145,7 +358,8 @@ function buildMovies(div, wrapper, arr) {
                 $('#trailerVideo').attr('src', 'https://www.youtube.com/embed/' + $(this).attr('trailer'));
                 $('#movieDetails').show();
 
-                switch ($(this).parent().attr('id')) {
+                console.log($(this).parent().parent());
+                switch ($(this).parent().parent().attr('id')) {
                     case 'marvelContainer':
                         $('.popupBtn').css('background-color', '#e62429');
                         break;
@@ -169,7 +383,9 @@ function buildMovies(div, wrapper, arr) {
                     }, 500)
                 })
             }
-        }).appendTo(wrapper);
+        }).appendTo(groupWrapper);
+
+        var newDate = new Date(movies[i].date);
 
         var movieName = $('<p>', {
             class: div + 'Name',
@@ -178,7 +394,12 @@ function buildMovies(div, wrapper, arr) {
 
         var movieYear = $('<p>', {
             class: div + 'Year',
-            text: 'Year: ' + movies[i].year
+            text: 'Year: ' + newDate.getFullYear()
+        }).appendTo(movieWrapper);
+
+        var movieDate = $('<p>', {
+            class: div + 'Date',
+            text: 'Release Date: ' + movies[i].dateText
         }).appendTo(movieWrapper);
 
         var movieImgWrapper = $('<div>', {
@@ -229,6 +450,11 @@ function buildTvShow(div, wrapper, arr) {
     $('#trailerVideo').attr('src', '');
 
     var tvShows = arr[0].tvShows;
+
+    var typeheader = $('<h2>', {
+        class: 'typeheader',
+        text: 'TV Shows'
+    }).appendTo(wrapper);
 
     for (var i = 0; i < tvShows.length; i++) {
         var tvShowType = tvShows[i].group;
@@ -335,13 +561,23 @@ function scrollBtn() {
 
 function sortMovies(container, elem1, kind) {
 
-    var btnWrapper = $(container).find($('.btnWrapper'));
+    $('.groupWrapper').removeClass('oddGroup');
+    $('.groupWrapper').removeClass('evenGroup');
 
+    var btnWrapper = $(container).find($('.btnWrapper'));
 
     if ($(btnWrapper).attr('kind') == kind) {
     } else {
         $(btnWrapper).attr('kind', kind);
         counter = 1;
+    }
+
+    if (kind == 3) {
+        $('#marvelContainer').empty();
+        $('#dcContainer').empty();
+        $('#othersContainer').empty();
+        $('#animationContainer').empty();
+        $('#tvShowContainer').empty();
     }
 
     var children;
@@ -358,52 +594,95 @@ function sortMovies(container, elem1, kind) {
             obj = {};
             obj.element = children[i];
             var elem2 = $(children[i]).attr(elem1);
-            if (kind == 1) {
-                obj.idNum = parseInt(elem2.replace(/[^\d]/g, ""), 10);
-            } else {
-                obj.idNum = elem2;
+            switch (kind) {
+                case 1:
+                    obj.idNum = new Date(elem2);
+                    break;
+                case 2:
+                    obj.idNum = elem2;
+                    break;
+                case 3:
+                    obj.idNum = parseInt(elem2.replace(/[^\d]/g, ""), 10);
+                    break;
             }
             ids.push(obj);
         }
 
-        if (kind == 1) {
-            switch (counter) {
-                case 1:
-                    ids.sort(function (a, b) { return (a.idNum - b.idNum); });
-                    counter = 2;
-                    break;
-                case 2:
-                    ids.sort(function (a, b) { return (b.idNum - a.idNum); });
-                    counter = 1;
-                    break;
-            }
-            $(btnWrapper).attr('kind', kind);
-        } else {
-            switch (counter) {
-                case 1:
-                    ids.sort(function (a, b) {
-                        if (a.idNum > b.idNum) {
-                            return 1;
-                        } else {
-                            return -1;
-                        }
-                    });
+        switch (kind) {
+            case 1:
+                switch (counter) {
+                    case 1:
+                        ids.sort(function (a, b) { return (a.idNum - b.idNum); });
+                        counter = 2;
+                        break;
+                    case 2:
+                        ids.sort(function (a, b) { return (b.idNum - a.idNum); });
+                        counter = 1;
+                        break;
+                }
+                $(btnWrapper).attr('kind', kind);
+                $('.groupSortBtn').css('pointer-events', 'all');
+                break;
+            case 2:
+                switch (counter) {
+                    case 1:
+                        ids.sort(function (a, b) {
+                            if (a.idNum > b.idNum) {
+                                return 1;
+                            } else {
+                                return -1;
+                            }
+                        });
 
-                    counter = 2;
-                    break;
+                        counter = 2;
+                        break;
 
-                case 2:
-                    ids.sort(function (a, b) {
-                        if (a.idNum < b.idNum) {
-                            return 1;
-                        } else {
-                            return -1;
-                        }
-                    });
-                    counter = 1;
-                    break;
-            }
-            $(btnWrapper).attr('kind', kind);
+                    case 2:
+                        ids.sort(function (a, b) {
+                            if (a.idNum < b.idNum) {
+                                return 1;
+                            } else {
+                                return -1;
+                            }
+                        });
+                        counter = 1;
+                        break;
+                }
+                $(btnWrapper).attr('kind', kind);
+                $('.groupSortBtn').css('pointer-events', 'all');
+                break;
+            case 3:
+                $('.spinnerWrapper').show();
+                $('.groupSortBtn').css('pointer-events', 'none');
+                switch ($(container).attr('id')) {
+                    case 'marvelContainer':
+                        setTimeout(function () {
+                            $('#marvel').click();
+                        }, 1200)
+                        break;
+                    case 'dcContainer':
+                        setTimeout(function () {
+                            $('#dc').click();
+                        }, 1200)
+                        break;
+                    case 'othersContainer':
+                        setTimeout(function () {
+                            $('#others').click();
+                        }, 1200)
+
+                        break;
+                    case 'animationContainer':
+                        setTimeout(function () {
+                            $('#disney').click();
+                        }, 1200)
+
+                        break;
+                }
+                loadJson();
+                setTimeout(function () {
+                    $('.spinnerWrapper').hide();
+                }, 500);
+                break;
         }
 
         for (i = 0; i < ids.length; i++) {
