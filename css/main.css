@@ -386,8 +386,8 @@ p {
 
 .goToTopBtn {
     display: none;
-    width: 63px;
-    height: 90px;
+    width: 110px;
+    height: 165px;
     cursor: pointer;
     position: fixed;
     bottom: 4rem;
