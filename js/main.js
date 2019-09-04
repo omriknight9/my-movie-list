@@ -358,7 +358,6 @@ function buildMovies(div, wrapper, arr, type) {
                 $('#trailerVideo').attr('src', 'https://www.youtube.com/embed/' + $(this).attr('trailer'));
                 $('#movieDetails').show();
 
-                console.log($(this).parent().parent());
                 switch ($(this).parent().parent().attr('id')) {
                     case 'marvelContainer':
                         $('.popupBtn').css('background-color', '#e62429');
