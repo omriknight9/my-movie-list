@@ -374,7 +374,6 @@ p {
     position: absolute;
     bottom: 1rem;
     text-align: center;
-    /*margin-top: 2rem;*/
 }
 
 .movieImg, .tvShowImg {
@@ -392,6 +391,17 @@ p {
     position: fixed;
     bottom: 4rem;
     right: 1.5rem;
+    z-index: 999;
+}
+
+.goToTopBtn2 {
+    display: none;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    position: fixed;
+    bottom: 2rem;
+    right: 1rem;
     z-index: 999;
 }
 
