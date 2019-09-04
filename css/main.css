@@ -104,7 +104,7 @@ h1 {
 }
 
 button {
-    display: none;
+    /*display: none;*/
     border: none;
     width: 7rem;
     height: 3rem;
@@ -292,6 +292,38 @@ p {
     justify-content: center;
 }
 
+.groupWrapper {
+    display: flex;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+}
+
+.evenGroup::after {
+    content: '';
+    background: linear-gradient(to right, transparent, #3a47e4, transparent);
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+}
+
+.oddGroup::after {
+    content: '';
+    background: linear-gradient(to right, transparent, #3fe09b, transparent);
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+}
+
 #marvelContainer {
     display: none;
     background-color: #e62429;
@@ -334,6 +366,7 @@ p {
     position: relative;
     width: 20rem;
     height: 18rem;
+    padding-bottom: 2rem;
 }
 
 .movieImgWrapper, .tvShowImgWrapper {
@@ -341,6 +374,7 @@ p {
     position: absolute;
     bottom: 1rem;
     text-align: center;
+    /*margin-top: 2rem;*/
 }
 
 .movieImg, .tvShowImg {
