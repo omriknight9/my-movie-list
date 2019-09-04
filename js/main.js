@@ -112,200 +112,137 @@ function buildMovies(div, wrapper, arr, type) {
     $('#trailerVideo').attr('src', '');
 
     var movies = arr[0].movies;
-    //var headerText;
+    var headerText;
+    var dateSortBtnClass;
+    var nameSortBtnClass;
+    var groupSortBtnClass;
+    var cinematicUBtnClass;
+    var cinematicUBtnId;
+    var nonCinematicUBtnClass;
+    var nonCinematicUBtnId;
+    var cinematicUBtnText;
+    var nonCinematicUBtnText;
+    var allTypeBtnClass;
+    var allTypeBtnId;
+    var allTypeBtnText;
+    var typeSortClick;
+    var typeShowClick;
+    var typeU;
 
     switch (type) {
         case 1:
-            var typeheader = $('<h2>', {
-                class: 'typeheader',
-                text: 'Marvel'
-            }).appendTo(wrapper);
-
             headerText = 'Marvel';
-            var btnWrapper = $('<div>', {
-                class: 'btnWrapper',
-            }).appendTo(wrapper);
-
-            var dateSortBtn = $('<button>', {
-                class: 'marvelBtn',
-                text: 'Sort By Date',
-                click: function () {
-                    sortMovies($('#marvelContainer'), 'date', 1);
-                }
-            }).appendTo(btnWrapper);
-
-            var nameSortBtn = $('<button>', {
-                class: 'marvelBtn',
-                text: 'Sort By Name',
-                click: function () {
-                    sortMovies($('#marvelContainer'), 'name', 2);
-                }
-            }).appendTo(btnWrapper);
-
-            var groupSortBtn = $('<button>', {
-                class: 'marvelBtn',
-                text: 'Sort By Group',
-                click: function () {
-                    sortMovies($('#marvelContainer'), 'group', 3);
-                }
-            }).appendTo(btnWrapper);
-
-            var MCUOnlyBtn = $('<button>', {
-                class: 'marvelBtn',
-                id: 'btnMCU',
-                text: 'MCU Only',
-                click: function () {
-                    showCinematicUniverse($('.marvelMovie'), 'mcu');
-                }
-            }).appendTo(btnWrapper);
-
-            var NonMCUBtn = $('<button>', {
-                class: 'marvelBtn',
-                id: 'btnNonMCU',
-                text: 'NON MCU Only',
-                click: function () {
-                    hideCinematicUniverse($('.marvelMovie'), 'mcu');
-                }
-            }).appendTo(btnWrapper);
-
-            var allMarvelBtn = $('<button>', {
-                class: 'marvelBtn',
-                id: 'btnAllMarvel',
-                text: 'All Marvel',
-                click: function () {
-                    allOfKind($('.marvelMovie'));
-                }
-            }).appendTo(btnWrapper);
+            dateSortBtnClass = 'marvelBtn';
+            nameSortBtnClass = 'marvelBtn';
+            groupSortBtnClass = 'marvelBtn';
+            cinematicUBtnClass = 'marvelBtn';
+            cinematicUBtnId = 'btnMCU';
+            cinematicUBtnText = 'MCU Only';
+            nonCinematicUBtnClass = 'marvelBtn';
+            nonCinematicUBtnId = 'btnNonMCU';
+            nonCinematicUBtnText = 'Non MCU';
+            allTypeBtnClass = 'marvelBtn';
+            allTypeBtnId = 'btnAllMarvel';
+            allTypeBtnText = 'All Marvel';
+            typeSortClick = $('#marvelContainer');
+            typeShowClick = '.marvelMovie';
+            typeU = 'mcu';
             break;
         case 2:
-            var typeheader = $('<h2>', {
-                class: 'typeheader',
-                text: 'DC'
-            }).appendTo(wrapper);
+            headerText = 'DC';
+            dateSortBtnClass = 'dcBtn';
+            nameSortBtnClass = 'dcBtn';
+            groupSortBtnClass = 'dcBtn';
+            cinematicUBtnClass = 'dcBtn';
+            cinematicUBtnId = 'btnMCU';
+            cinematicUBtnText = 'DCEU Only';
+            nonCinematicUBtnClass = 'dcBtn';
+            nonCinematicUBtnId = 'btnNonDCEU';
+            nonCinematicUBtnText = 'Non ECEU';
+            allTypeBtnClass = 'dcBtn';
+            allTypeBtnId = 'btnAllDD';
+            allTypeBtnText = 'All DC';
+            typeSortClick = $('#dcContainer');
+            typeShowClick = '.dcMovie';
+            typeU = 'dceu';
 
-            var btnWrapper = $('<div>', {
-                class: 'btnWrapper',
-            }).appendTo(wrapper);
-
-            var dateSortBtn = $('<button>', {
-                class: 'dcBtn',
-                text: 'Sort By Date',
-                click: function () {
-                    sortMovies($('#dcContainer'), 'date', 1);
-                }
-            }).appendTo(btnWrapper);
-
-            var nameSortBtn = $('<button>', {
-                class: 'dcBtn',
-                text: 'Sort By Name',
-                click: function () {
-                    sortMovies($('#dcContainer'), 'name', 2);
-                }
-            }).appendTo(btnWrapper);
-
-            var groupSortBtn = $('<button>', {
-                class: 'dcBtn',
-                text: 'Sort By Group',
-                click: function () {
-                    sortMovies($('#dcContainer'), 'group', 3);
-                }
-            }).appendTo(btnWrapper);
-
-            var DCEUOnlyBtn = $('<button>', {
-                class: 'dcBtn',
-                id: 'btnDCEU',
-                text: 'DCEU Only',
-                click: function () {
-                    showCinematicUniverse($('.dcMovie'), 'dceu');
-                }
-            }).appendTo(btnWrapper);
-
-            var NonDCEUBtn = $('<button>', {
-                class: 'dcBtn',
-                id: 'btnNonDCEU',
-                text: 'NON DCEU Only',
-                click: function () {
-                    hideCinematicUniverse($('.dcMovie'), 'dceu');
-                }
-            }).appendTo(btnWrapper);
-
-            var allDCBtn = $('<button>', {
-                class: 'dcBtn',
-                id: 'btnAllDC',
-                text: 'All DC',
-                click: function () {
-                    allOfKind($('.dcMovie'));
-                }
-            }).appendTo(btnWrapper);
             break;
         case 3:
-            var typeheader = $('<h2>', {
-                class: 'typeheader',
-                text: 'Others'
-            }).appendTo(wrapper);
-
-            var btnWrapper = $('<div>', {
-                class: 'btnWrapper',
-            }).appendTo(wrapper);
-
-            var dateSortBtn = $('<button>', {
-                class: 'othersBtn',
-                text: 'Sort By Date',
-                click: function () {
-                    sortMovies($('#othersContainer'), 'date', 1);
-                }
-            }).appendTo(btnWrapper);
-
-            var nameSortBtn = $('<button>', {
-                class: 'othersBtn',
-                text: 'Sort By Name',
-                click: function () {
-                    sortMovies($('#othersContainer'), 'name', 2);
-                }
-            }).appendTo(btnWrapper);
-
-            var groupSortBtn = $('<button>', {
-                class: 'othersBtn',
-                text: 'Sort By Group',
-                click: function () {
-                    sortMovies($('#othersContainer'), 'group', 3);
-                }
-            }).appendTo(btnWrapper);
+            headerText = 'Others';
+            dateSortBtnClass = 'othersBtn';
+            nameSortBtnClass = 'othersBtn';
+            groupSortBtnClass = 'othersBtn';
+            typeSortClick = $('#othersContainer');
             break;
         case 4:
-            var typeheader = $('<h2>', {
-                class: 'typeheader',
-                text: 'Animations'
-            }).appendTo(wrapper);
-
-            var btnWrapper = $('<div>', {
-                class: 'btnWrapper',
-            }).appendTo(wrapper);
-
-            var dateSortBtn = $('<button>', {
-                class: 'animationBtn',
-                text: 'Sort By Date',
-                click: function () {
-                    sortMovies($('#animationContainer'), 'date', 1);
-                }
-            }).appendTo(btnWrapper);
-
-            var nameSortBtn = $('<button>', {
-                class: 'animationBtn',
-                text: 'Sort By Name',
-                click: function () {
-                    sortMovies($('#animationContainer'), 'name', 2);
-                }
-            }).appendTo(btnWrapper);
-
-            var groupSortBtn = $('<button>', {
-                class: 'animationBtn',
-                text: 'Sort By Group',
-                click: function () {
-                    sortMovies($('#animationContainer'), 'group', 3);
-                }
-            }).appendTo(btnWrapper);
+            headerText = 'Animations';
+            dateSortBtnClass = 'animationBtn';
+            nameSortBtnClass = 'animationBtn';
+            groupSortBtnClass = 'animationBtn';
+            typeSortClick = $('#animationContainer');
             break;
+    }
+
+    var typeheader = $('<h2>', {
+        class: 'typeheader',
+        text: headerText
+    }).appendTo(wrapper);
+
+    var btnWrapper = $('<div>', {
+        class: 'btnWrapper',
+    }).appendTo(wrapper);
+
+    var dateSortBtn = $('<button>', {
+        class: dateSortBtnClass,
+        text: 'Sort By Date',
+        click: function () {
+            sortMovies(typeSortClick, 'date', 1);
+        }
+    }).appendTo(btnWrapper);
+
+    var nameSortBtn = $('<button>', {
+        class: nameSortBtnClass,
+        text: 'Sort By Name',
+        click: function () {
+            sortMovies(typeSortClick, 'name', 2);
+        }
+    }).appendTo(btnWrapper);
+
+    var groupSortBtn = $('<button>', {
+        class: groupSortBtnClass,
+        text: 'Sort By Group',
+        click: function () {
+            sortMovies(typeSortClick, 'group', 3);
+        }
+    }).appendTo(btnWrapper);
+
+    if (type == 1 || type == 2) {
+        var cinematicUBtn = $('<button>', {
+            class: cinematicUBtnClass,
+            id: cinematicUBtnId,
+            text: cinematicUBtnText,
+            click: function () {
+                showCinematicUniverse(typeShowClick, typeU);
+            }
+        }).appendTo(btnWrapper);
+
+        var NonCinematicUBtn = $('<button>', {
+            class: nonCinematicUBtnClass,
+            id: nonCinematicUBtnId,
+            text: nonCinematicUBtnText,
+            click: function () {
+                hideCinematicUniverse(typeShowClick, typeU);
+            }
+        }).appendTo(btnWrapper);
+
+        var allTypeBtn = $('<button>', {
+            class: allTypeBtnClass,
+            id: allTypeBtnId,
+            text: allTypeBtnText,
+            click: function () {
+                allOfKind(typeShowClick);
+            }
+        }).appendTo(btnWrapper);
     }
     
     for (var i = 0; i < movies.length; i++) {
