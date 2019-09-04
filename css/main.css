@@ -386,11 +386,11 @@ p {
 
 .goToTopBtn {
     display: none;
-    width: 45px;
-    height: 45px;
+    width: 63px;
+    height: 90px;
     cursor: pointer;
     position: fixed;
-    bottom: 6rem;
+    bottom: 4rem;
     right: 1.5rem;
     z-index: 999;
 }
