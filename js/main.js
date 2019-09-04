@@ -546,7 +546,7 @@ function allOfKind(div) {
 
 function goToTop() {
     $('html,body').animate({ scrollTop: 0 }, 'slow');
-    $('.goToTopBtn').animate({ bottom: '50rem' });
+    $('.goToTopBtn').animate({ bottom: '47rem' });
     setTimeout(function () {
         $('.goToTopBtn').css('bottom', '4rem');
     }, 1000)
