@@ -801,6 +801,7 @@ p {
 
     .marvelMovie, .dcMovie, .otherMovie, .animationMovie, .tvShow {
         width: 7rem;
+        height: 19rem;
     }
 
     #trailer .popupCont {
