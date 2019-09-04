@@ -8,12 +8,9 @@
         <meta name="description" content="My Movie List">
         <link rel="stylesheet" type="text/css" href="css/main.css">
         <link rel="icon" href="images/movie.png">
-
         <link href="https://fonts.googleapis.com/css?family=David+Libre&display=swap" rel="stylesheet">
-
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="js/main.js"></script>
-
     </head>
 <body>
 
@@ -29,71 +26,27 @@
                 <div class="searchContainer">
                     <input type="text" placeholder="Search A Movie" id="search" aria-label="Search" autocomplete="off"/>
                 </div>
-                
             </div>
         </div>
-
     </header>
 
     <main>
-
         <div class="spinnerWrapper">
             <div class="loader loader-1">
                 <div class="loader-outter"></div>
                 <div class="loader-inner"></div>
             </div>
         </div>
-
-        <div class="container" id="marvelContainer">
-            <h2>Marvel</h2>
-            <div class="btnWrapper">
-                <button class="marvelBtn" onclick="sortMovies($('#marvelContainer'), 'year', 1)">Sort By Year</button>
-                <button class="marvelBtn" onclick="sortMovies($('#marvelContainer'), 'name', 2)">Sort By Name</button>
-                <button class="marvelBtn" id="btnMCU" onclick="showCinematicUniverse($('.marvelMovie'), 'mcu')">MCU Only</button>
-                <button class="marvelBtn" id="btnNonMCU" onclick="hideCinematicUniverse($('.marvelMovie'), 'mcu')">Non MCU Only</button>
-                <button class="marvelBtn" id="btnAllMarvel" onclick="allOfKind($('.marvelMovie'))">All marvel</button>
-            </div>
-        </div>
-
-        <div class="container" id="dcContainer">
-            <h2>DC</h2>
-            <div class="btnWrapper">
-                <button class="dcBtn" onclick="sortMovies($('#dcContainer'), 'year', 1)">Sort By Year</button>
-                <button class="dcBtn" onclick="sortMovies($('#dcContainer'), 'name', 2)">Sort By Name</button>
-                <button class="dcBtn" onclick="sortMovies($('#dcContainer'), 'runtime', 1)" id="dcRuntimeBtn">Sort By Runtime</button>
-                <button class="dcBtn" id="btnDCEU" onclick="showCinematicUniverse($('.dcMovie'), 'dceu')">DCEU Only</button>
-                <button class="dcBtn" id="btnNonDCEU" onclick="hideCinematicUniverse($('.dcMovie'), 'dceu')">Non DCEU Only</button>
-                <button class="dcBtn" id="btnAllDC" onclick="allOfKind($('.dcMovie'))">All DC</button>
-            </div>
-        </div>
-
-        <div class="container" id="othersContainer">
-            <h2>Others</h2>
-            <div class="btnWrapper">
-                <button class="othersBtn" onclick="sortMovies($('#othersContainer'), 'year',1)">Sort By Year</button>
-                <button class="othersBtn" onclick="sortMovies($('#othersContainer'), 'name', 2)">Sort By Name</button>
-            </div>
-        </div>
-        <div class="container" id="animationContainer">
-            <h2>Animation</h2>
-            <div class="btnWrapper">
-                <button class="animationBtn" onclick="sortMovies($('#animationContainer'), 'year',1)">Sort By Year</button>
-                <button class="animationBtn" onclick="sortMovies($('#animationContainer'), 'name', 2)">Sort By Name</button>
-            </div>
-        </div>
-        <div class="container" id="tvShowContainer">
-            <h2>Tv Shows</h2>
-            <div class="btnWrapper">
-                <button class="tvShowBtn" onclick="sortMovies($('#tvShowContainer'), 'year',1)">Sort By Year</button>
-                <button class="tvShowBtn" onclick="sortMovies($('#tvShowContainer'), 'name', 2)">Sort By Name</button>
-            </div>
-        </div>
+        <div class="container" id="marvelContainer"></div>
+        <div class="container" id="dcContainer"></div>
+        <div class="container" id="othersContainer"></div>
+        <div class="container" id="animationContainer"></div>
+        <div class="container" id="tvShowContainer"></div>
     </main>
 
     <img src="images/upBtn.png" alt="up arrow" class="goToTopBtn" onclick="goToTop()" />
 
     <!----------------POPUPS---------------->
-    <!------------Country Details----------->
 
     <div id="movieDetails" class="popUpInfo">
         <div class="popupCont">
@@ -106,7 +59,6 @@
             <div class="movieCoverWrapper">
                 <img src="" id="movieCover" alt="dvd cover" />
             </div>
-            
             <div class="linksWrapper">
                 <a href="" target="_blank" id="movieImdbLink"><img src="./images/imdb.png" alt="imdb image" id="movieImdbImage" /></a>
                 <img src="./images/youtube.png" alt="youtube image" id="movieYoutubeImage" />
@@ -114,7 +66,6 @@
             <div class="popupBtnsWrapper">
                 <button class="popupBtn" id="" onclick="closeCurrentPopup($(this))">Close</button>
             </div>
-
         </div>
     </div>
 
@@ -129,7 +80,6 @@
             <div class="tvShowCoverWrapper">
                 <img src="" id="tvShowCover" alt="dvd cover" />
             </div>
-
             <div class="linksWrapper">
                 <a href="" target="_blank" id="tvShowImdbLink"><img src="./images/imdb.png" alt="imdb image" id="tvShowImdbImage" /></a>
                 <img src="./images/youtube.png" alt="youtube image" id="tvShowYoutubeImage" />
@@ -137,7 +87,6 @@
             <div class="popupBtnsWrapper">
                 <button class="popupBtn" id="" onclick="closeCurrentPopup($(this))">Close</button>
             </div>
-
         </div>
     </div>
 
@@ -149,7 +98,6 @@
                 <div id="videoFrame">
                     <iframe src="" id="trailerVideo" frameborder="0" allowfullscreen></iframe>
                 </div>
-                
             </div>
         </div>
     </div>
