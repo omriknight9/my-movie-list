@@ -483,20 +483,34 @@ function allOfKind(div) {
 
 function goToTop() {
     $('html,body').animate({ scrollTop: 0 }, 'slow');
-    $('.goToTopBtn').animate({ bottom: '47rem' });
-    setTimeout(function () {
-        $('.goToTopBtn').css('bottom', '4rem');
-    }, 1000)
+    if ($(window).width() > 765) {
+        $('.goToTopBtn').animate({ bottom: '47rem' });
+        setTimeout(function () {
+            $('.goToTopBtn').css('bottom', '4rem');
+        }, 1000)
+    }
+
 }
 
 function scrollBtn() {
 
-    if ($(this).scrollTop() > 550) {
-        $('.goToTopBtn').fadeIn();
+    if ($(window).width() > 765) {
+        if ($(this).scrollTop() > 550) {
+            $('.goToTopBtn').fadeIn();
+        }
+        else {
+            $('.goToTopBtn').fadeOut();
+        }
+    } else {
+        if ($(this).scrollTop() > 550) {
+            $('.goToTopBtn2').fadeIn();
+        }
+        else {
+            $('.goToTopBtn2').fadeOut();
+        }
     }
-    else {
-        $('.goToTopBtn').fadeOut();
-    }
+
+
 }
 
 function sortMovies(container, elem1, kind) {
