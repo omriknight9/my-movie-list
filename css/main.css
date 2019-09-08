@@ -547,7 +547,6 @@ p {
 @media only screen and (max-width: 1200px) {
     .marvelMovie, .dcMovie, .otherMovie, .animationMovie, .tvShow {
         width: 15rem;
-        height: 17rem;
     }
 
     .movieImg, .tvShowImg {
