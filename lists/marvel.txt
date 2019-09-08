@@ -43,7 +43,8 @@
         { "name": "The Wolverine", "date": "07/26/2013", "dateText": "26/07/2013", "image": "Marvel/theWolverine.jpg", "group": 15, "mcu": false, "quality": "1080p", "imdbId": "tt1430132", "revenue": "414,828,246", "trailer": "toLpchTUYk8", "runtime": 126},
         { "name": "X-Men: Days Of Future Past", "date": "05/23/2014", "dateText": "23/05/2014", "image": "Marvel/xMenDaysOfFuturePast.jpg", "group": 15, "mcu": false, "quality": "1080p", "imdbId": "tt1877832", "revenue": "747,862,775", "trailer": "pK2zYHWDZKo", "runtime": 132},
         { "name": "X-Men: Apocalypse", "date": "05/27/2016", "dateText": "27/05/2016", "image": "Marvel/xMenApocalypse.jpg", "group": 15, "mcu": false, "quality": "1080p", "imdbId": "tt3385516", "revenue": "543,934,787", "trailer": "COvnHv42T-A", "runtime": 144},
-        { "name": "Logan", "date": "03/03/2017", "dateText": "03/03/2017", "image": "Marvel/logan.jpg", "group": 15, "mcu": false, "quality": "1080p", "imdbId": "tt3315342", "revenue": "619,021,436", "trailer": "Div0iP65aZo", "runtime": 137}
+        { "name": "Logan", "date": "03/03/2017", "dateText": "03/03/2017", "image": "Marvel/logan.jpg", "group": 15, "mcu": false, "quality": "1080p", "imdbId": "tt3315342", "revenue": "619,021,436", "trailer": "Div0iP65aZo", "runtime": 137},
+        { "name": "Dark Phoenix", "date": "06/07/2019", "dateText": "07/06/2019", "image": "Marvel/darkPhoenix.jpg", "group": 15, "mcu": false, "quality": "1080p", "imdbId": "tt6565702", "revenue": "252,442,974", "trailer": "azvR__GRQic", "runtime": 113}
 
     ]
 }
