@@ -9,7 +9,7 @@ var counter = 1;
 
 $(document).ready(function (event) {
 
-    if ($(window).width() > 765) {
+    //if ($(window).width() > 765) {
         setTimeout(function () {
 
             var script = $('<script>', {
@@ -17,7 +17,7 @@ $(document).ready(function (event) {
             }).appendTo($('body'))
 
         }, 2500);
-    }
+    //}
 
     loadJson();
 
