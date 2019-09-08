@@ -10,13 +10,17 @@ var counter = 1;
 $(document).ready(function (event) {
 
     if ($(window).width() > 765) {
-        setTimeout(function () {
 
+        setTimeout(function () {
             var script = $('<script>', {
                 src: './js/tilt.js'
             }).appendTo($('body'))
 
         }, 2500);
+
+        setTimeout(function () {
+            $('.imgWrapperContainer').attr('data-tilt', '');
+        }, 1500);
     }
 
     loadJson();
