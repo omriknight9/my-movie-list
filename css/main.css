@@ -63,16 +63,34 @@ main {
     justify-content: center;
 }
 
+.imgWrapper .tiltHover {
+    transform-style: preserve-3d;
+}
+
+.imgWrapper .tiltHover img {
+    transform: translateY(20px) translateZ(35px);
+    -webkit-transform: translateY(20px) translateZ(35px);
+    -moz-transform: translateY(20px) translateZ(35px);
+    -ms-transform: translateY(20px) translateZ(35px);
+    -o-transform: translateY(20px) translateZ(35px);
+
+}
+
 .imgWrapper img {
     margin-left: 2rem;
     margin-right: 2rem;
     cursor: pointer;
+    transition: .3s;
+    -webkit-transition: .3s;
+    -o-transition: .3s;
+    -moz-transition: .3s;
 }
 
 #marvel {
     width: 130px;
     height: 110px;
 }
+
 #dc {
     width: 130px;
     height: 110px;
@@ -384,6 +402,18 @@ p {
     box-shadow: 0 1px 3px 3px #848484;
 }
 
+.tiltHover {
+    height: 22rem;
+}
+
+.tiltHover .movieImg, .tiltHover .tvShowImg {
+    transform: translateY(-35px) translateZ(65px);
+    -webkit-transform: translateY(-35px) translateZ(65px);
+    -moz-transform: translateY(-35px) translateZ(65px);
+    -ms-transform: translateY(-35px) translateZ(65px);
+    -o-transform: translateY(-35px) translateZ(65px);
+}
+
 .goToTopBtn {
     display: none;
     width: 110px;
@@ -545,6 +575,21 @@ p {
 }
 
 @media only screen and (max-width: 1200px) {
+
+    .tiltHover {
+        height: 20rem;
+    }
+
+    .tiltHover .movieImg, .tiltHover .tvShowImg {
+        transform: translateY(-35px) translateZ(65px);
+        -webkit-transform: translateY(-35px) translateZ(65px);
+        -moz-transform: translateY(-35px) translateZ(65px);
+        -ms-transform: translateY(-35px) translateZ(65px);
+        -o-transform: translateY(-35px) translateZ(65px);
+    }
+
+
+
     .marvelMovie, .dcMovie, .otherMovie, .animationMovie, .tvShow {
         width: 15rem;
     }
@@ -585,9 +630,9 @@ p {
 
 @media only screen and (min-width: 765px) {
 
-    .tiltHover {
+    /*.tiltHover {
         height: 20rem;
-    }
+    }*/
 
     .marvelMovieName, .dcMovieName, .otherMovieName .animationMovieName, .tvShowName, .marvelMovieYear, .dcMovieYear, .otherMovieYear, .animationMovieYear, .tvShowYear, .marvelMovieDate, .dcMovieDate, .otherMovieDate, .animationMovieDate, .tvShowDate, .movieImg {
         transition: .3s;
@@ -618,14 +663,6 @@ p {
         -moz-transform: translateY(30px) translateZ(45px);
         -ms-transform: translateY(30px) translateZ(45px);
         -o-transform: translateY(30px) translateZ(45px);
-    }
-
-    .tiltHover .movieImg {
-        transform: translateY(-14px) translateZ(45px);
-        -webkit-transform: translateY(-14px) translateZ(45px);
-        -moz-transform: translateY(-14px) translateZ(45px);
-        -ms-transform: translateY(-14px) translateZ(45px);
-        -o-transform: translateY(-14px) translateZ(45px);
     }
 
     .marvelBtn:hover {
