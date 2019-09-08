@@ -8,6 +8,17 @@ var type;
 var counter = 1;
 
 $(document).ready(function (event) {
+
+    if ($(window).width() > 765) {
+        setTimeout(function () {
+
+            var script = $('<script>', {
+                src: './js/tilt.js'
+            }).appendTo($('body'))
+
+        }, 2500);
+    }
+
     loadJson();
 
     window.onbeforeunload = function () {
@@ -57,7 +68,7 @@ $(document).ready(function (event) {
                 }
             }
         });
-    })
+    });
 });
 
 function loadJson() {
@@ -269,6 +280,7 @@ function buildMovies(div, wrapper, arr, type) {
 
         var movieWrapper = $('<div>', {
             class: 'movieWrapper ' + div,
+            'data-tilt': '',
             'name': movies[i].name,
             'movieId': movieType,
             'quality': movies[i].quality,
@@ -397,6 +409,7 @@ function buildTvShow(div, wrapper, arr) {
 
         var tvShowWrapper = $('<div>', {
             class: 'tvShowWrapper ' + div,
+            'data-tilt': '',
             'year': tvShows[i].year,
             'name': tvShows[i].name,
             'movieId': tvShowType,
