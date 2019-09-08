@@ -428,7 +428,7 @@ p {
     width: 40rem;
     background: #fff;
     padding:3em;
-    top: 20%;
+    top: 10%;
     left: 0;
     right: 0;
     margin: auto;
@@ -671,9 +671,9 @@ p {
         height: 20rem;
     }
 
-    .popupCont {
+    /*.popupCont {
         top: 10%;
-    }
+    }*/
 
     #videoFrame {
         /*height: 21rem;*/
