@@ -8,7 +8,11 @@ var cinematicType;
 var counter = 1;
 var marvelCinematicCounter = 1;
 var dcCinematicCounter = 1;
-var sortBtnCounter = 1;
+
+var marvelCounter = 1;
+var DCCounter = 1;
+var OthersCounter = 1;
+var animationCounter = 1;
 
 $(document).ready(function (event) {
 
@@ -200,7 +204,9 @@ function buildMovies(div, wrapper, arr, type) {
         class: btnClass,
         text: 'Sort',
         click: function () {
-            sort();
+
+            sort($(this).parent().parent(), type);
+
         }
     }).appendTo(btnWrapper);
 
@@ -266,7 +272,10 @@ function buildMovies(div, wrapper, arr, type) {
                     }
                 }
                 $('.sortContainer').fadeOut('fast');
-                sortBtnCounter = 1;
+                marvelCounter = 1;
+                DCCounter = 1;
+                OthersCounter = 1;
+                animationCounter = 1;
             }
 
         }).appendTo(btnWrapper);
@@ -277,8 +286,6 @@ function buildMovies(div, wrapper, arr, type) {
             text: allTypeBtnText,
             click: function () {
                 allOfKind(typeShowClick);
-                $('.sortContainer').fadeOut('fast');
-                sortBtnCounter = 1;
             }
         }).appendTo(btnWrapper);
     }
@@ -422,15 +429,67 @@ function buildMovies(div, wrapper, arr, type) {
     }
 }
 
-function sort() {
-    if (sortBtnCounter == 1) {
-        $('.sortContainer').fadeIn('fast');
-        sortBtnCounter = 2;
-    } else {
-        $('.sortContainer').fadeOut('fast');
-        sortBtnCounter = 1;
+function sort(div, num) {
+
+    $.each($('.sortContainer'), function (key, value) {
+        $(this).fadeOut('fast');
+        marvelCounter = 1;
+        DCCounter = 1;
+        OthersCounter = 1;
+        animationCounter = 1;
+    });
+
+    switch (num) {
+        case 1:
+            if (marvelCounter == 1) {
+                $(div).find($('.sortContainer')).fadeIn('fast');
+                marvelCounter = 2;
+            } else {
+                $(div).find($('.sortContainer')).fadeOut('fast');
+                marvelCounter = 1;
+            }
+            break;
+        case 2:
+            if (DCCounter == 1) {
+                $(div).find($('.sortContainer')).fadeIn('fast');
+                DCCounter = 2;
+            } else {
+                $(div).find($('.sortContainer')).fadeOut('fast');
+                DCCounter = 1;
+            }
+            break;
+        case 3:
+            if (OthersCounter == 1) {
+                $(div).find($('.sortContainer')).fadeIn('fast');
+                OthersCounter = 2;
+            } else {
+                $(div).find($('.sortContainer')).fadeOut('fast');
+                OthersCounter = 1;
+            }
+            break;
+        case 4:
+            if (animationCounter == 1) {
+                $(div).find($('.sortContainer')).fadeIn('fast');
+                animationCounter = 2;
+            } else {
+                $(div).find($('.sortContainer')).fadeOut('fast');
+                animationCounter = 1;
+            }
+            break;
     }
+
 }
+
+//function sort() {
+
+//    if (sortBtnCounter == 1) {
+//        $('.sortContainer').fadeIn('fast');
+//        sortBtnCounter = 2;
+//    } else {
+//        $('.sortContainer').fadeOut('fast');
+//        sortBtnCounter = 1;
+//    }
+//}
 
 function buildTvShow(div, wrapper, arr) {
     $('#trailerVideo').attr('src', '');
@@ -540,6 +599,13 @@ function allOfKind(div) {
                 break;
         }
     }
+
+    $('.sortContainer').fadeOut('fast');
+    sortBtnCounter = 1;
+    marvelCounter = 1;
+    DCCounter = 1;
+    OthersCounter = 1;
+    animationCounter = 1;
 }
 
 function goToTop() {
