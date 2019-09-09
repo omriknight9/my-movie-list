@@ -209,8 +209,6 @@ function buildMovies(div, wrapper, arr, type) {
         text: 'By Date',
         click: function () {
             sortMovies(typeSortClick, 'date', 1);
-            $('.sortContainer').fadeOut('fast');
-            sortBtnCounter = 1;
         }
     }).appendTo(sortContent);
 
@@ -219,8 +217,6 @@ function buildMovies(div, wrapper, arr, type) {
         text: 'By Name',
         click: function () {
             sortMovies(typeSortClick, 'name', 2);
-            $('.sortContainer').fadeOut('fast');
-            sortBtnCounter = 1;
         }
     }).appendTo(sortContent);
 
@@ -229,8 +225,6 @@ function buildMovies(div, wrapper, arr, type) {
         text: 'By Runtime',
         click: function () {
             sortMovies(typeSortClick, 'runtime', 4);
-            $('.sortContainer').fadeOut('fast');
-            sortBtnCounter = 1;
         }
     }).appendTo(sortContent);
 
@@ -239,8 +233,6 @@ function buildMovies(div, wrapper, arr, type) {
         text: 'By Group',
         click: function () {
             sortMovies(typeSortClick, 'group', 3);
-            $('.sortContainer').fadeOut('fast');
-            sortBtnCounter = 1;
         }
     }).appendTo(sortContent);
 
@@ -745,6 +737,8 @@ function sortMovies(container, elem1, kind) {
             $(this).append(ids[i].element);
         }
     });
+    $('.sortContainer').fadeOut('fast');
+    sortBtnCounter = 1;
 }
 
 function removePopup(container) {
