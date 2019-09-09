@@ -534,12 +534,17 @@ function allOfKind(div) {
 }
 
 function goToTop() {
-    $('html,body').animate({ scrollTop: 0 }, 'slow');
+    $('html,body').animate({ scrollTop: 0 }, 2000);
     if ($(window).width() > 765) {
-        $('.goToTopBtn').animate({ bottom: '47rem' });
+        $('.goToTopBtn').animate({ bottom: '47rem' }, 1800);
+
+        setTimeout(function () {
+            $('.goToTopBtn').fadeOut('fast');
+        }, 2000)
+
         setTimeout(function () {
             $('.goToTopBtn').css('bottom', '4rem');
-        }, 1000)
+        }, 2300)
     }
 }
 
