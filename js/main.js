@@ -187,37 +187,57 @@ function buildMovies(div, wrapper, arr, type) {
         class: 'btnWrapper',
     }).appendTo(wrapper);
 
-    var dateSortBtn = $('<button>', {
+    var sortContainer = $('<div>', {
+        class: 'sortContainer',
+    }).appendTo(btnWrapper);
+
+    var sortContent = $('<div>', {
+        class: 'sortContent',
+    }).appendTo(sortContainer);
+
+    var sortBtn = $('<button>', {
         class: btnClass,
-        text: 'Sort By Date',
+        text: 'Sort',
         click: function () {
-            sortMovies(typeSortClick, 'date', 1);
+            $('.sortContainer').fadeIn('fast');
         }
     }).appendTo(btnWrapper);
+
+    var dateSortBtn = $('<button>', {
+        class: btnClass,
+        text: 'By Date',
+        click: function () {
+            sortMovies(typeSortClick, 'date', 1);
+            $('.sortContainer').fadeOut('fast');
+        }
+    }).appendTo(sortContent);
 
     var nameSortBtn = $('<button>', {
         class: btnClass,
-        text: 'Sort By Name',
+        text: 'By Name',
         click: function () {
             sortMovies(typeSortClick, 'name', 2);
+            $('.sortContainer').fadeOut('fast');
         }
-    }).appendTo(btnWrapper);
+    }).appendTo(sortContent);
 
     var runtimeSortBtn = $('<button>', {
         class: btnClass,
-        text: 'Sort By Runtime',
+        text: 'By Runtime',
         click: function () {
-            sortMovies(typeSortClick, 'runtime', 1);
+            sortMovies(typeSortClick, 'runtime', 4);
+            $('.sortContainer').fadeOut('fast');
         }
-    }).appendTo(btnWrapper);
+    }).appendTo(sortContent);
 
     var groupSortBtn = $('<button>', {
         class: btnClass,
-        text: 'Sort By Group',
+        text: 'By Group',
         click: function () {
             sortMovies(typeSortClick, 'group', 3);
+            $('.sortContainer').fadeOut('fast');
         }
-    }).appendTo(btnWrapper);
+    }).appendTo(sortContent);
 
     if (type == 1 || type == 2) {
         var cinematicUBtn = $('<button>', {
@@ -248,7 +268,9 @@ function buildMovies(div, wrapper, arr, type) {
                         $(this).html(cinematicUBtnText);
                     }
                 }
+                $('.sortContainer').fadeOut('fast');
             }
+
         }).appendTo(btnWrapper);
 
         var allTypeBtn = $('<button>', {
@@ -257,10 +279,11 @@ function buildMovies(div, wrapper, arr, type) {
             text: allTypeBtnText,
             click: function () {
                 allOfKind(typeShowClick);
+                $('.sortContainer').fadeOut('fast');
             }
         }).appendTo(btnWrapper);
     }
-    
+
     for (var i = 0; i < movies.length; i++) {
 
         var groupStr = JSON.stringify(movies[i].group);
@@ -574,7 +597,6 @@ function sortMovies(container, elem1, kind) {
             obj = {};
             obj.element = children[i];
             var elem2 = $(children[i]).attr(elem1);
-            console.log(elem2);
             switch (kind) {
                 case 1:
                     obj.idNum = new Date(elem2);
@@ -583,6 +605,9 @@ function sortMovies(container, elem1, kind) {
                     obj.idNum = elem2;
                     break;
                 case 3:
+                    obj.idNum = parseInt(elem2.replace(/[^\d]/g, ""), 10);
+                    break;
+                case 4:
                     obj.idNum = parseInt(elem2.replace(/[^\d]/g, ""), 10);
                     break;
             }
@@ -663,6 +688,34 @@ function sortMovies(container, elem1, kind) {
                 setTimeout(function () {
                     $('.spinnerWrapper').hide();
                 }, 500);
+                break;
+            case 4:
+                switch (counter) {
+                    case 1:
+                        ids.sort(function (a, b) {
+                            if (a.idNum > b.idNum) {
+                                return 1;
+                            } else {
+                                return -1;
+                            }
+                        });
+
+                        counter = 2;
+                        break;
+
+                    case 2:
+                        ids.sort(function (a, b) {
+                            if (a.idNum < b.idNum) {
+                                return 1;
+                            } else {
+                                return -1;
+                            }
+                        });
+                        counter = 1;
+                        break;
+                }
+                $(btnWrapper).attr('kind', kind);
+                $('.groupSortBtn').css('pointer-events', 'all');
                 break;
         }
 
