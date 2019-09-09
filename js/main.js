@@ -4,9 +4,10 @@ var dcMovies = [];
 var otherMovies = [];
 var animationMovies = [];
 var tvShows = [];
-var type;
+var cinematicType;
 var counter = 1;
-var cinematicCounter = 1;
+var marvelCinematicCounter = 1;
+var dcCinematicCounter = 1;
 
 $(document).ready(function (event) {
 
@@ -224,14 +225,28 @@ function buildMovies(div, wrapper, arr, type) {
             id: cinematicUBtnId,
             text: cinematicUBtnText,
             click: function () {
-                if (cinematicCounter == 1) {
-                    showCinematicUniverse(typeShowClick, typeU);
-                    cinematicCounter = 2;
-                    $(this).html(nonCinematicUBtnText);
-                } else {
-                    hideCinematicUniverse(typeShowClick, typeU);
-                    cinematicCounter = 1;
-                    $(this).html(cinematicUBtnText);
+                if (type == 1) {
+                    cinematicType = 1;
+                    if (marvelCinematicCounter == 1) {
+                        showCinematicUniverse(typeShowClick, typeU);
+                        marvelCinematicCounter = 2;
+                        $(this).html(nonCinematicUBtnText);
+                    } else {
+                        hideCinematicUniverse(typeShowClick, typeU);
+                        marvelCinematicCounter = 1;
+                        $(this).html(cinematicUBtnText);
+                    }
+                } else if (type == 2) {
+                    cinematicType = 2;
+                    if (dcCinematicCounter == 1) {
+                        showCinematicUniverse(typeShowClick, typeU);
+                        dcCinematicCounter = 2;
+                        $(this).html(nonCinematicUBtnText);
+                    } else {
+                        hideCinematicUniverse(typeShowClick, typeU);
+                        dcCinematicCounter = 1;
+                        $(this).html(cinematicUBtnText);
+                    }
                 }
             }
         }).appendTo(btnWrapper);
@@ -482,6 +497,16 @@ function hideCinematicUniverse(div, elem) {
 function allOfKind(div) {
     for (var i = 0; i < $(div).length; i++) {
         $($(div)[i]).show();
+        switch (cinematicType) {
+            case 1:
+                marvelCinematicCounter = 1;
+                $('#btnMCU').html('MCU Only');
+                break;
+            case 2:
+                dcCinematicCounter = 1;
+                $('#btnDCEU').html('DCEU Only');
+                break;
+        }
     }
 }
 
