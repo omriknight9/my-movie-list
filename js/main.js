@@ -204,9 +204,7 @@ function buildMovies(div, wrapper, arr, type) {
         class: btnClass,
         text: 'Sort',
         click: function () {
-
             sort($(this).parent().parent(), type);
-
         }
     }).appendTo(btnWrapper);
 
@@ -485,7 +483,6 @@ function sort(div, num) {
             }
             break;
     }
-
 }
 
 function buildTvShow(div, wrapper, arr) {
@@ -598,7 +595,6 @@ function allOfKind(div) {
     }
 
     $('.sortContainer').fadeOut('fast');
-    sortBtnCounter = 1;
     marvelCounter = 1;
     DCCounter = 1;
     OthersCounter = 1;
@@ -801,7 +797,10 @@ function sortMovies(container, elem1, kind) {
         }
     });
     $('.sortContainer').fadeOut('fast');
-    sortBtnCounter = 1;
+    marvelCounter = 1;
+    DCCounter = 1;
+    OthersCounter = 1;
+    animationCounter = 1;
 }
 
 function removePopup(container) {
