@@ -132,6 +132,7 @@ function buildMovies(div, wrapper, arr, type) {
     var btnClass;
     var cinematicUBtnId;
     var cinematicUBtnText;
+    var nonCinematicUBtnText;
     var allTypeBtnId;
     var allTypeBtnText;
     var typeSortClick;
@@ -144,6 +145,7 @@ function buildMovies(div, wrapper, arr, type) {
             btnClass = 'marvelBtn';
             cinematicUBtnId = 'btnMCU';
             cinematicUBtnText = 'MCU Only';
+            nonCinematicUBtnText = 'Non MCU';
             allTypeBtnId = 'btnAllMarvel';
             allTypeBtnText = 'All Marvel';
             typeSortClick = $('#marvelContainer');
@@ -155,6 +157,7 @@ function buildMovies(div, wrapper, arr, type) {
             btnClass = 'dcBtn';
             cinematicUBtnId = 'btnDCEU';
             cinematicUBtnText = 'DCEU Only';
+            nonCinematicUBtnText = 'Non DCEU';
             allTypeBtnId = 'btnAllDC';
             allTypeBtnText = 'All DC';
             typeSortClick = $('#dcContainer');
@@ -490,7 +493,6 @@ function goToTop() {
             $('.goToTopBtn').css('bottom', '4rem');
         }, 1000)
     }
-
 }
 
 function scrollBtn() {
@@ -510,8 +512,6 @@ function scrollBtn() {
             $('.goToTopBtn2').fadeOut();
         }
     }
-
-
 }
 
 function sortMovies(container, elem1, kind) {
