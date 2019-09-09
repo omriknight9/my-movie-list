@@ -433,10 +433,6 @@ function sort(div, num) {
 
     $.each($('.sortContainer'), function (key, value) {
         $(this).fadeOut('fast');
-        marvelCounter = 1;
-        DCCounter = 1;
-        OthersCounter = 1;
-        animationCounter = 1;
     });
 
     switch (num) {
@@ -444,6 +440,9 @@ function sort(div, num) {
             if (marvelCounter == 1) {
                 $(div).find($('.sortContainer')).fadeIn('fast');
                 marvelCounter = 2;
+                DCCounter = 1;
+                OthersCounter = 1;
+                animationCounter = 1;
             } else {
                 $(div).find($('.sortContainer')).fadeOut('fast');
                 marvelCounter = 1;
@@ -453,6 +452,9 @@ function sort(div, num) {
             if (DCCounter == 1) {
                 $(div).find($('.sortContainer')).fadeIn('fast');
                 DCCounter = 2;
+                marvelCounter = 1;
+                OthersCounter = 1;
+                animationCounter = 1;
             } else {
                 $(div).find($('.sortContainer')).fadeOut('fast');
                 DCCounter = 1;
@@ -462,6 +464,9 @@ function sort(div, num) {
             if (OthersCounter == 1) {
                 $(div).find($('.sortContainer')).fadeIn('fast');
                 OthersCounter = 2;
+                marvelCounter = 1;
+                DCCounter = 1;
+                animationCounter = 1;
             } else {
                 $(div).find($('.sortContainer')).fadeOut('fast');
                 OthersCounter = 1;
@@ -471,6 +476,9 @@ function sort(div, num) {
             if (animationCounter == 1) {
                 $(div).find($('.sortContainer')).fadeIn('fast');
                 animationCounter = 2;
+                marvelCounter = 1;
+                DCCounter = 1;
+                OthersCounter = 1;
             } else {
                 $(div).find($('.sortContainer')).fadeOut('fast');
                 animationCounter = 1;
@@ -479,17 +487,6 @@ function sort(div, num) {
     }
 
 }
-
-//function sort() {
-
-//    if (sortBtnCounter == 1) {
-//        $('.sortContainer').fadeIn('fast');
-//        sortBtnCounter = 2;
-//    } else {
-//        $('.sortContainer').fadeOut('fast');
-//        sortBtnCounter = 1;
-//    }
-//}
 
 function buildTvShow(div, wrapper, arr) {
     $('#trailerVideo').attr('src', '');
