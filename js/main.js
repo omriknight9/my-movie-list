@@ -8,6 +8,7 @@ var cinematicType;
 var counter = 1;
 var marvelCinematicCounter = 1;
 var dcCinematicCounter = 1;
+var sortBtnCounter = 1;
 
 $(document).ready(function (event) {
 
@@ -199,7 +200,7 @@ function buildMovies(div, wrapper, arr, type) {
         class: btnClass,
         text: 'Sort',
         click: function () {
-            $('.sortContainer').fadeIn('fast');
+            sort();
         }
     }).appendTo(btnWrapper);
 
@@ -209,6 +210,7 @@ function buildMovies(div, wrapper, arr, type) {
         click: function () {
             sortMovies(typeSortClick, 'date', 1);
             $('.sortContainer').fadeOut('fast');
+            sortBtnCounter = 1;
         }
     }).appendTo(sortContent);
 
@@ -218,6 +220,7 @@ function buildMovies(div, wrapper, arr, type) {
         click: function () {
             sortMovies(typeSortClick, 'name', 2);
             $('.sortContainer').fadeOut('fast');
+            sortBtnCounter = 1;
         }
     }).appendTo(sortContent);
 
@@ -227,6 +230,7 @@ function buildMovies(div, wrapper, arr, type) {
         click: function () {
             sortMovies(typeSortClick, 'runtime', 4);
             $('.sortContainer').fadeOut('fast');
+            sortBtnCounter = 1;
         }
     }).appendTo(sortContent);
 
@@ -236,6 +240,7 @@ function buildMovies(div, wrapper, arr, type) {
         click: function () {
             sortMovies(typeSortClick, 'group', 3);
             $('.sortContainer').fadeOut('fast');
+            sortBtnCounter = 1;
         }
     }).appendTo(sortContent);
 
@@ -269,6 +274,7 @@ function buildMovies(div, wrapper, arr, type) {
                     }
                 }
                 $('.sortContainer').fadeOut('fast');
+                sortBtnCounter = 1;
             }
 
         }).appendTo(btnWrapper);
@@ -280,6 +286,7 @@ function buildMovies(div, wrapper, arr, type) {
             click: function () {
                 allOfKind(typeShowClick);
                 $('.sortContainer').fadeOut('fast');
+                sortBtnCounter = 1;
             }
         }).appendTo(btnWrapper);
     }
@@ -420,6 +427,16 @@ function buildMovies(div, wrapper, arr, type) {
                     break;
             }
         }
+    }
+}
+
+function sort() {
+    if (sortBtnCounter == 1) {
+        $('.sortContainer').fadeIn('fast');
+        sortBtnCounter = 2;
+    } else {
+        $('.sortContainer').fadeOut('fast');
+        sortBtnCounter = 1;
     }
 }
 
