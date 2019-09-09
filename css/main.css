@@ -663,10 +663,6 @@ p {
 
 @media only screen and (min-width: 765px) {
 
-    /*.tiltHover {
-        height: 20rem;
-    }*/
-
     .marvelMovieName, .dcMovieName, .otherMovieName .animationMovieName, .tvShowName, .marvelMovieYear, .dcMovieYear, .otherMovieYear, .animationMovieYear, .tvShowYear, .marvelMovieDate, .dcMovieDate, .otherMovieDate, .animationMovieDate, .tvShowDate, .movieImg {
         transition: .3s;
         -webkit-transition: .3s;
