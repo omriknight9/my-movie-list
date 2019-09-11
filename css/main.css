@@ -792,6 +792,15 @@ p {
         padding-right: 2rem;
         padding-left: 2rem;
     }
+
+    .popupCont {
+        padding: 1em;
+        top: 2%;
+    }
+
+    .linksWrapper {
+        margin-bottom: 5rem;
+    }
 }
 
 @media only screen and (max-width: 550px) {
@@ -894,6 +903,19 @@ p {
 }
 
 @media only screen and (max-width: 350px) {
+
+    #movieImdbImage, #tvShowImdbImage, #movieYoutubeImage, #tvShowYoutubeImage {
+        width: 75px;
+        height: 75px;
+    }
+
+    .Xbtn {
+        width: 20px;
+    }
+
+    .popUpInfo h2 {
+        font-size: 1.2rem;
+    }
 
     #marvel {
         width: 45px;
