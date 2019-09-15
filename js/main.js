@@ -290,6 +290,25 @@ function buildMovies(div, wrapper, arr, type) {
 
     for (var i = 0; i < movies.length; i++) {
 
+        var date = new Date(movies[i].date);
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var yearToShow = date.getFullYear();
+
+        if (day < 10) {
+            day = '0' + day
+        } else {
+            day = day;
+        }
+
+        if (month < 10) {
+            month = '0' + month
+        } else {
+            month = month;
+        }
+
+        var dateForShow = day + '/' + month + '/' + yearToShow;
+
         var groupStr = JSON.stringify(movies[i].group);
 
         var groupWrapper;
@@ -380,7 +399,7 @@ function buildMovies(div, wrapper, arr, type) {
 
         var movieDate = $('<p>', {
             class: div + 'Date',
-            text: 'Release Date: ' + movies[i].dateText
+            text: 'Release Date: ' + dateForShow
         }).appendTo(movieWrapper);
 
         var movieImgWrapper = $('<div>', {
