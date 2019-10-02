@@ -15,6 +15,8 @@ let OthersCounter = 1;
 let animationCounter = 1;
 
 let selectedDiv;
+let lastChar;
+let searchVal;
 
 $(document).ready(function (event) {
 
@@ -38,13 +40,17 @@ $(document).ready(function (event) {
         window.scrollTo(0, 0);
     }
 
+    window.onscroll = function () {
+        scrollBtn();
+    }
+
     $('.Xbtn').click(function () {
         if ($($(this).parent().parent()).hasClass('animated')) {
             $(selectedDiv).css({border: '0 solid black'}).animate({
                 borderWidth: 0
             }, 200);
         }
-        
+
         $(this).parent().parent().fadeOut(150);
         $('#trailerVideo').attr('src', '');
     })
@@ -63,100 +69,108 @@ $(document).ready(function (event) {
 
     $('#search').on('input', function () {
 
-        
-        let searchVal = $('#search').val();
-
-        let lastChar = searchVal.substr(searchVal.length - 1);
-
+        searchVal = $('#search').val();
+        lastChar = searchVal.substr(searchVal.length - 1);
+    
         if (lastChar == ' ') {
             return; 
         } else {
             $('#searchResults').empty();
         }
 
-        $.each($('.movieWrapper'), function (key, value) {
-            for (let i = 0; i < $(this).length; i++) {
-
-                let movieName = $($(this)[i]).attr('name');
-
-                let movieImg = $($(this)[i]).find($('.movieImg')).attr('src');
-
-                let searchValCapitalized = searchVal.charAt(0).toUpperCase() + searchVal.slice(1);
-
-                if (searchVal.length == 0) {
-                    $('#searchResults').hide();
-                } else {
-                    $('#searchResults').show();
-                }
-
-                let cap;
-                let serachFinal;
-
-                try {
-                    cap = capitalize(movieName);
-                    serachFinal = capitalize(searchValCapitalized);
-
-                } catch (e) {
-                    return;
-                }
-
-                if (cap.includes(serachFinal) || cap.includes(serachFinal.toLowerCase())) {
-
-                    let result = $('<div>', {
-                        class: 'result',
-                        click: function() {
-
-                            let that = this;
-                            let pickedName = $(that).find($('.resultName')).html();
-
-                            $.each($('.movieWrapper'), function (key, value) {
-                                if (pickedName == $(this).attr('name')) {
-                                    $('body').css('pointer-events', 'none');
-                                    selectedDiv = this;
-                                    goToResult($(selectedDiv).parent());
-
-                                    $('#movieDetails').addClass('animated');
-
-                                    $(selectedDiv).css({border: '0 solid black'}).animate({
-                                        borderWidth: 6
-                                    }, 500);
-
-                                    setTimeout(function(){
-                                        $(selectedDiv).css({border: '0 solid black'}).animate({
-                                            borderWidth: 0
-                                        }, 500);
-                                        $('#movieDetails').removeClass('animated');
-                                    }, 3000)
-                                
-                                    $('#searchResults').hide();
-                                    $('#search').val('');
-                                    setTimeout(function() {
-                                        $(selectedDiv).click();
-                                        $('body').css('pointer-events', 'all');
-                                    }, 2000)
-                                }
-                            });
-                        }
-                    }).appendTo($('#searchResults'));
-
-                    let resultImgWrapper = $('<div>', {
-                        class: 'resultImgWrapper',
-                    }).appendTo(result);
-
-                    let resultImg = $('<img>', {
-                        class: 'resultImg',
-                        src: movieImg
-                    }).appendTo(resultImgWrapper);
-
-                    let resultName = $('<p>', {
-                        class: 'resultName',
-                        text: cap
-                    }).appendTo(result);
-                }
-            }
+        $.each($('.tvShowWrapper'), function (key, value) {
+            test($('.tvShowWrapper'),$('.tvShowImg'), $(this));
         });
+
+        $.each($('.movieWrapper'), function (key, value) {
+            test($('.movieWrapper'), $('.movieImg'), $(this));
+        });
+
     })
 });
+
+function test(div, img, that) {
+
+    for (let i = 0; i < $(that).length; i++) {
+
+        let movieName = $($(that)[i]).attr('name');
+
+        let movieImg = $($(that)[i]).find(img).attr('src');
+
+        let searchValCapitalized = searchVal.charAt(0).toUpperCase() + searchVal.slice(1);
+
+        if (searchVal.length == 0) {
+            $('#searchResults').hide();
+        } else {
+            $('#searchResults').show();
+        }
+
+        let cap;
+        let serachFinal;
+
+        try {
+            cap = capitalize(movieName);
+            serachFinal = capitalize(searchValCapitalized);
+
+        } catch (e) {
+            return;
+        }
+
+        if (cap.includes(serachFinal) || cap.includes(serachFinal.toLowerCase())) {
+
+            let result = $('<div>', {
+                class: 'result',
+                click: function() {
+
+                    let that = this;
+                    let pickedName = $(that).find($('.resultName')).html();
+
+                    $.each($(div), function (key, value) {
+                        if (pickedName == $(this).attr('name')) {
+                            $('body').css('pointer-events', 'none');
+                            selectedDiv = this;
+                            goToResult($(selectedDiv).parent());
+
+                            $('#movieDetails').addClass('animated');
+
+                            $(selectedDiv).css({border: '0 solid black'}).animate({
+                                borderWidth: 6
+                            }, 500);
+
+                            setTimeout(function(){
+                                $(selectedDiv).css({border: '0 solid black'}).animate({
+                                    borderWidth: 0
+                                }, 500);
+                                $('#movieDetails').removeClass('animated');
+                            }, 3000)
+                        
+                            $('#searchResults').hide();
+                            $('#search').val('');
+                            setTimeout(function() {
+                                $(selectedDiv).click();
+                                $('body').css('pointer-events', 'all');
+                            }, 2000)
+                        }
+                    });
+                }
+            }).appendTo($('#searchResults'));
+
+            let resultImgWrapper = $('<div>', {
+                class: 'resultImgWrapper',
+            }).appendTo(result);
+
+            let resultImg = $('<img>', {
+                class: 'resultImg',
+                src: movieImg
+            }).appendTo(resultImgWrapper);
+
+            let resultName = $('<p>', {
+                class: 'resultName',
+                text: cap
+            }).appendTo(result);
+        }
+    }
+}
 
 function capitalize(str) {
     str = str.split(' ');
@@ -480,18 +494,17 @@ function buildMovies(div, wrapper, arr, type) {
         let newDate = new Date(movies[i].date);
 
         let movieName = $('<p>', {
-            // class: div + 'Name',
-            class: 'Name',
+            class: 'name',
             text: movies[i].name
         }).appendTo(movieWrapper);
 
         let movieYear = $('<p>', {
-            class: div + 'Year',
+            class: 'year',
             text: 'Year: ' + newDate.getFullYear()
         }).appendTo(movieWrapper);
 
         let movieDate = $('<p>', {
-            class: div + 'Date',
+            class: 'date',
             text: 'Release Date: ' + dateForShow
         }).appendTo(movieWrapper);
 
@@ -645,12 +658,12 @@ function buildTvShow(div, wrapper, arr) {
         }).appendTo(wrapper);
 
         let tvShowName = $('<p>', {
-            class: div + 'Name',
+            class: 'name',
             text: tvShows[i].name
         }).appendTo(tvShowWrapper);
 
         let tvShowYear = $('<p>', {
-            class: div + 'Year',
+            class: 'year',
             text: 'Year: ' + tvShows[i].year
         }).appendTo(tvShowWrapper);
 
