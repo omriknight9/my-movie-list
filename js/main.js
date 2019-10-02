@@ -36,18 +36,8 @@ $(document).ready(function (event) {
         window.scrollTo(0, 0);
     }
 
-    // window.onscroll = function () {
-    //     scrollBtn();
-    //     if (this.oldScroll > this.scrollY) {
-    //         $('.header').css('margin-top', 0);
-    //     } else {
-    //         $('.header').css('margin-top', '-100rem');
-    //     }
-    //     this.oldScroll = this.scrollY;
-    // }
-
     $('.Xbtn').click(function () {
-        $(this).parent().parent().hide();
+        $(this).parent().parent().fadeOut(150);
         $('#trailerVideo').attr('src', '');
     })
 
@@ -447,7 +437,7 @@ function buildMovies(div, wrapper, arr, type) {
                 $('.movieQualityPop').html('Quality: ' + $(this).attr('quality'));
                 $('#movieImdbLink').attr('href', 'https://www.imdb.com/title/' + $(this).attr('imdbId'));
                 $('#trailerVideo').attr('src', 'https://www.youtube.com/embed/' + $(this).attr('trailer'));
-                $('#movieDetails').show();
+                $('#movieDetails').fadeIn(150);
 
                 switch (type) {
 
@@ -467,7 +457,7 @@ function buildMovies(div, wrapper, arr, type) {
 
                 $('#movieYoutubeImage').click(function () {
                     $('#movieDetails').hide();
-                    $('#trailer').show();
+                    $('#trailer').fadeIn(150);
                     setTimeout(function () {
                         $('#trailerVideo').attr('src', $('#trailerVideo').attr('src').replace('?autoplay=1&amp;rel=0&enablejsapi=1', ''));
                         $('#trailerVideo').attr('src', $('#trailerVideo').attr('src') + '?autoplay=1&amp;rel=0&enablejsapi=1');
@@ -628,12 +618,12 @@ function buildTvShow(div, wrapper, arr) {
                 $('.tvShowQualityPop').html('Quality: ' + $(this).attr('quality'));
                 $('#tvShowImdbLink').attr('href', 'https://www.imdb.com/title/' + $(this).attr('imdbId'));
                 $('#trailerVideo').attr('src', 'https://www.youtube.com/embed/' + $(this).attr('trailer'));
-                $('#tvShowDetails').show();
+                $('#tvShowDetails').fadeIn(150);
                 $('.popupBtn').css('background-color', '#D67B6E');
 
                 $('#tvShowYoutubeImage').click(function () {
                     $('#tvShowDetails').hide();
-                    $('#trailer').show();
+                    $('#trailer').fadeIn(150);
                     setTimeout(function () {
                         $('#trailerVideo').attr('src', $('#trailerVideo').attr('src').replace('?autoplay=1&amp;rel=0&enablejsapi=1', ''));
                         $('#trailerVideo').attr('src', $('#trailerVideo').attr('src') + '?autoplay=1&amp;rel=0&enablejsapi=1');
@@ -925,7 +915,7 @@ function removePopup(container) {
 }
 
 function closeCurrentPopup(that) {
-    $($(that)[0].parentElement.parentElement.parentElement).hide();
+    $($(that)[0].parentElement.parentElement.parentElement).fadeOut(150);
 }
 
 function convertMinsToHrsMins(mins) {
