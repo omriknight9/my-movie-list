@@ -36,15 +36,15 @@ $(document).ready(function (event) {
         window.scrollTo(0, 0);
     }
 
-    window.onscroll = function () {
-        scrollBtn();
-        if (this.oldScroll > this.scrollY) {
-            $('.header').css('margin-top', 0);
-        } else {
-            $('.header').css('margin-top', '-100rem');
-        }
-        this.oldScroll = this.scrollY;
-    }
+    // window.onscroll = function () {
+    //     scrollBtn();
+    //     if (this.oldScroll > this.scrollY) {
+    //         $('.header').css('margin-top', 0);
+    //     } else {
+    //         $('.header').css('margin-top', '-100rem');
+    //     }
+    //     this.oldScroll = this.scrollY;
+    // }
 
     $('.Xbtn').click(function () {
         $(this).parent().parent().hide();
@@ -64,25 +64,107 @@ $(document).ready(function (event) {
     }, 1500);
 
     $('#search').on('input', function () {
-        window.scrollTo(0, 0);
+        $('#searchResults').empty();
         $.each($('.movieWrapper'), function (key, value) {
-
             for (var i = 0; i < $(this).length; i++) {
-                var movieName = $($(this)[i]).attr('name').toLowerCase();
+
+                let movieName = $($(this)[i]).attr('name');
+
+                let movieImg = $($(this)[i]).find($('.movieImg')).attr('src');
+
                 var searchVal = $('#search').val();
                 var searchValCapitalized = searchVal.charAt(0).toUpperCase() + searchVal.slice(1);
 
-                if (movieName.includes(searchValCapitalized) || movieName.includes(searchValCapitalized.toLowerCase())) {
-                    $($(this)[i]).show();
+                if (searchVal.length == 0) {
+                    $('#searchResults').hide();
                 } else {
-                    $($(this)[i]).hide();
+                    $('#searchResults').show();
+                }
+
+                let cap;
+                let serachFinal;
+
+                try {
+                    cap = capitalize(movieName);
+                    serachFinal = capitalize(searchValCapitalized);
+                } catch (e) {
+                    cap = '';
+                    serachFinal = '';
+                }
+
+                if (cap.includes(serachFinal) || cap.includes(serachFinal.toLowerCase())) {
+
+                    let result = $('<div>', {
+                        class: 'result',
+                        click: function() {
+
+                            let that = this;
+                            let pickedName = $(that).find($('.resultName')).html();
+
+                            $.each($('.movieWrapper'), function (key, value) {
+                                if (pickedName == $(this).attr('name')) {
+                                    $('body').css('pointer-events', 'none');
+                                    goToResult($(this).parent());
+                                    let selectedDiv = this;
+                                    $('#searchResults').hide();
+                                    $('#search').val('');
+                                    setTimeout(function() {
+                                        $(selectedDiv).click();
+                                        $('body').css('pointer-events', 'all');
+                                    }, 2000)
+                                }
+                            });
+                        }
+                    }).appendTo($('#searchResults'));
+
+                    let resultImgWrapper = $('<div>', {
+                        class: 'resultImgWrapper',
+                    }).appendTo(result);
+
+                    let resultImg = $('<img>', {
+                        class: 'resultImg',
+                        src: movieImg
+                    }).appendTo(resultImgWrapper);
+
+                    let resultName = $('<p>', {
+                        class: 'resultName',
+                        text: cap
+                    }).appendTo(result);
                 }
             }
         });
-    });
+    })
+
+    // $('#search').on('input', function () {
+    //     window.scrollTo(0, 0);
+    //     $.each($('.movieWrapper'), function (key, value) {
+
+    //         for (var i = 0; i < $(this).length; i++) {
+    //             var movieName = $($(this)[i]).attr('name').toLowerCase();
+    //             var searchVal = $('#search').val();
+    //             var searchValCapitalized = searchVal.charAt(0).toUpperCase() + searchVal.slice(1);
+
+    //             if (movieName.includes(searchValCapitalized) || movieName.includes(searchValCapitalized.toLowerCase())) {
+    //                 $($(this)[i]).show();
+    //             } else {
+    //                 $($(this)[i]).hide();
+    //             }
+    //         }
+    //     });
+    // });
 });
 
+function capitalize(str) {
+    str = str.split(' ');
+    for (var i = 0; i < str.length; i++) {
+        str[i] = str[i][0].toUpperCase() + str[i].substr(1);
+    }
+
+    return str.join(" ");
+}
+
 function loadJson() {
+    
     $.get('./lists/marvel.txt', function (data) {
         marvelMovies.push(JSON.parse(data));
         setTimeout(function () {
@@ -128,6 +210,15 @@ function goToDiv(div) {
     setTimeout(function () {
         $('.header').css('margin-top', '-100rem');
     }, 700);
+}
+
+function goToResult(div) {
+    if ($(window).width() < 765) {
+        $('html, body').animate({ scrollTop: $(div).position().top -200 }, 1500); 
+    } else {
+        $('html, body').animate({ scrollTop: $(div).position().top -240 }, 1500);
+    }
+
 }
 
 function buildMovies(div, wrapper, arr, type) {
