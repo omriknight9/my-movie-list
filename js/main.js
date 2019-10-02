@@ -14,6 +14,8 @@ let DCCounter = 1;
 let OthersCounter = 1;
 let animationCounter = 1;
 
+let selectedDiv;
+
 $(document).ready(function (event) {
 
     if ($(window).width() > 765) {
@@ -37,6 +39,12 @@ $(document).ready(function (event) {
     }
 
     $('.Xbtn').click(function () {
+        if ($($(this).parent().parent()).hasClass('animated')) {
+            $(selectedDiv).css({border: '0 solid black'}).animate({
+                borderWidth: 0
+            }, 200);
+        }
+        
         $(this).parent().parent().fadeOut(150);
         $('#trailerVideo').attr('src', '');
     })
@@ -104,8 +112,22 @@ $(document).ready(function (event) {
                             $.each($('.movieWrapper'), function (key, value) {
                                 if (pickedName == $(this).attr('name')) {
                                     $('body').css('pointer-events', 'none');
-                                    goToResult($(this).parent());
-                                    let selectedDiv = this;
+                                    selectedDiv = this;
+                                    goToResult($(selectedDiv).parent());
+
+                                    $('#movieDetails').addClass('animated');
+
+                                    $(selectedDiv).css({border: '0 solid black'}).animate({
+                                        borderWidth: 6
+                                    }, 500);
+
+                                    setTimeout(function(){
+                                        $(selectedDiv).css({border: '0 solid black'}).animate({
+                                            borderWidth: 0
+                                        }, 500);
+                                        $('#movieDetails').removeClass('animated');
+                                    }, 3000)
+                                
                                     $('#searchResults').hide();
                                     $('#search').val('');
                                     setTimeout(function() {
@@ -192,6 +214,7 @@ function goToDiv(div) {
 }
 
 function goToResult(div) {
+
     if ($(window).width() < 765) {
         $('html, body').animate({ scrollTop: $(div).position().top -200 }, 1500); 
     } else {
@@ -457,7 +480,8 @@ function buildMovies(div, wrapper, arr, type) {
         let newDate = new Date(movies[i].date);
 
         let movieName = $('<p>', {
-            class: div + 'Name',
+            // class: div + 'Name',
+            class: 'Name',
             text: movies[i].name
         }).appendTo(movieWrapper);
 
@@ -903,6 +927,12 @@ function removePopup(container) {
 }
 
 function closeCurrentPopup(that) {
+    if ($($(that)[0].parentElement.parentElement.parentElement).hasClass('animated')) {
+        $(selectedDiv).css({border: '0 solid black'}).animate({
+            borderWidth: 0
+        }, 200);
+    }
+
     $($(that)[0].parentElement.parentElement.parentElement).fadeOut(150);
 }
 
