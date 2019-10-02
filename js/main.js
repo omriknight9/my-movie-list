@@ -79,17 +79,17 @@ $(document).ready(function (event) {
         }
 
         $.each($('.tvShowWrapper'), function (key, value) {
-            test($('.tvShowWrapper'),$('.tvShowImg'), $(this));
+            showResult($('.tvShowWrapper'),$('.tvShowImg'), $(this));
         });
 
         $.each($('.movieWrapper'), function (key, value) {
-            test($('.movieWrapper'), $('.movieImg'), $(this));
+            showResult($('.movieWrapper'), $('.movieImg'), $(this));
         });
 
     })
 });
 
-function test(div, img, that) {
+function showResult(div, img, that) {
 
     for (let i = 0; i < $(that).length; i++) {
 
