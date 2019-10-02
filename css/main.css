@@ -171,16 +171,6 @@ button:active {
   -o-transform: translateY(4px);
 }
 
-/* .searchContainer {
-    display: none;
-    position: absolute;
-    top: 10rem;
-    width: 100%;
-    text-align: center;
-    z-index: 1;
-    padding-bottom: 3rem;
-} */
-
 .searchContainer {
     position: absolute;
     top: 10rem;
@@ -199,6 +189,7 @@ button:active {
     display: none;
     position: absolute;
     background-image: linear-gradient(-180deg, #3fe09b, white);
+    box-shadow: 0 3px 8px 0 #848484;
     border-radius: 5px;
     height: 25rem;
     overflow-y: scroll;
