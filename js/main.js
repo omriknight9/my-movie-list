@@ -73,13 +73,16 @@ $(document).ready(function (event) {
 
                 let cap;
                 let serachFinal;
+                let isResult;
 
                 try {
                     cap = capitalize(movieName);
                     serachFinal = capitalize(searchValCapitalized);
+                    isResult = true;
                 } catch (e) {
                     cap = '';
                     serachFinal = '';
+                    isResult = false;
                 }
 
                 if (cap.includes(serachFinal) || cap.includes(serachFinal.toLowerCase())) {
@@ -106,6 +109,10 @@ $(document).ready(function (event) {
                             });
                         }
                     }).appendTo($('#searchResults'));
+
+                    if (!isResult) {
+                        $('#searchResults').empty();
+                    }
 
                     let resultImgWrapper = $('<div>', {
                         class: 'resultImgWrapper',
