@@ -1,25 +1,25 @@
 
-var marvelMovies = [];
-var dcMovies = [];
-var otherMovies = [];
-var animationMovies = [];
-var tvShows = [];
-var cinematicType;
-var counter = 1;
-var marvelCinematicCounter = 1;
-var dcCinematicCounter = 1;
+let marvelMovies = [];
+let dcMovies = [];
+let otherMovies = [];
+let animationMovies = [];
+let tvShows = [];
+let cinematicType;
+let counter = 1;
+let marvelCinematicCounter = 1;
+let dcCinematicCounter = 1;
 
-var marvelCounter = 1;
-var DCCounter = 1;
-var OthersCounter = 1;
-var animationCounter = 1;
+let marvelCounter = 1;
+let DCCounter = 1;
+let OthersCounter = 1;
+let animationCounter = 1;
 
 $(document).ready(function (event) {
 
     if ($(window).width() > 765) {
 
         setTimeout(function () {
-            var script = $('<script>', {
+            let script = $('<script>', {
                 src: './js/tilt.js'
             }).appendTo($('body'))
 
@@ -54,16 +54,26 @@ $(document).ready(function (event) {
     }, 1500);
 
     $('#search').on('input', function () {
-        $('#searchResults').empty();
+
+        
+        let searchVal = $('#search').val();
+
+        let lastChar = searchVal.substr(searchVal.length - 1);
+
+        if (lastChar == ' ') {
+            return; 
+        } else {
+            $('#searchResults').empty();
+        }
+
         $.each($('.movieWrapper'), function (key, value) {
-            for (var i = 0; i < $(this).length; i++) {
+            for (let i = 0; i < $(this).length; i++) {
 
                 let movieName = $($(this)[i]).attr('name');
 
                 let movieImg = $($(this)[i]).find($('.movieImg')).attr('src');
 
-                var searchVal = $('#search').val();
-                var searchValCapitalized = searchVal.charAt(0).toUpperCase() + searchVal.slice(1);
+                let searchValCapitalized = searchVal.charAt(0).toUpperCase() + searchVal.slice(1);
 
                 if (searchVal.length == 0) {
                     $('#searchResults').hide();
@@ -73,16 +83,13 @@ $(document).ready(function (event) {
 
                 let cap;
                 let serachFinal;
-                let isResult;
 
                 try {
                     cap = capitalize(movieName);
                     serachFinal = capitalize(searchValCapitalized);
-                    isResult = true;
+
                 } catch (e) {
-                    cap = '';
-                    serachFinal = '';
-                    isResult = false;
+                    return;
                 }
 
                 if (cap.includes(serachFinal) || cap.includes(serachFinal.toLowerCase())) {
@@ -110,10 +117,6 @@ $(document).ready(function (event) {
                         }
                     }).appendTo($('#searchResults'));
 
-                    if (!isResult) {
-                        $('#searchResults').empty();
-                    }
-
                     let resultImgWrapper = $('<div>', {
                         class: 'resultImgWrapper',
                     }).appendTo(result);
@@ -131,29 +134,11 @@ $(document).ready(function (event) {
             }
         });
     })
-
-    // $('#search').on('input', function () {
-    //     window.scrollTo(0, 0);
-    //     $.each($('.movieWrapper'), function (key, value) {
-
-    //         for (var i = 0; i < $(this).length; i++) {
-    //             var movieName = $($(this)[i]).attr('name').toLowerCase();
-    //             var searchVal = $('#search').val();
-    //             var searchValCapitalized = searchVal.charAt(0).toUpperCase() + searchVal.slice(1);
-
-    //             if (movieName.includes(searchValCapitalized) || movieName.includes(searchValCapitalized.toLowerCase())) {
-    //                 $($(this)[i]).show();
-    //             } else {
-    //                 $($(this)[i]).hide();
-    //             }
-    //         }
-    //     });
-    // });
 });
 
 function capitalize(str) {
     str = str.split(' ');
-    for (var i = 0; i < str.length; i++) {
+    for (let i = 0; i < str.length; i++) {
         str[i] = str[i][0].toUpperCase() + str[i].substr(1);
     }
 
@@ -199,14 +184,11 @@ function loadJson() {
 }
 
 function goToDiv(div) {
-    if ($(window).width() > 550) {
-        $('html, body').animate({ scrollTop: $(div).position().top }, 'slow');
+    if ($(window).width() > 765) {
+        $('html, body').animate({ scrollTop: $(div).position().top -210 }, 'slow');
     } else {
-        $('html, body').animate({ scrollTop: $(div).position().top }, 'slow');
+        $('html, body').animate({ scrollTop: $(div).position().top -190}, 'slow');
     }
-    setTimeout(function () {
-        $('.header').css('margin-top', '-100rem');
-    }, 700);
 }
 
 function goToResult(div) {
@@ -215,23 +197,22 @@ function goToResult(div) {
     } else {
         $('html, body').animate({ scrollTop: $(div).position().top -240 }, 1500);
     }
-
 }
 
 function buildMovies(div, wrapper, arr, type) {
     $('#trailerVideo').attr('src', '');
 
-    var movies = arr[0].movies;
-    var headerText;
-    var btnClass;
-    var cinematicUBtnId;
-    var cinematicUBtnText;
-    var nonCinematicUBtnText;
-    var allTypeBtnId;
-    var allTypeBtnText;
-    var typeSortClick;
-    var typeShowClick;
-    var typeU;
+    let movies = arr[0].movies;
+    let headerText;
+    let btnClass;
+    let cinematicUBtnId;
+    let cinematicUBtnText;
+    let nonCinematicUBtnText;
+    let allTypeBtnId;
+    let allTypeBtnText;
+    let typeSortClick;
+    let typeShowClick;
+    let typeU;
 
     switch (type) {
         case 1:
@@ -271,24 +252,24 @@ function buildMovies(div, wrapper, arr, type) {
             break;
     }
 
-    var typeheader = $('<h2>', {
+    let typeheader = $('<h2>', {
         class: 'typeheader',
         text: headerText
     }).appendTo(wrapper);
 
-    var btnWrapper = $('<div>', {
+    let btnWrapper = $('<div>', {
         class: 'btnWrapper',
     }).appendTo(wrapper);
 
-    var sortContainer = $('<div>', {
+    let sortContainer = $('<div>', {
         class: 'sortContainer',
     }).appendTo(btnWrapper);
 
-    var sortContent = $('<div>', {
+    let sortContent = $('<div>', {
         class: 'sortContent',
     }).appendTo(sortContainer);
 
-    var sortBtn = $('<button>', {
+    let sortBtn = $('<button>', {
         class: btnClass,
         text: 'Sort',
         click: function () {
@@ -296,7 +277,7 @@ function buildMovies(div, wrapper, arr, type) {
         }
     }).appendTo(btnWrapper);
 
-    var dateSortBtn = $('<button>', {
+    let dateSortBtn = $('<button>', {
         class: btnClass,
         text: 'By Date',
         click: function () {
@@ -304,7 +285,7 @@ function buildMovies(div, wrapper, arr, type) {
         }
     }).appendTo(sortContent);
 
-    var nameSortBtn = $('<button>', {
+    let nameSortBtn = $('<button>', {
         class: btnClass,
         text: 'By Name',
         click: function () {
@@ -312,7 +293,7 @@ function buildMovies(div, wrapper, arr, type) {
         }
     }).appendTo(sortContent);
 
-    var runtimeSortBtn = $('<button>', {
+    let runtimeSortBtn = $('<button>', {
         class: btnClass,
         text: 'By Runtime',
         click: function () {
@@ -320,7 +301,7 @@ function buildMovies(div, wrapper, arr, type) {
         }
     }).appendTo(sortContent);
 
-    var groupSortBtn = $('<button>', {
+    let groupSortBtn = $('<button>', {
         class: btnClass,
         text: 'By Group',
         click: function () {
@@ -329,7 +310,7 @@ function buildMovies(div, wrapper, arr, type) {
     }).appendTo(sortContent);
 
     if (type == 1 || type == 2) {
-        var cinematicUBtn = $('<button>', {
+        let cinematicUBtn = $('<button>', {
             class: btnClass,
             id: cinematicUBtnId,
             text: cinematicUBtnText,
@@ -366,7 +347,7 @@ function buildMovies(div, wrapper, arr, type) {
 
         }).appendTo(btnWrapper);
 
-        var allTypeBtn = $('<button>', {
+        let allTypeBtn = $('<button>', {
             class: btnClass,
             id: allTypeBtnId,
             text: allTypeBtnText,
@@ -376,12 +357,12 @@ function buildMovies(div, wrapper, arr, type) {
         }).appendTo(btnWrapper);
     }
 
-    for (var i = 0; i < movies.length; i++) {
+    for (let i = 0; i < movies.length; i++) {
 
-        var date = new Date(movies[i].date);
-        var day = date.getDate();
-        var month = date.getMonth() + 1;
-        var yearToShow = date.getFullYear();
+        let date = new Date(movies[i].date);
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let yearToShow = date.getFullYear();
 
         if (day < 10) {
             day = '0' + day
@@ -395,9 +376,9 @@ function buildMovies(div, wrapper, arr, type) {
             month = month;
         }
 
-        var dateForShow = day + '/' + month + '/' + yearToShow;
+        let dateForShow = day + '/' + month + '/' + yearToShow;
 
-        var groupStr = JSON.stringify(movies[i].group);
+        let groupStr = JSON.stringify(movies[i].group);
 
         var groupWrapper;
 
@@ -415,9 +396,9 @@ function buildMovies(div, wrapper, arr, type) {
             }
         }
 
-        var movieType = movies[i].group;
+        let movieType = movies[i].group;
 
-        var movieWrapper = $('<div>', {
+        let movieWrapper = $('<div>', {
             class: 'movieWrapper ' + div,
             'data-tilt': '',
             'name': movies[i].name,
@@ -473,28 +454,28 @@ function buildMovies(div, wrapper, arr, type) {
             }
         }).appendTo(groupWrapper);
 
-        var newDate = new Date(movies[i].date);
+        let newDate = new Date(movies[i].date);
 
-        var movieName = $('<p>', {
+        let movieName = $('<p>', {
             class: div + 'Name',
             text: movies[i].name
         }).appendTo(movieWrapper);
 
-        var movieYear = $('<p>', {
+        let movieYear = $('<p>', {
             class: div + 'Year',
             text: 'Year: ' + newDate.getFullYear()
         }).appendTo(movieWrapper);
 
-        var movieDate = $('<p>', {
+        let movieDate = $('<p>', {
             class: div + 'Date',
             text: 'Release Date: ' + dateForShow
         }).appendTo(movieWrapper);
 
-        var movieImgWrapper = $('<div>', {
+        let movieImgWrapper = $('<div>', {
             class: 'movieImgWrapper',
         }).appendTo(movieWrapper);
 
-        var movieImg = $('<img>', {
+        let movieImg = $('<img>', {
             class: 'movieImg',
             alt: 'movieImg',
             src: './images/movies/' + movies[i].image
@@ -595,17 +576,17 @@ function sort(div, num) {
 function buildTvShow(div, wrapper, arr) {
     $('#trailerVideo').attr('src', '');
 
-    var tvShows = arr[0].tvShows;
+    let tvShows = arr[0].tvShows;
 
-    var typeheader = $('<h2>', {
+    let typeheader = $('<h2>', {
         class: 'typeheader',
         text: 'TV Shows'
     }).appendTo(wrapper);
 
-    for (var i = 0; i < tvShows.length; i++) {
-        var tvShowType = tvShows[i].group;
+    for (let i = 0; i < tvShows.length; i++) {
+        let tvShowType = tvShows[i].group;
 
-        var tvShowWrapper = $('<div>', {
+        let tvShowWrapper = $('<div>', {
             class: 'tvShowWrapper ' + div,
             'data-tilt': '',
             'year': tvShows[i].year,
@@ -639,21 +620,21 @@ function buildTvShow(div, wrapper, arr) {
             }
         }).appendTo(wrapper);
 
-        var tvShowName = $('<p>', {
+        let tvShowName = $('<p>', {
             class: div + 'Name',
             text: tvShows[i].name
         }).appendTo(tvShowWrapper);
 
-        var tvShowYear = $('<p>', {
+        let tvShowYear = $('<p>', {
             class: div + 'Year',
             text: 'Year: ' + tvShows[i].year
         }).appendTo(tvShowWrapper);
 
-        var tvShowImgWrapper = $('<div>', {
+        let tvShowImgWrapper = $('<div>', {
             class: 'tvShowImgWrapper',
         }).appendTo(tvShowWrapper);
 
-        var tvShowImg = $('<img>', {
+        let tvShowImg = $('<img>', {
             class: 'tvShowImg',
             alt: 'tvShowImg',
             src: './images/' + tvShows[i].image
@@ -669,7 +650,7 @@ function buildTvShow(div, wrapper, arr) {
 }
 
 function showCinematicUniverse(div, elem) {
-    for (var i = 0; i < $(div).length; i++) {
+    for (let i = 0; i < $(div).length; i++) {
         $($(div)[i]).show();
         if ($($(div)[i]).attr(elem) == 'false') {
             $($(div)[i]).hide();
@@ -678,7 +659,7 @@ function showCinematicUniverse(div, elem) {
 }
 
 function hideCinematicUniverse(div, elem) {
-    for (var i = 0; i < $(div).length; i++) {
+    for (let i = 0; i < $(div).length; i++) {
         $($(div)[i]).show();
         if ($($(div)[i]).attr(elem) == 'true') {
             $($(div)[i]).hide();
@@ -687,7 +668,7 @@ function hideCinematicUniverse(div, elem) {
 }
 
 function allOfKind(div) {
-    for (var i = 0; i < $(div).length; i++) {
+    for (let i = 0; i < $(div).length; i++) {
         $($(div)[i]).show();
         switch (cinematicType) {
             case 1:
@@ -747,7 +728,7 @@ function sortMovies(container, elem1, kind) {
     $('.groupWrapper').removeClass('oddGroup');
     $('.groupWrapper').removeClass('evenGroup');
 
-    var btnWrapper = $(container).find($('.btnWrapper'));
+    let btnWrapper = $(container).find($('.btnWrapper'));
 
     if ($(btnWrapper).attr('kind') == kind) {
     } else {
@@ -763,9 +744,9 @@ function sortMovies(container, elem1, kind) {
         $('#tvShowContainer').empty();
     }
 
-    var children;
+    let children;
     $.each($(container), function (key, value) {
-        var ids = [], obj, i, len;
+        let ids = [], obj, i, len;
 
         if ($(container).attr('id') == 'tvShowContainer') {
             children = $(this).find('.tvShowWrapper');
@@ -776,7 +757,7 @@ function sortMovies(container, elem1, kind) {
         for (i = 0, len = children.length; i < len; i++) {
             obj = {};
             obj.element = children[i];
-            var elem2 = $(children[i]).attr(elem1);
+            let elem2 = $(children[i]).attr(elem1);
             switch (kind) {
                 case 1:
                     obj.idNum = new Date(elem2);
