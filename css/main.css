@@ -224,20 +224,12 @@ button:active {
     border-radius: 5px;
     box-shadow: 0 3px 8px 3px #848484;
     border: none;
-    /* width: 30%; */
     width: 100%;
     height: 2rem;
     text-indent: 1rem;
     font-size: 1.3rem;
     outline: none;
 }
-
-/* #searchImg {
-    position: absolute;
-    top: 0;
-    right: 1rem;
-    width: 30px;
-} */
 
 .spinnerWrapper {
     position: absolute;
@@ -695,10 +687,6 @@ p {
     .searchContant {
         width: 75%;
     }
-
-    /* #search {
-        width: 75%;
-    } */
 }
 
 @media only screen and (max-width: 880px) {
@@ -849,7 +837,6 @@ p {
     }
 
     .popupCont {
-        padding: 1em;
         top: 2%;
     }
 
@@ -944,7 +931,6 @@ p {
     #trailer .popupCont {
         padding-left: 1rem;
         padding-right: 1rem;
-        padding-top: 4rem;
     }
 }
 
