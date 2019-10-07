@@ -149,7 +149,7 @@ function showResult(div, img, that) {
                             setTimeout(function() {
                                 $(selectedDiv).click();
                                 $('body').css('pointer-events', 'all');
-                            }, 2000)
+                            }, 1500)
                         }
                     });
                 }
