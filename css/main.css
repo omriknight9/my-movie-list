@@ -875,6 +875,10 @@ p {
 
 @media only screen and (max-width: 500px) {
 
+    .resultName {
+        font-size: 1.2rem;
+    }
+
     #trailer .popupCont {
         width: 24rem;
     }
