@@ -99,7 +99,7 @@ function showResult(div, img, that) {
 
         let searchValCapitalized = searchVal.charAt(0).toUpperCase() + searchVal.slice(1);
 
-        if (searchVal.length == 0) {
+        if (searchVal.length == 0 || $('.result').length < 1) {
             $('#searchResults').hide();
             $('#search').css({'border-bottom-right-radius': '5px', 'border-bottom-left-radius': '5px'});
         } else {
