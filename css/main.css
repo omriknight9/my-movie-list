@@ -190,7 +190,8 @@ button:active {
     position: absolute;
     background-image: linear-gradient(-180deg, #3fe09b, white);
     box-shadow: 0 3px 8px 0 #848484;
-    border-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
     height: 25rem;
     overflow-y: scroll;
     width: 100%;
