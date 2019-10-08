@@ -101,8 +101,10 @@ function showResult(div, img, that) {
 
         if (searchVal.length == 0) {
             $('#searchResults').hide();
+            $('#search').css({'border-bottom-right-radius': '5px', 'border-bottom-left-radius': '5px'});
         } else {
             $('#searchResults').show();
+            $('#search').css({'border-bottom-right-radius': '0', 'border-bottom-left-radius': '0'});
         }
 
         let cap;
