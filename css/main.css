@@ -315,7 +315,6 @@ button:active {
         -webkit-transform: scale(1.0);
         transform: scale(1.0);
     }
-
 }
 
 @-webkit-keyframes sk-bouncedelay {
@@ -593,6 +592,7 @@ p {
 
 #movieCover, #tvShowCover {
     border-radius: 5px;
+    max-height: 16rem;
 }
 
 .videoWrapper {
