@@ -42,6 +42,16 @@ $(document).ready(function (event) {
 
     window.onscroll = function () {
         scrollBtn();
+        if (this.oldScroll > this.scrollY) {
+            $(".headerContainer").css("opacity", 1 + $(window).scrollTop() / 250);
+            $(".headerContainer").css('pointer-events', 'all');
+        } else {
+            $(".headerContainer").css("opacity", 1 - $(window).scrollTop() / 350);
+            if ($(".headerContainer").css('opacity') < 0.5) {
+                $(".headerContainer").css('pointer-events', 'none');
+            }
+        }
+        this.oldScroll = this.scrollY;
     }
 
     $('.Xbtn').click(function () {
