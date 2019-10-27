@@ -84,6 +84,7 @@
 	 {"name":"The Fast And The Furious 6","date":"05/24/2013","image":"Others/theFastAndTheFurious6.jpg","group":41,"quality":"1080p","imdbId":"tt1905041","revenue":"788,679,850","trailer":"dKi5XoeTN0k","runtime":130},
 	 {"name":"Furious Seven","date":"04/03/2015","image":"Others/furiousSeven.jpg","group":41,"quality":"1080p","imdbId":"tt2820852","revenue":"1,516,045,911","trailer":"Skpu5HaVkOc","runtime":137},
 	 {"name":"The Fate Of The Furious","date":"04/14/2017","image":"Others/theFateOfTheFurious.jpg","group":41,"quality":"1080p","imdbId":"tt4630562","revenue":"1,236,005,118","trailer":"JwMKRevYa_M","runtime":106},
+	 {"name":"Fast & Furious Presents: Hobbs & Shaw","date":"08/02/2019","image":"Others/hobbsAndShaw.jpg","group":41,"quality":"1080p","imdbId":"tt6806448","revenue":"758,846,585","trailer":"HZ7PAyCDwEg","runtime":137},
 	 {"name":"The Fugitive","date":"08/06/1993","image":"Others/theFugitive.jpg","group":42,"quality":"1080p","imdbId":"tt0106977","revenue":"368,875,760","trailer":"ETPVU0acnrE","runtime":130},
 	 {"name":"The Hobbit: An Unexpected Journey","date":"12/14/2012","image":"Others/theHobbitAnUnexpectedJourney.jpg","group":43,"quality":"720p","imdbId":"tt0903624","revenue":"1,021,103,568","trailer":"SDnYMbYB-nU","runtime":169},
 	 {"name":"The Hobbit: The Desolation Of Smaug","date":"12/13/2013","image":"Others/theHobbitTheDesolationOfSmaug.jpg","group":43,"quality":"720p","imdbId":"tt1170358","revenue":"958,366,855","trailer":"fnaojlfdUbs","runtime":161},
