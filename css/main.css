@@ -672,6 +672,11 @@ p {
     color: white;
 }
 
+@media only screen and (max-width: 1300px) {
+    .resultName {
+        font-size: 1.3rem;
+    }
+}
 
 @media only screen and (max-width: 1200px) {
 
@@ -800,28 +805,6 @@ p {
         width: 30rem;
         height: 20rem;
     }
-
-    /* #favoritesGallery {
-        height: 50vh;
-    }
-
-    #favorites .popupCont {
-        height: 60vh;
-    }
-
-    .favoritesGalleryName {
-        font-size: .8rem;
-    }
-
-    .favoritesGalleryImg {
-        width: 100px;
-        height: 140px;
-        margin-top: 4rem;
-    }
-
-    #favorites .popupBtnsWrapper {
-        margin-top: 4rem;
-    } */
 }
 
 @media only screen and (max-width: 670px) {
@@ -974,6 +957,10 @@ p {
     }
 }
 @media only screen and (max-width: 400px) {
+
+    .resultName {
+        font-size: 1rem;
+    }
 
     #trailer .popupCont {
         padding-left: 1rem;
