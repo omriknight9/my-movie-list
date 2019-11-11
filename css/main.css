@@ -637,6 +637,7 @@ p {
     flex-wrap: wrap;
     -webkit-flex-wrap: wrap;
     overflow-x: scroll;
+    overflow-y: hidden;
 }
 
 .favoriteWrapper {
@@ -645,6 +646,7 @@ p {
     margin-right: 1rem;
     margin-left: 1rem;
     cursor: pointer;
+    text-align: center;
 }
 
 .favoritesGalleryName {
@@ -658,6 +660,16 @@ p {
     height: 200px;
     margin-top: 2rem;
     border-radius: 5px;
+}
+
+.favoritesBtnWrapper {
+    width: 100%;
+    text-align: center;
+}
+
+.removeFromFavoritesBtn {
+    background-color: black;
+    color: white;
 }
 
 
@@ -789,7 +801,7 @@ p {
         height: 20rem;
     }
 
-    #favoritesGallery {
+    /* #favoritesGallery {
         height: 50vh;
     }
 
@@ -802,14 +814,14 @@ p {
     }
 
     .favoritesGalleryImg {
-        width: 90px;
-        height: 130px;
+        width: 100px;
+        height: 140px;
         margin-top: 4rem;
     }
 
     #favorites .popupBtnsWrapper {
         margin-top: 4rem;
-    }
+    } */
 }
 
 @media only screen and (max-width: 670px) {
@@ -893,6 +905,33 @@ p {
     .imgWrapper img {
         margin-left: 1rem;
     }
+
+    #favoritesGallery {
+        height: 50vh;
+    }
+
+    #favorites .popupCont {
+        height: 60vh;
+    }
+
+    .favoritesGalleryName {
+        font-size: .8rem;
+    }
+
+    .favoritesGalleryImg {
+        width: 100px;
+        height: 140px;
+        margin-top: 4rem;
+    }
+
+    #favorites .popupBtnsWrapper {
+        margin-top: 4rem;
+    }
+
+    .removeFromFavoritesBtn {
+        width: 5rem;
+        height: 2rem;
+    }
 }
 
 @media only screen and (max-width: 470px) {
@@ -939,6 +978,14 @@ p {
     #trailer .popupCont {
         padding-left: 1rem;
         padding-right: 1rem;
+    }
+
+    #favorites .popupCont {
+        height: 75vh;
+    }
+
+    #favoritesGallery {
+        height: 62vh;
     }
 }
 
