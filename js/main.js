@@ -545,7 +545,7 @@ function buildMovies(div, wrapper, arr, type) {
                 let thisMovieImg = $(this).parent().find($('.movieImg')).attr('src');
                 e.stopPropagation();
                 if ($(this).attr('src') == './images/emptyStar.png') {
-                    $(this).attr('src', './images/Star.png');
+                    $(this).attr('src', './images/star.png');
                     localStorage.setItem(thisMovieName, thisMovieName);
 
                     let favoriteWrapper = $('<div>', {
