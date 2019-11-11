@@ -25,6 +25,7 @@ $(document).ready(function (event) {
     setTimeout(function() {
         let data;
         let parsedId;
+        let type;
         $.each($('.movieWrapper'), function (key, value) {
             let testMovieid = $(value).attr('numId');
             let testMovieType;
@@ -45,6 +46,7 @@ $(document).ready(function (event) {
 
             if (data) {
                 parsedId = JSON.parse(data).id;
+                type = JSON.parse(data).type;;
         
                 let thisMovieName = $(value).find($('.name')).html();
                 let thisMovieImg = $(value).find($('.movieImg')).attr('src');
@@ -53,9 +55,11 @@ $(document).ready(function (event) {
                 if (testMovieid === parsedId) {
                     $(that).attr('src', './images/star.png');
                     let favoriteWrapper = $('<div>', {
+                        'numId': testMovieid,
+                        'type': type,
                         class: 'favoriteWrapper',
                         click: function() {
-                            goToFavoriteMovie(thisMovieName);
+                            goToFavoriteMovie(testMovieid, $(this).attr('type'));
                         }
                     }).appendTo($('#favorites #favoritesGallery'));
     
@@ -136,6 +140,7 @@ $(document).ready(function (event) {
     }, 1500);
 
     $('#search').on('input', function () {
+        let resultType;
 
         searchVal = $('#search').val();
         lastChar = searchVal.substr(searchVal.length - 1);
@@ -151,15 +156,45 @@ $(document).ready(function (event) {
         });
 
         $.each($('.movieWrapper'), function (key, value) {
-            showResult($('.movieWrapper'), $('.movieImg'), $(this));
+            let movieNumId = $(value).attr('numId');
+            
+        if ($(value).hasClass('marvelMovie')) {
+            resultType = 1;
+        } else if ($(value).hasClass('dcMovie')) {
+            resultType = 2;
+        } else if ($(value).hasClass('otherMovie')) {
+            resultType = 3;
+        } else if ($(value).hasClass('animationMovie')) {
+            resultType = 4;
+        }
+            // showResult($('.movieWrapper'), $('.movieImg'), $(this), resultType);
+            showResult($('.movieWrapper'), $('.movieImg'), $(this), movieNumId, resultType);
         });
 
     })
 });
 
-function goToFavoriteMovie(name) {
-    $.each($('.movieWrapper'), function (key, value) {
-        if (name == $(value).find($('.name')).html()) {
+function goToFavoriteMovie(movieId, type) {
+
+    let typeToSearch;
+
+    switch(type) {
+        case '1': 
+            typeToSearch = '#marvelContainer .movieWrapper';
+        break;
+        case '2': 
+            typeToSearch = '#dcContainer .movieWrapper';
+        break;
+        case '3': 
+            typeToSearch = '#othersContainer .movieWrapper';
+        break;
+        case '4': 
+            typeToSearch = '#animationContainer .movieWrapper';
+        break;
+    }
+
+    $.each($(typeToSearch), function (key, value) {
+        if (movieId == $(value).attr('numId')) {
             goToResult($(value).parent());
             $('#favorites').hide();
             $('body').css('pointer-events', 'none');
@@ -171,16 +206,14 @@ function goToFavoriteMovie(name) {
     });
 }
 
-function showResult(div, img, that) {
+function showResult(div, img, that, resultNum, resultType) {
 
     for (let i = 0; i < $(that).length; i++) {
 
         let movieName = $($(that)[i]).attr('name');
-
         let movieImg = $($(that)[i]).find(img).attr('src');
-
         let searchValCapitalized = searchVal.charAt(0).toUpperCase() + searchVal.slice(1);
-
+        
         if (searchVal.length == 0 || $('.result').length < 1) {
             $('#searchResults').hide();
             $('#search').css({'border-bottom-right-radius': '5px', 'border-bottom-left-radius': '5px'});
@@ -204,13 +237,27 @@ function showResult(div, img, that) {
 
             let result = $('<div>', {
                 class: 'result',
+                'resultType': resultType,
+                'movieNum': resultNum,
                 click: function() {
+                    switch($(this).attr('resultType')) {
+                        case '1': 
+                            div = '#marvelContainer .movieWrapper';
+                        break;
+                        case '2': 
+                            div = '#dcContainer .movieWrapper';
+                        break;
+                        case '3': 
+                            div = '#othersContainer .movieWrapper';
+                        break;
+                        case '4': 
+                            div = '#animationContainer .movieWrapper';
+                        break;
+                    }
 
                     let that = this;
-                    let pickedName = $(that).find($('.resultName')).html();
-
                     $.each($(div), function (key, value) {
-                        if (pickedName == $(this).attr('name')) {
+                        if ($(that).attr('movieNum') == $(this).attr('numId')) {
                             $('body').css('pointer-events', 'none');
                             selectedDiv = this;
                             goToResult($(selectedDiv).parent());
@@ -591,16 +638,15 @@ function buildMovies(div, wrapper, arr, type) {
                 if ($(this).attr('src') == './images/emptyStar.png') {
                     $(this).attr('src', './images/star.png');
 
-                    let obj = {'id': thisMovieId, 'name': thisMovieName};
-
+                    let obj = {'id': thisMovieId, 'name': thisMovieName, 'type': type};
                     localStorage.setItem(div + 'Id_' + thisMovieId, JSON.stringify(obj));
 
                     let favoriteWrapper = $('<div>', {
                         'numId': thisMovieId,
-                        'type': div,
+                        'type': type,
                         class: 'favoriteWrapper',
                         click: function() {
-                            goToFavoriteMovie(thisMovieName);
+                            goToFavoriteMovie(thisMovieId, $(this).attr('type'));
                         }
                     }).appendTo($('#favorites #favoritesGallery'));
 
