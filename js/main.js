@@ -26,10 +26,10 @@ $(document).ready(function (event) {
         $.each($('.movieWrapper'), function (key, value) {
             let thisMovieName = $(value).find($('.name')).html();
             let thisMovieImg = $(value).find($('.movieImg')).attr('src');
+            let that = $(this).find($('.star'));
 
-            let that = $(this);
             if (thisMovieName === localStorage.getItem(thisMovieName)) {
-                $($(that).find($('.star')).attr('src', './images/star.png'));
+                $(that).attr('src', './images/star.png');
                 let favoriteWrapper = $('<div>', {
                     class: 'favoriteWrapper',
                     click: function() {
@@ -47,6 +47,21 @@ $(document).ready(function (event) {
                     class: 'favoritesGalleryImg',
                     alt: 'movie img'
                 }).appendTo(favoriteWrapper);
+
+                let favoritesBtnWrapper = $('<div>', {
+                    class: 'favoritesBtnWrapper',
+                }).appendTo(favoriteWrapper);
+
+                let removeFromFavoritesBtn = $('<button>', {
+                    text: 'Remove',
+                    class: 'removeFromFavoritesBtn',
+                    click: function(e) {
+                        e.stopPropagation();
+                        $(this).parent().parent().remove();
+                        localStorage.removeItem(thisMovieName);
+                        $(that).attr('src', './images/emptyStar.png');
+                    }
+                }).appendTo(favoritesBtnWrapper);
 
             } else {
                 $($(that).find($('.star')).attr('src', './images/emptyStar.png'));
@@ -543,6 +558,7 @@ function buildMovies(div, wrapper, arr, type) {
             click: function(e) {
                 let thisMovieName = $(this).parent().find($('.name')).html();
                 let thisMovieImg = $(this).parent().find($('.movieImg')).attr('src');
+                let that = $(this)
                 e.stopPropagation();
                 if ($(this).attr('src') == './images/emptyStar.png') {
                     $(this).attr('src', './images/star.png');
@@ -565,6 +581,21 @@ function buildMovies(div, wrapper, arr, type) {
                         class: 'favoritesGalleryImg',
                         alt: 'movie img'
                     }).appendTo(favoriteWrapper);
+
+                    let favoritesBtnWrapper = $('<div>', {
+                        class: 'favoritesBtnWrapper',
+                    }).appendTo(favoriteWrapper);
+    
+                    let removeFromFavoritesBtn = $('<button>', {
+                        text: 'Remove',
+                        class: 'removeFromFavoritesBtn',
+                        click: function(e) {
+                            e.stopPropagation();
+                            $(this).parent().parent().remove();
+                            localStorage.removeItem(thisMovieName);
+                            $(that).attr('src', './images/emptyStar.png');
+                        }
+                    }).appendTo(favoritesBtnWrapper);
 
                 } else {
                     $(this).attr('src', './images/emptyStar.png');
