@@ -618,7 +618,7 @@ p {
 }
 
 #favorites .popupCont {
-    height: 40vh;
+    height: 45vh;
 }
 
 #favorites .popupBtnsWrapper .popupBtn {
@@ -626,7 +626,7 @@ p {
 }
 
 #favoritesGallery {
-    height: 33vh;
+    height: 38vh;
     width: 100%;
     display: flex;
     flex-direction: column;
