@@ -39,7 +39,7 @@ $(document).ready(function (event) {
 
                 let favoriteNamePop = $('<p>', {
                     text: thisMovieName,
-                    class: 'favoritesGalleryImgName'
+                    class: 'favoritesGalleryName'
                 }).appendTo(favoriteWrapper);
 
                 let favoriteiImgPop = $('<img>', {
@@ -557,7 +557,7 @@ function buildMovies(div, wrapper, arr, type) {
 
                     let favoriteNamePop = $('<p>', {
                         text: thisMovieName,
-                        class: 'favoritesGalleryImgName'
+                        class: 'favoritesGalleryName'
                     }).appendTo(favoriteWrapper);
 
                     let favoriteiImgPop = $('<img>', {
@@ -820,9 +820,17 @@ function goToTop() {
     }
 }
 
-
 function goToFavorites() {
     $('#favorites').show();
+
+    $.each($('.favoriteWrapper'), function (key, value) {
+        let thisMovieName = $(value).find($('.favoritesGalleryName')).html();
+
+        if (thisMovieName === localStorage.getItem(thisMovieName)) {
+        } else {
+            $(value).remove();
+        }
+    });
 }
 
 function scrollBtn() {
