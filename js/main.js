@@ -555,6 +555,7 @@ function buildMovies(div, wrapper, arr, type) {
         let star = $('<img>', {
             class: 'star',
             src: './images/emptyStar.png',
+            alt: 'star img',
             click: function(e) {
                 let thisMovieName = $(this).parent().find($('.name')).html();
                 let thisMovieImg = $(this).parent().find($('.movieImg')).attr('src');
