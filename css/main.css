@@ -647,7 +647,7 @@ p {
     cursor: pointer;
 }
 
-.favoritesGalleryImgName {
+.favoritesGalleryName {
     position: absolute;
     top: -1rem;
     margin: 0;
@@ -797,7 +797,7 @@ p {
         height: 60vh;
     }
 
-    .favoritesGalleryImgName {
+    .favoritesGalleryName {
         font-size: .8rem;
     }
 
