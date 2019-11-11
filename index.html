@@ -65,6 +65,7 @@
 
     <img src="images/upBtn3.png" alt="up arrow" class="goToTopBtn" onclick="goToTop()" />
     <img src="images/upBtn2.png" alt="up arrow" class="goToTopBtn2" onclick="goToTop()" />
+    <img src="images/star.png" alt="star img" class="goToFavorites" onclick="goToFavorites()" />
 
     <!----------------POPUPS---------------->
 
@@ -121,5 +122,18 @@
             </div>
         </div>
     </div>
+
+
+    <div id="favorites" class="popUpInfo">
+        <div class="popupCont">
+            <div class="popupContent"></div>
+            <div class="Xbtn"></div>
+            <div id="favoritesGallery"></div>
+            <div class="popupBtnsWrapper">
+                <button class="popupBtn" id="" onclick="closeCurrentPopup($(this))">Close</button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
