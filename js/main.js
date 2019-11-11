@@ -20,21 +20,40 @@ let searchVal;
 
 $(document).ready(function (event) {
 
-    if ($(window).width() > 765) {
-
-        setTimeout(function () {
-            let script = $('<script>', {
-                src: './js/tilt.js'
-            }).appendTo($('body'))
-
-        }, 2500);
-
-        setTimeout(function () {
-            $('.imgWrapperContainer').attr('data-tilt', '');
-        }, 1500);
-    }
-
     loadJson();
+
+    setTimeout(function(){
+        $.each($('.movieWrapper'), function (key, value) {
+            let thisMovieName = $(value).find($('.name')).html();
+            let thisMovieImg = $(value).find($('.movieImg')).attr('src');
+
+            let that = $(this);
+            if (thisMovieName === localStorage.getItem(thisMovieName)) {
+                $($(that).find($('.star')).attr('src', '../images/star.png'));
+                let favoriteWrapper = $('<div>', {
+                    class: 'favoriteWrapper',
+                    click: function() {
+                        goToFavoriteMovie(thisMovieName);
+                    }
+                }).appendTo($('#favorites #favoritesGallery'));
+
+                let favoriteNamePop = $('<p>', {
+                    text: thisMovieName,
+                    class: 'favoritesGalleryImgName'
+                }).appendTo(favoriteWrapper);
+
+                let favoriteiImgPop = $('<img>', {
+                    src: thisMovieImg,
+                    class: 'favoritesGalleryImg',
+                    alt: 'movie img'
+                }).appendTo(favoriteWrapper);
+
+            } else {
+                $($(that).find($('.star')).attr('src', '../images/emptyStar.png'));
+            }
+        });
+    }, 1000)
+
 
     window.onbeforeunload = function () {
         window.scrollTo(0, 0);
@@ -98,6 +117,20 @@ $(document).ready(function (event) {
 
     })
 });
+
+function goToFavoriteMovie(name) {
+    $.each($('.movieWrapper'), function (key, value) {
+        if (name == $(value).find($('.name')).html()) {
+            goToResult($(value).parent());
+            $('#favorites').hide();
+            $('body').css('pointer-events', 'none');
+            setTimeout(function() {
+                $(value).click();
+                $('body').css('pointer-events', 'all');
+            }, 1500)
+        }
+    });
+}
 
 function showResult(div, img, that) {
 
@@ -449,7 +482,6 @@ function buildMovies(div, wrapper, arr, type) {
 
         let movieWrapper = $('<div>', {
             class: 'movieWrapper ' + div,
-            'data-tilt': '',
             'name': movies[i].name,
             'movieId': movieType,
             'quality': movies[i].quality,
@@ -504,6 +536,42 @@ function buildMovies(div, wrapper, arr, type) {
         }).appendTo(groupWrapper);
 
         let newDate = new Date(movies[i].date);
+
+        let star = $('<img>', {
+            class: 'star',
+            src: '../images/emptyStar.png',
+            click: function(e) {
+                let thisMovieName = $(this).parent().find($('.name')).html();
+                let thisMovieImg = $(this).parent().find($('.movieImg')).attr('src');
+                e.stopPropagation();
+                if ($(this).attr('src') == '../images/emptyStar.png') {
+                    $(this).attr('src', '../images/Star.png');
+                    localStorage.setItem(thisMovieName, thisMovieName);
+
+                    let favoriteWrapper = $('<div>', {
+                        class: 'favoriteWrapper',
+                        click: function() {
+                            goToFavoriteMovie(thisMovieName);
+                        }
+                    }).appendTo($('#favorites #favoritesGallery'));
+
+                    let favoriteNamePop = $('<p>', {
+                        text: thisMovieName,
+                        class: 'favoritesGalleryImgName'
+                    }).appendTo(favoriteWrapper);
+
+                    let favoriteiImgPop = $('<img>', {
+                        src: thisMovieImg,
+                        class: 'favoritesGalleryImg',
+                        alt: 'movie img'
+                    }).appendTo(favoriteWrapper);
+
+                } else {
+                    $(this).attr('src', '../images/emptyStar.png');
+                    localStorage.removeItem(thisMovieName, thisMovieName);
+                }             
+            }
+        }).appendTo(movieWrapper);
 
         let movieName = $('<p>', {
             class: 'name',
@@ -637,7 +705,6 @@ function buildTvShow(div, wrapper, arr) {
 
         let tvShowWrapper = $('<div>', {
             class: 'tvShowWrapper ' + div,
-            'data-tilt': '',
             'year': tvShows[i].year,
             'name': tvShows[i].name,
             'movieId': tvShowType,
@@ -751,6 +818,11 @@ function goToTop() {
             $('.goToTopBtn').css('bottom', '4rem');
         }, 2300)
     }
+}
+
+
+function goToFavorites() {
+    $('#favorites').show();
 }
 
 function scrollBtn() {
