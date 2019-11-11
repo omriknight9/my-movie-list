@@ -29,7 +29,7 @@ $(document).ready(function (event) {
 
             let that = $(this);
             if (thisMovieName === localStorage.getItem(thisMovieName)) {
-                $($(that).find($('.star')).attr('src', '../images/star.png'));
+                $($(that).find($('.star')).attr('src', './images/star.png'));
                 let favoriteWrapper = $('<div>', {
                     class: 'favoriteWrapper',
                     click: function() {
@@ -49,7 +49,7 @@ $(document).ready(function (event) {
                 }).appendTo(favoriteWrapper);
 
             } else {
-                $($(that).find($('.star')).attr('src', '../images/emptyStar.png'));
+                $($(that).find($('.star')).attr('src', './images/emptyStar.png'));
             }
         });
     }, 1000)
@@ -539,13 +539,13 @@ function buildMovies(div, wrapper, arr, type) {
 
         let star = $('<img>', {
             class: 'star',
-            src: '../images/emptyStar.png',
+            src: './images/emptyStar.png',
             click: function(e) {
                 let thisMovieName = $(this).parent().find($('.name')).html();
                 let thisMovieImg = $(this).parent().find($('.movieImg')).attr('src');
                 e.stopPropagation();
-                if ($(this).attr('src') == '../images/emptyStar.png') {
-                    $(this).attr('src', '../images/Star.png');
+                if ($(this).attr('src') == './images/emptyStar.png') {
+                    $(this).attr('src', './images/Star.png');
                     localStorage.setItem(thisMovieName, thisMovieName);
 
                     let favoriteWrapper = $('<div>', {
@@ -567,7 +567,7 @@ function buildMovies(div, wrapper, arr, type) {
                     }).appendTo(favoriteWrapper);
 
                 } else {
-                    $(this).attr('src', '../images/emptyStar.png');
+                    $(this).attr('src', './images/emptyStar.png');
                     localStorage.removeItem(thisMovieName, thisMovieName);
                 }             
             }
