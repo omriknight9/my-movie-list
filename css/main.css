@@ -410,7 +410,7 @@ p {
 }
 
 .name {
-    margin-top: 2.5rem;
+    margin-top: 3rem;
 }
 
 .star {
@@ -424,7 +424,7 @@ p {
 .marvelMovie, .dcMovie, .otherMovie, .animationMovie, .tvShow {
     position: relative;
     width: 20rem;
-    height: 18rem;
+    height: 19rem;
     padding-bottom: 2rem;
 }
 
@@ -458,8 +458,8 @@ p {
 }
 
 .goToFavorites {
-    width: 100px;
-    height: 90px;
+    width: 80px;
+    height: 80px;
     cursor: pointer;
     position: fixed;
     bottom: 4rem;
@@ -476,6 +476,40 @@ p {
     bottom: 2rem;
     right: 1rem;
     z-index: 999;
+}
+
+#favoritesMsgWrapper {
+    position: fixed;
+    bottom: 3rem;
+    height: 4rem;
+    width: 100%;
+    text-align: center;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+#favoritesAddedMsg, #favoritesRemovedMsg {
+    display: none;
+    width: 80%;
+    height: 100%;
+    margin: auto;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: rgba(0, 0, 0, .6);
+    border-radius: 10px;
+    z-index: 1000;
+
+}
+
+#favoritesAddedMsg p, #favoritesRemovedMsg p {
+    width: 60%;
+    color: white;
+    font-size: 2rem;
+    margin: auto;
+    z-index: 1000;
 }
 
 /*------------------------Popups-------------------------*/
@@ -801,10 +835,20 @@ p {
         height: 80px;
     }
 
+    #favoritesAddedMsg p, #favoritesRemovedMsg p {
+        font-size: 1rem;
+    }
+
     #trailer .popupCont {
         width: 30rem;
         height: 20rem;
     }
+
+    .goToFavorites {
+        width: 60px;
+        height: 60px;
+        bottom: 2rem;
+    } 
 }
 
 @media only screen and (max-width: 670px) {
@@ -930,7 +974,7 @@ p {
 
     .marvelMovie, .dcMovie, .otherMovie, .animationMovie, .tvShow {
         width: 9rem;
-        height: 20rem;
+        height: 21rem;
     }
 }
 
@@ -956,6 +1000,10 @@ p {
         width: 75px;
         height: 45px;
     }
+
+    #favoritesAddedMsg, #favoritesRemovedMsg {
+        bottom: 4rem;
+    } 
 }
 @media only screen and (max-width: 400px) {
 
@@ -975,9 +1023,19 @@ p {
     #favoritesGallery {
         height: 62vh;
     }
+
+    #movieDetails .popupCont {
+        padding: 2.2em;
+    }
 }
 
 @media only screen and (max-width: 370px) {
+
+    .goToFavorites {
+        width: 50px;
+        height: 50px;
+        bottom: 1rem;
+    } 
 
     .marvelMovie, .dcMovie, .otherMovie, .animationMovie, .tvShow {
         width: 7rem;
