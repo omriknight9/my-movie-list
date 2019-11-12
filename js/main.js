@@ -746,31 +746,31 @@ function buildMovies(div, wrapper, arr, type) {
         if (movies[i].group % 2 == 0) {
             switch (movieWrapper.attr('class')) {
                 case 'movieWrapper marvelMovie':
-                    $(movieWrapper).css('background-color', 'lightblue');
+                    $(movieWrapper).css('background-color', '#FCF6F5FF');
                     break;
                 case 'movieWrapper dcMovie':
-                    $(movieWrapper).css({'background-color': '#e62429', 'color': 'white' });
+                    $(movieWrapper).css({'background-color': '#DFDCE5FF'});
                     break;
                 case 'movieWrapper otherMovie':
-                    $(movieWrapper).css({ 'background-color': 'crimson', 'color': 'white' });
+                    $(movieWrapper).css({ 'background-color': '#FCF6F5FF'});
                     break;
                 case 'movieWrapper animationMovie':
-                    $(movieWrapper).css('background-color', 'silver');
+                    $(movieWrapper).css('background-color', '#DFDCE5FF');
                     break;
             }
         } else {
             switch (movieWrapper.attr('class')) {
                 case 'movieWrapper marvelMovie':
-                    $(movieWrapper).css('background-color', 'orange');
+                    $(movieWrapper).css('background-color', '#DFDCE5FF');
                     break;
                 case 'movieWrapper dcMovie':
-                    $(movieWrapper).css('background-color', 'lightgreen');
+                    $(movieWrapper).css('background-color', '#FCF6F5FF');
                     break;
                 case 'movieWrapper otherMovie':
-                    $(movieWrapper).css('background-color', 'aqua');
+                    $(movieWrapper).css('background-color', '#DFDCE5FF');
                     break;
                 case 'movieWrapper animationMovie':
-                    $(movieWrapper).css({'background-color': 'purple', 'color': 'white'});
+                    $(movieWrapper).css({'background-color': '#FCF6F5FF'});
                     break;
             }
         }
@@ -903,9 +903,9 @@ function buildTvShow(div, wrapper, arr) {
 
         if (tvShows[i].group % 2 == 0) {
 
-            $(tvShowWrapper).css('background-color', 'lightblue');
+            $(tvShowWrapper).css('background-color', '#DFDCE5FF');
         } else {
-            $(tvShowWrapper).css('background-color', 'lightgreen');
+            $(tvShowWrapper).css('background-color', '#FCF6F5FF');
         }
     }
 }
