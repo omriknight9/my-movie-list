@@ -46,7 +46,7 @@ main {
     -webkit-transition: .5s;
     -o-transition: .5s;
     -moz-transition: .5s;
-    z-index: 3;
+    z-index: 9999;
 }
 
 .imgWrapper {
@@ -371,27 +371,73 @@ p {
 
 #marvelContainer {
     display: none;
-    background-color: #e62429;
+    position: relative;
+    background-image: linear-gradient(to right,gray, white);
+
+}
+
+#marvelContainer::after {
+    content: '';
+    background: linear-gradient(to right, transparent, red, transparent);
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
 }
 
 #dcContainer {
     display: none;
-    background-color: #0282f9;
+    position: relative;
+    background-image: linear-gradient(to right,gray, white);
 }
+
+#dcContainer::after {
+    content: '';
+    background: linear-gradient(to right, transparent, blue, transparent);
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+}
+
 
 #othersContainer {
     display: none;
-    background-color: rgba(100, 100, 255, .9);
+    position: relative;
+    background-image: linear-gradient(to right,gray, white);
+}
+
+#othersContainer::after {
+    content: '';
+    background: linear-gradient(to right, transparent, orange, transparent);
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
 }
 
 #animationContainer {
     display: none;
-    background-color: rgba(100, 200, 100, .9);
+    position: relative;
+    background-image: linear-gradient(to right,gray, white);
+}
+
+#animationContainer::after {
+    content: '';
+    background: linear-gradient(to right, transparent, purple, transparent);
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
 }
 
 #tvShowContainer {
     display: none;
-    background-color: rgba(170, 100, 90, .9);
+    background-image: linear-gradient(to right,gray, white);
 }
 
 .movieWrapper, .tvShowWrapper {
@@ -405,8 +451,6 @@ p {
     -o-transition: .3s;
     -moz-transition: .3s;
     cursor: pointer;
-    transform-style: preserve-3d;
-    -webkit-transform-style: preserve-3d;
 }
 
 .name {
@@ -517,7 +561,7 @@ p {
 .popUpInfo {
     display: none;
     position: fixed;
-    z-index: 999;
+    z-index: 10000;
     width: 100%;
     height: 100%;
     min-height: 900px;
@@ -540,6 +584,7 @@ p {
     right: 0;
     margin: auto;
     border-radius: 10px;
+    background-image: linear-gradient(to right,white, lightgray);
 }
 
 .popupContent {
