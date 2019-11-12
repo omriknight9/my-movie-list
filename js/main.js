@@ -629,6 +629,7 @@ function buildMovies(div, wrapper, arr, type) {
             src: './images/emptyStar.png',
             alt: 'star img',
             click: function(e) {
+
                 let thisMovieId = $(this).parent().attr('numId');
                 let thisMovieName = $(this).parent().find($('.name')).html();
                 let thisMovieImg = $(this).parent().find($('.movieImg')).attr('src');
@@ -637,6 +638,19 @@ function buildMovies(div, wrapper, arr, type) {
                 e.stopPropagation();
                 if ($(this).attr('src') == './images/emptyStar.png') {
                     $(this).attr('src', './images/star.png');
+
+                    $('body').css('pointer-events', 'none');
+
+                    $('#favoritesAddedMsg').fadeTo('fast', 0, function() {
+                        $(this).css('display', 'flex');
+                    }).fadeTo('fast', 1);
+
+                    setTimeout(function() {
+                        $('#favoritesAddedMsg').fadeTo('fast', 0, function() {
+                            $(this).css('display', 'none');
+                        }).fadeTo('fast', 1);
+                        $('body').css('pointer-events', 'all');
+                    }, 1000);
 
                     let obj = {'id': thisMovieId, 'name': thisMovieName, 'type': type};
                     localStorage.setItem(div + 'Id_' + thisMovieId, JSON.stringify(obj));
@@ -678,7 +692,28 @@ function buildMovies(div, wrapper, arr, type) {
 
                 } else {
                     $(this).attr('src', './images/emptyStar.png');
-                    localStorage.removeItem(thisMovieName, thisMovieName);
+                    localStorage.removeItem(div + 'Id_' + thisMovieId);
+
+                    $.each($('.favoriteWrapper'), function (key, value) {
+                        
+                        if (thisMovieId == $(value).attr('numId') && type == $(value).attr('type')) {
+                            $(value).remove();
+                        }
+                    });
+
+                    $('#favoritesRemovedMsg').fadeTo('fast', 0, function() {
+                        $(this).css('display', 'flex');
+                    }).fadeTo('fast', 1);
+
+                    $('body').css('pointer-events', 'none');
+
+                    setTimeout(function() {
+
+                        $('#favoritesRemovedMsg').fadeTo('fast', 0, function() {
+                            $(this).css('display', 'none');
+                        }).fadeTo('fast', 1);
+                        $('body').css('pointer-events', 'all');
+                    }, 1000);
                 }             
             }
         }).appendTo(movieWrapper);
