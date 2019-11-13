@@ -40,7 +40,7 @@ main {
     top: 0;
     width: 100%;
     height: 15rem;
-    background-image: linear-gradient(to right, rgba(0, 200, 180, .95), rgba(200,180,200,.95));
+    background-image: linear-gradient(to right, rgba(200, 200, 200, .95), rgba(50,50,50,.95));
     box-shadow: 0 3px 8px 3px #848484;
     transition: .5s;
     -webkit-transition: .5s;
@@ -349,7 +349,7 @@ p {
     position: relative;
 }
 
-.evenGroup::after {
+/* .evenGroup::after {
     content: '';
     background: linear-gradient(to right, transparent, #3a47e4, transparent);
     position: absolute;
@@ -367,6 +367,90 @@ p {
     bottom: 0;
     width: 100%;
     height: 1px;
+} */
+
+hr {
+    overflow: visible;
+    height: 30px;
+    width: 80%;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px 0 0 0;
+    border-radius: 20px;
+}
+hr:before {
+    display: block;
+    content: "";
+    height: 30px;
+    margin-top: -31px;
+    border-style: solid;
+    border-color: black;
+    border-width: 0 0 1px 0;
+    border-radius: 20px;
+}
+
+.headerLogo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -25px;
+    margin-top: -30px;
+    height: 60px;
+    width: 50px;
+    padding: 0 5px;
+    /* background: url(../images/ironman.png) no-repeat 50% 50%;
+    background-size: 70px 60px; */
+}
+
+.line {
+    position: relative;
+    overflow: visible;
+    width: 80%;
+    height: 2px;
+    /* background-color: #ddd; */
+    /* background: linear-gradient(to right, transparent, red, transparent); */
+    /* border: 1px solid linear-gradient(to right, transparent, blue, transparent); */
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    /* background: linear-gradient(to right, transparent, blue, transparent); */
+}
+
+.lineMarvel {
+    background: linear-gradient(to right, transparent, red, transparent);
+}
+
+.lineMarvel span {
+    background: url(../images/ironman.png) no-repeat 50% 50%;
+    background-size: 70px 60px;
+}
+
+.lineDc {
+    background: linear-gradient(to right, transparent, blue, transparent);
+}
+
+.lineDc span {
+    background: url(../images/superman.png) no-repeat 50% 50%;
+    background-size: 60px 60px;
+}
+
+.lineOthers {
+    background: linear-gradient(to right, transparent, orange, transparent);
+}
+
+.lineOthers span {
+    background: url(../images/others.png) no-repeat 50% 50%;
+    background-size: 60px 60px;
+}
+
+.lineAnimation {
+    background: linear-gradient(to right, transparent, purple, transparent);
+}
+
+.lineAnimation span {
+    background: url(../images/disney.png) no-repeat 50% 50%;
+    background-size: 110px 60px;
+    width: 100px;
+    margin-left: -69px;
 }
 
 #marvelContainer {
@@ -376,7 +460,7 @@ p {
 
 }
 
-#marvelContainer::after {
+/* #marvelContainer::after {
     content: '';
     background: linear-gradient(to right, transparent, red, transparent);
     position: absolute;
@@ -384,15 +468,16 @@ p {
     bottom: 0;
     width: 100%;
     height: 2px;
-}
+} */
 
 #dcContainer {
     display: none;
     position: relative;
+    /* background-image: linear-gradient(to right,gray, white); */
     background-image: linear-gradient(to right,gray, white);
 }
 
-#dcContainer::after {
+/* #dcContainer::after {
     content: '';
     background: linear-gradient(to right, transparent, blue, transparent);
     position: absolute;
@@ -400,8 +485,7 @@ p {
     bottom: 0;
     width: 100%;
     height: 1px;
-}
-
+} */
 
 #othersContainer {
     display: none;
@@ -409,7 +493,7 @@ p {
     background-image: linear-gradient(to right,gray, white);
 }
 
-#othersContainer::after {
+/* #othersContainer::after {
     content: '';
     background: linear-gradient(to right, transparent, orange, transparent);
     position: absolute;
@@ -417,7 +501,7 @@ p {
     bottom: 0;
     width: 100%;
     height: 1px;
-}
+} */
 
 #animationContainer {
     display: none;
@@ -425,7 +509,7 @@ p {
     background-image: linear-gradient(to right,gray, white);
 }
 
-#animationContainer::after {
+/* #animationContainer::after {
     content: '';
     background: linear-gradient(to right, transparent, purple, transparent);
     position: absolute;
@@ -433,7 +517,7 @@ p {
     bottom: 0;
     width: 100%;
     height: 1px;
-}
+} */
 
 #tvShowContainer {
     display: none;
