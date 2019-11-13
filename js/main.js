@@ -381,6 +381,7 @@ function buildMovies(div, wrapper, arr, type) {
     let typeSortClick;
     let typeShowClick;
     let typeU;
+    let headerLineClass;
 
     switch (type) {
         case 1:
@@ -394,6 +395,7 @@ function buildMovies(div, wrapper, arr, type) {
             typeSortClick = $('#marvelContainer');
             typeShowClick = '.marvelMovie';
             typeU = 'mcu';
+            headerLineClass = 'lineMarvel';
             break;
         case 2:
             headerText = 'DC';
@@ -406,17 +408,20 @@ function buildMovies(div, wrapper, arr, type) {
             typeSortClick = $('#dcContainer');
             typeShowClick = '.dcMovie';
             typeU = 'dceu';
+            headerLineClass = 'lineDc';
 
             break;
         case 3:
             headerText = 'Others';
             btnClass = 'othersBtn';
             typeSortClick = $('#othersContainer');
+            headerLineClass = 'lineOthers';
             break;
         case 4:
             headerText = 'Animations';
             btnClass = 'animationBtn';
             typeSortClick = $('#animationContainer');
+            headerLineClass = 'lineAnimation';
             break;
     }
 
@@ -424,6 +429,14 @@ function buildMovies(div, wrapper, arr, type) {
         class: 'typeheader',
         text: headerText
     }).appendTo(wrapper);
+
+    let headerLine = $('<div>', {
+        class: 'line ' + headerLineClass,
+    }).appendTo(wrapper);
+
+    let headerLogo = $('<span>', {
+        class: 'headerLogo',
+    }).appendTo(headerLine);
 
     let btnWrapper = $('<div>', {
         class: 'btnWrapper',
@@ -556,6 +569,10 @@ function buildMovies(div, wrapper, arr, type) {
             groupWrapper = $('<div>', {
                 class: "group" + groupStr + ' groupWrapper'
             }).appendTo(wrapper);
+
+            var line = $('<hr>', {
+
+            }).appendTo(groupWrapper);
 
             if (groupStr % 2 == 0) {
                 $(groupWrapper).addClass('evenGroup');
