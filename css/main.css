@@ -349,26 +349,6 @@ p {
     position: relative;
 }
 
-/* .evenGroup::after {
-    content: '';
-    background: linear-gradient(to right, transparent, #3a47e4, transparent);
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 1px;
-}
-
-.oddGroup::after {
-    content: '';
-    background: linear-gradient(to right, transparent, #3fe09b, transparent);
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 1px;
-} */
-
 hr {
     overflow: visible;
     position: absolute;
@@ -380,6 +360,7 @@ hr {
     border-width: 1px 0 0 0;
     border-radius: 20px;
 }
+
 hr:before {
     display: block;
     content: "";
@@ -845,6 +826,14 @@ hr:before {
 
 @media only screen and (max-width: 1200px) {
 
+    .groupWrapper {
+        margin-bottom: 2rem;
+    }
+    
+    hr {
+        bottom: -2.5rem;
+    }
+
     .sortContent {
         width: 70%;
     }
@@ -860,6 +849,7 @@ hr:before {
 
     .movieWrapper, .tvShowWrapper {
         margin: 1rem;
+        margin-bottom: 2rem;
     }
 }
 
