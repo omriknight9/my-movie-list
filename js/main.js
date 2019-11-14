@@ -348,6 +348,8 @@ function loadJson() {
             buildTvShow('tvShow', $('#tvShowContainer'), tvShows);
         }, 500);
     });
+
+    addHr();
 }
 
 function goToDiv(div) {
@@ -790,14 +792,18 @@ function buildMovies(div, wrapper, arr, type) {
     }
 }
 
-setTimeout(function() {
-    $('.groupWrapper:not(:last-child)').each(function() {
+function addHr() {
+    setTimeout(function() {
+        $('.groupWrapper:not(:last-child)').each(function() {
+    
+            var line = $('<hr>', {
+                class: 'hrLine'
+            }).appendTo($(this));
+        });
+    }, 2000)
+}
 
-        var line = $('<hr>', {
 
-        }).appendTo($(this));
-    });
-}, 2000)
 
 function sort(div, num) {
 
@@ -1041,6 +1047,8 @@ function scrollBtn() {
 }
 
 function sortMovies(container, elem1, kind) {
+
+    $('.hrLine').remove()
 
     $('.groupWrapper').removeClass('oddGroup');
     $('.groupWrapper').removeClass('evenGroup');
