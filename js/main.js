@@ -197,6 +197,17 @@ function goToFavoriteMovie(movieId, type) {
     $.each($(typeToSearch), function (key, value) {
         if (movieId == $(value).attr('numId')) {
             goToResult($(value).parent());
+
+            $(value).css({border: '0 solid black'}).animate({
+                borderWidth: 6
+            }, 500);
+
+            setTimeout(function() {
+                $(value).css({border: '0 solid black'}).animate({
+                    borderWidth: 0
+                }, 500);
+            }, 3000)
+
             $('#favorites').hide();
             $('body').css('pointer-events', 'none');
             setTimeout(function() {
@@ -269,7 +280,7 @@ function showResult(div, img, that, resultNum, resultType) {
                                 borderWidth: 6
                             }, 500);
 
-                            setTimeout(function(){
+                            setTimeout(function() {
                                 $(selectedDiv).css({border: '0 solid black'}).animate({
                                     borderWidth: 0
                                 }, 500);
