@@ -570,10 +570,6 @@ function buildMovies(div, wrapper, arr, type) {
                 class: "group" + groupStr + ' groupWrapper'
             }).appendTo(wrapper);
 
-            var line = $('<hr>', {
-
-            }).appendTo(groupWrapper);
-
             if (groupStr % 2 == 0) {
                 $(groupWrapper).addClass('evenGroup');
             } else {
@@ -793,6 +789,15 @@ function buildMovies(div, wrapper, arr, type) {
         }
     }
 }
+
+setTimeout(function() {
+    $('.groupWrapper:not(:last-child)').each(function() {
+
+        var line = $('<hr>', {
+
+        }).appendTo($(this));
+    });
+}, 2000)
 
 function sort(div, num) {
 
