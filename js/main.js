@@ -355,6 +355,7 @@ function loadJson() {
 }
 
 function goToDiv(div) {
+   
     if ($(window).width() > 765) {
         $('html, body').animate({ scrollTop: $(div).position().top -210 }, 'slow');
     } else {
@@ -363,11 +364,11 @@ function goToDiv(div) {
 }
 
 function goToResult(div) {
-
+    
     if ($(window).width() < 765) {
-        $('html, body').animate({ scrollTop: $(div).position().top -200 }, 1500); 
+        $('html, body').animate({ scrollTop: $(div).position().top +150 }, 1500); 
     } else {
-        $('html, body').animate({ scrollTop: $(div).position().top -240 }, 1500);
+        $('html, body').animate({ scrollTop: $(div).position().top +200 }, 1500);
     }
 }
 
