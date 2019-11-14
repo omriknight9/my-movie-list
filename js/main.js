@@ -22,82 +22,6 @@ $(document).ready(function (event) {
 
     loadJson();
 
-    setTimeout(function() {
-        let data;
-        let parsedId;
-        let type;
-        $.each($('.movieWrapper'), function (key, value) {
-            let testMovieid = $(value).attr('numId');
-            let testMovieType;
-            
-            if ($(value).hasClass('marvelMovie')) {
-                data = localStorage.getItem('marvelMovieId_' + testMovieid);
-                testMovieType = 'marvelMovie';
-            } else if ($(value).hasClass('dcMovie')) {
-                data = localStorage.getItem('dcMovieId_' + testMovieid);
-                testMovieType = 'dcMovieId_';
-            } else if ($(value).hasClass('otherMovie')) {
-                data = localStorage.getItem('otherMovieId_' + testMovieid);
-                testMovieType = 'otherMovie';
-            } else if ($(value).hasClass('animationMovie')) {
-                data = localStorage.getItem('animationMovieId_' + testMovieid);
-                testMovieType = 'animationMovie';
-            }
-
-            if (data) {
-                parsedId = JSON.parse(data).id;
-                type = JSON.parse(data).type;;
-        
-                let thisMovieName = $(value).find($('.name')).html();
-                let thisMovieImg = $(value).find($('.movieImg')).attr('src');
-                let that = $(this).find($('.star'));
-    
-                if (testMovieid === parsedId) {
-                    $(that).attr('src', './images/star.png');
-                    let favoriteWrapper = $('<div>', {
-                        'numId': testMovieid,
-                        'type': type,
-                        class: 'favoriteWrapper',
-                        click: function() {
-                            goToFavoriteMovie(testMovieid, $(this).attr('type'));
-                        }
-                    }).appendTo($('#favorites #favoritesGallery'));
-    
-                    let favoriteNamePop = $('<p>', {
-                        text: thisMovieName,
-                        class: 'favoritesGalleryName'
-                    }).appendTo(favoriteWrapper);
-    
-                    let favoriteiImgPop = $('<img>', {
-                        src: thisMovieImg,
-                        class: 'favoritesGalleryImg',
-                        alt: 'movie img'
-                    }).appendTo(favoriteWrapper);
-    
-                    let favoritesBtnWrapper = $('<div>', {
-                        class: 'favoritesBtnWrapper',
-                    }).appendTo(favoriteWrapper);
-    
-                    let removeFromFavoritesBtn = $('<button>', {
-                        text: 'Remove',
-                        class: 'removeFromFavoritesBtn',
-                        click: function(e) {
-                            e.stopPropagation();
-                            $(this).parent().parent().remove();
-                            localStorage.removeItem(testMovieType + 'Id_' + testMovieid);
-                            $(that).attr('src', './images/emptyStar.png');
-                        }
-                    }).appendTo(favoritesBtnWrapper);
-    
-                } else {
-                    $($(that).find($('.star')).attr('src', './images/emptyStar.png'));
-                }
-            }
-
-        });
-    }, 1000)
-
-
     window.onbeforeunload = function () {
         window.scrollTo(0, 0);
     }
@@ -173,6 +97,83 @@ $(document).ready(function (event) {
 
     })
 });
+
+function checkLocalStorage() {
+    setTimeout(function() {
+        let data;
+        let parsedId;
+        let type;
+        $.each($('.movieWrapper'), function (key, value) {
+            let testMovieid = $(value).attr('numId');
+            let testMovieType;
+            
+            if ($(value).hasClass('marvelMovie')) {
+                data = localStorage.getItem('marvelMovieId_' + testMovieid);
+                testMovieType = 'marvelMovie';
+            } else if ($(value).hasClass('dcMovie')) {
+                data = localStorage.getItem('dcMovieId_' + testMovieid);
+                testMovieType = 'dcMovieId_';
+            } else if ($(value).hasClass('otherMovie')) {
+                data = localStorage.getItem('otherMovieId_' + testMovieid);
+                testMovieType = 'otherMovie';
+            } else if ($(value).hasClass('animationMovie')) {
+                data = localStorage.getItem('animationMovieId_' + testMovieid);
+                testMovieType = 'animationMovie';
+            }
+    
+            if (data) {
+                parsedId = JSON.parse(data).id;
+                type = JSON.parse(data).type;;
+        
+                let thisMovieName = $(value).find($('.name')).html();
+                let thisMovieImg = $(value).find($('.movieImg')).attr('src');
+                let that = $(this).find($('.star'));
+    
+                if (testMovieid === parsedId) {
+                    $(that).attr('src', './images/star.png');
+                    let favoriteWrapper = $('<div>', {
+                        'numId': testMovieid,
+                        'type': type,
+                        class: 'favoriteWrapper',
+                        click: function() {
+                            goToFavoriteMovie(testMovieid, $(this).attr('type'));
+                        }
+                    }).appendTo($('#favorites #favoritesGallery'));
+    
+                    let favoriteNamePop = $('<p>', {
+                        text: thisMovieName,
+                        class: 'favoritesGalleryName'
+                    }).appendTo(favoriteWrapper);
+    
+                    let favoriteiImgPop = $('<img>', {
+                        src: thisMovieImg,
+                        class: 'favoritesGalleryImg',
+                        alt: 'movie img'
+                    }).appendTo(favoriteWrapper);
+    
+                    let favoritesBtnWrapper = $('<div>', {
+                        class: 'favoritesBtnWrapper',
+                    }).appendTo(favoriteWrapper);
+    
+                    let removeFromFavoritesBtn = $('<button>', {
+                        text: 'Remove',
+                        class: 'removeFromFavoritesBtn',
+                        click: function(e) {
+                            e.stopPropagation();
+                            $(this).parent().parent().remove();
+                            localStorage.removeItem(testMovieType + 'Id_' + testMovieid);
+                            $(that).attr('src', './images/emptyStar.png');
+                        }
+                    }).appendTo(favoritesBtnWrapper);
+    
+                } else {
+                    $($(that).find($('.star')).attr('src', './images/emptyStar.png'));
+                }
+            }
+    
+        });
+    }, 1000)
+}
 
 function goToFavoriteMovie(movieId, type) {
 
@@ -350,6 +351,7 @@ function loadJson() {
     });
 
     addHr();
+    checkLocalStorage();
 }
 
 function goToDiv(div) {
