@@ -1055,6 +1055,8 @@ function sortMovies(container, elem1, kind) {
     $('.groupWrapper').removeClass('oddGroup');
     $('.groupWrapper').removeClass('evenGroup');
 
+    $('.groupWrapper').css('margin-bottom', 0);
+
     let btnWrapper = $(container).find($('.btnWrapper'));
 
     if ($(btnWrapper).attr('kind') == kind) {
