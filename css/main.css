@@ -529,7 +529,7 @@ hr:before {
     right: 0;
     width: 50px;
     height: 40px;
-    z-index: 999;
+    z-index: 1;
 }
 
 .marvelMovie, .dcMovie, .otherMovie, .animationMovie, .tvShow {
