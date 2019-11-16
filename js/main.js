@@ -196,8 +196,10 @@ function goToFavoriteMovie(movieId, type) {
 
     $.each($(typeToSearch), function (key, value) {
         if (movieId == $(value).attr('numId')) {
-            goToResult($(value).parent());
+            console.log($(value).parent().position().top);
+            let finalDivToGoTo = Number($(value).parent().parent().position().top) + Number($(value).parent().position().top);
 
+            goToResult(finalDivToGoTo);
             $(value).css({border: '0 solid black'}).animate({
                 borderWidth: 6
             }, 500);
@@ -272,7 +274,9 @@ function showResult(div, img, that, resultNum, resultType) {
                         if ($(that).attr('movieNum') == $(this).attr('numId')) {
                             $('body').css('pointer-events', 'none');
                             selectedDiv = this;
-                            goToResult($(selectedDiv).parent());
+                            let finalDivToGoTo = Number($(selectedDiv).parent().parent().position().top) + Number($(selectedDiv).parent().position().top);
+                
+                            goToResult(finalDivToGoTo);
 
                             $('#movieDetails').addClass('animated');
 
@@ -375,11 +379,10 @@ function goToDiv(div) {
 }
 
 function goToResult(div) {
-    
     if ($(window).width() < 765) {
-        $('html, body').animate({ scrollTop: $(div).position().top +150 }, 1500); 
+        $('html, body').animate({ scrollTop: div -150 }, 1500); 
     } else {
-        $('html, body').animate({ scrollTop: $(div).position().top +200 }, 1500);
+        $('html, body').animate({ scrollTop: div -120 }, 1500);
     }
 }
 
@@ -1083,6 +1086,7 @@ function sortMovies(container, elem1, kind) {
         $('#othersContainer').empty();
         $('#animationContainer').empty();
         $('#tvShowContainer').empty();
+        $('#favoritesGallery').empty();
     }
 
     let children;
