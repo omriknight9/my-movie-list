@@ -20,23 +20,6 @@ let searchVal;
 
 $(document).ready(function (event) {
 
-    var image=document.getElementById('marvelContainer');
-
-    image.addEventListener('gesturechange',function(e){
-
-        if(e.scale > 1) {
-            $('body').css('background-color', 'red');
-            //zoom in 
-            //increase the size of image according to the e.scale
-        }
-
-        else if(e.scale < 1) {
-            $('body').css('background-color', 'blue');
-            //zoom out 
-            //decrease the size of image according to the e.scale
-        }
-    });
-
     loadJson();
 
     window.onbeforeunload = function () {
