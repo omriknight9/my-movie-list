@@ -957,25 +957,25 @@ function buildTvShow(div, wrapper, arr) {
 
 function showCinematicUniverse(div, elem) {
     for (let i = 0; i < $(div).length; i++) {
-        $($(div)[i]).show();
+        $($(div)[i]).parent().show();
         if ($($(div)[i]).attr(elem) == 'false') {
-            $($(div)[i]).hide();
+            $($(div)[i]).parent().hide();
         }
     }
 }
 
 function hideCinematicUniverse(div, elem) {
     for (let i = 0; i < $(div).length; i++) {
-        $($(div)[i]).show();
+        $($(div)[i]).parent().show();
         if ($($(div)[i]).attr(elem) == 'true') {
-            $($(div)[i]).hide();
+            $($(div)[i]).parent().hide();
         }
     }
 }
 
 function allOfKind(div) {
     for (let i = 0; i < $(div).length; i++) {
-        $($(div)[i]).show();
+        $($(div)[i]).parent().show();
         switch (cinematicType) {
             case 1:
                 marvelCinematicCounter = 1;
@@ -1065,7 +1065,7 @@ function scrollBtn() {
 
 function sortMovies(container, elem1, kind) {
 
-    $('.hrLine').remove()
+    $('.hrLine').remove();
 
     $('.groupWrapper').removeClass('oddGroup');
     $('.groupWrapper').removeClass('evenGroup');
