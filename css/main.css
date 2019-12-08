@@ -829,10 +829,6 @@ hr:before {
     .groupWrapper {
         padding-bottom: 2rem;
     }
-    
-    hr {
-        bottom: -2.5rem;
-    }
 
     .sortContent {
         width: 70%;
