@@ -30,7 +30,7 @@
 	 {"id":29,"name":"Inglourious Basterds","date":"08/21/2009","image":"Others/inglouriousBasterds.jpg","group":17,"quality":"720p","imdbId":"tt0361748","revenue":"321,455,689","trailer":"KnrRy6kSFF0","runtime":153},
 	 {"id":30,"name":"It","date":"11/18/1990","image":"Others/it(1990).jpg","group":18,"quality":"720p","imdbId":"tt0099864","revenue":"Unknown","trailer":"m5JO8wtNnzQ","runtime":192},
 	 {"id":31,"name":"It","date":"09/08/2017","image":"Others/it(2017).jpg","group":18,"quality":"1080p","imdbId":"tt1396484","revenue":"700,381,748","trailer":"hAUTdjf9rko","runtime":135},
-	 {"id":32,"name":"It Chapter Two","date":"09/06/2019","image":"Others/itChapterTwo.jpg","group":18,"quality":"1080p","imdbId":"tt7349950","revenue":"470,493,228","trailer":"xhJ5P7Up3jA","runtime":179},
+	 {"id":32,"name":"It Chapter Two","date":"09/06/2019","image":"Others/itChapterTwo.jpg","group":18,"quality":"1080p","imdbId":"tt7349950","revenue":"470,493,228","trailer":"xhJ5P7Up3jA","runtime":169},
 	 {"id":33,"name":"Jaws","date":"06/20/1975","image":"Others/jaws.jpg","group":20,"quality":"720p","imdbId":"tt0073195","revenue":"470,653,000","trailer":"YIhxgIZJSbk","runtime":124},
 	 {"id":34,"name":"John Wick","date":"10/24/2014","image":"Others/johnWick.jpg","group":21,"quality":"1080p","imdbId":"tt2911666","revenue":"88,761,661","trailer":"2AUmvWm5ZDQ","runtime":101},
 	 {"id":35,"name":"John Wick Chapter 2","date":"02/10/2017","image":"Others/johnWickChapter2.jpg","group":21,"quality":"1080p","imdbId":"tt4425200","revenue":"171,539,887","trailer":"XGk2EfbD_Ps","runtime":122},
