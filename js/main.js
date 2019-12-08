@@ -18,6 +18,10 @@ let selectedDiv;
 let lastChar;
 let searchVal;
 
+let mcuWasSorted = false;
+
+let dceuWasSorted = false;
+
 $(document).ready(function (event) {
 
     loadJson();
@@ -91,7 +95,6 @@ $(document).ready(function (event) {
         } else if ($(value).hasClass('animationMovie')) {
             resultType = 4;
         }
-            // showResult($('.movieWrapper'), $('.movieImg'), $(this), resultType);
             showResult($('.movieWrapper'), $('.movieImg'), $(this), movieNumId, resultType);
         });
 
@@ -196,7 +199,6 @@ function goToFavoriteMovie(movieId, type) {
 
     $.each($(typeToSearch), function (key, value) {
         if (movieId == $(value).attr('numId')) {
-            console.log($(value).parent().position().top);
             let finalDivToGoTo = Number($(value).parent().parent().position().top) + Number($(value).parent().position().top);
 
             goToResult(finalDivToGoTo);
@@ -518,22 +520,22 @@ function buildMovies(div, wrapper, arr, type) {
                 if (type == 1) {
                     cinematicType = 1;
                     if (marvelCinematicCounter == 1) {
-                        showCinematicUniverse(typeShowClick, typeU);
+                        showCinematicUniverse(typeShowClick, typeU, mcuWasSorted);
                         marvelCinematicCounter = 2;
                         $(this).html(nonCinematicUBtnText);
                     } else {
-                        hideCinematicUniverse(typeShowClick, typeU);
+                        hideCinematicUniverse(typeShowClick, typeU, mcuWasSorted);
                         marvelCinematicCounter = 1;
                         $(this).html(cinematicUBtnText);
                     }
                 } else if (type == 2) {
                     cinematicType = 2;
                     if (dcCinematicCounter == 1) {
-                        showCinematicUniverse(typeShowClick, typeU);
+                        showCinematicUniverse(typeShowClick, typeU, dceuWasSorted);
                         dcCinematicCounter = 2;
                         $(this).html(nonCinematicUBtnText);
                     } else {
-                        hideCinematicUniverse(typeShowClick, typeU);
+                        hideCinematicUniverse(typeShowClick, typeU, dceuWasSorted);
                         dcCinematicCounter = 1;
                         $(this).html(cinematicUBtnText);
                     }
@@ -552,7 +554,11 @@ function buildMovies(div, wrapper, arr, type) {
             id: allTypeBtnId,
             text: allTypeBtnText,
             click: function () {
-                allOfKind(typeShowClick);
+                if (type == 1) {
+                    allOfKind(typeShowClick, mcuWasSorted);
+                } else if (type == 2) {
+                    allOfKind(typeShowClick, dceuWasSorted);
+                }
             }
         }).appendTo(btnWrapper);
     }
@@ -955,27 +961,64 @@ function buildTvShow(div, wrapper, arr) {
     }
 }
 
-function showCinematicUniverse(div, elem) {
+function showCinematicUniverse(div, elem, sorted) {
+
+    if (sorted) {
+        $('#marvelContainer').find('.groupWrapper').hide();
+    }
+
+    $('.hrLine').hide();
     for (let i = 0; i < $(div).length; i++) {
-        $($(div)[i]).parent().show();
+        $($(div)[i]).show();
         if ($($(div)[i]).attr(elem) == 'false') {
-            $($(div)[i]).parent().hide();
+            $($(div)[i]).hide();
+        }
+    }
+
+    for (let j = 0; j < $(div).length; j++) {
+        let testDiv2 = $($($(div)[j]).parent())[0];
+        if ($(testDiv2).children(':visible').length == 0) {
+            $($(testDiv2).find($('.hrLine')).hide());
+            $(testDiv2).css('padding-bottom', 0);
+        } else {
+            $($(testDiv2).find($('.hrLine')).show());
+            $(testDiv2).css('padding-bottom', '2rem');
         }
     }
 }
 
-function hideCinematicUniverse(div, elem) {
+function hideCinematicUniverse(div, elem, sorted) {
+
+    $('.hrLine').hide();
+
     for (let i = 0; i < $(div).length; i++) {
-        $($(div)[i]).parent().show();
+        $($(div)[i]).show();
         if ($($(div)[i]).attr(elem) == 'true') {
-            $($(div)[i]).parent().hide();
+            $($(div)[i]).hide();
+        }
+    }
+
+    for (let j = 0; j < $(div).length; j++) {
+        let testDiv2 = $($($(div)[j]).parent())[0];
+        if ($(testDiv2).children(':visible').length == 0) {
+            $($(testDiv2).find($('.hrLine')).hide());
+            $(testDiv2).css('padding-bottom', 0);
+        } else {
+            $($(testDiv2).find($('.hrLine')).show());
+            $(testDiv2).css('padding-bottom', '2rem');
         }
     }
 }
 
-function allOfKind(div) {
+function allOfKind(div, sorted) {
+
     for (let i = 0; i < $(div).length; i++) {
-        $($(div)[i]).parent().show();
+
+        let testDiv2 = $($($(div)[i]).parent())[0];
+        $($(testDiv2).find($('.hrLine')).show());
+        $(testDiv2).css('padding-bottom', '2rem');
+
+        $($(div)[i]).show();
         switch (cinematicType) {
             case 1:
                 marvelCinematicCounter = 1;
@@ -1070,7 +1113,7 @@ function sortMovies(container, elem1, kind) {
     $('.groupWrapper').removeClass('oddGroup');
     $('.groupWrapper').removeClass('evenGroup');
 
-    $('.groupWrapper').css('margin-bottom', 0);
+    $('.groupWrapper').css('padding-bottom', 0);
 
     let btnWrapper = $(container).find($('.btnWrapper'));
 
@@ -1087,6 +1130,8 @@ function sortMovies(container, elem1, kind) {
         $('#animationContainer').empty();
         $('#tvShowContainer').empty();
         $('#favoritesGallery').empty();
+        mcuWasSorted = false;
+        dceuWasSorted = false;
     }
 
     let children;
@@ -1134,6 +1179,8 @@ function sortMovies(container, elem1, kind) {
                 }
                 $(btnWrapper).attr('kind', kind);
                 $('.groupSortBtn').css('pointer-events', 'all');
+                mcuWasSorted = true;
+                dceuWasSorted = true;
                 break;
             case 2:
                 switch (counter) {
@@ -1158,6 +1205,8 @@ function sortMovies(container, elem1, kind) {
                             }
                         });
                         counter = 1;
+                        mcuWasSorted = true;
+                        dceuWasSorted = true;
                         break;
                 }
                 $(btnWrapper).attr('kind', kind);
@@ -1187,7 +1236,6 @@ function sortMovies(container, elem1, kind) {
                         setTimeout(function () {
                             $('#disney').click();
                         }, 1200)
-
                         break;
                 }
                 loadJson();
@@ -1218,6 +1266,8 @@ function sortMovies(container, elem1, kind) {
                             }
                         });
                         counter = 1;
+                        mcuWasSorted = true;
+                        dceuWasSorted = true;
                         break;
                 }
                 $(btnWrapper).attr('kind', kind);
