@@ -786,6 +786,10 @@ hr:before {
 
 @media only screen and (max-width: 1200px) {
 
+    hr {
+        bottom: -1.5rem;
+    }
+
     .groupWrapper {
         padding-bottom: 2rem;
     }
