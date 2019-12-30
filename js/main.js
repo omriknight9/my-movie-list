@@ -19,8 +19,9 @@ let lastChar;
 let searchVal;
 
 let mcuWasSorted = false;
-
 let dceuWasSorted = false;
+
+let buildCounter = 0;
 
 $(document).ready(function (event) {
 
@@ -330,34 +331,40 @@ function capitalize(str) {
 }
 
 function loadJson() {
-    
-    $.get('./lists/marvel.txt', function (data) {
-        marvelMovies.push(JSON.parse(data));
-        buildMovies('marvelMovie', $('#marvelContainer'), marvelMovies, 1);
+
+    var promise1 = new Promise(function (resolve) {
+        resolve(getInfo('marvel', marvelMovies, 'marvelMovie', $('#marvelContainer'), 1));
     });
 
-    $.get('./lists/dc.txt', function (data) {
-        dcMovies.push(JSON.parse(data));
-        buildMovies('dcMovie', $('#dcContainer'), dcMovies, 2);
+    promise1.then(function () {
+        getInfo('dc', dcMovies, 'dcMovie', $('#dcContainer'), 2);
     });
 
-    $.get('./lists/others.txt', function (data) {
-        otherMovies.push(JSON.parse(data));
-        buildMovies('otherMovie', $('#othersContainer'), otherMovies, 3);
+    promise1.then(function () {
+        getInfo('others', otherMovies, 'otherMovie', $('#othersContainer'), 3);
     });
 
-    $.get('./lists/animation.txt', function (data) {
-        animationMovies.push(JSON.parse(data));
-        buildMovies('animationMovie', $('#animationContainer'), animationMovies, 4);
+    promise1.then(function () {
+        getInfo('animation', animationMovies, 'animationMovie', $('#animationContainer'), 4);
     });
 
-    $.get('./lists/tvShows.txt', function (data) {
-        tvShows.push(JSON.parse(data));
-        buildTvShow('tvShow', $('#tvShowContainer'), tvShows);
+    promise1.then(function () {
+        $.get('./lists/tvShows.txt', function (data) {
+            tvShows.push(JSON.parse(data));
+            buildTvShow('tvShow', $('#tvShowContainer'), tvShows);
+        });
     });
 
-    addHr();
-    checkLocalStorage();
+    promise1.then(function () {
+        checkLocalStorage();
+    });
+}
+
+function getInfo(textFile, arr, div, container, type) {
+    $.get('./lists/' + textFile + '.txt', function (data) {
+        arr.push(JSON.parse(data));
+        buildMovies(div, container, arr, type);
+    });
 }
 
 function goToDiv(div) {
@@ -378,6 +385,9 @@ function goToResult(div) {
 }
 
 function buildMovies(div, wrapper, arr, type) {
+
+    buildCounter++;
+
     $('#trailerVideo').attr('src', '');
 
     let movies = arr[0].movies;
@@ -802,20 +812,22 @@ function buildMovies(div, wrapper, arr, type) {
             }
         }
     }
+
+    if (buildCounter == 4) {
+        addHr();
+    }
 }
 
 function addHr() {
     setTimeout(function() {
+        $('hr').remove();
         $('.groupWrapper:not(:last-child)').each(function() {
-    
-            var line = $('<hr>', {
+            let line = $('<hr>', {
                 class: 'hrLine'
             }).appendTo($(this));
         });
-    }, 2000)
+    }, 500)
 }
-
-
 
 function sort(div, num) {
 
@@ -1227,6 +1239,8 @@ function sortMovies(container, elem1, kind) {
                         }, 1200)
                         break;
                 }
+
+                buildCounter = 0;
                 loadJson();
                 setTimeout(function () {
                     $('.spinnerWrapper').hide();
