@@ -64,8 +64,7 @@ $(document).ready(function (event) {
         $('#othersContainer').css('display', 'flex');
         $('#animationContainer').css('display', 'flex');
         $('#tvShowContainer').css('display', 'flex');
-        
-    }, 1500);
+    }, 500);
 
     $('#search').on('input', function () {
         let resultType;
@@ -334,37 +333,27 @@ function loadJson() {
     
     $.get('./lists/marvel.txt', function (data) {
         marvelMovies.push(JSON.parse(data));
-        setTimeout(function () {
-            buildMovies('marvelMovie', $('#marvelContainer'), marvelMovies, 1);
-        }, 500);
+        buildMovies('marvelMovie', $('#marvelContainer'), marvelMovies, 1);
     });
 
     $.get('./lists/dc.txt', function (data) {
         dcMovies.push(JSON.parse(data));
-        setTimeout(function () {
-            buildMovies('dcMovie', $('#dcContainer'), dcMovies, 2);
-        }, 500);
+        buildMovies('dcMovie', $('#dcContainer'), dcMovies, 2);
     });
 
     $.get('./lists/others.txt', function (data) {
         otherMovies.push(JSON.parse(data));
-        setTimeout(function () {
-            buildMovies('otherMovie', $('#othersContainer'), otherMovies, 3);
-        }, 500);
+        buildMovies('otherMovie', $('#othersContainer'), otherMovies, 3);
     });
 
     $.get('./lists/animation.txt', function (data) {
         animationMovies.push(JSON.parse(data));
-        setTimeout(function () {
-            buildMovies('animationMovie', $('#animationContainer'), animationMovies, 4);
-        }, 500);
+        buildMovies('animationMovie', $('#animationContainer'), animationMovies, 4);
     });
 
     $.get('./lists/tvShows.txt', function (data) {
         tvShows.push(JSON.parse(data));
-        setTimeout(function () {
-            buildTvShow('tvShow', $('#tvShowContainer'), tvShows);
-        }, 500);
+        buildTvShow('tvShow', $('#tvShowContainer'), tvShows);
     });
 
     addHr();
