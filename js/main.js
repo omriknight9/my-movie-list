@@ -968,7 +968,8 @@ function showCinematicUniverse(div, elem, sorted) {
         $('#marvelContainer').find('.groupWrapper').hide();
     }
 
-    $('.hrLine').hide();
+    $(div).parent().find($('.hrLine')).hide();
+
     for (let i = 0; i < $(div).length; i++) {
         $($(div)[i]).show();
         if ($($(div)[i]).attr(elem) == 'false') {
@@ -990,7 +991,7 @@ function showCinematicUniverse(div, elem, sorted) {
 
 function hideCinematicUniverse(div, elem, sorted) {
 
-    $('.hrLine').hide();
+    $(div).parent().find($('.hrLine')).hide();
 
     for (let i = 0; i < $(div).length; i++) {
         $($(div)[i]).show();
@@ -1016,7 +1017,7 @@ function allOfKind(div, sorted) {
     for (let i = 0; i < $(div).length; i++) {
 
         let testDiv2 = $($($(div)[i]).parent())[0];
-        $($(testDiv2).find($('.hrLine')).show());
+        $(div).parent().find($('.hrLine')).show();
         $(testDiv2).css('padding-bottom', '2rem');
 
         $($(div)[i]).show();
@@ -1109,8 +1110,6 @@ function scrollBtn() {
 
 function sortMovies(container, elem1, kind) {
 
-    $('.hrLine').remove();
-
     $('.groupWrapper').removeClass('oddGroup');
     $('.groupWrapper').removeClass('evenGroup');
 
@@ -1144,6 +1143,8 @@ function sortMovies(container, elem1, kind) {
         } else {
             children = $(this).find('.movieWrapper');
         }
+
+        $(children).parent().find($('.hrLine')).hide();
 
         for (i = 0, len = children.length; i < len; i++) {
             obj = {};
