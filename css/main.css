@@ -381,8 +381,6 @@ hr:before {
     height: 60px;
     width: 50px;
     padding: 0 5px;
-    /* background: url(../images/ironman.png) no-repeat 50% 50%;
-    background-size: 70px 60px; */
 }
 
 .line {
@@ -390,12 +388,8 @@ hr:before {
     overflow: visible;
     width: 80%;
     height: 2px;
-    /* background-color: #ddd; */
-    /* background: linear-gradient(to right, transparent, red, transparent); */
-    /* border: 1px solid linear-gradient(to right, transparent, blue, transparent); */
     border-collapse: collapse;
     margin-bottom: 2rem;
-    /* background: linear-gradient(to right, transparent, blue, transparent); */
 }
 
 .lineMarvel {
@@ -443,32 +437,11 @@ hr:before {
 
 }
 
-/* #marvelContainer::after {
-    content: '';
-    background: linear-gradient(to right, transparent, red, transparent);
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 2px;
-} */
-
 #dcContainer {
     display: none;
     position: relative;
-    /* background-image: linear-gradient(to right,gray, white); */
     background-image: linear-gradient(to right,gray, white);
 }
-
-/* #dcContainer::after {
-    content: '';
-    background: linear-gradient(to right, transparent, blue, transparent);
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 1px;
-} */
 
 #othersContainer {
     display: none;
@@ -476,31 +449,11 @@ hr:before {
     background-image: linear-gradient(to right,gray, white);
 }
 
-/* #othersContainer::after {
-    content: '';
-    background: linear-gradient(to right, transparent, orange, transparent);
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 1px;
-} */
-
 #animationContainer {
     display: none;
     position: relative;
     background-image: linear-gradient(to right,gray, white);
 }
-
-/* #animationContainer::after {
-    content: '';
-    background: linear-gradient(to right, transparent, purple, transparent);
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 1px;
-} */
 
 #tvShowContainer {
     display: none;
@@ -521,7 +474,14 @@ hr:before {
 }
 
 .name {
+    margin: auto;
     margin-top: 3rem;
+    width: 94%;
+}
+
+.date {
+    margin: auto;
+    width: 94%;
 }
 
 .star {
