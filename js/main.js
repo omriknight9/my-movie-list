@@ -80,7 +80,8 @@ $(document).ready(function (event) {
         }
 
         $.each($('.tvShowWrapper'), function (key, value) {
-            showResult($('.tvShowWrapper'),$('.tvShowImg'), $(this));
+            let tvShowNumId = $(value).attr('numId');
+            showResult($('.tvShowWrapper'),$('.tvShowImg'), $(this), tvShowNumId);
         });
 
         $.each($('.movieWrapper'), function (key, value) {
@@ -97,7 +98,6 @@ $(document).ready(function (event) {
         }
             showResult($('.movieWrapper'), $('.movieImg'), $(this), movieNumId, resultType);
         });
-
     })
 });
 
@@ -901,6 +901,7 @@ function buildTvShow(div, wrapper, arr) {
         let tvShowType = tvShows[i].group;
 
         let tvShowWrapper = $('<div>', {
+            'numId': tvShows[i].id,
             class: 'tvShowWrapper ' + div,
             'year': tvShows[i].year,
             'name': tvShows[i].name,
