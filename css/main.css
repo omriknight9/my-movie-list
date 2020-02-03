@@ -669,12 +669,12 @@ hr:before {
     margin-bottom: 6rem;
 }
 
-#movieImdbLink, #tvShowImdbLink {
+#movieImdbLink, #tvShowImdbLink, #moviePopcornLink {
     margin: 1.5rem;
     z-index: 2;
 }
 
-#movieImdbImage, #tvShowImdbImage {
+#movieImdbImage, #tvShowImdbImage, #moviePopcornImage {
     width: 100px;
     height: 100px;
 }
@@ -999,6 +999,11 @@ hr:before {
 
 @media only screen and (max-width: 500px) {
 
+    #movieImdbImage, #tvShowImdbImage, #moviePopcornImage, #movieYoutubeImage, #tvShowYoutubeImage {
+        width: 50px;
+        height: 50px;
+    }
+
     .resultName {
         font-size: 1.2rem;
     }
@@ -1130,11 +1135,6 @@ hr:before {
 }
 
 @media only screen and (max-width: 350px) {
-
-    #movieImdbImage, #tvShowImdbImage, #movieYoutubeImage, #tvShowYoutubeImage {
-        width: 75px;
-        height: 75px;
-    }
 
     .Xbtn {
         width: 20px;
