@@ -616,6 +616,7 @@ function buildMovies(div, wrapper, arr, type) {
             'date': movies[i].date,
             'mcu': movies[i].mcu,
             'dceu': movies[i].dceu,
+            'value': movies[i].value,
             click: function () {
                 if ($(this).attr('revenue') == undefined || $(this).attr('revenue') == 'Unknown') {
                     $('.movieRevenuePop').hide();
@@ -629,6 +630,7 @@ function buildMovies(div, wrapper, arr, type) {
                 $('.movieNamePop').html($(this).attr('name'));
                 $('.movieQualityPop').html('Quality: ' + $(this).attr('quality'));
                 $('#movieImdbLink').attr('href', 'https://www.imdb.com/title/' + $(this).attr('imdbId'));
+                $('#moviePopcornLink').attr('href', 'https://omriknight9.github.io/omris-movies/?title=' + $(this).attr('name') + '&value=' + $(this).attr('value'));
                 $('#trailerVideo').attr('src', 'https://www.youtube.com/embed/' + $(this).attr('trailer'));
                 $('#movieDetails').fadeIn(150);
 
