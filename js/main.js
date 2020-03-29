@@ -369,11 +369,7 @@ function getInfo(textFile, arr, div, container, type) {
 
 function goToDiv(div) {
    
-    if ($(window).width() > 765) {
-        $('html, body').animate({ scrollTop: $(div).position().top -210 }, 'slow');
-    } else {
-        $('html, body').animate({ scrollTop: $(div).position().top -190}, 'slow');
-    }
+    document.querySelector(div).scrollIntoView({ behavior: 'smooth' });
 }
 
 function goToResult(div) {
@@ -382,6 +378,10 @@ function goToResult(div) {
     } else {
         $('html, body').animate({ scrollTop: div -120 }, 1500);
     }
+
+    setTimeout(function() {
+        $("html, body").animate({scrollTop: $(window).scrollTop() + 10});
+    }, 2000);
 }
 
 function buildMovies(div, wrapper, arr, type) {
