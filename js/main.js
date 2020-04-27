@@ -1,6 +1,7 @@
 
 let marvelMovies = [];
 let dcMovies = [];
+let valiantMovies = [];
 let otherMovies = [];
 let animationMovies = [];
 let tvShows = [];
@@ -11,7 +12,8 @@ let dcCinematicCounter = 1;
 
 let marvelCounter = 1;
 let DCCounter = 1;
-let OthersCounter = 1;
+let valiantCounter = 1;
+let othersCounter = 1;
 let animationCounter = 1;
 
 let selectedDiv;
@@ -62,6 +64,7 @@ $(document).ready(function (event) {
         $('button').show();
         $('#marvelContainer').css('display', 'flex');
         $('#dcContainer').css('display', 'flex');
+        $('#valiantContainer').css('display', 'flex');
         $('#othersContainer').css('display', 'flex');
         $('#animationContainer').css('display', 'flex');
         $('#tvShowContainer').css('display', 'flex');
@@ -91,10 +94,12 @@ $(document).ready(function (event) {
             resultType = 1;
         } else if ($(value).hasClass('dcMovie')) {
             resultType = 2;
-        } else if ($(value).hasClass('otherMovie')) {
+        }else if ($(value).hasClass('valiantMovie')) {
             resultType = 3;
-        } else if ($(value).hasClass('animationMovie')) {
+        } else if ($(value).hasClass('otherMovie')) {
             resultType = 4;
+        } else if ($(value).hasClass('animationMovie')) {
+            resultType = 5;
         }
             showResult($('.movieWrapper'), $('.movieImg'), $(this), movieNumId, resultType);
         });
@@ -116,6 +121,9 @@ function checkLocalStorage() {
             } else if ($(value).hasClass('dcMovie')) {
                 data = localStorage.getItem('dcMovieId_' + testMovieid);
                 testMovieType = 'dcMovieId_';
+            }else if ($(value).hasClass('valiantMovie')) {
+                data = localStorage.getItem('valiantMovieId_' + testMovieid);
+                testMovieType = 'valiantMovieId_';
             } else if ($(value).hasClass('otherMovie')) {
                 data = localStorage.getItem('otherMovieId_' + testMovieid);
                 testMovieType = 'otherMovie';
@@ -173,7 +181,6 @@ function checkLocalStorage() {
                     $($(that).find($('.star')).attr('src', './images/emptyStar.png'));
                 }
             }
-    
         });
     }, 1000)
 }
@@ -190,9 +197,12 @@ function goToFavoriteMovie(movieId, type) {
             typeToSearch = '#dcContainer .movieWrapper';
         break;
         case '3': 
-            typeToSearch = '#othersContainer .movieWrapper';
+            typeToSearch = '#valiantContainer .movieWrapper';
         break;
         case '4': 
+            typeToSearch = '#othersContainer .movieWrapper';
+        break;
+        case '5': 
             typeToSearch = '#animationContainer .movieWrapper';
         break;
     }
@@ -264,9 +274,12 @@ function showResult(div, img, that, resultNum, resultType) {
                             div = '#dcContainer .movieWrapper';
                         break;
                         case '3': 
-                            div = '#othersContainer .movieWrapper';
+                            div = '#valiantContainer .movieWrapper';
                         break;
                         case '4': 
+                            div = '#othersContainer .movieWrapper';
+                        break;
+                        case '5': 
                             div = '#animationContainer .movieWrapper';
                         break;
                     }
@@ -341,11 +354,15 @@ function loadJson() {
     });
 
     promise1.then(function () {
-        getInfo('others', otherMovies, 'otherMovie', $('#othersContainer'), 3);
+        getInfo('valiant', valiantMovies, 'valiantMovie', $('#valiantContainer'), 3);
     });
 
     promise1.then(function () {
-        getInfo('animation', animationMovies, 'animationMovie', $('#animationContainer'), 4);
+        getInfo('others', otherMovies, 'otherMovie', $('#othersContainer'), 4);
+    });
+
+    promise1.then(function () {
+        getInfo('animation', animationMovies, 'animationMovie', $('#animationContainer'), 5);
     });
 
     promise1.then(function () {
@@ -368,7 +385,6 @@ function getInfo(textFile, arr, div, container, type) {
 }
 
 function goToDiv(div) {
-   
     document.querySelector(div).scrollIntoView({ behavior: 'smooth' });
 }
 
@@ -429,15 +445,20 @@ function buildMovies(div, wrapper, arr, type) {
             typeShowClick = '.dcMovie';
             typeU = 'dceu';
             headerLineClass = 'lineDc';
-
             break;
         case 3:
+            headerText = 'Valiant';
+            btnClass = 'valiantBtn';
+            typeSortClick = $('#valiantContainer');
+            headerLineClass = 'lineValiant';
+            break;
+        case 4:
             headerText = 'Others';
             btnClass = 'othersBtn';
             typeSortClick = $('#othersContainer');
             headerLineClass = 'lineOthers';
             break;
-        case 4:
+        case 5:
             headerText = 'Animations';
             btnClass = 'animationBtn';
             typeSortClick = $('#animationContainer');
@@ -542,7 +563,8 @@ function buildMovies(div, wrapper, arr, type) {
                 $('.sortContainer').fadeOut('fast');
                 marvelCounter = 1;
                 DCCounter = 1;
-                OthersCounter = 1;
+                valiantCounter = 1;
+                othersCounter = 1;
                 animationCounter = 1;
             }
 
@@ -843,7 +865,8 @@ function sort(div, num) {
                 $(div).find($('.sortContainer')).fadeIn('fast');
                 marvelCounter = 2;
                 DCCounter = 1;
-                OthersCounter = 1;
+                valiantCounter = 1;
+                othersCounter = 1;
                 animationCounter = 1;
             } else {
                 $(div).find($('.sortContainer')).fadeOut('fast');
@@ -855,7 +878,8 @@ function sort(div, num) {
                 $(div).find($('.sortContainer')).fadeIn('fast');
                 DCCounter = 2;
                 marvelCounter = 1;
-                OthersCounter = 1;
+                valiantCounter = 1;
+                othersCounter = 1;
                 animationCounter = 1;
             } else {
                 $(div).find($('.sortContainer')).fadeOut('fast');
@@ -863,24 +887,40 @@ function sort(div, num) {
             }
             break;
         case 3:
-            if (OthersCounter == 1) {
+            if (valiantCounter == 1) {
                 $(div).find($('.sortContainer')).fadeIn('fast');
-                OthersCounter = 2;
+                valiantCounter = 2;
                 marvelCounter = 1;
+                DCCounter = 1;
+                valiantCounter = 1;
+                othersCounter = 1;
+                animationCounter = 1;
+            } else {
+                $(div).find($('.sortContainer')).fadeOut('fast');
+                valiantCounter = 1;
+            }
+            break;
+        case 4:
+            if (othersCounter == 1) {
+                $(div).find($('.sortContainer')).fadeIn('fast');
+                othersCounter = 2;
+                marvelCounter = 1;
+                valiantCounter = 1;
                 DCCounter = 1;
                 animationCounter = 1;
             } else {
                 $(div).find($('.sortContainer')).fadeOut('fast');
-                OthersCounter = 1;
+                othersCounter = 1;
             }
             break;
-        case 4:
+        case 5:
             if (animationCounter == 1) {
                 $(div).find($('.sortContainer')).fadeIn('fast');
                 animationCounter = 2;
                 marvelCounter = 1;
+                valiantCounter = 1;
                 DCCounter = 1;
-                OthersCounter = 1;
+                othersCounter = 1;
             } else {
                 $(div).find($('.sortContainer')).fadeOut('fast');
                 animationCounter = 1;
@@ -1039,7 +1079,8 @@ function allOfKind(div, sorted) {
     $('.sortContainer').fadeOut('fast');
     marvelCounter = 1;
     DCCounter = 1;
-    OthersCounter = 1;
+    valiantCounter = 1;
+    othersCounter = 1;
     animationCounter = 1;
 }
 
@@ -1129,6 +1170,7 @@ function sortMovies(container, elem1, kind) {
     if (kind == 3) {
         $('#marvelContainer').empty();
         $('#dcContainer').empty();
+        $('#valiantContainer').empty();
         $('#othersContainer').empty();
         $('#animationContainer').empty();
         $('#tvShowContainer').empty();
@@ -1224,23 +1266,28 @@ function sortMovies(container, elem1, kind) {
                     case 'marvelContainer':
                         setTimeout(function () {
                             $('#marvel').click();
-                        }, 1200)
+                        }, 1200);
                         break;
                     case 'dcContainer':
                         setTimeout(function () {
                             $('#dc').click();
-                        }, 1200)
+                        }, 1200);
+                        break;
+                    case 'valiantContainer':
+                        setTimeout(function () {
+                            $('#valiant').click();
+                        }, 1200);
                         break;
                     case 'othersContainer':
                         setTimeout(function () {
                             $('#others').click();
-                        }, 1200)
+                        }, 1200);
 
                         break;
                     case 'animationContainer':
                         setTimeout(function () {
                             $('#disney').click();
-                        }, 1200)
+                        }, 1200);
                         break;
                 }
 
@@ -1289,7 +1336,8 @@ function sortMovies(container, elem1, kind) {
     $('.sortContainer').fadeOut('fast');
     marvelCounter = 1;
     DCCounter = 1;
-    OthersCounter = 1;
+    valiantCounter = 1;
+    othersCounter = 1;
     animationCounter = 1;
 }
 
