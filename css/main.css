@@ -64,8 +64,6 @@ main {
 }
 
 .imgWrapper img {
-    margin-left: 2rem;
-    margin-right: 2rem;
     cursor: pointer;
     transition: .3s;
     -webkit-transition: .3s;
@@ -73,22 +71,21 @@ main {
     -moz-transition: .3s;
 }
 
-#marvel {
-    width: 130px;
-    height: 110px;
+.imgWrapperContainer {
+    position: relative;
+    width: 18%;
 }
 
-#dc {
-    width: 130px;
-    height: 110px;
+.imgWrapperContainer img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120px;
+    height: 120px;
 }
-#others {
-    width: 130px;
-    height: 110px;
-}
+
 #disney {
     width: 190px;
-    height: 110px;
 }
 
 h1 {
@@ -410,6 +407,15 @@ hr:before {
     background-size: 60px 60px;
 }
 
+.lineValiant {
+    background: linear-gradient(to right, transparent, blue, transparent);
+}
+
+.lineValiant span {
+    background: url(../images/valiant.png) no-repeat 50% 50%;
+    background-size: 60px 60px;
+}
+
 .lineOthers {
     background: linear-gradient(to right, transparent, orange, transparent);
 }
@@ -434,10 +440,15 @@ hr:before {
     display: none;
     position: relative;
     background-image: linear-gradient(to right,gray, white);
-
 }
 
 #dcContainer {
+    display: none;
+    position: relative;
+    background-image: linear-gradient(to right,gray, white);
+}
+
+#valiantContainer {
     display: none;
     position: relative;
     background-image: linear-gradient(to right,gray, white);
@@ -492,7 +503,7 @@ hr:before {
     z-index: 1;
 }
 
-.marvelMovie, .dcMovie, .otherMovie, .animationMovie, .tvShow {
+.marvelMovie, .dcMovie, .valiantMovie, .otherMovie, .animationMovie, .tvShow {
     position: relative;
     width: 20rem;
     height: 19rem;
@@ -798,7 +809,7 @@ hr:before {
         width: 70%;
     }
 
-    .marvelMovie, .dcMovie, .otherMovie, .animationMovie, .tvShow {
+    .marvelMovie, .dcMovie, .valiantMovie, .otherMovie, .animationMovie, .tvShow {
         width: 15rem;
     }
 
@@ -814,6 +825,16 @@ hr:before {
 }
 
 @media only screen and (max-width: 1100px) {
+
+    .imgWrapperContainer img {
+        width: 100px;
+        height: 100px;
+    }
+    
+    #disney {
+        width: 170px;
+    }
+
     #trailer .popupCont {
         width: 40rem;
         height: 25rem;
@@ -821,6 +842,33 @@ hr:before {
 }
 
 @media only screen and (max-width: 1000px) {
+
+    .header {
+        height: 12rem;
+    }
+
+    .searchContainer {
+        top: 8rem;
+    }
+
+    main {
+        margin-top: 12rem;
+    }
+
+    .imgWrapperContainer img {
+        width: 75px;
+        height: 75px;
+    }
+    
+    #disney {
+        width: 145px;
+    }
+
+    #trailer .popupCont {
+        width: 40rem;
+        height: 25rem;
+    }
+
     .popupCont {
         width: 65%;
     }
@@ -834,10 +882,6 @@ hr:before {
 
     .sortContent {
         width: 90%;
-    }
-
-    .imgWrapper img {
-        margin-right: 0;
     }
 }
 
@@ -854,6 +898,11 @@ hr:before {
 
     .dcBtn:hover {
         background: #466DFF;
+        border: 1px solid white;
+    }
+
+    .valiantBtn:hover {
+        background: yellow;
         border: 1px solid white;
     }
 
@@ -875,45 +924,29 @@ hr:before {
 
 @media only screen and (max-width: 765px) {
 
-    .marvelMovie, .dcMovie, .otherMovie, .animationMovie, .tvShow {
+    .imgWrapperContainer {
+        width: 15%;
+    }
+
+    .imgWrapperContainer img {
+        width: 60px;
+        height: 60px;
+    }
+    
+    #disney {
+        width: 120px;
+    }
+
+    .marvelMovie, .dcMovie, .valiantMovie, .otherMovie, .animationMovie, .tvShow {
         height: 18rem;
     }
 
-    .header {
-        height: 12rem;
-    }
-
-    .searchContainer {
-        top: 8rem;
-    }
-    
     #searchResults {
         height: 15rem;
     }
 
-    main {
-        margin-top: 12rem;
-    }
-
     .spinnerWrapper {
         top: 14rem;
-    }
-
-    #marvel {
-        width: 120px;
-        height: 80px;
-    }
-    #dc {
-        width: 120px;
-        height: 80px;
-    }
-    #others {
-        width: 120px;
-        height: 80px;
-    }
-    #disney {
-        width: 150px;
-        height: 80px;
     }
 
     #favoritesAddedMsg p, #favoritesRemovedMsg p {
@@ -930,26 +963,6 @@ hr:before {
         height: 60px;
         bottom: 2rem;
     } 
-}
-
-@media only screen and (max-width: 670px) {
-
-    #marvel {
-        width: 95px;
-        height: 70px;
-    }
-    #dc {
-        width: 95px;
-        height: 70px;
-    }
-    #others {
-        width: 95px;
-        height: 70px;
-    }
-    #disney {
-        width: 115px;
-        height: 70px;
-    }
 }
 
 @media only screen and (max-width: 600px) {
@@ -971,29 +984,8 @@ hr:before {
 
 @media only screen and (max-width: 550px) {
 
-    .marvelMovie, .dcMovie, .otherMovie, .animationMovie, .tvShow {
+    .marvelMovie, .dcMovie, .valiantMovie, .otherMovie, .animationMovie, .tvShow {
         width: 12rem;
-    }
-
-    #marvel {
-        width: 75px;
-        height: 60px;
-    }
-    #dc {
-        width: 75px;
-        height: 60px;
-    }
-    #others {
-        width: 75px;
-        height: 60px;
-    }
-    #disney {
-        width: 100px;
-        height: 60px;
-    }
-
-    #trailer .popupCont {
-        width: 26rem;
     }
 }
 
@@ -1015,8 +1007,29 @@ hr:before {
 
 @media only screen and (max-width: 480px) {
 
-    .imgWrapper img {
-        margin-left: 1rem;
+    .header {
+        height: 10rem;
+    }
+
+    main {
+        margin-top: 10rem;
+    }
+
+    .searchContainer {
+        top: 6.5rem;
+    }
+
+    .imgWrapperContainer {
+        width: 15%;
+    }
+
+    .imgWrapperContainer img {
+        width: 50px;
+        height: 50px;
+    }
+    
+    #disney {
+        width: 100px;
     }
 
     #favoritesGallery {
@@ -1055,10 +1068,9 @@ hr:before {
     }
 }
 
-
 @media only screen and (max-width: 460px) {
 
-    .marvelMovie, .dcMovie, .otherMovie, .animationMovie, .tvShow {
+    .marvelMovie, .dcMovie, .valiantMovie, .otherMovie, .animationMovie, .tvShow {
         width: 9rem;
         height: 21rem;
     }
@@ -1068,23 +1080,6 @@ hr:before {
 
     #search {
         font-size: 1rem;
-    }
-
-    #marvel {
-        width: 53px;
-        height: 50px;
-    }
-    #dc {
-        width: 53px;
-        height: 50px;
-    }
-    #others {
-        width: 53px;
-        height: 50px;
-    }
-    #disney {
-        width: 75px;
-        height: 45px;
     }
 
     #favoritesAddedMsg, #favoritesRemovedMsg {
@@ -1117,6 +1112,15 @@ hr:before {
 }
 
 @media only screen and (max-width: 370px) {
+    
+    .imgWrapperContainer img {
+        width: 40px;
+        height: 40px;
+    }
+    
+    #disney {
+        width: 90px;
+    }
 
     .goToFavorites {
         width: 50px;
@@ -1124,7 +1128,7 @@ hr:before {
         bottom: 1rem;
     } 
 
-    .marvelMovie, .dcMovie, .otherMovie, .animationMovie, .tvShow {
+    .marvelMovie, .dcMovie, .valiantMovie, .otherMovie, .animationMovie, .tvShow {
         width: 7rem;
     }
 
@@ -1143,26 +1147,13 @@ hr:before {
     .popUpInfo h2 {
         font-size: 1.2rem;
     }
-
-    #marvel {
-        width: 45px;
-        height: 45px;
-    }
-    #dc {
-        width: 45px;
-        height: 45px;
-    }
-    #others {
-        width: 45px;
-        height: 45px;
-    }
-    #disney {
-        width: 70px;
-        height: 40px;
-    }
 }
 
 @media only screen and (max-width: 340px) {
+
+    #disney {
+        width: 70px;
+    }
 
      #trailer .popupCont {
         width: 18rem;
