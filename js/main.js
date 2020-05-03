@@ -809,7 +809,7 @@ function buildMovies(div, wrapper, arr, type) {
                 $(movieName).hover(
                     function() {
                         $(movieName).css('opacity', '.5');
-                        $('.movieFullNameWrapper').fadeIn();
+                        $(movieWrapper).find('.movieFullNameWrapper').fadeIn();
                     }
                   );
 
@@ -818,7 +818,7 @@ function buildMovies(div, wrapper, arr, type) {
 
                     }, function() {
                         $(movieName).css('opacity', '1');
-                        $('.movieFullNameWrapper').fadeOut();
+                        $(movieWrapper).find('.movieFullNameWrapper').fadeOut();
                     }
                   );
             }    
