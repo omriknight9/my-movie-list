@@ -779,10 +779,50 @@ function buildMovies(div, wrapper, arr, type) {
             }
         }).appendTo(movieWrapper);
 
+        let finalName;
+
+        if (movies[i].name.length > 40) {
+            finalName = movies[i].name.substring(40, 0) + '...';
+            $(movieWrapper).addClass('longNameWrapper');
+        } else {
+            finalName = movies[i].name;
+        }
+
         let movieName = $('<p>', {
             class: 'name',
-            text: movies[i].name
+            text: finalName
         }).appendTo(movieWrapper);
+
+        if ($(movieWrapper).hasClass('longNameWrapper')) {
+            $(movieName).addClass('longName');
+
+            let movieFullNameWrapper = $('<div>', {
+                class: 'movieFullNameWrapper',
+            }).appendTo(movieWrapper);
+
+            let movieFullName = $('<p>', {
+                class: 'movieFullName',
+                text: movies[i].name
+            }).appendTo(movieFullNameWrapper);
+
+            if ($(window).width() > 765) {
+                $(movieName).hover(
+                    function() {
+                        $(movieName).css('opacity', '.5');
+                        $('.movieFullNameWrapper').fadeIn();
+                    }
+                  );
+
+                  $(movieWrapper).hover(
+                    function() {
+
+                    }, function() {
+                        $(movieName).css('opacity', '1');
+                        $('.movieFullNameWrapper').fadeOut();
+                    }
+                  );
+            }    
+        }
 
         let movieYear = $('<p>', {
             class: 'year',
