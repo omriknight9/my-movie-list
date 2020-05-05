@@ -394,7 +394,7 @@ hr:before {
 }
 
 .lineMarvel span {
-    background: url(../images/ironman.png) no-repeat 50% 50%;
+    background: url(../images/ironman.webp) no-repeat 50% 50%;
     background-size: 70px 60px;
 }
 
@@ -403,7 +403,7 @@ hr:before {
 }
 
 .lineDc span {
-    background: url(../images/superman.png) no-repeat 50% 50%;
+    background: url(../images/superman.webp) no-repeat 50% 50%;
     background-size: 60px 60px;
 }
 
@@ -412,7 +412,7 @@ hr:before {
 }
 
 .lineValiant span {
-    background: url(../images/valiant.png) no-repeat 50% 50%;
+    background: url(../images/valiant.webp) no-repeat 50% 50%;
     background-size: 60px 60px;
 }
 
@@ -421,7 +421,7 @@ hr:before {
 }
 
 .lineOthers span {
-    background: url(../images/others.png) no-repeat 50% 50%;
+    background: url(../images/others.webp) no-repeat 50% 50%;
     background-size: 60px 60px;
 }
 
@@ -430,7 +430,7 @@ hr:before {
 }
 
 .lineAnimation span {
-    background: url(../images/disney.png) no-repeat 50% 50%;
+    background: url(../images/disney.webp) no-repeat 50% 50%;
     background-size: 110px 60px;
     width: 100px;
     margin-left: -69px;
@@ -495,7 +495,7 @@ hr:before {
     position: absolute;
     top: -3rem;
     left: -14%;
-    background: url(../images/titleBox.png);
+    background: url(../images/titleBox.webp);
     width: 120%;
     background-size: 100% 6rem;
     background-repeat: no-repeat;
@@ -681,7 +681,7 @@ hr:before {
     position: absolute;
     width:25px;
     height:25px;
-    background:url(../images/closeBtn.png) no-repeat top center;
+    background:url(../images/closeBtn.webp) no-repeat top center;
     background-Size:100% auto;
     top: 1em;
     right: 1em;
