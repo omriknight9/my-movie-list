@@ -141,7 +141,7 @@ function checkLocalStorage() {
                 let that = $(this).find($('.star'));
     
                 if (testMovieid === parsedId) {
-                    $(that).attr('src', './images/star.png');
+                    $(that).attr('src', './images/star.webp');
                     let favoriteWrapper = $('<div>', {
                         'numId': testMovieid,
                         'type': type,
@@ -173,12 +173,12 @@ function checkLocalStorage() {
                             e.stopPropagation();
                             $(this).parent().parent().remove();
                             localStorage.removeItem(testMovieType + 'Id_' + testMovieid);
-                            $(that).attr('src', './images/emptyStar.png');
+                            $(that).attr('src', './images/emptyStar.webp');
                         }
                     }).appendTo(favoritesBtnWrapper);
     
                 } else {
-                    $($(that).find($('.star')).attr('src', './images/emptyStar.png'));
+                    $($(that).find($('.star')).attr('src', './images/emptyStar.webp'));
                 }
             }
         });
@@ -687,7 +687,7 @@ function buildMovies(div, wrapper, arr, type) {
 
         let star = $('<img>', {
             class: 'star',
-            src: './images/emptyStar.png',
+            src: './images/emptyStar.webp',
             alt: 'star img',
             click: function(e) {
 
@@ -697,8 +697,8 @@ function buildMovies(div, wrapper, arr, type) {
                 let that = $(this);
 
                 e.stopPropagation();
-                if ($(this).attr('src') == './images/emptyStar.png') {
-                    $(this).attr('src', './images/star.png');
+                if ($(this).attr('src') == './images/emptyStar.webp') {
+                    $(this).attr('src', './images/star.webp');
 
                     $('body').css('pointer-events', 'none');
 
@@ -747,12 +747,12 @@ function buildMovies(div, wrapper, arr, type) {
                             e.stopPropagation();
                             $(this).parent().parent().remove();
                             localStorage.removeItem(div + 'Id_' + thisMovieId);
-                            $(that).attr('src', './images/emptyStar.png');
+                            $(that).attr('src', './images/emptyStar.webp');
                         }
                     }).appendTo(favoritesBtnWrapper);
 
                 } else {
-                    $(this).attr('src', './images/emptyStar.png');
+                    $(this).attr('src', './images/emptyStar.webp');
                     localStorage.removeItem(div + 'Id_' + thisMovieId);
 
                     $.each($('.favoriteWrapper'), function (key, value) {
