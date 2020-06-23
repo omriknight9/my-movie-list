@@ -14,7 +14,7 @@
  {"id":13,"name":"Dead Silence","date":"03/16/2007","image":"Others/deadSilence.jpg","group":9,"quality":"720p","imdbId":"tt0455760","revenue":"22,217,407","trailer":"8b_HVtHmK30","runtime":89,"value":"14001"},
  {"id":14,"name":"Dracula","date":"11/13/1992","image":"Others/dracula.jpg","group":10,"quality":"1080p","imdbId":"tt0103874","revenue":"215,862,692","trailer":"CiWsfO5HjEo","runtime":128,"value":"6114"},
  {"id":15,"name":"Edge Of Tomorrow","date":"06/06/2014","image":"Others/edgeOfTomorrow.jpg","group":11,"quality":"1080p","imdbId":"tt1631867","revenue":"370,541,256","trailer":"vw61gCe2oqI","runtime":113,"value":"137113"},
- {"id":16,"name":"Escape From Sobibor","date":"04/12/1987","image":"Others/escapeFromSobibor.jpg","group":12,"quality":"1080p","imdbId":"tt0092978","revenue":"Unknown","trailer":"ZkueQG7dnDk","runtime":143,"value":"25318"},
+ {"id":16,"name":"Escape From Sobibor","date":"04/12/1987","image":"Others/escapeFromSobibor.jpg","group":12,"quality":"720p","imdbId":"tt0092978","revenue":"Unknown","trailer":"ZkueQG7dnDk","runtime":143,"value":"25318"},
  {"id":17,"name":"Eurotrip","date":"02/20/2004","image":"Others/eurotrip.jpg","group":13,"quality":"1080p","imdbId":"tt0356150","revenue":"20,796,847","trailer":"-_Eu0X3B6OM","runtime":92,"value":"9352"},
  {"id":18,"name":"Get Out","date":"02/24/2017","image":"Others/getOut.jpg","group":14,"quality":"1080p","imdbId":"tt5052448","revenue":"255,407,969","trailer":"DzfpyUB60YY","runtime":104,"value":"419430"},
  {"id":19,"name":"Harry Potter And The Sorcerer's Stone","date":"11/16/2001","image":"Others/harryPotterAndTheSorcerersStone.jpg","group":15,"quality":"720p","imdbId":"tt0241527","revenue":"975,051,288","trailer":"VyHV0BRtdxo","runtime":152,"value":"671"},
