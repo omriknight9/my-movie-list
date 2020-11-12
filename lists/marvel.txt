@@ -3,7 +3,7 @@
     "movies" : [
         { "id": 1, "name": "Ant-Man", "date": "07/17/2015", "image": "Marvel/antMan.jpg", "group": 1, "mcu": true, "quality": "1080p", "imdbId": "tt0478970", "revenue": "519,311,965", "trailer": "pWdKf3MneyI", "runtime": 117, "value": "102899"},
         { "id": 2, "name": "Ant-Man And The Wasp", "date": "07/06/2018", "image": "Marvel/antManAndTheWasp.jpg", "group": 1, "mcu": true, "quality": "1080p", "imdbId": "tt5095030", "revenue": "622,674,139", "trailer": "8_rTIAOohas", "runtime": 116, "value": "363088" },
-        { "id": 3, "name": "Black Panther", "date": "02/16/2018", "image": "Marvel/blackPanther.jpg", "group": 2, "mcu": true, "quality": "1080p", "imdbId": "tt1825683", "revenue": "1,346,913,161", "trailer": "xjDjIWPwcPU", "runtime": 134, "value": "284054", "value": "284054"   },
+        { "id": 3, "name": "Black Panther", "date": "02/16/2018", "image": "Marvel/blackPanther.jpg", "group": 2, "mcu": true, "quality": "1080p", "imdbId": "tt1825683", "revenue": "1,346,913,161", "trailer": "xjDjIWPwcPU", "runtime": 134, "value": "284054"   },
         { "id": 4, "name": "Blade", "date": "08/21/1998", "image": "Marvel/blade.jpg", "group": 3, "mcu": false, "quality": "720p", "imdbId": "tt0120611", "revenue": "131,183,530", "trailer": "kaU2A7KyOu4", "runtime": 120, "value": "36647" },
         { "id": 5, "name": "Blade 2", "date": "03/22/2002", "image": "Marvel/blade2.jpg", "group": 3, "mcu": false, "quality": "720p", "imdbId": "tt0187738", "revenue": "155,010,032", "trailer": "vAUB7dcUn8o", "runtime": 117, "value": "36586" },
         { "id": 6, "name": "Blade Trinity", "date": "12/08/2004", "image": "Marvel/bladeTrinity.jpg", "group": 3, "mcu": false, "quality": "720p", "imdbId": "tt0359013", "revenue": "128,905,366", "trailer": "fPcNbsW69Eg", "runtime": 113, "value": "36648" },
@@ -45,7 +45,7 @@
         { "id": 42, "name": "X-Men: Days Of Future Past", "date": "05/23/2014", "image": "Marvel/xMenDaysOfFuturePast.jpg", "group": 15, "mcu": false, "quality": "1080p", "imdbId": "tt1877832", "revenue": "747,862,775", "trailer": "pK2zYHWDZKo", "runtime": 132, "value": "127585" },
         { "id": 43, "name": "X-Men: Apocalypse", "date": "05/27/2016", "image": "Marvel/xMenApocalypse.jpg", "group": 15, "mcu": false, "quality": "1080p", "imdbId": "tt3385516", "revenue": "543,934,787", "trailer": "COvnHv42T-A", "runtime": 144, "value": "246655" },
         { "id": 44, "name": "Logan", "date": "03/03/2017", "image": "Marvel/logan.jpg", "group": 15, "mcu": false, "quality": "1080p", "imdbId": "tt3315342", "revenue": "619,021,436", "trailer": "Div0iP65aZo", "runtime": 137, "value": "263115" },
-        { "id": 45, "name": "Dark Phoenix", "date": "06/07/2019", "image": "Marvel/darkPhoenix.jpg", "group": 15, "mcu": false, "quality": "1080p", "imdbId": "tt6565702", "revenue": "252,442,974", "trailer": "azvR__GRQic", "runtime": 113, "value": "320288" }
-
+        { "id": 45, "name": "Dark Phoenix", "date": "06/07/2019", "image": "Marvel/darkPhoenix.jpg", "group": 15, "mcu": false, "quality": "1080p", "imdbId": "tt6565702", "revenue": "252,442,974", "trailer": "azvR__GRQic", "runtime": 113, "value": "320288" },
+        { "id": 46, "name": "The New Mutants", "date": "08/28/2020", "image": "Marvel/theNewMutants.jpg", "group": 15, "mcu": false, "quality": "720p", "imdbId": "tt4682266", "revenue": "45,508,105", "trailer": "W_vJhUAOFpI", "runtime": 94, "value": "340102" }
     ]
 }
