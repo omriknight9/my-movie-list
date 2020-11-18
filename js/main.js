@@ -345,6 +345,38 @@ function capitalize(str) {
 
 function loadJson() {
 
+    // $.get('./lists/others.txt', function (data) {
+    //     otherMovies.push(JSON.parse(data));
+    //     var test = JSON.parse(data).movies;
+    //     var separators = ['},'];
+
+    //     let moviePlaceId = 62;
+
+    //     for (var i = moviePlaceId; i < test.length; i++) {
+    //         if (i == moviePlaceId) {
+    //             console.log('Movie Will Be Inserted After: ' + test[i - 1].name.toUpperCase() + ' With ID Of: ' + test[moviePlaceId].id);
+    //             console.log('Movie Will Be Inserted Before: ' + test[i].name.toUpperCase() + ' With ID Of: ' + test[moviePlaceId].id);
+    //         }
+
+    //         test[i].id = test[i].id + 1
+    //         // IF NOT SAME GROUP//
+            
+    //         test[i].group = test[i].group + 1;
+
+    //         console.log(test[i].name + ' ' + test[i].group);
+
+    //         // IF NOT SAME GROUP//
+    //     }
+
+    //     for (var j = 0; j < separators.length; j++) {
+    //         var rg = new RegExp("\\" + separators[j], "g");
+    //         var test2 = JSON.stringify(test);
+    //         test2 = test2.replace(rg, separators[j] + "\n ");
+
+    //         console.log("{" + "\n " + "movies:" + test2 + "\n " + "}");
+    //     }
+    // });
+
     var promise1 = new Promise(function (resolve) {
         resolve(getInfo('marvel', marvelMovies, 'marvelMovie', $('#marvelContainer'), 1));
     });
@@ -670,6 +702,9 @@ function buildMovies(div, wrapper, arr, type) {
                     case 4:
                         $('.popupBtn').css('background-color', 'rgba(100, 200, 100, .9)');
                         break;
+                    case 5:
+                        $('.popupBtn').css('background-color', 'rgba(200, 200, 100, .9)');
+                        break;
                 }
 
                 $('#movieYoutubeImage').click(function () {
@@ -813,14 +848,14 @@ function buildMovies(div, wrapper, arr, type) {
                     }
                   );
 
-                  $(movieWrapper).hover(
+                $(movieWrapper).hover(
                     function() {
 
                     }, function() {
                         $(movieName).css('opacity', '1');
                         $(movieWrapper).find('.movieFullNameWrapper').fadeOut();
                     }
-                  );
+                );
             }    
         }
 
