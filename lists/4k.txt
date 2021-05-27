@@ -1,4 +1,4 @@
-﻿{
+{
     "movies" : [
    { "id": 1, "name": "Avengers: Endgame", "date": "04/26/2019", "image": "4K/avengersEndgame.jpg", "quality": "2160p", "imdbId": "tt4154796", "trailer": "hA6hldpSTF8", "runtime": 181, "value": "299534" },
    { "id": 2, "name": "Avengers: Infinity War", "date": "04/27/2018", "image": "4K/avengersInfinityWar.jpg", "quality": "2160p", "imdbId": "tt4154756", "trailer": "QwievZ1Tx-8", "runtime": 149, "value": "299536" },
