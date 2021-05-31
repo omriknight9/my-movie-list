@@ -15,36 +15,27 @@
     </head>
 <body>
 
-    <header>
-        <div class="headerContainer">
-            <div class="header">
-                <div class="imgWrapper">
-                    <div class="imgWrapperContainer">
-                        <img src="./images/ironman.webp" id="marvel" alt="iron man" onclick="goToDiv('#marvelContainer')" />
-                    </div>
-                    <div class="imgWrapperContainer">
-                        <img src="./images/superman.webp" id="dc" alt="superman" onclick="goToDiv('#dcContainer')" />
-                    </div>
-                    <div class="imgWrapperContainer">
-                        <img src="./images/valiant.webp" id="valiant" alt="valiant" onclick="goToDiv('#valiantContainer')" />
-                    </div>
-                    <div class="imgWrapperContainer">
-                        <img src="./images/others.webp" id="others" alt="circle" onclick="goToDiv('#othersContainer')" />
-                    </div>
-                    <div class="imgWrapperContainer">
-                        <img src="./images/disney.webp" id="disney" alt="mickey mouse" onclick="goToDiv('#animationContainer')" />
-                    </div>
-                </div>
-                <div class="searchContainer">
-                    <div class="searchContant">
-                        <input type="text" placeholder="Search A Movie Or TV Show" id="search" aria-label="Search" autocomplete="off" />
-                        <span class="focus-border"></span>
-                        <div id="searchResults"></div>
-                    </div>
-                </div>
-            </div>
+    <div id="menuOpenWrapper" onclick="toggleClass($('#toggle')[0], 'on')">
+        <div href="#menu" id="toggle">
+            <span class="menuSpan"></span>
+            <span class="menuSpan"></span>
+            <span class="menuSpan"></span>
+            <span class="menuSpan"></span>
+            <span class="menuSpan"></span>
+            <span class="menuSpan"></span>
         </div>
-    </header>
+        <div id="menu">
+            <ul>
+                <li onclick="goToDiv('#marvelContainer')" id="">Marvel</li>
+                <li onclick="goToDiv('#dcContainer')" id="">DC</li>
+                <li onclick="goToDiv('#valiantContainer')" id="">Valiant</li>
+                <li onclick="goToDiv('#othersContainer')" id="">Others</li>
+                <li onclick="goToDiv('#animationContainer')" id="">Animation</li>
+                <li onclick="goToDiv('#tvShowContainer')" id="">TV Shows</li>
+                <li onclick="goToDiv('#ultraContainer')" id="">4K</li>
+            </ul>
+        </div>
+    </div>
 
     <main>
         <div class="spinnerWrapper">
@@ -55,6 +46,15 @@
                 <div class="bounce4"></div>
             </div>
         </div>
+
+        <div class="searchContainer">
+            <div class="searchContant">
+                <input type="text" placeholder="Search A Movie Or TV Show" id="search" aria-label="Search" autocomplete="off" />
+                <span class="focus-border"></span>
+                <div id="searchResults"></div>
+            </div>
+        </div>
+
         <div class="container" id="marvelContainer"></div>
         <div class="container" id="dcContainer"></div>
         <div class="container" id="valiantContainer"></div>
@@ -75,7 +75,6 @@
             <div class="Xbtn"></div>
             <h2 class="movieNamePop"></h2>
             <p class="movieQualityPop"></p>
-            <!-- <p class="movieRevenuePop"></p> -->
             <p class="movieRuntimePop"></p>
             <div class="movieCoverWrapper">
                 <img src="" id="movieCover" alt="dvd cover" />
