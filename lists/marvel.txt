@@ -19,7 +19,7 @@
         { "id": 16, "name": "Iron Man", "date": "05/02/2008", "image": "Marvel/ironMan.jpg", "mcu": true, "quality": "1080p", "imdbId": "tt0371746", "trailer": "8hYlB38asDY", "runtime": 126, "value": "1726"  },
         { "id": 17, "name": "Iron Man 2", "date": "05/07/2010", "image": "Marvel/ironMan2.jpg", "mcu": true, "quality": "720p", "imdbId": "tt1228705", "trailer": "BoohRoVA9WQ", "runtime": 124, "value": "10138"  },
         { "id": 18, "name": "Iron Man 3", "date": "05/03/2013", "image": "Marvel/ironMan3.jpg", "mcu": true, "quality": "1080p", "imdbId": "tt1300854", "trailer": "Ke1Y3P9D0Bc", "runtime": 130, "value": "68721"  },
-        { "id": 19, "name": "Spiderman", "date": "05/03/2002", "image": "Marvel/spiderman.jpg", "mcu": false, "quality": "1080p", "imdbId": "tt0145487", "trailer": "O7zvehDxttM", "runtime": 121, "value": "557" },
+        { "id": 19, "name": "Spiderman", "date": "05/03/2002", "image": "Marvel/spiderman.jpg", "mcu": false, "quality": "720p", "imdbId": "tt0145487", "trailer": "O7zvehDxttM", "runtime": 121, "value": "557" },
         { "id": 20, "name": "Spiderman 2", "date": "06/30/2004", "image": "Marvel/spiderman2.jpg", "mcu": false, "quality": "1080p", "imdbId": "tt0316654", "trailer": "8pSRBdt6ico", "runtime": 127, "value": "558" },
         { "id": 21, "name": "Spiderman 3", "date": "06/04/2007", "image": "Marvel/spiderman3.jpg", "mcu": false, "quality": "1080p", "imdbId": "tt0413300", "trailer": "MTIP-Ih_GR0", "runtime": 139, "value": "559" },
         { "id": 22, "name": "The Amazing Spiderman", "date": "07/03/2012", "image": "Marvel/theAmazingSpiderman.jpg", "mcu": false, "quality": "1080p", "imdbId": "tt0948470", "trailer": "-tnxzJ0SSOw", "runtime": 136, "value": "1930" },
