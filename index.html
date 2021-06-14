@@ -90,6 +90,11 @@
         <div class="container" id="tvShowContainer"></div>
         <div class="container" id="ultraContainer"></div>
     </main>
+    
+    <footer>
+        <span>This product uses the TMDb API but is not endorsed or certified by TMDb.</span>
+        <a href="https://www.themoviedb.org/" target="_blank" rel="noopener"><img id="tmdbImg" src="images/tmdb.png" alt="tmdb" /></a>
+    </footer>
 
     <svg id="goToTopBtn" onclick="goToTop()" xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm0 7.58l5.995 5.988-1.416 1.414-4.579-4.574-4.59 4.574-1.416-1.414 6.006-5.988z"/></svg>
 
@@ -107,7 +112,7 @@
             </div>
             <div class="linksWrapper">
                 <a href="" target="_blank" id="movieImdbLink" rel="noopener"><img src="./images/imdb.webp" alt="imdb image" id="movieImdbImage" /></a>
-                <img src="./images/youtube.webp" alt="youtube image" id="movieYoutubeImage" />
+                <img src="./images/youtube.png" alt="youtube image" id="movieYoutubeImage" />
                 <a href="" target="_blank" id="moviePopcornLink" rel="noopener"><img src="./images/popcorn.webp" alt="popcorn image" id="moviePopcornImage" /></a>
             </div>
             <div class="popupBtnsWrapper">
@@ -128,7 +133,7 @@
             </div>
             <div class="linksWrapper">
                 <a href="" target="_blank" id="tvShowImdbLink" rel="noopener"><img src="./images/imdb.webp" alt="imdb image" id="tvShowImdbImage" /></a>
-                <img src="./images/youtube.webp" alt="youtube image" id="tvShowYoutubeImage" />
+                <img src="./images/youtube.png" alt="youtube image" id="tvShowYoutubeImage" />
             </div>
             <div class="popupBtnsWrapper">
                 <button class="popupBtn" id="" onclick="closeCurrentPopup($(this))">Close</button>
@@ -161,7 +166,10 @@
                 <span id="dateOfNextMovie"></span>
             </p>
 
-            <img src="" alt="" id="nextMcuImg">
+            <a href="" rel="noopener" id="mcuLink" target="_blank">
+                <img src="" alt="" id="nextMcuImg">
+            </a>
+
             <p>
                 Next In Line:
                 <span id="afterNextMovieTitle"></span>
