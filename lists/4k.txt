@@ -1,9 +1,9 @@
 {
     "movies" : [
-   { "id": 1, "name": "Avengers: Endgame", "date": "04/26/2019", "image": "4K/avengersEndgame.jpg", "quality": "2160p", "imdbId": "tt4154796", "trailer": "hA6hldpSTF8", "runtime": 181, "value": "299534" },
-   { "id": 2, "name": "Avengers: Infinity War", "date": "04/27/2018", "image": "4K/avengersInfinityWar.jpg", "quality": "2160p", "imdbId": "tt4154756", "trailer": "QwievZ1Tx-8", "runtime": 149, "value": "299536" },
-   { "id": 3, "name": "Captain America: The Winter Soldier", "date": "04/04/2014", "image": "4K/captainAmericaTheWinterSoldier.jpg", "quality": "2160p", "imdbId": "tt1843866", "trailer": "tbayiPxkUMM", "runtime": 136, "value": "100402"  },
-   { "id": 4, "name": "Captain America: Civil War", "date": "05/06/2016", "image": "4K/captainAmericaCivilWar.jpg", "quality": "2160p", "imdbId": "tt3498820", "trailer": "FkTybqcX-Yo", "runtime": 147, "value": "271110"  },
-   {"id": 5,"name":"Zack Snyder's Justice League","date":"03/18/2021","image":"4K/zackSnydersJusticeLeague.jpg","quality":"2160p","imdbId":"tt12361974","trailer":"vM-Bja2Gy04","runtime":242,"value":"791373"}
+   { "id": 1, "name": "Avengers: Endgame", "date": "04/26/2019", "image": "4K/avengersEndgame.jpg", "quality": "2160p", "trailer": "hA6hldpSTF8", "value": "299534" },
+   { "id": 2, "name": "Avengers: Infinity War", "date": "04/27/2018", "image": "4K/avengersInfinityWar.jpg", "quality": "2160p", "trailer": "QwievZ1Tx-8", "value": "299536" },
+   { "id": 3, "name": "Captain America: The Winter Soldier", "date": "04/04/2014", "image": "4K/captainAmericaTheWinterSoldier.jpg", "quality": "2160p", "trailer": "tbayiPxkUMM", "value": "100402"  },
+   { "id": 4, "name": "Captain America: Civil War", "date": "05/06/2016", "image": "4K/captainAmericaCivilWar.jpg", "quality": "2160p", "trailer": "FkTybqcX-Yo", "value": "271110"  },
+   {"id": 5,"name":"Zack Snyder's Justice League","date":"03/18/2021","image":"4K/zackSnydersJusticeLeague.jpg","quality":"2160p", "trailer":"vM-Bja2Gy04", "value":"791373"}
     ]
 }
