@@ -7,6 +7,7 @@
         { "id": 4, "name": "How I Met Your Mother", "year": "2005", "image": "tvShows/howIMetYourMother.jpg", "quality": "720p", "imdbId": "tt0460649", "trailer": "C8-4jMTOUJI", "seasons": 9, "episodes": 208},
         { "id": 5, "name": "The Boys", "year": "2005", "image": "tvShows/theBoys.jpg", "quality": "720p", "imdbId": "tt1190634", "trailer": "06rueu_fh30", "seasons": 2, "episodes": 17},
         { "id": 6, "name": "WandaVision", "year": "2021", "image": "tvShows/wandavision.jpg", "quality": "720p", "imdbId": "tt9140560", "trailer": "sj9J2ecsSpo", "seasons": 1, "episodes": 9},
-        { "id": 7, "name": "The Falcon And The Winter Soldier", "year": "2021", "image": "tvShows/theFalconAndTheWinterSoldier.jpg", "quality": "720p", "imdbId": "tt9208876", "trailer": "ojGHE581lsM", "seasons": 1, "episodes": 6}
+        { "id": 7, "name": "The Falcon And The Winter Soldier", "year": "2021", "image": "tvShows/theFalconAndTheWinterSoldier.jpg", "quality": "720p", "imdbId": "tt9208876", "trailer": "ojGHE581lsM", "seasons": 1, "episodes": 6},
+        { "id": 8, "name": "Loki", "year": "2021", "image": "tvShows/loki.jpg", "quality": "720p", "imdbId": "tt9140554", "trailer": "nW948Va-l10", "seasons": 1, "episodes": 6}
     ]
 }
