@@ -9,11 +9,11 @@
         <meta property="og:site_name" content="My Movie List">
         <meta property="og:title" content="My Movie List" />
         <meta property="og:description" content="Movies And TV Show That I Have" />
-        <meta property="og:image" itemprop="image" content="https://omriknight9.github.io/my-movie-list/images/movie.webp" />
+        <meta property="og:image" itemprop="image" content="https://omriknight9.github.io/my-movie-list/images/movie.png" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://omriknight9.github.io/my-movie-list/">
         <link rel="stylesheet" type="text/css" href="css/main.min.css">
-        <link rel="icon" href="images/movie.webp">
+        <link rel="icon" href="images/movie.png">
         <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=David+Libre&display=swap" rel="stylesheet" defer>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" defer></script>
@@ -33,19 +33,19 @@
         <div id="menu">
             <ul>
                 <li onclick="goToDiv('#marvelContainer')">
-                    <img src="./images/ironman.webp" alt="ironman">
+                    <img src="./images/ironman.png" alt="ironman">
                     <span>Marvel</span>
                 </li>
                 <li onclick="goToDiv('#dcContainer')">
-                    <img src="./images/superman.webp" alt="superman">
+                    <img src="./images/superman.png" alt="superman">
                     <span>DC</span>
                 </li>
                 <li onclick="goToDiv('#valiantContainer')">
-                    <img src="./images/valiant.webp" alt="valiant">
+                    <img src="./images/valiant.png" alt="valiant">
                     <span>Valiant</span>
                 </li>
                 <li onclick="goToDiv('#othersContainer')">
-                    <img src="./images/others.webp" alt="others">
+                    <img src="./images/others.png" alt="others">
                     <span>Others</span>
                 </li>
                 <li onclick="goToDiv('#animationContainer')">
@@ -64,15 +64,17 @@
         </div>
     </div>
 
-    <main>
-        <div class="spinnerWrapper">
-            <div class="spinner">
-                <div class="bounce1"></div>
-                <div class="bounce2"></div>
-                <div class="bounce3"></div>
-                <div class="bounce4"></div>
-            </div>
+    <div class="spinnerWrapper">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+            <div class="bounce4"></div>
         </div>
+    </div>
+
+    <main>
+
 
         <div class="searchContainer">
             <div class="searchContant">
@@ -90,6 +92,14 @@
         <div class="container" id="tvShowContainer"></div>
         <div class="container" id="ultraContainer"></div>
     </main>
+
+    <div id="timeline">
+        <h2>Timeline</h2>
+
+        <div id="timelineContent">
+            
+        </div>
+    </div>
     
     <footer>
         <span>This product uses the TMDb API but is not endorsed or certified by TMDb.</span>
@@ -111,9 +121,9 @@
                 <img src="" id="movieCover" alt="dvd cover" />
             </div>
             <div class="linksWrapper">
-                <a href="" target="_blank" id="movieImdbLink" rel="noopener"><img src="./images/imdb.webp" alt="imdb image" id="movieImdbImage" /></a>
+                <a href="" target="_blank" id="movieImdbLink" rel="noopener"><img src="./images/imdb.png" alt="imdb image" id="movieImdbImage" /></a>
                 <img src="./images/youtube.png" alt="youtube image" id="movieYoutubeImage" />
-                <a href="" target="_blank" id="moviePopcornLink" rel="noopener"><img src="./images/popcorn.webp" alt="popcorn image" id="moviePopcornImage" /></a>
+                <a href="" target="_blank" id="moviePopcornLink" rel="noopener"><img src="./images/popcorn.png" alt="popcorn image" id="moviePopcornImage" /></a>
             </div>
             <div class="popupBtnsWrapper">
                 <button class="popupBtn" id="" onclick="closeCurrentPopup($(this))">Close</button>
@@ -132,7 +142,7 @@
                 <img src="" id="tvShowCover" alt="dvd cover" />
             </div>
             <div class="linksWrapper">
-                <a href="" target="_blank" id="tvShowImdbLink" rel="noopener"><img src="./images/imdb.webp" alt="imdb image" id="tvShowImdbImage" /></a>
+                <a href="" target="_blank" id="tvShowImdbLink" rel="noopener"><img src="./images/imdb.png" alt="imdb image" id="tvShowImdbImage" /></a>
                 <img src="./images/youtube.png" alt="youtube image" id="tvShowYoutubeImage" />
             </div>
             <div class="popupBtnsWrapper">
@@ -156,10 +166,6 @@
         <div class="popupCont">
             <div class="Xbtn"></div>
             <span id="nextMcuTitle"></span>
-            <p>
-                Days Left:
-                <span id="daysToMovie"></span>
-            </p>
 
             <p>
                 Relese Date:
@@ -176,14 +182,12 @@
             </p>
 
             <p>
-                Days Left:
-                <span id="afterNextMovieDays"></span>
-            </p>
-
-            <p>
                 Relese Date:
                 <span id="afterNextMovieDate"></span>
             </p>
+
+            <button id="timelineBtn">Timeline</button>
+            <button id="timelineTVBtn">TV Timeline</button>
         </div>
     </div>
 
