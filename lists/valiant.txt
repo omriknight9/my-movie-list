@@ -1,5 +1,5 @@
 {
     "movies" : [
-        { "id": 1, "name": "Bloodshot", "date": "03/13/2020", "image": "Valiant/bloodshot.jpg", "quality": "1080p", "imdbId": "tt1634106", "trailer": "vOUVVDWdXbo", "runtime": 109, "value": "338762"}
+        { "id": 1, "name": "Bloodshot", "date": "03/13/2020", "image": "Valiant/bloodshot.jpg", "quality": "1080p", "trailer": "vOUVVDWdXbo", "value": "338762"}
     ]
 }
