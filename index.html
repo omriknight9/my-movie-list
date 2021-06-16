@@ -75,7 +75,6 @@
 
     <main>
 
-
         <div class="searchContainer">
             <div class="searchContant">
                 <input type="text" placeholder="Search A Movie Or TV Show" id="search" aria-label="Search" autocomplete="off" />
@@ -114,16 +113,14 @@
             <h2 class="movieNamePop"></h2>
             <p class="movieQualityPop"></p>
             <p class="movieRuntimePop"></p>
-            <div class="movieCoverWrapper">
-                <img src="" id="movieCover" alt="dvd cover" />
-            </div>
+            <div class="movieCoverWrapper"></div>
+
+            <div id="movieCredits"></div>
+            
             <div class="linksWrapper">
                 <a href="" target="_blank" id="movieImdbLink" rel="noopener"><img src="./images/imdb.png" alt="imdb image" id="movieImdbImage" /></a>
                 <img src="./images/youtube.png" alt="youtube image" id="movieYoutubeImage" />
                 <a href="" target="_blank" id="moviePopcornLink" rel="noopener"><img src="./images/popcorn.png" alt="popcorn image" id="moviePopcornImage" /></a>
-            </div>
-            <div class="popupBtnsWrapper">
-                <button class="popupBtn" id="" onclick="closeCurrentPopup($(this))">Close</button>
             </div>
         </div>
     </div>
@@ -135,15 +132,13 @@
             <p class="tvShowQualityPop"></p>
             <p class="tvShowSeasonsPop"></p>
             <p class="tvShowEpisodesPop"></p>
-            <div class="tvShowCoverWrapper">
-                <img src="" id="tvShowCover" alt="dvd cover" />
-            </div>
+            <div class="tvShowCoverWrapper"></div>
+
+            <div id="tvShowCredits"></div>
+
             <div class="linksWrapper">
                 <a href="" target="_blank" id="tvShowImdbLink" rel="noopener"><img src="./images/imdb.png" alt="imdb image" id="tvShowImdbImage" /></a>
                 <img src="./images/youtube.png" alt="youtube image" id="tvShowYoutubeImage" />
-            </div>
-            <div class="popupBtnsWrapper">
-                <button class="popupBtn" id="" onclick="closeCurrentPopup($(this))">Close</button>
             </div>
         </div>
     </div>
