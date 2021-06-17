@@ -813,7 +813,7 @@ footer span {
     min-height: 25rem;
     background: #fff;
     padding: 2rem 2rem 1rem 2rem;
-    top: 2%;
+    top: 1%;
     left: 0;
     right: 0;
     margin: auto;
@@ -875,6 +875,10 @@ footer span {
     z-index: -1;
     text-align: center;
     background-size: 200px 300px !important;
+}
+
+.longTitle {
+    font-size: 1.5rem !important;
 }
 
 .videoWrapper {
@@ -955,6 +959,11 @@ footer span {
     margin-bottom: .5rem;
     border-radius: 5px;
     filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
+    transition: .2s;
+    -webkit-transition: .2s;
+    -o-transition: .2s;
+    -moz-transition: .2s;
+    cursor: pointer;
 }
 
 .creditHeader {
@@ -1004,7 +1013,7 @@ footer span {
     }
 
     .popupCont {
-        width: 65%;
+        width: 70%;
     }
 
     .searchContant {
@@ -1036,6 +1045,15 @@ footer span {
         -ms-transform: perspective(800px) rotateY(20deg) scale(1.05);
         -o-transform: perspective(800px) rotateY(20deg) scale(1.05);
     }
+
+    .movieCreditImg:hover, .tvCreditImg:hover {
+        transform: perspective(800px) rotateY(20deg) scale(1.05);
+        -webkit-transform: perspective(800px) rotateY(20deg) scale(1.05);
+        -moz-transform: perspective(800px) rotateY(20deg) scale(1.05);
+        -ms-transform: perspective(800px) rotateY(20deg) scale(1.05);
+        -o-transform: perspective(800px) rotateY(20deg) scale(1.05);
+    }
+    
 
     #marvelContainer button:hover {
         background: #FE5449;
@@ -1147,6 +1165,23 @@ footer span {
 
 @media only screen and (max-width: 400px) {
 
+    .movieCredit, .tvCredit {
+        padding: .5rem 1rem;
+    }
+
+    #movieImdbLink, #tvShowImdbLink, #moviePopcornLink {
+        margin: 1rem 1rem 0 1rem;
+    }
+
+    #movieImdbImage, #tvShowImdbImage, #moviePopcornImage, #movieYoutubeImage, #tvShowYoutubeImage {
+        width: 35px;
+        height: 35px;
+    }
+
+    #movieYoutubeImage, #tvShowYoutubeImage {
+        margin: 1rem 1rem 1rem 1rem;
+    }
+
     main {
         margin-top: 2rem;
     }
@@ -1169,12 +1204,16 @@ footer span {
         padding-right: 1rem;
     }
 
-    #movieDetails .popupCont {
-        padding: 2.2em;
+    #movieDetails .popupCont, #tvShowDetails .popupCont {
+        padding: 1em 2.2em 0 2.2em;
     }
 
     .popUpInfo h2, .creditHeader {
         font-size: 1.5rem;
+    }
+
+    .longTitle {
+        font-size: 1rem !important;
     }
 }
 
@@ -1195,6 +1234,14 @@ footer span {
 }
 
 @media only screen and (max-width: 350px) {
+
+    .movieCreditImg, .tvCreditImg {
+        width: 80px;
+    }
+
+    .movieCredit span {
+        font-size: .8rem;
+    }
 
     .Xbtn {
         width: 20px;
