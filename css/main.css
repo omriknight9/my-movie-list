@@ -959,6 +959,7 @@ footer span {
 
 .movieCreditImg, .tvCreditImg {
     width: 150px;
+    height: 225px;
     margin-top: .5rem;
     margin-bottom: .5rem;
     border-radius: 5px;
@@ -1117,6 +1118,7 @@ footer span {
 
     .movieCreditImg, .tvCreditImg {
         width: 100px;
+        height: 175px;
     }
 
     .movieCredit span {
