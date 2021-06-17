@@ -588,16 +588,16 @@ const buildMovies = (div, wrapper, arr, type) => {
                                 let actorImgPath;
                     
                                 if (data.cast[i].profile_path == 'undefined' || data.cast[i].profile_path == null || data.cast[i].profile_path == '') {
-            
+
                                     switch (data.cast[i].gender) {
                                         case 0:
-                                            actorImgPath = './images/actor.png';
+                                            actorImgPath = './images/actor.jpg';
                                             break;
                                         case 1:
-                                            actorImgPath = './images/actress.png';
+                                            actorImgPath = './images/actress.jpg';
                                             break;
                                         case 2:
-                                            actorImgPath = './images/actor.png';
+                                            actorImgPath = './images/actor.jpg';
                                             break;
                                     }
                                 } else {
@@ -1120,13 +1120,13 @@ const buildTvShow = (div, wrapper, arr) => {
             
                                     switch (data.cast[i].gender) {
                                         case 0:
-                                            actorImgPath = './images/actor.png';
+                                            actorImgPath = './images/actor.jpg';
                                             break;
                                         case 1:
-                                            actorImgPath = './images/actress.png';
+                                            actorImgPath = './images/actress.jpg';
                                             break;
                                         case 2:
-                                            actorImgPath = './images/actor.png';
+                                            actorImgPath = './images/actor.jpg';
                                             break;
                                     }
                                 } else {
