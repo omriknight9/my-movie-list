@@ -69,8 +69,12 @@ $(document).ready((event) => {
 
         if ($('.sortContainer').is(':visible')) {
             $('.sortContainer').hide();
+            DCCounter = 1;
+            marvelCounter = 1;
+            valiantCounter = 1;
+            othersCounter = 1;
+            animationCounter = 1;
         }
-
         let resultType;
 
         searchVal = $('#search').val();
@@ -292,6 +296,11 @@ const goToDiv = (div) => {
 
     if ($('.sortContainer').is(':visible')) {
         $('.sortContainer').hide();
+        DCCounter = 1;
+        marvelCounter = 1;
+        valiantCounter = 1;
+        othersCounter = 1;
+        animationCounter = 1;
     }
 
     if ($('main').is(":hidden")) {
@@ -460,8 +469,14 @@ const buildMovies = (div, wrapper, arr, type) => {
                 id: 'nextInLineBtn',
                 text: finalBtnText,
                 click: () => {
+
                     if ($('.sortContainer').is(':visible')) {
                         $('.sortContainer').hide();
+                        DCCounter = 1;
+                        marvelCounter = 1;
+                        valiantCounter = 1;
+                        othersCounter = 1;
+                        animationCounter = 1;
                     }
 
                     $('main, #menuOpenWrapper, footer, #goToTopBtn').css({'pointer-events': 'none', 'opacity': '0'});
@@ -552,6 +567,11 @@ const buildMovies = (div, wrapper, arr, type) => {
 
                 if ($('.sortContainer').is(':visible')) {
                     $('.sortContainer').hide();
+                    DCCounter = 1;
+                    marvelCounter = 1;
+                    valiantCounter = 1;
+                    othersCounter = 1;
+                    animationCounter = 1;
                 }
 
                 $.ajax({
@@ -956,9 +976,9 @@ const configureDate = (data) => {
 
 const sort = (div, num) => {
 
-    $.each($('.sortContainer'), function (key, value) {
-        $(this).fadeOut('fast');
-    });
+    if ($('.sortContainer').is(':visible')) {
+        $('.sortContainer').hide();
+    }
 
     switch (num) {
         case 1:
