@@ -71,7 +71,7 @@ $(document).ready((event) => {
         lastChar = searchVal.substr(searchVal.length - 1);
     
         if (lastChar == ' ') {
-            return; 
+            return;
         } else {
             $('#searchResults').empty();
         }
@@ -519,8 +519,6 @@ const buildMovies = (div, wrapper, arr, type) => {
         finalNameToSend = finalNameToSend.replace(/:/, "");
         finalNameToSend = finalNameToSend.replace(/\s/g, '');
 
-        let dateForShow = configureDate(movies[i].date);
-
         let movieWrapper = $('<div>', {
             class: 'movieWrapper ' + div,
             'name': finalNameToSend,
@@ -691,7 +689,7 @@ const buildMovies = (div, wrapper, arr, type) => {
 
         let movieDate = $('<p>', {
             class: 'date',
-            text: dateForShow
+            text: configureDate(movies[i].date)
         }).appendTo(movieWrapper);
     }
 }
@@ -751,7 +749,8 @@ const getCinematicInfo = (url, type) => {
             } else {
                 finalImg = 'https://image.tmdb.org/t/p/w1280' + closest.poster;
             }
-        
+
+
             $('#dateOfNextMovie').html(configureDate(closest.date));
             $('#nextMcuTitle').html(closest.name);
             $('#mcuLink').attr('href', 'https://omriknight9.github.io/omris-movies/?title=' + closest.name + '&value=' + closest.id);
@@ -864,7 +863,7 @@ const showTimeline = (type) => {
                 src: finalImg,
                 alt: 'movie img'
             }).appendTo(timelineMovieLink)
-    
+
             let timelineMovieDate = $('<p>', {
                 class: 'timelineMovieDate',
                 text: configureDate(cinematicArr[i].date)
@@ -911,7 +910,7 @@ const showTimeline = (type) => {
             if (finalDate == null || finalDate == undefined || finalDate == '') {
                 finalDate = 'TBD';
             } else {
-                finalDate = configureDate(tvShowTimelineArr[i].date)
+                finalDate = configureDate(tvShowTimelineArr[i].date);
             }
 
             let timelineMovieDate = $('<p>', {
@@ -923,24 +922,13 @@ const showTimeline = (type) => {
 }
 
 const configureDate = (data) => {
+
     let date = new Date(data);
     let day = date.getDate();
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
 
-    if (day < 10) {
-        day = '0' + day
-    } else {
-        day = day;
-    }
-
-    if (month < 10) {
-        month = '0' + month
-    } else {
-        month = month;
-    }
-
-    return day + '/' + month + '/' + year;
+    return changeMonthName(month - 1) + ' ' + changeDayName(day) + ' ' + year;
 }
 
 const sort = (div, num) => {
