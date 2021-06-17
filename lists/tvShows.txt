@@ -1,6 +1,7 @@
 
 {
     "tvShows" : [
+        {"value": "1668", "name": "Friends", "year": 1994, "image": "tvShows/friends.jpg", "quality": "720p", "trailer": "Ln5Gh3SvEt4"},
         {"value": "1396", "name": "Breaking Bad", "year": 2008, "image": "tvShows/breakingBad.jpg", "quality": "720p", "trailer": "HhesaQXLuRY"},
         {"value": "1405", "name": "Dexter", "year": "2006", "image": "tvShows/dexter.jpg", "quality": "720p", "trailer": "YQeUmSD1c3g"},
         {"value": "1399", "name": "Game Of Thrones", "year": "2011", "image": "tvShows/gameOfThrones.jpg", "quality": "720p", "trailer": "gcTkNV5Vg1E"},
