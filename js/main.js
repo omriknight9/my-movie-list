@@ -1211,6 +1211,12 @@ const buildTvShow = (div, wrapper, arr) => {
                     }
                 })
 
+                $('.tvShowNamePop').removeClass('longTitle');
+
+                if ($(this).find($('.name')).html().length > 30) {
+                    $('.tvShowNamePop').addClass('longTitle');
+                }
+
                 $('.tvShowCoverWrapper').css('background', 'url(' + $(this).find('.tvShowImg').attr('src') + ') top center no-repeat');
                 $('.tvShowNamePop').html($(this).find($('.name')).html());
                 $('.tvShowQualityPop').html('Quality: ' + $(this).attr('quality'));
