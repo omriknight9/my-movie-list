@@ -77,12 +77,12 @@ $(document).ready((event) => {
         }
 
         $.each($('.tvShowWrapper'), (key, value) => {
-            let tvShowNumId = $(value).attr('numId');
+            let tvShowNumId = $(value).attr('value');
             showResult($('.tvShowWrapper'),$('.tvShowImg'), $(value), tvShowNumId);
         });
 
         $.each($('.movieWrapper'), (key, value) => {
-            let movieNumId = $(value).attr('numId');
+            let movieNumId = $(value).attr('value');
                 
             if ($(value).hasClass('marvelMovie')) {
                 resultType = 1;
@@ -190,25 +190,11 @@ const showResult = (div, img, that, resultNum, resultType) => {
 
                     let that = this;
                     $.each($(div), function (key, value) {
-
-                        if ($(that).attr('movieNum') == $(this).attr('numId')) {
+                        if ($(that).attr('movieNum') == $(this).attr('value')) {
                             $('body').css('pointer-events', 'none');
                             selectedDiv = this;
 
                             goToResult(selectedDiv);
-
-                            $('#movieDetails').addClass('animated');
-
-                            $(selectedDiv).find($('.movieImg')).css({border: '0 solid black'}).animate({
-                                borderWidth: 6
-                            }, 500);
-
-                            setTimeout(() => {
-                                $(selectedDiv).find($('.movieImg')).css({border: '0 solid black'}).animate({
-                                    borderWidth: 0
-                                }, 500);
-                                $('#movieDetails').removeClass('animated');
-                            }, 2500)
                         
                             $('#searchResults').hide();
                             $('#search').val('');
@@ -536,7 +522,6 @@ const buildMovies = (div, wrapper, arr, type) => {
         let dateForShow = configureDate(movies[i].date);
 
         let movieWrapper = $('<div>', {
-            'numId': movies[i].id,
             class: 'movieWrapper ' + div,
             'name': finalNameToSend,
             'quality': movies[i].quality,
@@ -1066,7 +1051,6 @@ const buildTvShow = (div, wrapper, arr) => {
         finalNameToSend = finalNameToSend.replace(/\s/g, '');
 
         let tvShowWrapper = $('<div>', {
-            'numId': tvShows[i].id,
             class: 'tvShowWrapper ' + div,
             'year': tvShows[i].year,
             'name': finalNameToSend,
