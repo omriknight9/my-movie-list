@@ -1,4 +1,4 @@
-﻿
+
 let marvelMovies = [];
 let dcMovies = [];
 let valiantMovies = [];
@@ -31,6 +31,7 @@ const tmdbKey = '0271448f9ff674b76c353775fa9e6a82';
 
 const movieInfoUrl = "https://api.themoviedb.org/3/movie/";
 const tvShowInfoUrl = "https://api.themoviedb.org/3/tv/";
+const movieActorsUrl = "https://api.themoviedb.org/3/person/";
 
 $(document).ready((event) => {
 
@@ -610,11 +611,21 @@ const buildMovies = (div, wrapper, arr, type) => {
                                 } else {
                                     actorImgPath = 'https://image.tmdb.org/t/p/w1280' + data.cast[i].profile_path;
                                 }
+                                
+                                let imdbLink = $('<a>', {
+                                    class: 'imdbLink',
+                                    target: '_blank',
+                                    rel: 'noopener',
+                                }).appendTo(movieCredit);
 
                                 let movieCreditImg = $('<img>', {
                                     class: 'movieCreditImg',
-                                    src: actorImgPath
-                                }).appendTo(movieCredit);
+                                    src: actorImgPath,
+                                    actorId: data.cast[i].id,
+                                    click: function() {
+                                        goToActorImdb($(this).attr('actorId'), $(this));
+                                    }
+                                }).appendTo(imdbLink);
 
                                 let trimmedString;
 
@@ -658,6 +669,12 @@ const buildMovies = (div, wrapper, arr, type) => {
                         //console.log(err);
                     }
                 })
+
+                $('.movieNamePop').removeClass('longTitle');
+
+                if ($(this).find($('.name')).html().length > 30) {
+                    $('.movieNamePop').addClass('longTitle');
+                }
 
                 $('.movieCoverWrapper').css('background', 'url(' + $(this).find('.movieImg').attr('src') + ') top center no-repeat');
                 $('.movieNamePop').html($(this).find($('.name')).html());
@@ -789,6 +806,29 @@ const getTVShowInfo = (url, type) => {
 
         }, 0)    
     });
+}
+
+const goToActorImdb = (imdbActorId, that) => {
+
+    $.ajax({
+        type: 'GET',
+        crossDomain: true,
+        url: movieActorsUrl + imdbActorId + "/external_ids?api_key=" + tmdbKey + '&language=en-US',
+        dataType: "json",
+        success: (data) => {
+
+            if (data.imdb_id == null) {
+                $('#noImdbPop').show();
+            } else {
+                $(that).parent().attr('href', 'https://www.imdb.com/name/' + data.imdb_id);
+                that.trigger("click");
+                that.off();
+            }
+        },
+        error: (err) => {
+            //console.log(err);
+        }
+    })
 }
 
 const showTimeline = (type) => {
@@ -1113,10 +1153,20 @@ const buildTvShow = (div, wrapper, arr) => {
                                     actorImgPath = 'https://image.tmdb.org/t/p/w1280' + data.cast[i].profile_path;
                                 }
 
+                                let imdbLink = $('<a>', {
+                                    class: 'imdbLink',
+                                    target: '_blank',
+                                    rel: 'noopener',
+                                }).appendTo(tvCredit);
+
                                 let tvCreditImg = $('<img>', {
                                     class: 'tvCreditImg',
-                                    src: actorImgPath
-                                }).appendTo(tvCredit);
+                                    src: actorImgPath,
+                                    actorId: data.cast[i].id,
+                                    click: function() {
+                                        goToActorImdb($(this).attr('actorId'), $(this));
+                                    }
+                                }).appendTo(imdbLink);
 
                                 let trimmedString;
 
