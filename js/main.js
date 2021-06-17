@@ -60,6 +60,7 @@ $(document).ready((event) => {
         $('.spinnerWrapper').hide();
         $('.searchContainer').show();
         $('button').show();
+        $('#btnAllMarvel, #btnAllDC').hide();
 
         $('.container, footer').css('display', 'flex');
     }, 500);
@@ -466,6 +467,9 @@ const buildMovies = (div, wrapper, arr, type) => {
                 text: cinematicUBtnText,
                 click: function () {
                     if (type == 1) {
+
+                        $('#btnAllMarvel').show();
+
                         cinematicType = 1;
                         if (marvelCinematicCounter == 1) {
                             showCinematicUniverse(typeShowClick, typeU, mcuWasSorted);
@@ -477,6 +481,9 @@ const buildMovies = (div, wrapper, arr, type) => {
                             $(this).html(cinematicUBtnText);
                         }
                     } else if (type == 2) {
+                        
+                        $('#btnAllDC').show();
+
                         cinematicType = 2;
                         if (dcCinematicCounter == 1) {
                             showCinematicUniverse(typeShowClick, typeU, dceuWasSorted);
@@ -502,8 +509,10 @@ const buildMovies = (div, wrapper, arr, type) => {
                 text: allTypeBtnText,
                 click: () => {
                     if (type == 1) {
+                        $('#btnAllMarvel').hide();
                         allOfKind(typeShowClick, mcuWasSorted);
                     } else if (type == 2) {
+                        $('#btnAllDC').hide();
                         allOfKind(typeShowClick, dceuWasSorted);
                     }
                 }
@@ -749,7 +758,6 @@ const getCinematicInfo = (url, type) => {
             } else {
                 finalImg = 'https://image.tmdb.org/t/p/w1280' + closest.poster;
             }
-
 
             $('#dateOfNextMovie').html(configureDate(closest.date));
             $('#nextMcuTitle').html(closest.name);
