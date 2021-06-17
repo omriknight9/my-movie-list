@@ -66,6 +66,11 @@ $(document).ready((event) => {
     }, 500);
 
     $('#search').on('input', () => {
+
+        if ($('.sortContainer').is(':visible')) {
+            $('.sortContainer').hide();
+        }
+
         let resultType;
 
         searchVal = $('#search').val();
@@ -284,6 +289,11 @@ const getInfo = (textFile, arr, div, container, type) => {
 }
 
 const goToDiv = (div) => {
+
+    if ($('.sortContainer').is(':visible')) {
+        $('.sortContainer').hide();
+    }
+
     if ($('main').is(":hidden")) {
         $('main').show();
         $('#timeline').hide();
@@ -450,6 +460,9 @@ const buildMovies = (div, wrapper, arr, type) => {
                 id: 'nextInLineBtn',
                 text: finalBtnText,
                 click: () => {
+                    if ($('.sortContainer').is(':visible')) {
+                        $('.sortContainer').hide();
+                    }
 
                     $('main, #menuOpenWrapper, footer, #goToTopBtn').css({'pointer-events': 'none', 'opacity': '0'});
                     $('.popUpInfo').css({'pointer-events': 'none', 'opacity': '.1'});
@@ -467,9 +480,7 @@ const buildMovies = (div, wrapper, arr, type) => {
                 text: cinematicUBtnText,
                 click: function () {
                     if (type == 1) {
-
                         $('#btnAllMarvel').show();
-
                         cinematicType = 1;
                         if (marvelCinematicCounter == 1) {
                             showCinematicUniverse(typeShowClick, typeU, mcuWasSorted);
@@ -538,6 +549,10 @@ const buildMovies = (div, wrapper, arr, type) => {
             'dceu': movies[i].dceu,
             'value': movies[i].value,
             click: function () {
+
+                if ($('.sortContainer').is(':visible')) {
+                    $('.sortContainer').hide();
+                }
 
                 $.ajax({
                     type: 'GET',
