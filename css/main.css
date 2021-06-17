@@ -101,6 +101,10 @@ button:active {
     -o-transform: translateY(4px);
 }
 
+#btnAllMarvel, #btnAllDC {
+    display: none;
+}
+
 .searchContainer {
     position: absolute;
     top: 0;
