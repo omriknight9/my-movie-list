@@ -39,9 +39,6 @@ let sessionId;
 $(document).ready((event) => {
 
     if (window.location.href.indexOf("?timeline=") > -1) {
-        // window.history.pushState('page2', 'Title', '/');
-        let url = new URL(window.location);
-        // window.history.pushState({}, '', url);
         window.history.replaceState({}, document.title, "/" + "my-movie-list/");
     }
 
@@ -290,9 +287,11 @@ const goToDiv = (div) => {
         $('main').show();
         $('#timeline').hide();
 
-        window.history.pushState('page2', 'Title', '/');
-        let url = new URL(window.location);
-        window.history.pushState({}, '', url);
+        // window.history.pushState('page2', 'Title', '/');
+        // let url = new URL(window.location);
+        // window.history.pushState({}, '', url);
+
+        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
         setTimeout(() => {
             document.querySelector(div).scrollIntoView({ behavior: 'smooth' });
@@ -981,6 +980,7 @@ const showTimeline = (type, cinematicType) => {
     const url = new URL(window.location);
     url.searchParams.set('timeline', timelineUrl);
     window.history.pushState({}, '', url);
+    
 
     // window.onhashchange = function() {
     //     //blah blah blah
@@ -989,7 +989,8 @@ const showTimeline = (type, cinematicType) => {
 
     $(window).on('popstate', function() {
         goHome();
-        history.pushState(null,  document.title, location.href);
+        // history.pushState(null,  document.title, location.href);
+        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
     });
 
     // window.history.pushState([], 'index.html', "<url>");
