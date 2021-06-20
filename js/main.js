@@ -39,9 +39,10 @@ let sessionId;
 $(document).ready((event) => {
 
     if (window.location.href.indexOf("?timeline=") > -1) {
-        window.history.pushState('page2', 'Title', '/');
+        // window.history.pushState('page2', 'Title', '/');
         let url = new URL(window.location);
-        window.history.pushState({}, '', url);
+        // window.history.pushState({}, '', url);
+        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
     }
 
     loadJson();
