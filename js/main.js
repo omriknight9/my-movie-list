@@ -33,9 +33,6 @@ const movieInfoUrl = "https://api.themoviedb.org/3/movie/";
 const tvShowInfoUrl = "https://api.themoviedb.org/3/tv/";
 const movieActorsUrl = "https://api.themoviedb.org/3/person/";
 
-let authToken;
-let sessionId;
-
 $(document).ready((event) => {
 
     if (window.location.href.indexOf("?timeline=") > -1) {
