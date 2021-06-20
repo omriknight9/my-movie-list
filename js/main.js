@@ -470,8 +470,6 @@ const buildMovies = (div, wrapper, arr, type) => {
                     $('.popUpInfo').css({'pointer-events': 'none', 'opacity': '.1'});
                     $('.spinnerWrapper').show();
 
-                    console.log(type);
-
                     getCinematicInfo(finalCinematicUrl, type);
                     setTimeout(() => {
                         getTVShowInfo(finalTvUrl, type);
@@ -852,8 +850,6 @@ const goToActorImdb = (imdbActorId, that) => {
 }
 
 const showTimeline = (type, cinematicType) => {
-
-    console.log(cinematicType);
 
     $('.timelineMovieWrapper').remove();
     $('#timeline').show();
