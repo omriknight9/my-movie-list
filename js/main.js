@@ -287,10 +287,6 @@ const goToDiv = (div) => {
         $('main').show();
         $('#timeline').hide();
 
-        // window.history.pushState('page2', 'Title', '/');
-        // let url = new URL(window.location);
-        // window.history.pushState({}, '', url);
-
         window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
         setTimeout(() => {
@@ -980,23 +976,11 @@ const showTimeline = (type, cinematicType) => {
     const url = new URL(window.location);
     url.searchParams.set('timeline', timelineUrl);
     window.history.pushState({}, '', url);
-    
-
-    // window.onhashchange = function() {
-    //     //blah blah blah
-    //     goHome();
-    // }
 
     $(window).on('popstate', function() {
         goHome();
-        // history.pushState(null,  document.title, location.href);
         window.history.replaceState({}, document.title, "/" + "my-movie-list/");
     });
-
-    // window.history.pushState([], 'index.html', "<url>");
-    // window.location.replace('index.html');
-
-
 }
 
 const goHome = () => {
