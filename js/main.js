@@ -39,7 +39,7 @@ let sessionId;
 $(document).ready((event) => {
 
     if (window.location.href.indexOf("?timeline=") > -1) {
-        window.history.pushState('page2', 'Title', '/');
+        window.history.pushState('page2', 'Title', 'my-movie-list/');
         let url = new URL(window.location);
         window.history.pushState({}, '', url);
     }
