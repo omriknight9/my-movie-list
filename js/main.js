@@ -33,7 +33,16 @@ const movieInfoUrl = "https://api.themoviedb.org/3/movie/";
 const tvShowInfoUrl = "https://api.themoviedb.org/3/tv/";
 const movieActorsUrl = "https://api.themoviedb.org/3/person/";
 
+let authToken;
+let sessionId;
+
 $(document).ready((event) => {
+
+    if (window.location.href.indexOf("?timeline=") > -1) {
+        window.history.pushState('page2', 'Title', '/');
+        let url = new URL(window.location);
+        window.history.pushState({}, '', url);
+    }
 
     loadJson();
 
@@ -75,6 +84,11 @@ $(document).ready((event) => {
             othersCounter = 1;
             animationCounter = 1;
         }
+
+        if ($('#toggle').hasClass('on')) {
+            $('#toggle').removeClass('on')
+        }
+
         let resultType;
 
         searchVal = $('#search').val();
@@ -112,38 +126,6 @@ $(document).ready((event) => {
         });
     })
 });
-
-const hasClass = (elem, className) => {
-    return new RegExp(' ' + className + ' ').test(' ' + elem.className + ' ');
-}
-
-const addClass = (elem, className) => {
-    if (!hasClass(elem, className)) {
-        elem.className += ' ' + className;
-    }
-}
-
-const removeClass = (elem, className) => {
-    var newClass = ' ' + elem.className.replace( /[\t\r\n]/g, ' ') + ' ';
-    if (hasClass(elem, className)) {
-        while (newClass.indexOf(' ' + className + ' ') >= 0 ) {
-            newClass = newClass.replace(' ' + className + ' ', ' ');
-        }
-        elem.className = newClass.replace(/^\s+|\s+$/g, '');
-    }
-}
-
-const toggleClass = (elem, className) => {
-    var newClass = ' ' + elem.className.replace( /[\t\r\n]/g, " " ) + ' ';
-    if (hasClass(elem, className)) {
-        while (newClass.indexOf(" " + className + " ") >= 0 ) {
-            newClass = newClass.replace( " " + className + " " , " " );
-        }
-        elem.className = newClass.replace(/^\s+|\s+$/g, '');
-    } else {
-        elem.className += ' ' + className;
-    }
-}
 
 const showResult = (div, img, that, resultNum, resultType) => {
 
@@ -306,6 +288,11 @@ const goToDiv = (div) => {
     if ($('main').is(":hidden")) {
         $('main').show();
         $('#timeline').hide();
+
+        window.history.pushState('page2', 'Title', '/');
+        let url = new URL(window.location);
+        window.history.pushState({}, '', url);
+
         setTimeout(() => {
             document.querySelector(div).scrollIntoView({ behavior: 'smooth' });
         }, 0)
@@ -479,9 +466,15 @@ const buildMovies = (div, wrapper, arr, type) => {
                         animationCounter = 1;
                     }
 
+                    if ($('#toggle').hasClass('on')) {
+                        $('#toggle').removeClass('on')
+                    }
+
                     $('main, #menuOpenWrapper, footer, #goToTopBtn').css({'pointer-events': 'none', 'opacity': '0'});
                     $('.popUpInfo').css({'pointer-events': 'none', 'opacity': '.1'});
                     $('.spinnerWrapper').show();
+
+                    console.log(type);
 
                     getCinematicInfo(finalCinematicUrl, type);
                     setTimeout(() => {
@@ -572,6 +565,10 @@ const buildMovies = (div, wrapper, arr, type) => {
                     valiantCounter = 1;
                     othersCounter = 1;
                     animationCounter = 1;
+                }
+
+                if ($('#toggle').hasClass('on')) {
+                    $('#toggle').removeClass('on')
                 }
 
                 $.ajax({
@@ -801,7 +798,7 @@ const getCinematicInfo = (url, type) => {
             $('#afterNextMovieTitle').html(closest2.name);
             $('#afterNextMovieDate').html(configureDate(closest2.date));
             $('#nextMcuFilmPop').show();
-            $('#timelineBtn').attr('onclick', 'showTimeline(1)');
+            $('#timelineBtn').attr('onclick', 'showTimeline(1,' + type + ')');
         }, 0)    
     });
 }
@@ -825,7 +822,7 @@ const getTVShowInfo = (url, type) => {
 
         setTimeout(() => {
             const now = new Date();
-            $('#timelineTVBtn').attr('onclick', 'showTimeline(2)');
+            $('#timelineTVBtn').attr('onclick', 'showTimeline(2,' + type + ')');
 
             $('main, #menuOpenWrapper, footer, #goToTopBtn').css({'pointer-events': 'all', 'opacity': '1'});
             $('.popUpInfo').css({'pointer-events': 'all', 'opacity': '1'});
@@ -858,13 +855,22 @@ const goToActorImdb = (imdbActorId, that) => {
     })
 }
 
-const showTimeline = (type) => {
+const showTimeline = (type, cinematicType) => {
+
+    console.log(cinematicType);
+
     $('.timelineMovieWrapper').remove();
     $('#timeline').show();
     $('main, #nextMcuFilmPop').hide();
     goToTop();
 
     if (type == 1) {
+        if(cinematicType == 1) {
+            timelineUrl = 'MCUTimeline';
+        } else {
+            timelineUrl = 'DCEUTimeline';
+        }
+        
 
         for (let i = 0; i < cinematicArr.length; i++) {
     
@@ -914,6 +920,12 @@ const showTimeline = (type) => {
         }
     } else {
 
+        if(cinematicType == 1) {
+            timelineUrl = 'MarvelTVUniverseTimeline';
+        } else {
+            timelineUrl = 'DCTVUniverseTimeline';
+        }
+
         for (let i = 0; i < tvShowTimelineArr.length; i++) {
     
             let timelineMovieWrapper = $('<div>', {
@@ -962,6 +974,32 @@ const showTimeline = (type) => {
             }).appendTo(timelineMovieWrapper)    
         }
     }
+    
+    timelineUrl;
+
+    const url = new URL(window.location);
+    url.searchParams.set('timeline', timelineUrl);
+    window.history.pushState({}, '', url);
+
+    // window.onhashchange = function() {
+    //     //blah blah blah
+    //     goHome();
+    // }
+
+    $(window).on('popstate', function() {
+        goHome();
+        history.pushState(null,  document.title, location.href);
+    });
+
+    // window.history.pushState([], 'index.html', "<url>");
+    // window.location.replace('index.html');
+
+
+}
+
+const goHome = () => {
+    $('main').show();
+    $('#timeline').hide();
 }
 
 const configureDate = (data) => {
@@ -978,6 +1016,10 @@ const sort = (div, num) => {
 
     if ($('.sortContainer').is(':visible')) {
         $('.sortContainer').hide();
+    }
+
+    if ($('#toggle').hasClass('on')) {
+        $('#toggle').removeClass('on')
     }
 
     switch (num) {
