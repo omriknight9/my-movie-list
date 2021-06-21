@@ -61,7 +61,7 @@ h1 {
 }
 
 .sortContent {
-    width: 50%;
+    width: 40%;
     display: flex;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -716,6 +716,7 @@ p {
 
 .timelineMovieName, .timelineMovieDate {
     color: lightgray;
+    font-weight: 600;
 }
 
 .timelineMovieName {
@@ -856,15 +857,13 @@ footer span {
     z-index: 2;
 }
 
-#movieImdbImage, #tvShowImdbImage, #moviePopcornImage {
+#movieImdbImage, #tvShowImdbImage, #moviePopcornImage, #movieYoutubeImage, #tvShowYoutubeImage {
     width: 80px;
     height: 80px;
 }
 
 #movieYoutubeImage, #tvShowYoutubeImage {
     margin: 1rem 1rem 0 1rem;
-    width: 80px;
-    height: 80px;
     cursor: pointer;
     z-index: 2;
 }
@@ -958,8 +957,6 @@ footer span {
 }
 
 .movieCreditImg, .tvCreditImg {
-    width: 150px;
-    height: 225px;
     margin-top: .5rem;
     margin-bottom: .5rem;
     border-radius: 5px;
@@ -971,6 +968,16 @@ footer span {
     cursor: pointer;
 }
 
+.movieCreditImg {
+    width: 150px;
+    height: 225px;
+}
+
+.tvCreditImg {
+    width: 130px;
+    height: 205px;
+}
+
 .creditHeader {
     font-size: 2rem;
     color: orange;
@@ -979,13 +986,6 @@ footer span {
 @media only screen and (max-width: 1300px) {
     .resultName {
         font-size: 1.3rem;
-    }
-}
-
-@media only screen and (max-width: 1200px) {
-
-    .sortContent {
-        width: 70%;
     }
 }
 
@@ -1029,7 +1029,7 @@ footer span {
 @media only screen and (max-width: 880px) {
 
     .sortContent {
-        width: 90%;
+        width: 50%;
     }
 }
 
@@ -1118,7 +1118,7 @@ footer span {
 
     .movieCreditImg, .tvCreditImg {
         width: 100px;
-        height: 175px;
+        height: 160px;
     }
 
     .movieCredit span {
@@ -1127,6 +1127,10 @@ footer span {
 }
 
 @media only screen and (max-width: 600px) {
+
+    .sortContent {
+        width: 75%;
+    }
 
     #trailer .popupCont {
         width: 29rem;
@@ -1174,10 +1178,6 @@ footer span {
     .movieCredit, .tvCredit {
         padding: .5rem 1rem;
     }
-
-    /* #movieImdbLink, #tvShowImdbLink, #moviePopcornLink {
-        margin: 1rem 1rem 0 1rem;
-    } */
 
     #movieImdbImage, #tvShowImdbImage, #moviePopcornImage, #movieYoutubeImage, #tvShowYoutubeImage {
         width: 35px;
@@ -1243,6 +1243,7 @@ footer span {
 
     .movieCreditImg, .tvCreditImg {
         width: 80px;
+        height: 140px;
     }
 
     .movieCredit span {
