@@ -19,6 +19,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="js/main.js"></script>
         <script src="js/utils.js"></script>
+
     </head>
 <body>
 
@@ -111,8 +112,10 @@
         <div class="popupCont">
             <div class="popupContent"></div>
             <div class="Xbtn"></div>
+
+            <img src="./images/star.png" alt="star" id="rating" onclick="rateMoviePop()">
+
             <h2 class="movieNamePop"></h2>
-            <p class="movieQualityPop"></p>
             <p class="movieRuntimePop"></p>
             <div class="movieCoverWrapper"></div>
 
@@ -130,7 +133,6 @@
         <div class="popupCont">
             <div class="Xbtn"></div>
             <h2 class="tvShowNamePop"></h2>
-            <p class="tvShowQualityPop"></p>
             <p class="tvShowSeasonsPop"></p>
             <p class="tvShowEpisodesPop"></p>
             <div class="tvShowCoverWrapper"></div>
@@ -191,5 +193,11 @@
         </div>
     </div>
 
+    <div id="noVideosPop" class="popUpInfo">
+        <div class="popupCont">
+            <div class="Xbtn"></div>
+            <h2>No Videos For This Film</h2>
+        </div>
+    </div>
 </body>
 </html>
