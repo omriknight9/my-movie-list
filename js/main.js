@@ -32,6 +32,11 @@ const tmdbKey = '0271448f9ff674b76c353775fa9e6a82';
 const movieInfoUrl = "https://api.themoviedb.org/3/movie/";
 const tvShowInfoUrl = "https://api.themoviedb.org/3/tv/";
 const movieActorsUrl = "https://api.themoviedb.org/3/person/";
+const youtubeVideo = 'https://www.youtube.com/embed/';
+const listUrl = 'https://api.themoviedb.org/3/list/';
+
+let authToken;
+let sessionId;
 
 $(document).ready((event) => {
 
@@ -50,22 +55,17 @@ $(document).ready((event) => {
     }
 
     $('.Xbtn').click(function () {
-        if ($($(this).parent().parent()).hasClass('animated')) {
-            $(selectedDiv).css({border: '0 solid black'}).animate({
-                borderWidth: 0
-            }, 200);
+        if($(this).parent().parent().attr('id') == 'movieDetails') {
+            $('#movieDetails').attr('chosenMovieId', '');
         }
-
+        
         $(this).parent().parent().fadeOut(150);
-        $('#trailerVideo').attr('src', '');
     })
 
     setTimeout(() => {
         $('.spinnerWrapper').hide();
         $('.searchContainer').show();
         $('button').show();
-        $('#btnAllMarvel, #btnAllDC').hide();
-
         $('.container, footer').css('display', 'flex');
     }, 500);
 
@@ -219,98 +219,53 @@ const showResult = (div, img, that, resultNum, resultType) => {
     }
 }
 
-const capitalize = (str) => {
-    str = str.split(' ');
-    for (let i = 0; i < str.length; i++) {
-        str[i] = str[i][0].toUpperCase() + str[i].substr(1);
-    }
-
-    return str.join(" ");
-}
-
 const loadJson = () => {
 
     var promise1 = new Promise((resolve) => {
-        resolve(getInfo('marvel', marvelMovies, 'marvelMovie', $('#marvelContainer'), 1));
+        resolve($.get(listUrl + '7099604?api_key=' + tmdbKey + '&language=en-US', (data) => {
+            buildMoviesFromTmdb(data, 'marvel', $('#marvelContainer'), 1);
+        }));
     });
 
     promise1.then(() => {
-        getInfo('dc', dcMovies, 'dcMovie', $('#dcContainer'), 2);
-    });
-
-    promise1.then(() => {
-        getInfo('valiant', valiantMovies, 'valiantMovie', $('#valiantContainer'), 3);
-    });
-
-    promise1.then(() => {
-        getInfo('others', otherMovies, 'otherMovie', $('#othersContainer'), 4);
-    });
-
-    promise1.then(() => {
-        getInfo('animation', animationMovies, 'animationMovie', $('#animationContainer'), 5);
-    });
-
-    promise1.then(() => {
-        $.get('./lists/tvShows.txt', (data) => {
-            tvShows.push(JSON.parse(data));
-            buildTvShow('tvShow', $('#tvShowContainer'), tvShows);
+        $.get(listUrl + '7099603?api_key=' + tmdbKey + '&language=en-US', (data) => {
+            buildMoviesFromTmdb(data, 'dc', $('#dcContainer'), 2);
         });
     });
 
     promise1.then(() => {
-        getInfo('4k', ultraMovies, 'ultraMovie', $('#ultraContainer'), 6);
+        $.get(listUrl + '7099609?api_key=' + tmdbKey + '&language=en-US', (data) => {
+            buildMoviesFromTmdb(data, 'valiant', $('#valiantContainer'), 3);
+        });
+    });
+
+    promise1.then(() => {
+        $.get(listUrl + '7099605?api_key=' + tmdbKey + '&language=en-US', (data) => {
+            buildMoviesFromTmdb(data, 'others', $('#othersContainer'), 4);
+        });
+    });
+
+    promise1.then(() => {
+        $.get(listUrl + '7099575?api_key=' + tmdbKey + '&language=en-US', (data) => {
+            buildMoviesFromTmdb(data, 'animation', $('#animationContainer'), 5);
+        });
+    });
+
+    promise1.then(() => {
+        $.get(listUrl + '7099607?api_key=' + tmdbKey + '&language=en-US', (data) => {
+            buildTvShowFromTmdb(data, 'tvShow', $('#tvShowContainer'));
+        });
+    });
+
+    promise1.then(() => {
+        $.get(listUrl + '7099559?api_key=' + tmdbKey + '&language=en-US', (data) => {
+            buildMoviesFromTmdb(data, '4k',  $('#ultraContainer'), 6);
+        });
     });
 }
 
-const getInfo = (textFile, arr, div, container, type) => {
-    $.get('./lists/' + textFile + '.txt', (data) => {
-        arr.push(JSON.parse(data));
-        buildMovies(div, container, arr, type);
-    });  
-}
+const buildMoviesFromTmdb = (data, div, wrapper, type) => {
 
-const goToDiv = (div) => {
-
-    if ($('.sortContainer').is(':visible')) {
-        $('.sortContainer').hide();
-        DCCounter = 1;
-        marvelCounter = 1;
-        valiantCounter = 1;
-        othersCounter = 1;
-        animationCounter = 1;
-    }
-
-    if ($('main').is(":hidden")) {
-        $('main').show();
-        $('#timeline').hide();
-
-        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
-
-        setTimeout(() => {
-            document.querySelector(div).scrollIntoView({ behavior: 'smooth' });
-        }, 0)
-    } else {
-        document.querySelector(div).scrollIntoView({ behavior: 'smooth' });
-    }
-}
-
-const goToResult = (div) => {
-    if ($(window).width() < 765) {
-        $('html, body').animate({scrollTop: $(div).offset().top - 150}, 1000);
-    } else {
-        $('html, body').animate({scrollTop: $(div).offset().top - 150}, 1000);
-    }
-
-    setTimeout(() => {
-        $("html, body").animate({scrollTop: $(window).scrollTop() + 10});
-    }, 2000);
-}
-
-const buildMovies = (div, wrapper, arr, type) => {
-
-    $('#trailerVideo').attr('src', '');
-
-    let movies = arr[0].movies;
     let headerText;
     let cinematicUBtnId;
     let cinematicUBtnText;
@@ -420,13 +375,6 @@ const buildMovies = (div, wrapper, arr, type) => {
                 sortMovies(typeSortClick, 'name', 2);
             }
         }).appendTo(sortContent);
-    
-        let runtimeSortBtn = $('<button>', {
-            text: 'By Runtime',
-            click: () => {
-                sortMovies(typeSortClick, 'runtime', 4);
-            }
-        }).appendTo(sortContent);
 
         if (type == 1 || type == 2) {
 
@@ -437,12 +385,12 @@ const buildMovies = (div, wrapper, arr, type) => {
 
             if (type == 1) {
                 finalBtnText = 'Next MCU Film';
-                finalCinematicUrl = 'https://api.themoviedb.org/3/list/7099064?api_key=' + tmdbKey + '&language=en-US';
-                finalTvUrl = 'https://api.themoviedb.org/3/list/7099128?api_key=' + tmdbKey + '&language=en-US';
+                finalCinematicUrl = listUrl + '7099064?api_key=' + tmdbKey + '&language=en-US';
+                finalTvUrl = listUrl + '7099128?api_key=' + tmdbKey + '&language=en-US';
             } else {
                 finalBtnText = 'Next DCEU Film';
-                finalCinematicUrl = 'https://api.themoviedb.org/3/list/7099063?api_key=' + tmdbKey + '&language=en-US';
-                finalTvUrl = 'https://api.themoviedb.org/3/list/7099130?api_key=' + tmdbKey + '&language=en-US';
+                finalCinematicUrl = listUrl + '7099063?api_key=' + tmdbKey + '&language=en-US';
+                finalTvUrl = listUrl + '7099130?api_key=' + tmdbKey + '&language=en-US';
             }
 
             let nextInLineBtn = $('<button>', {
@@ -473,67 +421,14 @@ const buildMovies = (div, wrapper, arr, type) => {
                     }, 1000);
                 }
             }).appendTo(btnWrapper);
-
-            let cinematicUBtn = $('<button>', {
-                id: cinematicUBtnId,
-                text: cinematicUBtnText,
-                click: function () {
-                    if (type == 1) {
-                        $('#btnAllMarvel').show();
-                        cinematicType = 1;
-                        if (marvelCinematicCounter == 1) {
-                            showCinematicUniverse(typeShowClick, typeU, mcuWasSorted);
-                            marvelCinematicCounter = 2;
-                            $(this).html(nonCinematicUBtnText);
-                        } else {
-                            hideCinematicUniverse(typeShowClick, typeU, mcuWasSorted);
-                            marvelCinematicCounter = 1;
-                            $(this).html(cinematicUBtnText);
-                        }
-                    } else if (type == 2) {
-                        
-                        $('#btnAllDC').show();
-
-                        cinematicType = 2;
-                        if (dcCinematicCounter == 1) {
-                            showCinematicUniverse(typeShowClick, typeU, dceuWasSorted);
-                            dcCinematicCounter = 2;
-                            $(this).html(nonCinematicUBtnText);
-                        } else {
-                            hideCinematicUniverse(typeShowClick, typeU, dceuWasSorted);
-                            dcCinematicCounter = 1;
-                            $(this).html(cinematicUBtnText);
-                        }
-                    }
-                    $('.sortContainer').fadeOut('fast');
-                    marvelCounter = 1;
-                    DCCounter = 1;
-                    valiantCounter = 1;
-                    othersCounter = 1;
-                    animationCounter = 1;
-                }         
-            }).appendTo(btnWrapper);
-    
-            let allTypeBtn = $('<button>', {
-                id: allTypeBtnId,
-                text: allTypeBtnText,
-                click: () => {
-                    if (type == 1) {
-                        $('#btnAllMarvel').hide();
-                        allOfKind(typeShowClick, mcuWasSorted);
-                    } else if (type == 2) {
-                        $('#btnAllDC').hide();
-                        allOfKind(typeShowClick, dceuWasSorted);
-                    }
-                }
-            }).appendTo(btnWrapper);
         }    
     }
 
-    for (let i = 0; i < movies.length; i++) {
-        let finalNameToSend;
+    for (let i = 0; i < data.items.length; i++) {
 
-        finalNameToSend = movies[i].name.replace(/'/, "");
+        let finalNameToSend;
+   
+        finalNameToSend = data.items[i].title.replace(/'/, "");
         finalNameToSend = finalNameToSend.replace(/-/, "");
         finalNameToSend = finalNameToSend.replace(/:/, "");
         finalNameToSend = finalNameToSend.replace(/\s/g, '');
@@ -541,14 +436,9 @@ const buildMovies = (div, wrapper, arr, type) => {
         let movieWrapper = $('<div>', {
             class: 'movieWrapper ' + div,
             'name': finalNameToSend,
-            'quality': movies[i].quality,
-            'trailer': movies[i].trailer,
-            'date': movies[i].date,
-            'mcu': movies[i].mcu,
-            'dceu': movies[i].dceu,
-            'value': movies[i].value,
+            'date': data.items[i].release_date,
+            'value': data.items[i].id,
             click: function () {
-
                 if ($('.sortContainer').is(':visible')) {
                     $('.sortContainer').hide();
                     DCCounter = 1;
@@ -693,37 +583,90 @@ const buildMovies = (div, wrapper, arr, type) => {
 
                 $('.movieCoverWrapper').css('background', 'url(' + $(this).find('.movieImg').attr('src') + ') top center no-repeat');
                 $('.movieNamePop').html($(this).find($('.name')).html());
-                $('.movieQualityPop').html('Quality: ' + $(this).attr('quality'));
-                $('#trailerVideo').attr('data-src', 'https://www.youtube.com/embed/' + $(this).attr('trailer'));
                 $('#movieDetails').fadeIn(150);
+                $('#movieDetails').attr('chosenMovieId', $(this).attr('value'));
 
-                $('#movieYoutubeImage').click(() => {
-                    $('#movieDetails').hide();
-                    $('#trailer').fadeIn(150);
-                    setTimeout(() => {
-                        $('#trailerVideo').attr('src', $('#trailerVideo').attr('data-src').replace('?autoplay=1&amp;rel=0&enablejsapi=1', ''));
-                        $('#trailerVideo').attr('src', $('#trailerVideo').attr('data-src') + '?autoplay=1&amp;rel=0&enablejsapi=1');
-                    }, 500)
+                $('#movieYoutubeImage').click(() => {     
+                    $.ajax({
+                        type: 'GET',
+                        crossDomain: true,
+                        url: movieInfoUrl + $(this).attr('value') + "/videos?api_key=" + tmdbKey + "&language=en-US",
+                        dataType: "json",
+                        success: (data) => {
+
+                            if(data.results.length > 0) {
+                                $('#movieDetails').hide();
+                                $('#movieDetails').attr('chosenMovieId', '');
+                                $('#trailer').fadeIn(150);
+                                setTimeout(() => {
+                                    let objectUrl = youtubeVideo + data.results[0].key + '?showinfo=0&enablejsapi=1';
+                                    $('#trailerVideo').attr('src', objectUrl);
+                                }, 500)
+                            } else {
+                                $('#noVideosPop').show();
+                            }
+                        },
+                        error: (err) => {
+                            //console.log(err);
+                        }
+                    })
                 })
             }
-        }).appendTo(moviesContent);
+        }).appendTo(moviesContent)
 
         let movieImg = $('<img>', {
             class: 'movieImg',
             alt: 'movieImg',
-            src: './images/movies/' + movies[i].image
+            src:  'https://image.tmdb.org/t/p/w1280' + data.items[i].poster_path
         }).appendTo(movieWrapper);
 
         let movieFullName = $('<p>', {
             class: 'name',
-            text: movies[i].name
+            text: capitalize(data.items[i].title),
         }).appendTo(movieWrapper);
 
         let movieDate = $('<p>', {
             class: 'date',
-            text: configureDate(movies[i].date)
-        }).appendTo(movieWrapper);
+            text: configureDate(data.items[i].release_date)
+        }).appendTo(movieWrapper); 
     }
+}
+
+const goToDiv = (div) => {
+
+    if ($('.sortContainer').is(':visible')) {
+        $('.sortContainer').hide();
+        DCCounter = 1;
+        marvelCounter = 1;
+        valiantCounter = 1;
+        othersCounter = 1;
+        animationCounter = 1;
+    }
+
+    if ($('main').is(":hidden")) {
+        $('main').show();
+        $('#timeline').hide();
+
+        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+
+        setTimeout(() => {
+            document.querySelector(div).scrollIntoView({ behavior: 'smooth' });
+        }, 0)
+    } else {
+        document.querySelector(div).scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+const goToResult = (div) => {
+    if ($(window).width() < 765) {
+        $('html, body').animate({scrollTop: $(div).offset().top - 150}, 1000);
+    } else {
+        $('html, body').animate({scrollTop: $(div).offset().top - 150}, 1000);
+    }
+
+    setTimeout(() => {
+        $("html, body").animate({scrollTop: $(window).scrollTop() + 10});
+    }, 2000);
 }
 
 const getCinematicInfo = (url, type) => {
@@ -783,10 +726,10 @@ const getCinematicInfo = (url, type) => {
             }
 
             $('#dateOfNextMovie').html(configureDate(closest.date));
-            $('#nextMcuTitle').html(closest.name);
+            $('#nextMcuTitle').html(capitalize(closest.name));
             $('#mcuLink').attr('href', 'https://omriknight9.github.io/omris-movies/?title=' + closest.name + '&value=' + closest.id);
             $('#nextMcuImg').attr({'src': finalImg, 'alt': data.name});
-            $('#afterNextMovieTitle').html(closest2.name);
+            $('#afterNextMovieTitle').html(capitalize(closest2.name));
             $('#afterNextMovieDate').html(configureDate(closest2.date));
             $('#nextMcuFilmPop').show();
             $('#timelineBtn').attr('onclick', 'showTimeline(1,' + type + ')');
@@ -860,7 +803,6 @@ const showTimeline = (type, cinematicType) => {
             timelineUrl = 'DCEUTimeline';
         }
         
-
         for (let i = 0; i < cinematicArr.length; i++) {
     
             let timelineMovieWrapper = $('<div>', {
@@ -869,7 +811,7 @@ const showTimeline = (type, cinematicType) => {
     
             let timelineMovieName = $('<p>', {
                 class: 'timelineMovieName',
-                text: cinematicArr[i].name
+                text: capitalize(cinematicArr[i].name)
             }).appendTo(timelineMovieWrapper)
     
             let finalImg = cinematicArr[i].background;
@@ -1071,10 +1013,7 @@ const sort = (div, num) => {
     }
 }
 
-const buildTvShow = (div, wrapper, arr) => {
-    $('#trailerVideo').attr('src', '');
-
-    let tvShows = arr[0].tvShows;
+const buildTvShowFromTmdb = (data, div, wrapper) => {
 
     let typeheader = $('<h2>', {
         class: 'typeheader',
@@ -1093,22 +1032,20 @@ const buildTvShow = (div, wrapper, arr) => {
         id: 'tvShowContent',
     }).appendTo(wrapper);
 
-    for (let i = 0; i < tvShows.length; i++) {
+    for (let i = 0; i < data.items.length; i++) {
 
         let finalNameToSend;
 
-        finalNameToSend = tvShows[i].name.replace(/'/, "");
+        finalNameToSend = data.items[i].name.replace(/'/, "");
         finalNameToSend = finalNameToSend.replace(/-/, "");
         finalNameToSend = finalNameToSend.replace(/:/, "");
         finalNameToSend = finalNameToSend.replace(/\s/g, '');
 
         let tvShowWrapper = $('<div>', {
             class: 'tvShowWrapper ' + div,
-            'year': tvShows[i].year,
+            'year': data.items[i].first_air_date.substr(0, 4),
             'name': finalNameToSend,
-            'quality': tvShows[i].quality,
-            'trailer': tvShows[i].trailer,
-            'value': tvShows[i].value,
+            'value': data.items[i].id,
 
             click: function () {
 
@@ -1255,17 +1192,32 @@ const buildTvShow = (div, wrapper, arr) => {
 
                 $('.tvShowCoverWrapper').css('background', 'url(' + $(this).find('.tvShowImg').attr('src') + ') top center no-repeat');
                 $('.tvShowNamePop').html($(this).find($('.name')).html());
-                $('.tvShowQualityPop').html('Quality: ' + $(this).attr('quality'));
-                $('#trailerVideo').attr('data-src', 'https://www.youtube.com/embed/' + $(this).attr('trailer'));
                 $('#tvShowDetails').fadeIn(150);
 
-                $('#tvShowYoutubeImage').click(() => {
-                    $('#tvShowDetails').hide();
-                    $('#trailer').fadeIn(150);
-                    setTimeout(() => {
-                        $('#trailerVideo').attr('src', $('#trailerVideo').attr('data-src').replace('?autoplay=1&amp;rel=0&enablejsapi=1', ''));
-                        $('#trailerVideo').attr('src', $('#trailerVideo').attr('data-src') + '?autoplay=1&amp;rel=0&enablejsapi=1');
-                    }, 500)
+                $('#tvShowYoutubeImage').click(() => {     
+                    $.ajax({
+                        type: 'GET',
+                        crossDomain: true,
+                        url: tvShowInfoUrl + $(this).attr('value') + "/videos?api_key=" + tmdbKey + "&language=en-US",
+                        dataType: "json",
+                        success: (data) => {
+
+                            if(data.results.length > 0) {
+                                $('#tvShowDetails').hide();
+                                $('#tvShowDetails').attr('chosenMovieId', '');
+                                $('#trailer').fadeIn(150);
+                                setTimeout(() => {
+                                    let objectUrl = youtubeVideo + data.results[0].key + '?showinfo=0&enablejsapi=1';
+                                    $('#trailerVideo').attr('src', objectUrl);
+                                }, 500)
+                            } else {
+                                $('#noVideosPop').show();
+                            }
+                        },
+                        error: (err) => {
+                            //console.log(err);
+                        }
+                    })
                 })
             }
         }).appendTo(tvShowContent);
@@ -1273,17 +1225,17 @@ const buildTvShow = (div, wrapper, arr) => {
         let tvShowImg = $('<img>', {
             class: 'tvShowImg',
             alt: 'tvShowImg',
-            src: './images/' + tvShows[i].image
+            src: 'https://image.tmdb.org/t/p/w1280' + data.items[i].poster_path
         }).appendTo(tvShowWrapper);
 
         let tvShowName = $('<p>', {
             class: 'name',
-            text: tvShows[i].name
+            text: capitalize(data.items[i].name)
         }).appendTo(tvShowWrapper);
 
         let tvShowYear = $('<p>', {
             class: 'year',
-            text: 'Year: ' + tvShows[i].year
+            text: 'Year: ' + data.items[i].first_air_date.substr(0, 4)
         }).appendTo(tvShowWrapper);
     }
 }
@@ -1417,9 +1369,6 @@ const sortMovies = (container, elem1, kind) => {
                 case 3:
                     obj.idNum = parseInt(elem2.replace(/[^\d]/g, ""), 10);
                     break;
-                case 4:
-                    obj.idNum = parseInt(elem2.replace(/[^\d]/g, ""), 10);
-                    break;
             }
             ids.push(obj);
         }
@@ -1505,35 +1454,6 @@ const sortMovies = (container, elem1, kind) => {
                     $('.spinnerWrapper').hide();
                 }, 500);
                 break;
-            case 4:
-                switch (counter) {
-                    case 1:
-                        ids.sort((a, b) => {
-                            if (a.idNum > b.idNum) {
-                                return 1;
-                            } else {
-                                return -1;
-                            }
-                        });
-
-                        counter = 2;
-                        break;
-
-                    case 2:
-                        ids.sort((a, b) => {
-                            if (a.idNum < b.idNum) {
-                                return 1;
-                            } else {
-                                return -1;
-                            }
-                        });
-                        counter = 1;
-                        mcuWasSorted = true;
-                        dceuWasSorted = true;
-                        break;
-                }
-                $(btnWrapper).attr('kind', kind);
-                break;
         }
 
         for (i = 0; i < ids.length; i++) {
@@ -1557,16 +1477,6 @@ const removePopup = (container) => {
             $(document).off('mouseup');
         }
     })
-}
-
-const closeCurrentPopup = (that) => {
-    if ($($(that)[0].parentElement.parentElement.parentElement).hasClass('animated')) {
-        $(selectedDiv).css({border: '0 solid black'}).animate({
-            borderWidth: 0
-        }, 200);
-    }
-
-    $($(that)[0].parentElement.parentElement.parentElement).fadeOut(150);
 }
 
 const convertMinsToHrsMins = (mins) => {
