@@ -661,6 +661,7 @@ p {
 
 .year {
     color: lightgray;
+    font-weight: 600;
 }
 
 .name::first-letter {
