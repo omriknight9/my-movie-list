@@ -1,5 +1,0 @@
-{
-    "movies" : [
-        {"value": "338762", "name": "Bloodshot", "date": "03/13/2020", "image": "Valiant/bloodshot.jpg", "quality": "1080p", "trailer": "vOUVVDWdXbo"}
-    ]
-}
