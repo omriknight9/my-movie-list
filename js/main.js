@@ -556,6 +556,7 @@ const getCredits = (value, type) => {
 
     directorCounter = 0;
     $('#directorsWrapper').hide();
+    $('#castHeader').remove();
 
     let finalUrl;
 
@@ -688,6 +689,12 @@ const getCredits = (value, type) => {
             } else {
                 finalLength = 21;
             }
+
+            let castHeader = $('<p>', {
+                id: 'castHeader',
+                class: 'chosenHeader',
+                text: 'Cast'
+            }).appendTo($('#castWrapper'));
 
             let castContent = $('<div>', {
                 id: 'castContent',
