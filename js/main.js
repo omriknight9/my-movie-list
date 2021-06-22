@@ -179,15 +179,10 @@ const showResult = (div, img, that, resultNum, resultType) => {
                         if ($(that).attr('movieNum') == $(this).attr('value')) {
                             $('body').css('pointer-events', 'none');
                             selectedDiv = this;
-
-                            goToResult(selectedDiv);
-                        
+                            $(selectedDiv).click();
+                            $('body').css('pointer-events', 'all');
                             $('#searchResults').hide();
                             $('#search').val('');
-                            setTimeout(() => {
-                                $(selectedDiv).click();
-                                $('body').css('pointer-events', 'all');
-                            }, 1500)
                         }
                     });
                 }
