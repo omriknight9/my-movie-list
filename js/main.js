@@ -1490,6 +1490,7 @@ const showTimeline = (type, cinematicType) => {
                 alt: 'movie img',
                 click: () => {
                     $('#timeline').hide();
+                    window.history.replaceState({}, document.title, "/" + "my-movie-list/");
                     chosenMovie(capitalize(cinematicArr[i].name), cinematicArr[i].id, 1);
                 }
             }).appendTo(timelineMovieWrapper)
@@ -1541,6 +1542,7 @@ const showTimeline = (type, cinematicType) => {
                 alt: 'tv show img',
                 click: () => {
                     $('#timeline').hide();
+                    window.history.replaceState({}, document.title, "/" + "my-movie-list/");
                     chosenMovie(capitalize(tvShowTimelineArr[i].name), tvShowTimelineArr[i].id, 2);
                 }
             }).appendTo(timelineMovieWrapper)
