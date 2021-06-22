@@ -780,10 +780,13 @@ footer span {
 
 #chosenMovieTitle, #chosenPersonName {
     font-size: 2rem;
+    width: 80%;
+    margin: 0 auto 2rem auto;
 }
 
 #chosenMovie {
     display: none;
+    margin-top: 5rem;
 }
 
 #chosenMovieImgWrapper, #chosenPersonImgWrapper {
