@@ -66,8 +66,8 @@
         </div>
     </div>
 
-    <div class="spinnerWrapper">
-        <div class="spinner">
+    <div id="spinnerWrapper">
+        <div id="spinner">
             <div class="bounce1"></div>
             <div class="bounce2"></div>
             <div class="bounce3"></div>
@@ -98,6 +98,56 @@
         <h2>Timeline</h2>
         <div id="timelineContent"></div>
     </div>
+
+    <div id="chosenMovie">
+        <h2 id="chosenMovieTitle"></h2>
+        <div id="chosenMovieImgWrapper">
+            <a href="" id="chosenMovieImdb" target="_blank" rel="noopener">
+                <img src="" id="chosenMovieImg" alt="movie img">
+            </a>
+        </div>
+        <p id="chosenMovieSentence"></p>
+        <div id="productionCompenies"></div>
+        <div id="movieDesc"></div>
+        <div id="chosenMovieDetails" class="details">
+            <span id="chosenMovieDate"></span>
+            <span id="chosenMovieRuntime"></span>
+            <span id="chosenMovieRevenue"></span>
+
+            <span id="seasons"></span>
+            <span id="episodes"></span>
+
+            <span id="chosenMovieRating"></span>
+            <span id="chosenMovieGenres"></span>
+        </div>
+
+        <div id="directorsWrapper"></div>
+        <div id="castWrapper">
+            <p class="chosenHeader">Cast</p>
+        </div>
+
+        <div id="similarMovies">
+            <p id="similarHeader" class="chosenHeader"></p>
+            <div id="similarMoviesContent" class="content"></div>
+        </div>
+
+        <div id="chosenMovieImagesWrapper"></div>
+        <div id="videosWrapper"></div>
+
+    </div>
+
+    <div id="chosenPerson">
+        <h2 id="chosenPersonName"></h2>
+        <div id="chosenPersonImgWrapper"></div>
+        <div id="chosenPersonDetails" class="details"></div>
+        <div id="personCredits">
+            <div id="personMovies" class="content"></div>
+        </div>
+
+
+        <div id="personImages"></div> 
+        <div id="personMovieImages"></div> 
+    </div>
     
     <footer>
         <span>This product uses the TMDb API but is not endorsed or certified by TMDb.</span>
@@ -108,65 +158,15 @@
 
     <!----------------POPUPS---------------->
 
-    <div id="movieDetails" class="popUpInfo">
-        <div class="popupCont">
-            <div class="popupContent"></div>
-            <div class="Xbtn"></div>
-            <h2 class="movieNamePop"></h2>
-            <p class="movieRuntimePop"></p>
-            <div class="movieCoverWrapper"></div>
-
-            <div id="movieCredits"></div>
-            
-            <div class="linksWrapper">
-                <a href="" target="_blank" id="movieImdbLink" rel="noopener"><img src="./images/imdb.png" alt="imdb image" id="movieImdbImage" /></a>
-                <img src="./images/youtube.png" alt="youtube image" id="movieYoutubeImage" />
-                <a href="" target="_blank" id="moviePopcornLink" rel="noopener"><img src="./images/popcorn.png" alt="popcorn image" id="moviePopcornImage" /></a>
-            </div>
-        </div>
-    </div>
-
-    <div id="tvShowDetails" class="popUpInfo">
+    <div id="nextCinematicFilmPop" class="popUpInfo">
         <div class="popupCont">
             <div class="Xbtn"></div>
-            <h2 class="tvShowNamePop"></h2>
-            <p class="tvShowSeasonsPop"></p>
-            <p class="tvShowEpisodesPop"></p>
-            <div class="tvShowCoverWrapper"></div>
-
-            <div id="tvShowCredits"></div>
-
-            <div class="linksWrapper">
-                <a href="" target="_blank" id="tvShowImdbLink" rel="noopener"><img src="./images/imdb.png" alt="imdb image" id="tvShowImdbImage" /></a>
-                <img src="./images/youtube.png" alt="youtube image" id="tvShowYoutubeImage" />
-            </div>
-        </div>
-    </div>
-
-    <div id="trailer" class="popUpInfo">
-        <div class="popupCont">
-            <div class="Xbtn"></div>
-            <div class="videoWrapper">
-                <div id="videoFrame">
-                    <iframe src="" id="trailerVideo" frameborder="0" allowfullscreen></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="nextMcuFilmPop" class="popUpInfo">
-        <div class="popupCont">
-            <div class="Xbtn"></div>
-            <span id="nextMcuTitle"></span>
+            <span id="nextCinematicTitle"></span>
 
             <p>
                 Release Date:
                 <span id="dateOfNextMovie"></span>
             </p>
-
-            <a href="" rel="noopener" id="mcuLink" target="_blank">
-                <img src="" alt="" id="nextMcuImg">
-            </a>
 
             <p>
                 Next In Line:
@@ -180,20 +180,6 @@
 
             <button id="timelineBtn">Timeline</button>
             <button id="timelineTVBtn">TV Timeline</button>
-        </div>
-    </div>
-
-    <div id="noImdbPop" class="popUpInfo">
-        <div class="popupCont">
-            <div class="Xbtn"></div>
-            <h2>No Imdb Profile</h2>
-        </div>
-    </div>
-
-    <div id="noVideosPop" class="popUpInfo">
-        <div class="popupCont">
-            <div class="Xbtn"></div>
-            <h2>No Videos For This Film</h2>
         </div>
     </div>
 </body>
