@@ -1,4 +1,8 @@
 
+:root {
+    --orange: #ff7b00;
+  }
+
 html {
     position: relative;
     font-family: Ubuntu, "Helvetica Neue", Helvetica, sans-serif;
@@ -26,13 +30,12 @@ main {
 
 ::-webkit-scrollbar-thumb {
 	background-color: #ff5a4e;
-    background-color: orange;
+    background-color: var(--orange);
 }
 
 ::-webkit-scrollbar-track {
     background-color: #F5F5F5;
 }
-
 
 h1 {
 	text-align: center;
@@ -70,7 +73,7 @@ h1 {
     -webkit-flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    background-image: linear-gradient(to right,orange,gray,orange);
+    background-image: linear-gradient(to right,var(--orange) ,lightgray, var(--orange));
     border-radius: 5px;
     filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
     margin: auto;
@@ -101,10 +104,6 @@ button:active {
     -o-transform: translateY(4px);
 }
 
-#btnAllMarvel, #btnAllDC {
-    display: none;
-}
-
 .searchContainer {
     position: absolute;
     top: 0;
@@ -122,7 +121,7 @@ button:active {
 #searchResults {
     display: none;
     position: absolute;
-    background-image: linear-gradient(-180deg, orange, white);
+    background-image: linear-gradient(-180deg, var(--orange), white);
     filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -154,7 +153,7 @@ button:active {
     left: 50%;
     width: 0;
     height: 2px;
-    background-color: orange;
+    background-color: var(--orange);
     transition: .4s;
     -webkit-transition: .4s;
     -moz-transition: .4s;
@@ -194,7 +193,7 @@ button:active {
     border-radius: 5px;
 }
 
-.spinnerWrapper {
+#spinnerWrapper {
     position: fixed;
     top: 10rem;
     width: 100%;
@@ -205,14 +204,14 @@ button:active {
     z-index: 99999999;
 }
 
-.spinner {
+#spinner {
     margin: auto;
     width: 140px;
     height: 50px;
     text-align: center;
 }
 
-.spinner > div {
+#spinner > div {
     width: 24px;
     height: 24px;
     background-color: #ff5a4e;
@@ -222,25 +221,25 @@ button:active {
     animation: sk-bouncedelay 1.2s infinite ease-in-out both;
 }
 
-.spinner .bounce1 {
+#spinner .bounce1 {
     -webkit-animation-delay: -.4s;
     animation-delay: -.4s;
     opacity: .4;
 }
 
-.spinner .bounce2 {
+#spinner .bounce2 {
     -webkit-animation-delay: -.3s;
     animation-delay: -.3s;
     opacity: .6;
 }
 
-.spinner .bounce3 {
+#spinner .bounce3 {
     -webkit-animation-delay: -.2s;
     animation-delay: -.2s;
     opacity: .8;
 }
 
-.spinner .bounce4 {
+#spinner .bounce4 {
     -webkit-animation-delay: -.1s;
     animation-delay: -.1s;
     opacity: 1;
@@ -295,7 +294,7 @@ h2 {
 	text-align: center;
     display: block;
     width: 100%;
-    color: orange;
+    color: var(--orange);
 }
 
 p {
@@ -330,10 +329,10 @@ p {
     height: 2rem;
     top: 2rem;
     right: 2rem;
-    transition: .3s;
-    -moz-transition: .3s;
-    -o-transition: .3s;
-    -webkit-transition: .3s;
+    transition: .2s;
+    -webkit-transition: .2s;
+    -moz-transition: .2s;
+    -o-transition: .2s;
     z-index: 9999;
 }
 
@@ -344,10 +343,10 @@ p {
     -moz-transform: rotate(0deg);
     -o-transform: rotate(0deg);
     transform: rotate(0deg);
-    -webkit-transition: .5s ease-in-out;
-    -moz-transition: .5s ease-in-out;
-    -o-transition: .5s ease-in-out;
-    transition: .5s ease-in-out;
+    transition: .2s;
+    -webkit-transition: .2s;
+    -moz-transition: .2s;
+    -o-transition: .2s;
     cursor: pointer;
     filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
 }
@@ -357,16 +356,16 @@ p {
     position: absolute;
     height: 6px;
     width: 50%;
-    background: orange;
+    background: var(--orange);
     opacity: 1;
     -webkit-transform: rotate(0deg);
     -moz-transform: rotate(0deg);
     -o-transform: rotate(0deg);
     transform: rotate(0deg);
-    -webkit-transition: .25s ease-in-out;
-    -moz-transition: .25s ease-in-out;
-    -o-transition: .25s ease-in-out;
-    transition: .25s ease-in-out;
+    -webkit-transition: .2s ease-in-out;
+    -moz-transition: .2s ease-in-out;
+    -o-transition: .2s ease-in-out;
+    transition: .2s ease-in-out;
 }
 
 #toggle span:nth-child(even) {
@@ -453,10 +452,10 @@ p {
     background: white;
     opacity: 0;
     visibility: hidden;
-    transition: .3s;
-    -webkit-transition: .3s;
-    -moz-transition: .3s;
-    -o-transition: .3s;
+    transition: .2s;
+    -webkit-transition: .2s;
+    -moz-transition: .2s;
+    -o-transition: .2s;
     filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
     cursor: auto;
 }
@@ -487,7 +486,7 @@ p {
 }
 
 #menu li:not(:last-child) {
-    border-bottom: 1px solid orange;
+    border-bottom: 1px solid var(--orange);
 }
 
 #menu img {
@@ -536,7 +535,7 @@ p {
 }
 
 .lineOthers {
-    background: linear-gradient(to right, transparent, orange, transparent);
+    background: linear-gradient(to right, transparent, var(--orange), transparent);
 }
 
 .lineOthers span {
@@ -629,7 +628,7 @@ p {
     width: 100%;
 }
 
-.moviesContent {
+#moviesContent {
     display: flex;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -644,10 +643,7 @@ p {
     width: 9rem;
     margin: 1rem;
     text-align: center;
-    transition: .3s;
-    -webkit-transition: .3s;
-    -moz-transition: .3s;
-    -o-transition: .3s;
+    transition: .2s;
     filter: drop-shadow(0 1px 4px rgba(10, 10, 10, 0.5));
     cursor: pointer;
 }
@@ -666,24 +662,13 @@ p {
 
 .name::first-letter {
     font-size: 1.2rem;
-    color: orange;
+    color: var(--orange);
 }
 
 .marvelMovie, .dcMovie, .valiantMovie, .otherMovie, .animationMovie, .tvShow, .ultraMovie {
     position: relative;
     height: 18rem;
     padding-bottom: 2rem;
-}
-
-.movieImgWrapper, .tvShowImgWrapper {
-    width: 100%;
-    position: absolute;
-    bottom: 1rem;
-    text-align: center;
-    transition: .2s;
-    -webkit-transition: .2s;
-    -o-transition: .2s;
-    -moz-transition: .2s;
 }
 
 .movieImg, .tvShowImg {
@@ -704,7 +689,7 @@ p {
     right: 1rem;
     z-index: 9999;
     filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
-    fill: orange;
+    fill: var(--orange);
 }
 
 #timeline {
@@ -727,10 +712,7 @@ p {
 
 .timelineMovieImg {
     border-radius: 5px;
-    transition: .3s;
-    -webkit-transition: .3s;
-    -moz-transition: .3s;
-    -o-transition: .3s;
+    cursor: pointer;
 }
 
 .poster {
@@ -761,7 +743,7 @@ p {
     top: 6rem;
     left: 50%;
     height: 98%;
-    border-left: 2px solid orange;
+    border-left: 2px solid var(--orange);
 }
 
 .timelineMovieWrapper:nth-child(odd) {
@@ -794,6 +776,283 @@ footer span {
 #tmdbImg {
     width: 150px;
     margin-left: 1rem;
+}
+
+#chosenMovieTitle, #chosenPersonName {
+    font-size: 2rem;
+}
+
+#chosenMovie {
+    display: none;
+}
+
+#chosenMovieImgWrapper, #chosenPersonImgWrapper {
+    text-align: center;
+}
+
+#chosenMovieImg {
+    width: 50%;
+    border-radius: 5px;
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
+}
+
+#chosenMovie p, #chosenPerson p {
+    color: lightgray;
+    font-weight: 600;
+    text-align: center;
+}
+
+#chosenMovieRuntime, #chosenMovieRevenue {
+    display: none;
+}
+
+#seasons, #episodes {
+    display: none;
+}
+
+#productionCompenies {
+    display: flex;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.companyImg {
+    width: 150px;
+    margin: 1rem;
+}
+
+#movieDesc {
+    width: 80%;
+    margin: 3rem auto;
+}
+
+#overview {
+    line-height: 1.4rem;
+}
+
+.details {
+    width: 90%;
+    margin: auto;
+    text-align: center;
+}
+
+.details span {
+    display: block;
+    color: lightgray;
+    font-weight: 600;
+    margin: 1rem auto;
+}
+
+#directorsWrapper {
+    display: none;
+}
+
+.directorImg {
+    width: 150px;
+    height: 225px;
+    border-radius: 5px;
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
+    transition: .2s;
+    -webkit-transition: .2s;
+    -moz-transition: .2s;
+    -o-transition: .2s;
+}
+
+.actorImg, .similarMovieImg {
+    width: 150px;
+    height: 225px;
+    border-radius: 5px;
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
+    cursor: pointer;
+}
+
+.hoverEffect {
+    transition: .2s;
+    -webkit-transition: .2s;
+    -moz-transition: .2s;
+    -o-transition: .2s;
+}
+
+#directorContent {
+    display: flex;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.actorName, .characterName, .similarMovieName {
+    display: block;
+    color: lightgray;
+    font-weight: 600; 
+}
+
+.actorName {
+    margin: 1rem 0;
+}
+
+.similarMovieName {
+    margin: 1rem 0 0 0;;
+}
+
+.actor .characterName {
+    margin: 1rem 0 2rem 0;
+}
+
+.chosenHeader {
+    font-size: 2rem;
+}
+
+.director {
+    padding: 1rem;
+}
+
+.directorName {
+    text-align: center;
+}
+
+.directorImdbLink, .directorInstagramLink {
+    width: 50px;
+    height: 50px;
+}
+
+.linksWrapper, .directorLinksWrapper {
+    display: flex;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    flex-wrap: nowrap;
+    -webkit-flex-wrap: nowrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.linksWrapper {
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+}
+
+.content {
+    display: flex;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    flex-wrap: nowrap;
+    -webkit-flex-wrap: nowrap;
+    overflow-x: auto;
+    width: 70%;
+    margin: auto;
+}
+
+.actor {
+    position: relative;
+    padding: 1rem 1rem 3rem 1rem;
+    text-align: center;
+}
+
+.credit {
+    padding: 1rem;
+    text-align: center;
+}
+
+.actorImdbLink, .actorInstagramLink {
+    width: 40px;
+}
+
+.imdbLinkWrapper {
+    margin-right: 1rem;
+}
+
+.instagramWrapper {
+    margin-left: 1rem;
+}
+
+#similarMovies {
+    display: none;
+    margin-top: 4rem;
+}
+
+#chosenMovieImagesWrapper {
+    display: none;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3rem;
+}
+
+.movieGalleryImg {
+    width: 300px;
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
+    margin: 1rem;
+    border-radius: 5px;
+}
+
+#videosWrapper {
+    display: none;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3rem;
+}
+
+.movieVideo {
+    margin: 2rem;
+    border-radius: 10px;
+    border: 8px solid black;
+}
+
+#chosenPerson {
+    display: none;
+}
+
+#chosenPersonImg {
+    width: 200px;
+    border-radius: 5px;
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
+}
+
+#personImages, #personMovieImages {
+    display: flex;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3rem;
+}
+
+.personPoster {
+    width: 150px;
+    border-radius: 5px;
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
+    margin: 1rem;
+}
+
+.personMovieImg {
+    width: 300px;
+    border-radius: 5px;
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
+    margin: 1rem;
 }
 
 /*------------------------Popups-------------------------*/
@@ -843,94 +1102,30 @@ footer span {
     cursor:pointer;
 }
 
-.linksWrapper {
-    display: flex;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    flex-wrap: nowrap;
-    -webkit-flex-wrap: nowrap;
-    justify-content: center;
-    width: 100%;
-}
-
-#movieImdbLink, #tvShowImdbLink, #moviePopcornLink {
-    margin: 1rem 1rem 0 1rem;
-    z-index: 2;
-}
-
-#movieImdbImage, #tvShowImdbImage, #moviePopcornImage, #movieYoutubeImage, #tvShowYoutubeImage {
-    width: 80px;
-    height: 80px;
-}
-
-#movieYoutubeImage, #tvShowYoutubeImage {
-    margin: 1rem 1rem 0 1rem;
-    cursor: pointer;
-    z-index: 2;
-}
-
-.movieCoverWrapper, .tvShowCoverWrapper {
-    position: absolute;
-    top: 5rem;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: .2;
-    z-index: -1;
-    text-align: center;
-    background-size: 200px 300px !important;
-}
-
-.longTitle {
-    font-size: 1.5rem !important;
-}
-
-.videoWrapper {
-    width: 100%;
-    height: 100%;
-}
-
-#trailer .popupCont {
-    width: 60rem;
-    height: 35rem;
-    padding: 3rem 2rem 1rem 2rem;
-}
-
-#videoFrame {
-    width: 100%;
-    height: 100%;
-}
-
-#trailerVideo {
-    width: 100%;
-    height: 100%;
-    border-radius: 5px;
-}
-
-#nextMcuFilmPop {
+#nextCinematicFilmPop {
     text-align: center;
 }
 
-#nextMcuTitle {
+#nextCinematicTitle {
     display: block;
 }
 
-#nextMcuImg {
+#nextCinematicImg {
     display: block;
-    margin: auto;
+    margin: 1rem auto 0 auto;
     width: 33%;
     border-radius: 5px;
-    margin-bottom: 1rem;;
+    margin-bottom: 1rem;
+    cursor: pointer;
 }
 
-#nextMcuFilmPop .popupCont {
+#nextCinematicFilmPop .popupCont {
     max-height: 78vh;
 }
 
-#nextMcuTitle::first-letter, #afterNextMovieTitle::first-letter {
+#nextCinematicTitle::first-letter, #afterNextMovieTitle::first-letter {
     font-size: 1.2rem;
-    color: orange;
+    color: var(--orange);
 }
 
 #afterNextMovieTitle {
@@ -938,64 +1133,9 @@ footer span {
     margin-top: 1rem;
 }
 
-#movieCredits, #tvShowCredits {
-    display: flex;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    flex-wrap: nowrap;
-    -webkit-flex-wrap: nowrap;
-    width: 90%;
-    overflow-x: auto;
-}
-
-.movieCredit, .tvCredit {
-    padding: 1rem;
-}
-
-.movieCreditCharacter, .tvCreditCharacter {
-    display: block;
-    margin-top: .5rem;
-}
-
-.movieCreditImg, .tvCreditImg {
-    margin-top: .5rem;
-    margin-bottom: .5rem;
-    border-radius: 5px;
-    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
-    transition: .2s;
-    -webkit-transition: .2s;
-    -o-transition: .2s;
-    -moz-transition: .2s;
-    cursor: pointer;
-}
-
-.movieCreditImg {
-    width: 150px;
-    height: 225px;
-}
-
-.tvCreditImg {
-    width: 130px;
-    height: 205px;
-}
-
-.creditHeader {
-    font-size: 2rem;
-    color: orange;
-}
-
 @media only screen and (max-width: 1300px) {
     .resultName {
         font-size: 1.3rem;
-    }
-}
-
-@media only screen and (max-width: 1100px) {
-
-    #trailer .popupCont {
-        width: 40rem;
-        height: 25rem;
     }
 }
 
@@ -1012,11 +1152,6 @@ footer span {
 
     #timelineContent::after {
         display: none;
-    }
-
-    #trailer .popupCont {
-        width: 40rem;
-        height: 25rem;
     }
 
     .popupCont {
@@ -1036,7 +1171,8 @@ footer span {
 }
 
 @media only screen and (min-width: 765px) {
-    .movieWrapper:hover, .tvShowWrapper:hover {
+
+    .hoverEffect:hover {
         transform: perspective(800px) rotateY(20deg) scale(1.05);
         -webkit-transform: perspective(800px) rotateY(20deg) scale(1.05);
         -moz-transform: perspective(800px) rotateY(20deg) scale(1.05);
@@ -1044,23 +1180,6 @@ footer span {
         -o-transform: perspective(800px) rotateY(20deg) scale(1.05);
         filter: grayscale(0) blur(0) drop-shadow(0 1px 4px rgba(10, 10, 10, 0.5));
     }
-
-    .timelineMovieImg:hover {
-        transform: perspective(800px) rotateY(20deg) scale(1.05);
-        -webkit-transform: perspective(800px) rotateY(20deg) scale(1.05);
-        -moz-transform: perspective(800px) rotateY(20deg) scale(1.05);
-        -ms-transform: perspective(800px) rotateY(20deg) scale(1.05);
-        -o-transform: perspective(800px) rotateY(20deg) scale(1.05);
-    }
-
-    .movieCreditImg:hover, .tvCreditImg:hover {
-        transform: perspective(800px) rotateY(20deg) scale(1.05);
-        -webkit-transform: perspective(800px) rotateY(20deg) scale(1.05);
-        -moz-transform: perspective(800px) rotateY(20deg) scale(1.05);
-        -ms-transform: perspective(800px) rotateY(20deg) scale(1.05);
-        -o-transform: perspective(800px) rotateY(20deg) scale(1.05);
-    }
-    
 
     #marvelContainer button:hover {
         background: #FE5449;
@@ -1091,7 +1210,7 @@ footer span {
     }
 
     #goToTopBtn:hover {
-        fill: #d48900;
+        fill: var(--orange);
     }
 }
 
@@ -1105,26 +1224,29 @@ footer span {
         height: 15rem;
     }
 
-    .spinnerWrapper {
+    #spinnerWrapper {
         top: 14rem;
     }
 
-    #trailer .popupCont {
-        width: 30rem;
-        height: 20rem;
-    }
-
-    #nextMcuImg {
+    #nextCinematicImg {
         width: 40%;
     }
 
-    .movieCreditImg, .tvCreditImg {
-        width: 100px;
-        height: 160px;
+    .movieGalleryImg {
+        width: 250px;
     }
 
-    .movieCredit span {
-        font-size: .85rem;
+    .movieVideo {
+        width: 300px !important;
+        height: 250px !important;
+    }
+
+    #chosenMovieImg {
+        width: 80%;
+    }
+
+    .content {
+        width: 90%;
     }
 }
 
@@ -1134,18 +1256,8 @@ footer span {
         width: 75%;
     }
 
-    #trailer .popupCont {
-        width: 29rem;
-        height: 17rem;
-        padding-right: 2rem;
-        padding-left: 2rem;
-    }
-}
-
-@media only screen and (max-width: 550px) {
-    #movieImdbImage, #tvShowImdbImage, #moviePopcornImage, #movieYoutubeImage, #tvShowYoutubeImage {
-        width: 50px;
-        height: 50px;
+    .movieGalleryImg {
+        width: 200px;
     }
 }
 
@@ -1155,8 +1267,17 @@ footer span {
         font-size: 1.2rem;
     }
 
-    #trailer .popupCont {
-        width: 24rem;
+    .companyImg {
+        width: 100px;
+    }
+
+    .actorImg, .similarMovieImg {
+        width: 100px;
+        height: 175px;
+    }
+
+    .actorImdbLink, .actorInstagramLink {
+        width: 30px;
     }
 }
 
@@ -1165,30 +1286,13 @@ footer span {
     #search {
         font-size: 1rem;;
     }
-}
 
-@media only screen and (max-width: 470px) {
-
-    #trailer .popupCont {
-        width: 20rem;
-        height: 13rem;
+    .movieGalleryImg {
+        width: 150px;
     }
 }
 
 @media only screen and (max-width: 400px) {
-
-    .movieCredit, .tvCredit {
-        padding: .5rem 1rem;
-    }
-
-    #movieImdbImage, #tvShowImdbImage, #moviePopcornImage, #movieYoutubeImage, #tvShowYoutubeImage {
-        width: 35px;
-        height: 35px;
-    }
-
-    #movieYoutubeImage, #tvShowYoutubeImage {
-        margin: 1rem 1rem 1rem 1rem;
-    }
 
     main {
         margin-top: 2rem;
@@ -1207,21 +1311,12 @@ footer span {
         width: 250px;
     }   
 
-    #trailer .popupCont {
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-
-    #movieDetails .popupCont, #tvShowDetails .popupCont {
-        padding: 1em 2.2em 0 2.2em;
-    }
-
-    .popUpInfo h2, .creditHeader {
+    .popUpInfo h2 {
         font-size: 1.5rem;
     }
 
-    .longTitle {
-        font-size: 1rem !important;
+    .movieGalleryImg {
+        width: 90%;
     }
 }
 
@@ -1234,22 +1329,13 @@ footer span {
     .marvelMovie, .dcMovie, .valiantMovie, .otherMovie, .animationMovie, .tvShow, .ultraMovie {
         width: 7rem;
     }
-
-    #trailer .popupCont {
-        width: 18rem;
-        height: 11rem;
-    }
 }
 
 @media only screen and (max-width: 350px) {
 
-    .movieCreditImg, .tvCreditImg {
-        width: 80px;
-        height: 140px;
-    }
-
-    .movieCredit span {
-        font-size: .8rem;
+    .movieVideo {
+        width: 290px !important;
+        height: 240px !important;
     }
 
     .Xbtn {
@@ -1258,13 +1344,5 @@ footer span {
 
     .popUpInfo h2 {
         font-size: 1.2rem;
-    }
-}
-
-@media only screen and (max-width: 340px) {
-
-     #trailer .popupCont {
-        width: 18rem;
-        height: 11rem;
     }
 }
