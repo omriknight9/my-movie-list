@@ -1024,6 +1024,7 @@ footer span {
 
 #chosenPerson {
     display: none;
+    margin-top: 5rem;
 }
 
 #chosenPersonImg {
