@@ -1310,6 +1310,11 @@ const goToDiv = (div) => {
         $('#chosenMovie').hide();
     }
 
+    if ($('#chosenPerson').is(':visible')) {
+        $('#chosenPerson').hide();
+    }
+
+
     if ($('main').is(":hidden")) {
         $('main').show();
         $('#timeline').hide();
