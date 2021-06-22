@@ -1110,7 +1110,6 @@ const getPersonMovieImages = (value) => {
     $('#personMovieImages').empty();
 
     $.get(movieActorsUrl + value + "/tagged_images?api_key=" + tmdbKey + "&language=en-US", (data) => {
-        console.log(data)
 
         if (data.results.length > 0) {
             let finalLength;
@@ -1122,8 +1121,6 @@ const getPersonMovieImages = (value) => {
             }
 
             for (let i = 0; i < finalLength; i++) {
-                console.log(data.results[i]);
-
                 let finalImg;
 
                 if (data.results[i].media.backdrop_path == null) {
@@ -1404,7 +1401,6 @@ const getCinematicInfo = (url, type) => {
                 alt: closest.name,
                 src: finalImg,
                 click: () => {
-                    console.log('asd');
                     $('#nextCinematicFilmPop').hide();
                     chosenMovie(capitalize(closest.name), closest.id, 1);
                 }
