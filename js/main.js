@@ -83,8 +83,6 @@ $(document).ready((event) => {
             $('#toggle').removeClass('on')
         }
 
-        let resultType;
-
         searchVal = $('#search').val();
         lastChar = searchVal.substr(searchVal.length - 1);
     
@@ -96,33 +94,20 @@ $(document).ready((event) => {
 
         $.each($('.tvShowWrapper'), (key, value) => {
             let tvShowNumId = $(value).attr('value');
-            showResult($('.tvShowWrapper'),$('.tvShowImg'), $(value), tvShowNumId);
+            let name = $(value).find($('.name')).html();
+            showResult($('.tvShowWrapper'), name, $('.tvShowImg'), $(value), tvShowNumId, 2);
         });
 
-        $.each($('.movieWrapper'), (key, value) => {
+        $.each($('#marvelContainer .movieWrapper, #dcContainer .movieWrapper, #valiantContainer .movieWrapper, #othersContainer .movieWrapper, #animationContainer .movieWrapper'), (key, value) => {
             let movieNumId = $(value).attr('value');
-                
-            if ($(value).hasClass('marvelMovie')) {
-                resultType = 1;
-            } else if ($(value).hasClass('dcMovie')) {
-                resultType = 2;
-            } else if ($(value).hasClass('valiantMovie')) {
-                resultType = 3;
-            } else if ($(value).hasClass('otherMovie')) {
-                resultType = 4;
-            } else if ($(value).hasClass('animationMovie')) {
-                resultType = 5;
-            } else if ($(value).hasClass('ultraMovie')) {
-                resultType = 6;
-            }
-
-            showResult($('.movieWrapper'), $('.movieImg'), $(value), movieNumId, resultType);
+            let name = $(value).find($('.name')).html();
+            showResult($('.movieWrapper'), name, $('.movieImg'), $(value), movieNumId, 1);
         });
     })
 });
 
-const showResult = (div, img, that, resultNum, resultType) => {
-
+const showResult = (div, name, img, that, resultNum, type) => {
+    
     for (let i = 0; i < $(that).length; i++) {
         let movieName = $($(that)[i]).find($('.name')).html();
 
@@ -150,41 +135,11 @@ const showResult = (div, img, that, resultNum, resultType) => {
 
             let result = $('<div>', {
                 class: 'result',
-                'resultType': resultType,
                 'movieNum': resultNum,
                 click: function() {
-                    switch($(this).attr('resultType')) {
-                        case '1': 
-                            div = '#marvelContainer .movieWrapper';
-                        break;
-                        case '2': 
-                            div = '#dcContainer .movieWrapper';
-                        break;
-                        case '3': 
-                            div = '#valiantContainer .movieWrapper';
-                        break;
-                        case '4': 
-                            div = '#othersContainer .movieWrapper';
-                        break;
-                        case '5': 
-                            div = '#animationContainer .movieWrapper';
-                        break;
-                        case '6': 
-                            div = '#ultraContainer .movieWrapper';
-                        break;
-                    }
-
-                    let that = this;
-                    $.each($(div), function (key, value) {
-                        if ($(that).attr('movieNum') == $(this).attr('value')) {
-                            $('body').css('pointer-events', 'none');
-                            selectedDiv = this;
-                            $(selectedDiv).click();
-                            $('body').css('pointer-events', 'all');
-                            $('#searchResults').hide();
-                            $('#search').val('');
-                        }
-                    });
+                    $('#searchResults').hide();
+                    $('#search').val('');
+                    chosenMovie(capitalize(name), $(this).attr('movieNum'), type);
                 }
             }).appendTo($('#searchResults'));
 
@@ -197,17 +152,9 @@ const showResult = (div, img, that, resultNum, resultType) => {
                 src: movieImg
             }).appendTo(resultImgWrapper);
 
-            let finalText;
-
-            if (resultType == 6) {
-                finalText = cap + ' 4K';
-            } else {
-                finalText = cap;
-            }
-
             let resultName = $('<p>', {
                 class: 'resultName',
-                text: finalText
+                text: cap
             }).appendTo(result);
         }
     }
@@ -1322,18 +1269,6 @@ const goToDiv = (div) => {
     } else {
         document.querySelector(div).scrollIntoView({ behavior: 'smooth' });
     }
-}
-
-const goToResult = (div) => {
-    if ($(window).width() < 765) {
-        $('html, body').animate({scrollTop: $(div).offset().top - 150}, 1000);
-    } else {
-        $('html, body').animate({scrollTop: $(div).offset().top - 150}, 1000);
-    }
-
-    setTimeout(() => {
-        $("html, body").animate({scrollTop: $(window).scrollTop() + 10});
-    }, 2000);
 }
 
 const getCinematicInfo = (url, type) => {
