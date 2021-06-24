@@ -119,7 +119,7 @@ const showPlayingNow = () => {
     }
 
     $('.container').hide();
-    $('#playingNowContainer, #upcomingContainer').empty().hide();
+    $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
 
     $('#spinnerWrapper').show();
     $('main, footer, #menuOpenWrapper').css({'pointer-events': 'none', 'opacity': 0});
@@ -128,7 +128,7 @@ const showPlayingNow = () => {
     setTimeout(() => {
         $('#spinnerWrapper').hide();
         $('main, footer, #menuOpenWrapper').css({'pointer-events': 'all', 'opacity': 1});
-    }, 1500)
+    }, 1000)
 
     let totalPages;
     let arr = [];
@@ -168,7 +168,7 @@ const showUpcoming = () => {
     }
 
     $('.container').hide();
-    $('#playingNowContainer, #upcomingContainer').empty().hide();
+    $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
 
     $('#spinnerWrapper').show();
     $('main, footer, #menuOpenWrapper').css({'pointer-events': 'none', 'opacity': 0});
@@ -177,7 +177,7 @@ const showUpcoming = () => {
     setTimeout(() => {
         $('#spinnerWrapper').hide();
         $('main, footer, #menuOpenWrapper').css({'pointer-events': 'all', 'opacity': 1});
-    }, 1500)
+    }, 1000)
 
     let totalPages;
     let arr = [];
@@ -572,7 +572,7 @@ const buildMoviesFromTmdb = (data, div, wrapper, type) => {
         let finalSrc;
         let finalClass;
 
-        if (type == 1 && i < 10) {
+        if (type == 1 && i < 10 || type == 7 && i < 10 || type == 8 && i < 10) {
             dataSrc = '';
             finalClass = 'movieImg';
 
@@ -613,6 +613,8 @@ const buildMoviesFromTmdb = (data, div, wrapper, type) => {
 
 const chosenMovie = (title, value, type) => {
 
+    $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
+
     $('#spinnerWrapper').show();
     $('#chosenMovie, footer, #menuOpenWrapper').css({'pointer-events': 'none', 'opacity': 0});
     $('html,body').scrollTop(0);
@@ -620,7 +622,7 @@ const chosenMovie = (title, value, type) => {
     setTimeout(() => {
         $('#spinnerWrapper').hide();
         $('#chosenMovie, footer, #menuOpenWrapper').css({'pointer-events': 'all', 'opacity': 1});
-    }, 1500)
+    }, 1000)
 
     if ($('.sortContainer').is(':visible')) {
         $('.sortContainer').hide();
@@ -1041,7 +1043,7 @@ const getPersonDetails = (value) => {
     setTimeout(() => {
         $('#spinnerWrapper').hide();
         $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson').css({'pointer-events': 'all', 'opacity': 1});
-    }, 1500)
+    }, 1000)
 
     $('#chosenMovie').hide();
     $('#chosenPerson').show();
@@ -1069,6 +1071,7 @@ const getPersonDetails = (value) => {
                 id: 'chosenPersonImdb',
                 target: '_blank',
                 rel: 'noopener',
+                href: 'https://www.imdb.com/name/' + data.imdb_id
             }).appendTo($('#chosenPersonImgWrapper'));
 
             let personImdbImg = $('<img>', {
@@ -1117,6 +1120,132 @@ const getPersonDetails = (value) => {
     getPersonCredits(value);
     getPersonImages(value);
     getPersonMovieImages(value);
+}
+
+const getPopular = () => {
+    if ($("#popular").text().length > 0) {
+        return;
+    }
+
+    if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible')) {
+        goToDiv('#popular');
+    }
+
+    $('.container').hide();
+    $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
+
+    $('#spinnerWrapper').show();
+    $('main, footer, #menuOpenWrapper').css({'pointer-events': 'none', 'opacity': 0});
+    $('html,body').scrollTop(0);
+
+    setTimeout(() => {
+        $('#spinnerWrapper').hide();
+        $('main, footer, #menuOpenWrapper').css({'pointer-events': 'all', 'opacity': 1});
+    }, 1000)
+
+    let totalPages;
+    let arr = [];
+
+    $.get(movieActorsUrl + "popular?api_key=" + tmdbKey + "&language=en-US", (data) => {
+        console.log(data)
+
+        for (var i = 0; i < data.results.length; i++) {
+            arr.push(data.results[i]);
+        }
+
+        totalPages = data.total_pages;
+
+        if (totalPages > 1) {
+            setTimeout(() => {
+                $.get(movieActorsUrl + "popular?api_key=" + tmdbKey + "&language=en-US&page=2", (data) => {
+                    console.log(data)
+                    for (var j = 0; j < data.results.length; j++) {
+                        arr.push(data.results[j]);
+                    }
+        
+                    setTimeout(() => {
+                        $('#popular').css('display', 'flex');
+                        buildPopular(arr);
+                    }, 500)
+                });
+            }, 1000)
+        }
+    })
+
+    const buildPopular = (arr) => {
+        let typeheader = $('<h2>', {
+            class: 'typeheader',
+            text: 'Popular People'
+        }).appendTo($('#popular'));
+    
+        let headerLine = $('<div>', {
+            class: 'line linePopular',
+        }).appendTo($('#popular'));
+    
+        let headerLogo = $('<span>', {
+            class: 'headerLogo',
+        }).appendTo(headerLine);
+    
+        let popularContent = $('<div>', {
+            id: 'popularContent',
+        }).appendTo($('#popular'));
+
+        for (let i = 0; i < arr.length; i++) {
+            console.log(arr[i]);
+
+            let popularPerson = $('<div>', {
+                class: 'popularPerson hoverEffect',
+                popularity: arr[i].popularity
+            }).appendTo(popularContent)
+
+            let dataSrc;
+            let finalSrc;
+            let finalClass;
+
+            if (i < 10) {
+                dataSrc = '';
+                finalClass = 'popularPersonImg';
+    
+                if (arr[i].profile_path == null) {
+                    finalSrc = './images/stock.png';
+                } else {
+                    finalSrc = 'https://image.tmdb.org/t/p/w1280' + arr[i].profile_path;
+                }
+            } else {
+                if (arr[i].profile_path == null) {
+                    dataSrc = './images/stock.png';
+                    finalSrc = './images/stock.png';
+                } else {
+                    dataSrc = 'https://image.tmdb.org/t/p/w1280' + arr[i].profile_path;
+                    finalSrc = './images/stock.png';
+                }
+                finalClass = 'popularPersonImg lazy';
+            }
+
+            let popularPersonImg = $('<img>', {
+                class: finalClass,
+                alt: 'popular person',
+                'src': finalSrc,
+                'data-src': dataSrc,
+                click: () => {
+                    $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
+                    $('#searchResults').hide();
+                    $('#search').val('');
+                    $('main').hide();
+                    getPersonDetails(arr[i].id);
+                }
+            }).appendTo(popularPerson)
+
+            let popularPersonName = $('<p>', {
+                class: 'name',
+                text: arr[i].name
+            }).appendTo(popularPerson)
+        }
+
+        setTimeout(() => {
+            sortPopularMovies($('#popularContent'), 'popularity', 4);
+        }, 500);
+    }
 }
 
 const getPersonCredits = (value) => {
@@ -1464,7 +1593,7 @@ const goToDiv = (div) => {
     if (!$('#marvelContainer').is(':visible')) {
 
         $('.container').css('display', 'flex');
-        $('#playingNowContainer, #upcomingContainer').empty().hide();
+        $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
     
         $('#spinnerWrapper').show();
         $('main, footer, #menuOpenWrapper').css({'pointer-events': 'none', 'opacity': 0});
@@ -1473,7 +1602,7 @@ const goToDiv = (div) => {
         setTimeout(() => {
             $('#spinnerWrapper').hide();
             $('main, footer, #menuOpenWrapper').css({'pointer-events': 'all', 'opacity': 1});
-        }, 1500)
+        }, 1000)
     }
 
     if ($('.sortContainer').is(':visible')) {
@@ -1890,6 +2019,10 @@ const sortPopularMovies = (container, elem1, type) => {
                 break;
             case 3: 
                 children = $(this).find('.credit');
+                break;
+
+            case 4: 
+                children = $(this).find('.popularPerson');
                 break;
             // case 4: 
             //     children = $(this).find('.actorMovie');
