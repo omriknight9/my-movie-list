@@ -16,13 +16,12 @@ let DCCounter = 1;
 let valiantCounter = 1;
 let othersCounter = 1;
 let animationCounter = 1;
+let upcomingCounter = 1;
+let playingNowCounter = 1;
 
 let selectedDiv;
 let lastChar;
 let searchVal;
-
-let mcuWasSorted = false;
-let dceuWasSorted = false;
 
 let cinematicArr = [];
 let tvShowTimelineArr = [];
@@ -84,6 +83,8 @@ $(document).ready((event) => {
             valiantCounter = 1;
             othersCounter = 1;
             animationCounter = 1;
+            upcomingCounter = 1;
+            playingNowCounter = 1;
         }
 
         if ($('#toggle').hasClass('on')) {
@@ -512,6 +513,8 @@ const buildMoviesFromTmdb = (data, div, wrapper, type) => {
                         valiantCounter = 1;
                         othersCounter = 1;
                         animationCounter = 1;
+                        upcomingCounter = 1;
+                        playingNowCounter = 1;
                     }
 
                     if ($('#toggle').hasClass('on')) {
@@ -618,6 +621,8 @@ const chosenMovie = (title, value, type) => {
         valiantCounter = 1;
         othersCounter = 1;
         animationCounter = 1;
+        upcomingCounter = 1;
+        playingNowCounter = 1;
     }
 
     if ($('#toggle').hasClass('on')) {
@@ -1463,7 +1468,6 @@ const goToDiv = (div) => {
         }, 1500)
     }
 
-
     if ($('.sortContainer').is(':visible')) {
         $('.sortContainer').hide();
         DCCounter = 1;
@@ -1471,6 +1475,8 @@ const goToDiv = (div) => {
         valiantCounter = 1;
         othersCounter = 1;
         animationCounter = 1;
+        upcomingCounter = 1;
+        playingNowCounter = 1;
     }
 
     if ($('#chosenMovie').is(':visible')) {
@@ -1759,6 +1765,8 @@ const sort = (div, num) => {
                 valiantCounter = 1;
                 othersCounter = 1;
                 animationCounter = 1;
+                upcomingCounter = 1;
+                playingNowCounter = 1;
             } else {
                 $(div).find($('.sortContainer')).fadeOut('fast');
                 marvelCounter = 1;
@@ -1772,6 +1780,8 @@ const sort = (div, num) => {
                 valiantCounter = 1;
                 othersCounter = 1;
                 animationCounter = 1;
+                upcomingCounter = 1;
+                playingNowCounter = 1;
             } else {
                 $(div).find($('.sortContainer')).fadeOut('fast');
                 DCCounter = 1;
@@ -1786,6 +1796,8 @@ const sort = (div, num) => {
                 valiantCounter = 1;
                 othersCounter = 1;
                 animationCounter = 1;
+                upcomingCounter = 1;
+                playingNowCounter = 1;
             } else {
                 $(div).find($('.sortContainer')).fadeOut('fast');
                 valiantCounter = 1;
@@ -1799,6 +1811,8 @@ const sort = (div, num) => {
                 valiantCounter = 1;
                 DCCounter = 1;
                 animationCounter = 1;
+                upcomingCounter = 1;
+                playingNowCounter = 1;
             } else {
                 $(div).find($('.sortContainer')).fadeOut('fast');
                 othersCounter = 1;
@@ -1812,11 +1826,44 @@ const sort = (div, num) => {
                 valiantCounter = 1;
                 DCCounter = 1;
                 othersCounter = 1;
+                upcomingCounter = 1;
+                playingNowCounter = 1;
             } else {
                 $(div).find($('.sortContainer')).fadeOut('fast');
                 animationCounter = 1;
             }
             break;
+
+            case 7:
+                if (upcomingCounter == 1) {
+                    $(div).find($('.sortContainer')).fadeIn('fast');
+                    upcomingCounter = 2
+                    animationCounter = 1;
+                    marvelCounter = 1;
+                    valiantCounter = 1;
+                    DCCounter = 1;
+                    othersCounter = 1;
+                    playingNowCounter = 1;
+                } else {
+                    $(div).find($('.sortContainer')).fadeOut('fast');
+                    upcomingCounter = 1;
+                }
+                break;
+            case 8:
+                if (playingNowCounter == 1) {
+                    $(div).find($('.sortContainer')).fadeIn('fast');
+                    playingNowCounter = 2;
+                    animationCounter = 1;
+                    marvelCounter = 1;
+                    valiantCounter = 1;
+                    DCCounter = 1;
+                    othersCounter = 1;
+                    upcomingCounter = 1;
+                } else {
+                    $(div).find($('.sortContainer')).fadeOut('fast');
+                    playingNowCounter = 1;
+                }
+                break;
     }
 }
 
@@ -1919,7 +1966,6 @@ const goToTop = () => {
 }
 
 const scrollBtn = () =>{
-
     if ($(this).scrollTop() > 550) {
         $('#goToTopBtn').fadeIn();
     }
@@ -1936,17 +1982,6 @@ const sortMovies = (container, elem1, kind) => {
     } else {
         $(btnWrapper).attr('kind', kind);
         counter = 1;
-    }
-
-    if (kind == 3) {
-        $('#marvelContainer').empty();
-        $('#dcContainer').empty();
-        $('#valiantContainer').empty();
-        $('#othersContainer').empty();
-        $('#animationContainer').empty();
-        $('#tvShowContainer').empty();
-        mcuWasSorted = false;
-        dceuWasSorted = false;
     }
 
     let children;
@@ -1970,9 +2005,6 @@ const sortMovies = (container, elem1, kind) => {
                 case 2:
                     obj.idNum = elem2;
                     break;
-                case 3:
-                    obj.idNum = parseInt(elem2.replace(/[^\d]/g, ""), 10);
-                    break;
             }
             ids.push(obj);
         }
@@ -1990,8 +2022,6 @@ const sortMovies = (container, elem1, kind) => {
                         break;
                 }
                 $(btnWrapper).attr('kind', kind);
-                mcuWasSorted = true;
-                dceuWasSorted = true;
                 break;
             case 2:
                 switch (counter) {
@@ -2016,47 +2046,9 @@ const sortMovies = (container, elem1, kind) => {
                             }
                         });
                         counter = 1;
-                        mcuWasSorted = true;
-                        dceuWasSorted = true;
                         break;
                 }
                 $(btnWrapper).attr('kind', kind);
-                break;
-            case 3:
-                $('#spinnerWrapper').show();
-                switch ($(container).attr('id')) {
-                    case 'marvelContainer':
-                        setTimeout(() => {
-                            $('#marvel').click();
-                        }, 1200);
-                        break;
-                    case 'dcContainer':
-                        setTimeout(() => {
-                            $('#dc').click();
-                        }, 1200);
-                        break;
-                    case 'valiantContainer':
-                        setTimeout(() => {
-                            $('#valiant').click();
-                        }, 1200);
-                        break;
-                    case 'othersContainer':
-                        setTimeout(() => {
-                            $('#others').click();
-                        }, 1200);
-
-                        break;
-                    case 'animationContainer':
-                        setTimeout(() => {
-                            $('#disney').click();
-                        }, 1200);
-                        break;
-                }
-
-                loadJson();
-                setTimeout(() => {
-                    $('#spinnerWrapper').hide();
-                }, 500);
                 break;
         }
 
@@ -2070,6 +2062,8 @@ const sortMovies = (container, elem1, kind) => {
     valiantCounter = 1;
     othersCounter = 1;
     animationCounter = 1;
+    upcomingCounter = 1;
+    playingNowCounter = 1;
 }
 
 const removePopup = (container) => {
