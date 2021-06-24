@@ -34,6 +34,16 @@
         </div>
         <div id="menu">
             <ul>
+                <li onclick="showPlayingNow()">
+                    <img src="./images/theater.png" alt="movie theater">
+                    <span>Playing Now</span>
+                </li>
+                
+                <li onclick="showUpcoming()">
+                    <img src="./images/comingSoon.png" alt="comingSoon">
+                    <span>Upcoming</span>
+                </li>
+
                 <li onclick="goToDiv('#marvelContainer')">
                     <img src="./images/ironman.png" alt="ironman">
                     <span>Marvel</span>
@@ -92,6 +102,9 @@
         <div class="container" id="animationContainer"></div>
         <div class="container" id="tvShowContainer"></div>
         <div class="container" id="ultraContainer"></div>
+        <div class="container" id="upcomingContainer"></div>
+        <div class="container" id="playingNowContainer"></div>
+
     </main>
 
     <div id="timeline">
@@ -113,18 +126,14 @@
             <span id="chosenMovieDate"></span>
             <span id="chosenMovieRuntime"></span>
             <span id="chosenMovieRevenue"></span>
-
             <span id="seasons"></span>
             <span id="episodes"></span>
-
             <span id="chosenMovieRating"></span>
             <span id="chosenMovieGenres"></span>
         </div>
 
         <div id="directorsWrapper"></div>
-        <div id="castWrapper">
-            <p class="chosenHeader">Cast</p>
-        </div>
+        <div id="castWrapper"></div>
 
         <div id="similarMovies">
             <p id="similarHeader" class="chosenHeader"></p>
@@ -144,7 +153,6 @@
             <div id="personMovies" class="content"></div>
         </div>
 
-
         <div id="personImages"></div> 
         <div id="personMovieImages"></div> 
     </div>
@@ -162,7 +170,6 @@
         <div class="popupCont">
             <div class="Xbtn"></div>
             <span id="nextCinematicTitle"></span>
-
             <p>
                 Release Date:
                 <span id="dateOfNextMovie"></span>
@@ -177,7 +184,6 @@
                 Relese Date:
                 <span id="afterNextMovieDate"></span>
             </p>
-
             <button id="timelineBtn">Timeline</button>
             <button id="timelineTVBtn">TV Timeline</button>
         </div>
