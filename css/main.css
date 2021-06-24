@@ -169,28 +169,24 @@ button:active {
     left: 0;
 }
 
-.resultImgWrapper {
-    width: 50%;
-}
-
-.result {
+.resultRow {
     display: flex;
     box-sizing: border-box;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     flex-wrap: nowrap;
     margin: 1rem;
     cursor: pointer;
 }
 
+.resultPoster {
+    width: 80px;
+    border-radius: 5px;
+}
+
 .resultName {
     width: 50%;
     font-size: 1.5rem;
-}
-
-.resultImg {
-    width: 80px;
-    border-radius: 5px;
 }
 
 #spinnerWrapper {
@@ -473,6 +469,9 @@ p {
 
 #menu ul {
     padding: 0;
+    text-align: left;
+    text-indent: 4rem;
+    margin: 0;
 }
 
 #menu li {
@@ -480,7 +479,7 @@ p {
     position: relative;
     color: black;
     filter: drop-shadow(0 0 6px rgba(10, 10, 10, 0.3));
-    line-height: 2.5rem;
+    line-height: 3rem;
     cursor: pointer;
     font-size: 1.3rem;
 }
@@ -490,11 +489,15 @@ p {
 }
 
 #menu img {
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 38px;
     position: absolute;
     top: .2rem;
     left: 0;
+}
+
+#menu li:first-child img, #menu li:nth-child(2) img {
+    width: 50px;
 }
 
 .line {
@@ -583,52 +586,36 @@ p {
     margin-left: -69px;
 }
 
-#marvelContainer {
+.lineUpcoming {
+    background: linear-gradient(to right, transparent, gold, transparent);
+    margin-bottom: 4rem;
+}
+
+.lineUpcoming span {
+    background: url(../images/comingSoon.png) no-repeat 50% 50%;
+    background-size: 90px 60px;
+    width: 100px;
+    margin-left: -69px;
+}
+
+.linePlayingNow {
+    background: linear-gradient(to right, transparent, gold, transparent);
+    margin-bottom: 4rem;
+}
+
+.linePlayingNow span {
+    background: url(../images/theater.png) no-repeat 50% 50%;
+    background-size: 80px 60px;
+    width: 100px;
+    margin-left: -69px;
+}
+
+.container {
     display: none;
     position: relative;
 }
 
-#dcContainer {
-    display: none;
-    position: relative;
-}
-
-#valiantContainer {
-    display: none;
-    position: relative;
-}
-
-#othersContainer {
-    display: none;
-    position: relative;
-}
-
-#animationContainer {
-    display: none;
-    position: relative;
-}
-
-#tvShowContainer {
-    display: none;
-    position: relative;
-}
-
-#ultraContainer {
-    display: none;
-}
-
-#tvShowContent {
-    display: flex;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    flex-wrap: wrap;
-    -webkit-flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
-}
-
-#moviesContent {
+#moviesContent, #tvShowContent {
     display: flex;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -663,12 +650,6 @@ p {
 .name::first-letter {
     font-size: 1.2rem;
     color: var(--orange);
-}
-
-.marvelMovie, .dcMovie, .valiantMovie, .otherMovie, .animationMovie, .tvShow, .ultraMovie {
-    position: relative;
-    height: 18rem;
-    padding-bottom: 2rem;
 }
 
 .movieImg, .tvShowImg {
@@ -1220,10 +1201,6 @@ footer span {
 
 @media only screen and (max-width: 765px) {
 
-    .marvelMovie, .dcMovie, .valiantMovie, .otherMovie, .animationMovie, .tvShow, .ultraMovie {
-        height: 20rem;
-    }
-
     #searchResults {
         height: 15rem;
     }
@@ -1328,10 +1305,6 @@ footer span {
 
     h2 {
         font-size: 3rem;
-    }
-
-    .marvelMovie, .dcMovie, .valiantMovie, .otherMovie, .animationMovie, .tvShow, .ultraMovie {
-        width: 7rem;
     }
 }
 
