@@ -114,6 +114,10 @@ const showPlayingNow = () => {
         return;
     }
 
+    if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible')) {
+        goToDiv('#playingNowContainer');
+    }
+
     $('.container').hide();
     $('#playingNowContainer, #upcomingContainer').empty().hide();
 
@@ -157,6 +161,10 @@ const showUpcoming = () => {
 
     if ($("#upcomingContainer").text().length > 0) {
         return;
+    }
+
+    if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible')) {
+        goToDiv('#upcomingContainer');
     }
 
     $('.container').hide();
@@ -555,8 +563,8 @@ const buildMoviesFromTmdb = (data, div, wrapper, type) => {
             'name': finalNameToSend,
             'date': finalItems[i].release_date,
             'value': finalItems[i].id,
-            click: function () {
-                chosenMovie(capitalize(finalItems[i].title), data.items[i].id, 1);
+            click: () => {
+                chosenMovie(capitalize(finalItems[i].title), finalItems[i].id, 1);
             }
         }).appendTo(moviesContent)
 
