@@ -690,7 +690,7 @@ const chosenMovie = (title, value, type) => {
 
         if (type == 1) {
 
-            $('#seasons, #episodes').show();
+            $('#seasons, #episodes').hide();
 
             if (data.release_date !== '') {
                 $('#movieDate').html('Release Date: ' + configureDate(data.release_date));
