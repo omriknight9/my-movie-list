@@ -1789,6 +1789,7 @@ const getTVShowInfo = (url, type) => {
 
 const showTimeline = (type, cinematicType) => {
 
+    $('.searchContainer').addClass('chosenSearch');
     $('.timelineMovieWrapper').remove();
     $('#timeline').show();
     $('html,body').scrollTop(0);
