@@ -621,12 +621,12 @@ const chosenMovie = (title, value, type) => {
     $('.searchContainer').addClass('chosenSearch');
 
     $('#spinnerWrapper').show();
-    $('#chosenMovie, footer, #menuOpenWrapper').css({'pointer-events': 'none', 'opacity': 0});
+    $('#chosenMovie, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
     $('html,body').scrollTop(0);
 
     setTimeout(() => {
         $('#spinnerWrapper').hide();
-        $('#chosenMovie, footer, #menuOpenWrapper').css({'pointer-events': 'all', 'opacity': 1});
+        $('#chosenMovie, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
     }, 1000)
 
     if ($('.sortContainer').is(':visible')) {
@@ -1071,12 +1071,12 @@ const getPersonDetails = (value) => {
     $('.searchContainer').addClass('chosenSearch');
 
     $('#spinnerWrapper').show();
-    $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson').css({'pointer-events': 'none', 'opacity': 0});
+    $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
     $('html,body').scrollTop(0);
 
     setTimeout(() => {
         $('#spinnerWrapper').hide();
-        $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson').css({'pointer-events': 'all', 'opacity': 1});
+        $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
     }, 1000)
 
     $('#chosenMovie').hide();
