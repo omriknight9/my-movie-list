@@ -1984,7 +1984,10 @@ const showTimeline = (type, cinematicType) => {
 
 const goHome = () => {
     $('main').show();
-    $('#timeline').hide();
+
+    if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible') || $('#timeline').is(':visible')) {
+        goToDiv('#marvelContainer');
+    }
 }
 
 const sort = (div, num) => {
