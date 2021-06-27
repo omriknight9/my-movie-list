@@ -109,7 +109,7 @@ const showPlayingNow = () => {
         return;
     }
 
-    if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible')) {
+    if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible') || $('#timeline').is(':visible')) {
         goToDiv('#playingNowContainer');
     }
 
@@ -158,7 +158,7 @@ const showUpcoming = () => {
         return;
     }
 
-    if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible')) {
+    if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible') || $('#timeline').is(':visible')) {
         goToDiv('#upcomingContainer');
     }
 
