@@ -224,28 +224,6 @@ const showResults = (value) => {
                 } else if (data.results[i].media_type == 'movie') {
                     finalReleaseDate = data.results[i].release_date;
                 }
-
-                let finalVoteText;
-
-                if ((data.results[i].vote_average.length == 1 && data.results[i].vote_average !== '0') || data.results[i].vote_average == '10') {
-                    finalVoteText = data.results[i].vote_average + '0'
-                } else {
-                    finalVoteText = data.results[i].vote_average;
-                }
-
-                finalVoteText = JSON.stringify(finalVoteText);
-
-                finalVoteText = finalVoteText.replace('.', '') + '%';
-                                
-                if (finalVoteText == '0%' && JSON.stringify(finalReleaseDate > new Date())) {
-                    finalVoteText = 'TBD';
-                }
-    
-                if ((data.results[i].vote_average.length == 1 && data.results[i].vote_average !== '0') || data.results[i].vote_average == '10') {
-                    finalVoteText = data.results[i].vote_average + '0'
-                } else {
-                    finalVoteText = data.results[i].vote_average;
-                }
             }
 
             let finalTitle;
@@ -602,7 +580,43 @@ const buildMoviesFromTmdb = (data, div, wrapper, type) => {
         let movieDate = $('<p>', {
             class: 'date',
             text: configureDate(finalItems[i].release_date)
-        }).appendTo(movieWrapper); 
+        }).appendTo(movieWrapper);
+
+        if (finalItems[i].vote_average !== null && finalItems[i].vote_average !== 0) {
+
+            let finalVoteText;
+
+            finalVoteText = finalItems[i].vote_average.toString();
+    
+            if ((finalVoteText.length == 1 && finalItems[i].vote_average !== '0') || finalItems[i].vote_average == '10') {
+                finalVoteText = finalItems[i].vote_average + '0'
+            } else {
+                finalVoteText = finalItems[i].vote_average;
+            }
+    
+            finalVoteText = finalVoteText.toString();
+            finalVoteText = finalVoteText.replace('.', '') + '%';
+
+            let voteWrapper = $('<div>', {
+                class: 'voteWrapper',
+            }).appendTo(movieWrapper);
+
+            let voteBackground = $('<span>', {
+                class: 'voteBackground',
+                voteCount: finalVoteText.replace('%', '')
+            }).appendTo(voteWrapper);
+
+            let voteTextContent = $('<div>', {
+                class: 'voteTextContent',
+            }).appendTo(voteWrapper);
+
+            let vote = $('<span>', {
+                class: 'vote',
+                text: finalVoteText
+            }).appendTo(voteTextContent);
+
+            updateVotes();
+        }
     }
 }
 
@@ -746,7 +760,7 @@ const chosenMovie = (title, value, type) => {
 
         finalVoteText = finalVoteText.replace('.', '') + '%';
 
-        if (finalVoteText == '0%' && JSON.stringify(finalDateForShow > todayDate)) {
+        if (finalVoteText == '0%' && JSON.stringify(finalDateForShow > new Date())) {
             finalVoteText = 'TBD';
         }
     
@@ -2122,7 +2136,68 @@ const buildTvShowFromTmdb = (data, div, wrapper) => {
             class: 'year',
             text: 'Year: ' + data.items[i].first_air_date.substr(0, 4)
         }).appendTo(tvShowWrapper);
+
+        if (data.items[i].vote_average !== null || data.items[i].vote_average !== 0) {
+            let finalVoteText;
+
+            finalVoteText = data.items[i].vote_average.toString();
+    
+            if ((finalVoteText.length == 1 && data.items[i].vote_average !== '0') || data.items[i].vote_average == '10') {
+                finalVoteText = data.items[i].vote_average + '0'
+            } else {
+                finalVoteText = data.items[i].vote_average;
+            }
+    
+            finalVoteText = finalVoteText.toString();
+    
+            finalVoteText = finalVoteText.replace('.', '') + '%';
+
+            if (finalVoteText !== 0 && finalVoteText !== undefined) {
+
+                let voteWrapper = $('<div>', {
+                    class: 'voteWrapper',
+                }).appendTo(tvShowWrapper);
+
+                let voteBackground = $('<span>', {
+                    class: 'voteBackground',
+                    voteCount: finalVoteText.replace('%', '')
+                }).appendTo(voteWrapper);
+
+                let voteTextContent = $('<div>', {
+                    class: 'voteTextContent',
+                }).appendTo(voteWrapper);
+
+                let vote = $('<span>', {
+                    class: 'vote',
+                    text: finalVoteText
+                }).appendTo(voteTextContent);
+            }
+
+            updateVotes();
+        }
     }
+}
+
+const updateVotes = () => {
+    setTimeout(() => {
+        $.each($('.voteBackground'), (key, value) => {
+            let height = $(value).attr('voteCount');
+            $(value).css('height', height + '%');
+
+            var r = height < 70 ? 255 : Math.floor(255-(height*2-100)*255/100);
+            var g = height >= 70 ? 255 : Math.floor((height*2)*255/100);
+
+            if (height > 45 && height < 70) {
+                g = g - 100;
+            } else if(height >= 70) {
+                g = g - 50;
+            } else {
+                g = g;
+            }
+
+            $(value).css('background-color', 'rgb('+r+','+g+',0)');          
+        });
+    }, 500)
 }
 
 const goToTop = () => {
