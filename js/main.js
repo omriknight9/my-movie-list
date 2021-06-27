@@ -623,6 +623,7 @@ const buildMoviesFromTmdb = (data, div, wrapper, type) => {
 const chosenMovie = (title, value, type) => {
 
     $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
+    $('.searchContainer').addClass('chosenSearch');
 
     $('#spinnerWrapper').show();
     $('#chosenMovie, footer, #menuOpenWrapper').css({'pointer-events': 'none', 'opacity': 0});
@@ -1071,6 +1072,8 @@ const getCredits = (value, type) => {
 }
 
 const getPersonDetails = (value) => {
+
+    $('.searchContainer').addClass('chosenSearch');
 
     $('#spinnerWrapper').show();
     $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson').css({'pointer-events': 'none', 'opacity': 0});
@@ -1626,6 +1629,8 @@ const getVideos = (value, type) => {
 }
 
 const goToDiv = (div) => {
+
+    $('.searchContainer').removeClass('chosenSearch');
 
     if (!$('#marvelContainer').is(':visible')) {
 
