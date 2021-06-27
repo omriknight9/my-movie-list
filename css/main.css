@@ -112,6 +112,10 @@ button:active {
     z-index: 1;
 }
 
+.chosenSearch {
+    top: -3rem;
+}
+
 .searchContant {
     position: relative;
     width: 30%;
