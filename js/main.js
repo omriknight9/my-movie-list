@@ -1729,10 +1729,13 @@ const goToDiv = (div) => {
         $('#chosenPerson').hide();
     }
 
+    if ($('#timeline').is(':visible')) {
+        $('#timeline').hide();
+    }
 
     if ($('main').is(":hidden")) {
         $('main').show();
-        $('#timeline').hide();
+
 
         window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
@@ -1986,6 +1989,7 @@ const goHome = () => {
     $('main').show();
 
     if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible') || $('#timeline').is(':visible')) {
+
         goToDiv('#marvelContainer');
     }
 }
