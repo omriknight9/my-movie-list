@@ -51,6 +51,7 @@ $(document).ready((event) => {
     window.onscroll = () => {
         scrollBtn();
         lazyload();
+        scrollIndicator();
     }
 
     $('.Xbtn').click(function () {
