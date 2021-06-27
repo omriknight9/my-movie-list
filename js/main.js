@@ -115,15 +115,7 @@ const showPlayingNow = () => {
 
     $('.container').hide();
     $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
-
-    $('#spinnerWrapper').show();
-    $('main, footer, #menuOpenWrapper').css({'pointer-events': 'none', 'opacity': 0});
-    $('html,body').scrollTop(0);
-
-    setTimeout(() => {
-        $('#spinnerWrapper').hide();
-        $('main, footer, #menuOpenWrapper').css({'pointer-events': 'all', 'opacity': 1});
-    }, 1000)
+    switchContent();
 
     let totalPages;
     let arr = [];
@@ -164,15 +156,7 @@ const showUpcoming = () => {
 
     $('.container').hide();
     $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
-
-    $('#spinnerWrapper').show();
-    $('main, footer, #menuOpenWrapper').css({'pointer-events': 'none', 'opacity': 0});
-    $('html,body').scrollTop(0);
-
-    setTimeout(() => {
-        $('#spinnerWrapper').hide();
-        $('main, footer, #menuOpenWrapper').css({'pointer-events': 'all', 'opacity': 1});
-    }, 1000)
+    switchContent();
 
     let totalPages;
     let arr = [];
@@ -199,6 +183,17 @@ const showUpcoming = () => {
             }, 1000)
         }
     });
+}
+
+const switchContent = () => {
+    $('#spinnerWrapper').show();
+    $('main, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
+    $('html,body').scrollTop(0);
+
+    setTimeout(() => {
+        $('#spinnerWrapper').hide();
+        $('main, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+    }, 1000)
 }
 
 const showResults = (value) => {
@@ -1178,14 +1173,7 @@ const getPopular = () => {
     $('.container').hide();
     $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
 
-    $('#spinnerWrapper').show();
-    $('main, footer, #menuOpenWrapper').css({'pointer-events': 'none', 'opacity': 0});
-    $('html,body').scrollTop(0);
-
-    setTimeout(() => {
-        $('#spinnerWrapper').hide();
-        $('main, footer, #menuOpenWrapper').css({'pointer-events': 'all', 'opacity': 1});
-    }, 1000)
+    switchContent();
 
     let totalPages;
     let arr = [];
@@ -1636,15 +1624,7 @@ const goToDiv = (div) => {
 
         $('.container').css('display', 'flex');
         $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
-    
-        $('#spinnerWrapper').show();
-        $('main, footer, #menuOpenWrapper').css({'pointer-events': 'none', 'opacity': 0});
-        $('html,body').scrollTop(0);
-    
-        setTimeout(() => {
-            $('#spinnerWrapper').hide();
-            $('main, footer, #menuOpenWrapper').css({'pointer-events': 'all', 'opacity': 1});
-        }, 1000)
+        switchContent();
     }
 
     if ($('.sortContainer').is(':visible')) {
