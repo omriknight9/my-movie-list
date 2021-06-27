@@ -639,6 +639,7 @@ p {
 }
 
 .movieWrapper, .tvShowWrapper, .popularPerson {
+    position: relative;
     width: 9rem;
     margin: 1rem;
     text-align: center;
@@ -662,6 +663,47 @@ p {
 .name::first-letter {
     font-size: 1.2rem;
     color: var(--orange);
+}
+
+.voteWrapper {
+    position: relative;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: white;
+    border: 1px solid #323538; 
+    border-radius: 50%;
+    position: absolute;
+    bottom: 6rem;
+    right: -1rem;
+    z-index: 1;
+    text-align: center;
+    line-height: 3rem;
+    overflow: hidden;
+}
+
+.tvShowWrapper .voteWrapper {
+    bottom: 8rem;
+}
+
+.voteBackground {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.voteTextContent {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+}
+
+.vote {
+    z-index: 1;
+    font-size: .9rem;
+    font-weight: 600;
+    color: #323538;
+
 }
 
 .movieImg, .tvShowImg, .popularPersonImg {
