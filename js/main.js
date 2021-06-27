@@ -38,6 +38,47 @@ let directorCounter = 0;
 
 $(document).ready((event) => {
 
+    if (window.location.href.indexOf("?movie=") > -1) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const value = urlParams.get('value');
+        chosenMovie(value, 1);
+
+        $(window).on('popstate', function() {
+            goHome();
+            window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+        });
+        
+    }
+
+    if (window.location.href.indexOf("?tvShow=") > -1) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const value = urlParams.get('value');
+        chosenMovie(value, 2);
+
+        $(window).on('popstate', function() {
+            goHome();
+            window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+        });
+    }
+
+    if (window.location.href.indexOf("?actor=") > -1) {
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const value = urlParams.get('value');
+
+        $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
+        $('#searchResults').hide();
+        $('#search').val('');
+        $('main').hide();
+
+        getPersonDetails(value);
+
+        $(window).on('popstate', function() {
+            goHome();
+            window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+        });
+    }
+
     if (window.location.href.indexOf("?timeline=") > -1) {
         window.history.replaceState({}, document.title, "/" + "my-movie-list/");
     }
@@ -271,13 +312,13 @@ const showResults = (value) => {
                             $('#searchResults').hide();
                             $('#search').val('');
                             $('main').hide();
-                            chosenMovie(capitalize(finalTitle), data.results[i].id, 1);
+                            chosenMovie(data.results[i].id, 1);
                             break;
                         case 'tv':
                             $('#searchResults').hide();
                             $('#search').val('');
                             $('main').hide();
-                            chosenMovie(capitalize(finalTitle), data.results[i].id, 2);
+                            chosenMovie(data.results[i].id, 2);
                             break;
                         case 'person':
                             $('#searchResults').hide();
@@ -520,20 +561,12 @@ const buildMoviesFromTmdb = (data, div, wrapper, type) => {
     }
 
     for (let i = 0; i < finalItems.length; i++) {
-        let finalNameToSend;
-   
-        finalNameToSend = finalItems[i].title.replace(/'/, "");
-        finalNameToSend = finalNameToSend.replace(/-/, "");
-        finalNameToSend = finalNameToSend.replace(/:/, "");
-        finalNameToSend = finalNameToSend.replace(/\s/g, '');
-
         let movieWrapper = $('<div>', {
             class: 'movieWrapper hoverEffect ' + div,
-            'name': finalNameToSend,
             'date': finalItems[i].release_date,
             'value': finalItems[i].id,
             click: () => {
-                chosenMovie(capitalize(finalItems[i].title), finalItems[i].id, 1);
+                chosenMovie(finalItems[i].id, 1);
             }
         }).appendTo(moviesContent)
 
@@ -616,7 +649,7 @@ const buildMoviesFromTmdb = (data, div, wrapper, type) => {
     }
 }
 
-const chosenMovie = (title, value, type) => {
+const chosenMovie = (value, type) => {
 
     $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
     $('.searchContainer').addClass('chosenSearch');
@@ -648,17 +681,45 @@ const chosenMovie = (title, value, type) => {
     $('main').hide();
     $('#productionCompenies, #directorsWrapper, #castContent, #movieDesc, #similarMoviesContent, #chosenMovieImagesWrapper, #videosWrapper').empty();
     $('#chosenMovie').show();
-    $('#chosenMovieTitle').html(title);
 
     let finalUrl;
+    let chosenUrl;
 
     if (type == 1) {
         finalUrl = movieInfoUrl;
+        chosenUrl = 'movie';
     } else {
         finalUrl = tvShowInfoUrl;
+        chosenUrl = 'tvShow';
     }
 
     $.get(finalUrl + value + "?api_key=" + tmdbKey + '&language=en-US', (data) => {
+
+        let finalTitle;
+
+        if (type == 1) {
+            finalTitle = data.title;
+        } else {
+            finalTitle = data.name;
+        }
+
+        let finalNameToSend;
+   
+        finalNameToSend = finalTitle.replace(/'/, "");
+        finalNameToSend = finalNameToSend.replace(/-/, "");
+        finalNameToSend = finalNameToSend.replace(/:/, "");
+        finalNameToSend = finalNameToSend.replace(/\s/g, '');
+    
+        const url = new URL(window.location);
+        url.searchParams.set(chosenUrl, finalNameToSend);
+        url.searchParams.set('value', value);
+        
+        window.history.pushState({}, '', url);
+    
+        $(window).on('popstate', function() {
+            goHome();
+            window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+        });
 
         let finalImg;
 
@@ -669,10 +730,14 @@ const chosenMovie = (title, value, type) => {
         }
         
         if (type == 2) {
+            $('#chosenMovieTitle').html(capitalize(data.name));
+
             $.get(finalUrl + value + "/external_ids?api_key=" + tmdbKey + '&language=en-US', (data) => {
                 $('#chosenMovieImdb').attr('href', 'https://www.imdb.com/title/' + data.imdb_id);
             })
         } else {
+
+            $('#chosenMovieTitle').html(capitalize(data.title));
             $('#chosenMovieImdb').attr('href', 'https://www.imdb.com/title/' + data.imdb_id);
         }
 
@@ -1087,6 +1152,23 @@ const getPersonDetails = (value) => {
     $.get(movieActorsUrl + value + "?api_key=" + tmdbKey + "&language=en-US", (data) => {
         $('#chosenPersonName').html(data.name);
 
+        let finalNameToSend;
+    
+        finalNameToSend = data.name.replace(/'/, "");
+        finalNameToSend = finalNameToSend.replace(/-/, "");
+        finalNameToSend = finalNameToSend.replace(/:/, "");
+        finalNameToSend = finalNameToSend.replace(/\s/g, '');
+
+        const url = new URL(window.location);
+        url.searchParams.set('actor', finalNameToSend);
+        url.searchParams.set('value', value);
+        window.history.pushState({}, '', url);
+
+        $(window).on('popstate', function() {
+            goHome();
+            window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+        });
+
         let finalImg;
 
         if (data.profile_path == null || data.profile_path == undefined || data.profile_path == '') {
@@ -1364,7 +1446,7 @@ const getPersonCredits = (value) => {
 
                                 $('#chosenPerson').hide();
 
-                                chosenMovie(capitalize(finalTitle), data.cast[i].id, typeOfContent);
+                                chosenMovie(data.cast[i].id, typeOfContent);
                             }
                         }).appendTo(imageLink);
     
@@ -1514,7 +1596,7 @@ const getSimilar = (value, type) => {
                         src: img,
                         alt: 'similarMovieImg',
                         click: () => {
-                            chosenMovie(capitalize(finalTitle), data.results[i].id, type);
+                            chosenMovie(data.results[i].id, type);
                         }
                     }).appendTo(credit);
 
@@ -1728,7 +1810,7 @@ const getCinematicInfo = (url, type) => {
                 src: finalImg,
                 click: () => {
                     $('#nextCinematicFilmPop').hide();
-                    chosenMovie(capitalize(closest.name), closest.id, 1);
+                    chosenMovie(closest.id, 1);
                 }
 
             }).insertAfter($('#dateOfNextMovie'));
@@ -1819,7 +1901,7 @@ const showTimeline = (type, cinematicType) => {
                 click: () => {
                     $('#timeline').hide();
                     window.history.replaceState({}, document.title, "/" + "my-movie-list/");
-                    chosenMovie(capitalize(cinematicArr[i].name), cinematicArr[i].id, 1);
+                    chosenMovie(cinematicArr[i].id, 1);
                 }
             }).appendTo(timelineMovieWrapper)
 
@@ -1871,7 +1953,7 @@ const showTimeline = (type, cinematicType) => {
                 click: () => {
                     $('#timeline').hide();
                     window.history.replaceState({}, document.title, "/" + "my-movie-list/");
-                    chosenMovie(capitalize(tvShowTimelineArr[i].name), tvShowTimelineArr[i].id, 2);
+                    chosenMovie(tvShowTimelineArr[i].id, 2);
                 }
             }).appendTo(timelineMovieWrapper)
     
@@ -2089,20 +2171,12 @@ const buildTvShowFromTmdb = (data, div, wrapper) => {
 
     for (let i = 0; i < data.items.length; i++) {
 
-        let finalNameToSend;
-
-        finalNameToSend = data.items[i].name.replace(/'/, "");
-        finalNameToSend = finalNameToSend.replace(/-/, "");
-        finalNameToSend = finalNameToSend.replace(/:/, "");
-        finalNameToSend = finalNameToSend.replace(/\s/g, '');
-
         let tvShowWrapper = $('<div>', {
             class: 'tvShowWrapper hoverEffect ' + div,
             'year': data.items[i].first_air_date.substr(0, 4),
-            'name': finalNameToSend,
             'value': data.items[i].id,
             click: function () {
-                chosenMovie(capitalize(data.items[i].name), data.items[i].id, 2);
+                chosenMovie(data.items[i].id, 2);
             }
         }).appendTo(tvShowContent);
 
