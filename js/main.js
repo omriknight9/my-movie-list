@@ -694,9 +694,18 @@ const chosenMovie = (title, value, type) => {
         }
 
         if (type == 1) {
-            $('#chosenMovieDate').html('Release Date: ' + configureDate(data.release_date));
+
+            $('#seasons, #episodes').show();
+
+            if (data.release_date !== '') {
+                $('#movieDate').html('Release Date: ' + configureDate(data.release_date));
+                $('#chosenMovieDate').show();
+            } else {
+                $('#chosenMovieDate').hide();
+            }
+
             if (data.runtime !== '0' && data.runtime !== 0) {
-                $('#chosenMovieRuntime').html('Runtime: ' + convertMinsToHrsMins(data.runtime));
+                $('#movieRuntime').html('Runtime: ' + convertMinsToHrsMins(data.runtime));
                 $('#chosenMovieRuntime').show();
             } else {
                 $('#chosenMovieRuntime').hide();
@@ -706,17 +715,25 @@ const chosenMovie = (title, value, type) => {
 
                 let withCommas = numberWithCommas(data.revenue);
     
-                $('#chosenMovieRevenue').html('Revenue: ' + ' $ ' + withCommas);
+                $('#movieRevenue').html('Revenue: ' + ' $ ' + withCommas);
                 $('#chosenMovieRevenue').show();
             } else {
                 $('#chosenMovieRevenue').hide();
             }
 
         } else {
-            $('#chosenMovieDate').html('First Aired: ' + configureDate(data.first_air_date));
+
+            $('#seasons, #episodes').show();
+
+            if (data.release_date !== '') {
+                $('#movieDate').html('First Aired: ' + configureDate(data.first_air_date));
+                $('#chosenMovieDate').show();
+            } else {
+                $('#chosenMovieDate').hide();
+            }
             $('#chosenMovieRuntime, #chosenMovieRevenue').hide();
-            $('#seasons').html('Seasons: ' + data.number_of_seasons);
-            $('#episodes').html('Episodes: ' + data.number_of_episodes);
+            $('#seriesSeasons').html('Seasons: ' + data.number_of_seasons);
+            $('#seriesEpisodes').html('Episodes: ' + data.number_of_episodes);
 
         }
 
@@ -739,13 +756,21 @@ const chosenMovie = (title, value, type) => {
         }
     
         if (finalVoteText !== 0 && finalVoteText !== undefined) {
-            let finalRatingText;
-            $('#chosenMovieRating').html('Rating: ' + finalVoteText);
+            $('#movieRating').html('Rating: ' + finalVoteText);
+            $('#chosenMovieRating').show();
         } else {
             $('#chosenMovieRating').hide();
         }
 
+        if (data.original_language !== 0 && data.original_language !== undefined) {
+            $('#movieLang').html('Language: ' + data.original_language);
+            $('#chosenMovieLang').hide();
+        } else {
+            $('#chosenMovieLang').hide();
+        }
+
         if (data.genres.length > 0) {
+            $('#chosenMovieGenres').show();
             let arr = [];
 
             for (let a = 0; a < data.genres.length; a++) {   
@@ -754,8 +779,10 @@ const chosenMovie = (title, value, type) => {
 
             setTimeout(() => {
                 let newArr = arr.join(', ');
-                $('#chosenMovieGenres').html('Genres: ' + newArr);
+                $('#movieGenres').html('Genres: ' + newArr);
             }, 100)
+        } else {
+            $('#chosenMovieGenres').hide();
         }
     });
 
@@ -1047,7 +1074,7 @@ const getPersonDetails = (value) => {
 
     $('#chosenMovie').hide();
     $('#chosenPerson').show();
-    $('#chosenPersonImgWrapper, #chosenPersonDetails').empty();
+    $('#chosenPersonImgWrapper').empty();
 
     $.get(movieActorsUrl + value + "?api_key=" + tmdbKey + "&language=en-US", (data) => {
         $('#chosenPersonName').html(data.name);
@@ -1081,7 +1108,16 @@ const getPersonDetails = (value) => {
             }).appendTo(personImdb);
         }
 
+        if (data.runtime !== '0' && data.runtime !== 0) {
+            $('#movieRuntime').html('Runtime: ' + convertMinsToHrsMins(data.runtime));
+            $('#chosenMovieRuntime').show();
+        } else {
+            $('#chosenMovieRuntime').hide();
+        }
+
         if (data.birthday !== null) {
+
+            $('#personBirthDate').show();
 
             let finalAge = getAge(data.birthday, 1);
             let finalAgeText;
@@ -1092,28 +1128,24 @@ const getPersonDetails = (value) => {
                 finalAgeText = 'Birth Date: ' + configureDate(data.birthday);
             }
 
-            let personBirthDate = $('<span>', {
-                id: 'personBirthDate',
-                text: finalAgeText
-            }).appendTo($('#chosenPersonDetails'));
+            $('#birthDate').html(finalAgeText);
+        } else {
+            $('#personBirthDate').hide();
         }
 
         if(data.deathday !== null) {
-
+            $('#personDeathDate').show();
             let deathAge = getAge(data.deathday, 2, data.birthday);
-
-            let personDeathDate = $('<span>', {
-                id: 'personDeathDate',
-                text: 'Death Date: ' + configureDate(data.deathday) + ' (Age: ' + deathAge + ')'
-            }).appendTo($('#chosenPersonDetails'));
+            $('#deathDate').html('Death Date: ' + configureDate(data.deathday) + ' (Age: ' + deathAge + ')');
+        } else {
+            $('#personDeathDate').hide();
         }
 
         if(data.place_of_birth !== null) {
-
-            let hometown = $('<span>', {
-                id: 'hometown',
-                text: 'Hometown: ' + data.place_of_birth
-            }).appendTo($('#chosenPersonDetails'));
+            $('#personHometown').show();
+            $('#hometown').html('Hometown: ' + data.place_of_birth);
+        } else {
+            $('#personHometown').hide();
         }
     });
 
@@ -1147,8 +1179,6 @@ const getPopular = () => {
     let arr = [];
 
     $.get(movieActorsUrl + "popular?api_key=" + tmdbKey + "&language=en-US", (data) => {
-        console.log(data)
-
         for (var i = 0; i < data.results.length; i++) {
             arr.push(data.results[i]);
         }
@@ -1158,7 +1188,6 @@ const getPopular = () => {
         if (totalPages > 1) {
             setTimeout(() => {
                 $.get(movieActorsUrl + "popular?api_key=" + tmdbKey + "&language=en-US&page=2", (data) => {
-                    console.log(data)
                     for (var j = 0; j < data.results.length; j++) {
                         arr.push(data.results[j]);
                     }
@@ -1191,7 +1220,6 @@ const getPopular = () => {
         }).appendTo($('#popular'));
 
         for (let i = 0; i < arr.length; i++) {
-            console.log(arr[i]);
 
             let popularPerson = $('<div>', {
                 class: 'popularPerson hoverEffect',
