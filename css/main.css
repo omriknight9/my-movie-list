@@ -792,7 +792,7 @@ footer span {
     filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
 }
 
-#chosenMovie p, #chosenPerson p {
+#overview, #chosenMovieSentence, .directorHeader, #castHeader, #similarHeader, #personCreditsHeader {
     color: lightgray;
     font-weight: 600;
     text-align: center;
@@ -833,16 +833,21 @@ footer span {
 }
 
 .details {
-    width: 90%;
+    width: 50%;
     margin: auto;
     text-align: center;
 }
 
-.details span {
-    display: block;
+.details p {
+    text-align: left;
     color: lightgray;
+    font-size: 1.2rem;
     font-weight: 600;
     margin: 1rem auto;
+}
+
+.detailIcon {
+    margin-right: .5rem;
 }
 
 #directorsWrapper {
@@ -1253,9 +1258,17 @@ footer span {
     .content {
         width: 90%;
     }
+ 
+    .details {
+        width: 90%;
+    }
 }
 
 @media only screen and (max-width: 600px) {
+
+    .details p {
+        font-size: 1rem;
+    }
 
     .sortContent {
         width: 75%;
