@@ -1889,8 +1889,6 @@ const showTimeline = (type, cinematicType) => {
             }).appendTo(timelineMovieWrapper)    
         }
     }
-    
-    timelineUrl;
 
     const url = new URL(window.location);
     url.searchParams.set('timeline', timelineUrl);
