@@ -1200,80 +1200,80 @@ const getPopular = () => {
             }, 1000)
         }
     })
+}
 
-    const buildPopular = (arr) => {
-        let typeheader = $('<h2>', {
-            class: 'typeheader',
-            text: 'Popular People'
-        }).appendTo($('#popular'));
-    
-        let headerLine = $('<div>', {
-            class: 'line linePopular',
-        }).appendTo($('#popular'));
-    
-        let headerLogo = $('<span>', {
-            class: 'headerLogo',
-        }).appendTo(headerLine);
-    
-        let popularContent = $('<div>', {
-            id: 'popularContent',
-        }).appendTo($('#popular'));
+const buildPopular = (arr) => {
+    let typeheader = $('<h2>', {
+        class: 'typeheader',
+        text: 'Popular People'
+    }).appendTo($('#popular'));
 
-        for (let i = 0; i < arr.length; i++) {
+    let headerLine = $('<div>', {
+        class: 'line linePopular',
+    }).appendTo($('#popular'));
 
-            let popularPerson = $('<div>', {
-                class: 'popularPerson hoverEffect',
-                popularity: arr[i].popularity
-            }).appendTo(popularContent)
+    let headerLogo = $('<span>', {
+        class: 'headerLogo',
+    }).appendTo(headerLine);
 
-            let dataSrc;
-            let finalSrc;
-            let finalClass;
+    let popularContent = $('<div>', {
+        id: 'popularContent',
+    }).appendTo($('#popular'));
 
-            if (i < 10) {
-                dataSrc = '';
-                finalClass = 'popularPersonImg';
-    
-                if (arr[i].profile_path == null) {
-                    finalSrc = './images/stock.png';
-                } else {
-                    finalSrc = 'https://image.tmdb.org/t/p/w1280' + arr[i].profile_path;
-                }
+    for (let i = 0; i < arr.length; i++) {
+
+        let popularPerson = $('<div>', {
+            class: 'popularPerson hoverEffect',
+            popularity: arr[i].popularity
+        }).appendTo(popularContent)
+
+        let dataSrc;
+        let finalSrc;
+        let finalClass;
+
+        if (i < 10) {
+            dataSrc = '';
+            finalClass = 'popularPersonImg';
+
+            if (arr[i].profile_path == null) {
+                finalSrc = './images/stock.png';
             } else {
-                if (arr[i].profile_path == null) {
-                    dataSrc = './images/stock.png';
-                    finalSrc = './images/stock.png';
-                } else {
-                    dataSrc = 'https://image.tmdb.org/t/p/w1280' + arr[i].profile_path;
-                    finalSrc = './images/stock.png';
-                }
-                finalClass = 'popularPersonImg lazy';
+                finalSrc = 'https://image.tmdb.org/t/p/w1280' + arr[i].profile_path;
             }
-
-            let popularPersonImg = $('<img>', {
-                class: finalClass,
-                alt: 'popular person',
-                'src': finalSrc,
-                'data-src': dataSrc,
-                click: () => {
-                    $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
-                    $('#searchResults').hide();
-                    $('#search').val('');
-                    $('main').hide();
-                    getPersonDetails(arr[i].id);
-                }
-            }).appendTo(popularPerson)
-
-            let popularPersonName = $('<p>', {
-                class: 'name',
-                text: arr[i].name
-            }).appendTo(popularPerson)
+        } else {
+            if (arr[i].profile_path == null) {
+                dataSrc = './images/stock.png';
+                finalSrc = './images/stock.png';
+            } else {
+                dataSrc = 'https://image.tmdb.org/t/p/w1280' + arr[i].profile_path;
+                finalSrc = './images/stock.png';
+            }
+            finalClass = 'popularPersonImg lazy';
         }
 
-        setTimeout(() => {
-            sortPopularMovies($('#popularContent'), 'popularity', 4);
-        }, 500);
+        let popularPersonImg = $('<img>', {
+            class: finalClass,
+            alt: 'popular person',
+            'src': finalSrc,
+            'data-src': dataSrc,
+            click: () => {
+                $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
+                $('#searchResults').hide();
+                $('#search').val('');
+                $('main').hide();
+                getPersonDetails(arr[i].id);
+            }
+        }).appendTo(popularPerson)
+
+        let popularPersonName = $('<p>', {
+            class: 'name',
+            text: arr[i].name
+        }).appendTo(popularPerson)
     }
+
+    setTimeout(() => {
+        sortPopularMovies($('#popularContent'), 'popularity', 4);
+    }, 500);
 }
 
 const getPersonCredits = (value) => {
