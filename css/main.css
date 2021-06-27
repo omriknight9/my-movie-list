@@ -105,6 +105,7 @@ button:active {
 }
 
 .searchContainer {
+    display: none;
     position: absolute;
     top: 0;
     width: 100%;
