@@ -10,7 +10,6 @@ let cinematicType;
 let counter = 1;
 let marvelCinematicCounter = 1;
 let dcCinematicCounter = 1;
-
 let marvelCounter = 1;
 let DCCounter = 1;
 let valiantCounter = 1;
@@ -18,23 +17,19 @@ let othersCounter = 1;
 let animationCounter = 1;
 let upcomingCounter = 1;
 let playingNowCounter = 1;
-
 let selectedDiv;
 let lastChar;
 let searchVal;
-
 let cinematicArr = [];
 let tvShowTimelineArr = [];
 
 const tmdbKey = '0271448f9ff674b76c353775fa9e6a82';
-
 const movieInfoUrl = "https://api.themoviedb.org/3/movie/";
 const tvShowInfoUrl = "https://api.themoviedb.org/3/tv/";
 const movieActorsUrl = "https://api.themoviedb.org/3/person/";
 const youtubeVideo = 'https://www.youtube.com/embed/';
 const listUrl = 'https://api.themoviedb.org/3/list/';
 const searchMovieUrl = "https://api.themoviedb.org/3/search/multi?api_key=" + tmdbKey + "&query=";
-
 const upcomingUrl = "https://api.themoviedb.org/3/movie/upcoming?api_key=" + tmdbKey + "&language=en-US&region=US&page=";
 const nowPlayingUrl = "https://api.themoviedb.org/3/movie/now_playing?api_key=" + tmdbKey + "&language=en-US&region=US&page=";
 const getTrendingUrl = "https://api.themoviedb.org/3/trending/all/day?api_key=" + tmdbKey + "&language=en-US&page=";
