@@ -276,16 +276,26 @@ const showResults = (value) => {
                 } else {
                     posterUrl = 'https://image.tmdb.org/t/p/w1280' + data.results[i].profile_path;
                 }   
-            }  
+            }
         
             switch (data.results[i].media_type) {
                 case 'movie':
                     finalTitle = data.results[i].title;
-                    finalReleaseDate = configureDate(data.results[i].release_date);
+                    if (data.results[i].release_date !== '') {
+                        finalReleaseDate = configureDate(data.results[i].release_date);  
+                    } else {
+                        finalReleaseDate = 'Unknown';
+                    }
+    
                     break;
                 case 'tv':
                     finalTitle = data.results[i].name;
-                    finalReleaseDate = configureDate(data.results[i].first_air_date);
+                    if (data.results[i].first_air_date !== '') {
+                        finalReleaseDate = configureDate(data.results[i].first_air_date);  
+                    } else {
+                        finalReleaseDate = 'Unknown';
+                    }
+    
                     break;
                 case 'person':
                     finalTitle = data.results[i].name;
@@ -341,10 +351,19 @@ const showResults = (value) => {
                 text: capitalize(finalTitle)
             }).appendTo(resultWrapper);
 
-            let resultDate = $('<p>', {
-                class: 'resultDate',
-                text: finalReleaseDate
-            }).appendTo(resultWrapper);
+            if (data.results[i].media_type !== 'person') {
+                let resultDate = $('<p>', {
+                    class: 'resultDate',
+                    text: finalReleaseDate
+                }).appendTo(resultWrapper);
+            } else {
+                if (data.results[i].known_for.length !== 0) {
+                    let knownFor = $('<p>', {
+                        class: 'knownFor',
+                        text: data.results[i].known_for[0].title
+                    }).appendTo(resultWrapper);
+                }
+            }
         }
 
         sortPopularMovies($('#searchResults'), 'popularity', 1);
