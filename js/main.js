@@ -46,8 +46,7 @@ $(document).ready((event) => {
         $(window).on('popstate', function() {
             goHome();
             window.history.replaceState({}, document.title, "/" + "my-movie-list/");
-        });
-        
+        });  
     }
 
     if (window.location.href.indexOf("?tvShow=") > -1) {
@@ -307,6 +306,9 @@ const showResults = (value) => {
                 id: data.results[i].id,
                 type: data.results[i].media_type,
                 click: () => {
+
+                    window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+
                     switch (data.results[i].media_type) {
                         case 'movie':
                             $('#searchResults').hide();
@@ -679,7 +681,7 @@ const chosenMovie = (value, type) => {
     }
 
     $('main').hide();
-    $('#productionCompenies, #directorsWrapper, #castContent, #movieDesc, #similarMoviesContent, #chosenMovieImagesWrapper, #videosWrapper').empty();
+    $('#productionCompenies, #directorsWrapper, #castContent, #movieDesc, #similarMoviesContent, #chosenMovieImagesWrapper, #videosWrapper, #watchProviders').empty();
     $('#chosenMovie').show();
 
     let finalUrl;
@@ -861,6 +863,37 @@ const chosenMovie = (value, type) => {
     getSimilar(value, type);
     getImages(value, type);
     getVideos(value, type);
+    getWatchProviders(value, type);
+}
+
+const getWatchProviders = (value, type) => {
+
+    let finalUrl;
+
+    if (type == 1) {
+        finalUrl = movieInfoUrl;
+    } else {
+        finalUrl = tvShowInfoUrl;
+    }
+
+    $.get(finalUrl + value + "/watch/providers?api_key=" + tmdbKey + '&language=en-US&sort_by=popularity.desc', (data) => {
+        if (data.results.US.flatrate.length > 0) {
+
+            let results = data.results.US.flatrate;
+
+            for (let i = 0; i < results.length; i++) {
+                if (results[i].logo_path !== null) { 
+                    if (results[i].provider_id == 337 || results[i].provider_id == 8 || results[i].provider_id == 384) {
+                        let watchProvider = $('<img>', {
+                            class: 'watchProvider',
+                            alt: 'watch provider img',
+                            src: 'https://image.tmdb.org/t/p/w1280' + results[i].logo_path
+                        }).appendTo($('#watchProviders')); 
+                    }
+                }
+            }
+        }        
+    });
 }
 
 const getCredits = (value, type) => {
