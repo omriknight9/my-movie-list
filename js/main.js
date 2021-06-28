@@ -884,7 +884,7 @@ const getWatchProviders = (value, type) => {
 
             for (let i = 0; i < results.length; i++) {
                 if (results[i].logo_path !== null) { 
-                    if (results[i].provider_id == 337 || results[i].provider_id == 8 || results[i].provider_id == 384 || results[i].provider_id == 37 || results[i].provider_id == 9 || results[i].provider_id == 15) {
+                    if (results[i].provider_id == 337 || results[i].provider_id == 8 || results[i].provider_id == 384 || results[i].provider_id == 37 || results[i].provider_id == 9 || results[i].provider_id == 15 || results[i].provider_id == 350) {
                         let watchProvider = $('<img>', {
                             class: 'watchProvider',
                             alt: 'watch provider img',
@@ -1719,6 +1719,7 @@ const getVideos = (value, type) => {
             }
 
             for (let i = 0; i < finalLength; i++) {
+
                 let objectUrl = youtubeVideo + data.results[i].key + '?showinfo=0&enablejsapi=1';
                 let movieVideo = $('<iframe>', {
                     class: 'movieVideo',
