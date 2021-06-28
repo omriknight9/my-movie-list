@@ -701,7 +701,7 @@ const chosenMovie = (value, type) => {
     $('main').hide();
     $('#productionCompenies, #directorsWrapper, #castContent, #movieDesc, #similarMoviesContent, #chosenMovieImagesWrapper, #videosWrapper, #watchProviders').empty();
     $('#chosenMovie').show();
-    
+
     let chosenUrl;
     let finalUrl = getFinalUrl(type);
 
@@ -727,6 +727,8 @@ const chosenMovie = (value, type) => {
         finalNameToSend = finalNameToSend.replace(/-/, "");
         finalNameToSend = finalNameToSend.replace(/:/, "");
         finalNameToSend = finalNameToSend.replace(/\s/g, '');
+
+        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
     
         const url = new URL(window.location);
         url.searchParams.set(chosenUrl, finalNameToSend);
@@ -1203,6 +1205,8 @@ const getPersonDetails = (value) => {
         finalNameToSend = finalNameToSend.replace(/-/, "");
         finalNameToSend = finalNameToSend.replace(/:/, "");
         finalNameToSend = finalNameToSend.replace(/\s/g, '');
+
+        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
         const url = new URL(window.location);
         url.searchParams.set('actor', finalNameToSend);
@@ -2006,6 +2010,8 @@ const showTimeline = (type, cinematicType) => {
             }).appendTo(timelineMovieWrapper)    
         }
     }
+
+    window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
     const url = new URL(window.location);
     url.searchParams.set('timeline', timelineUrl);
