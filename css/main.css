@@ -868,7 +868,7 @@ footer span {
     display: none;
 }
 
-#productionCompenies {
+#productionCompenies, #watchProviders {
     display: flex;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -877,10 +877,13 @@ footer span {
     -webkit-flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    margin-top: 1rem;
 }
 
-.companyImg {
+#watchProviders {
+    margin-top: 2rem;
+}
+
+.companyImg, .watchProvider {
     width: 150px;
     margin: 1rem;
 }
@@ -1347,7 +1350,7 @@ footer span {
         font-size: 1.2rem;
     }
 
-    .companyImg {
+    .companyImg, .watchProvider {
         width: 100px;
     }
 
