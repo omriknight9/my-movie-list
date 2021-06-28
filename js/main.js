@@ -877,13 +877,14 @@ const getWatchProviders = (value, type) => {
     }
 
     $.get(finalUrl + value + "/watch/providers?api_key=" + tmdbKey + '&language=en-US&sort_by=popularity.desc', (data) => {
-        if (data.results.US.flatrate.length > 0) {
+
+        if (data.results.US.length > 0 && data.results.US.flatrate.length > 0) {
 
             let results = data.results.US.flatrate;
 
             for (let i = 0; i < results.length; i++) {
                 if (results[i].logo_path !== null) { 
-                    if (results[i].provider_id == 337 || results[i].provider_id == 8 || results[i].provider_id == 384) {
+                    if (results[i].provider_id == 337 || results[i].provider_id == 8 || results[i].provider_id == 384 || results[i].provider_id == 37 || results[i].provider_id == 9 || results[i].provider_id == 15) {
                         let watchProvider = $('<img>', {
                             class: 'watchProvider',
                             alt: 'watch provider img',
