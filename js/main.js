@@ -108,7 +108,7 @@ $(document).ready((event) => {
         $('button').show();
         $('.container, footer').css('display', 'flex');
         $('#upcomingContainer').hide();
-    }, 500);
+    }, 1500);
 
     $('#search').on('keyup', () => {
         if ($('.sortContainer').is(':visible')) {
@@ -140,6 +140,45 @@ $(document).ready((event) => {
         }
     })
 });
+
+const getList = (value, div, wrapper, type, movieOrTv) => {
+
+    let arr = [];
+
+    $.get('https://api.themoviedb.org/4/list/' + value + '?api_key=' + tmdbKey + '&language=en-US', (data) => {
+
+        for (var i = 0; i < data.results.length; i++) {
+            arr.push(data.results[i]);
+        }
+
+        if (data.total_pages > 1) {
+            for (let i = 2; i < data.total_pages + 1; i++) {
+                $.get('https://api.themoviedb.org/4/list/' + value + '?api_key=' + tmdbKey + '&language=en-US&page=' + i, (data) => {
+                    for (var j = 0; j < data.results.length; j++) {
+                        arr.push(data.results[j]);
+                    }
+                });
+            }
+
+            setTimeout(() => {
+                if (movieOrTv == 1) {
+                    buildMoviesFromTmdb(arr, div, wrapper, type); 
+                } else {
+                    buildTvShowFromTmdb(arr, 'tvShow', $('#tvShowContainer'));
+                }
+
+            }, 1000)
+        } else {
+            setTimeout(() => {
+                if (movieOrTv == 1) {
+                    buildMoviesFromTmdb(arr, div, wrapper, type); 
+                } else {
+                    buildTvShowFromTmdb(arr, 'tvShow', $('#tvShowContainer'));
+                }
+            }, 1000)
+        }
+    });
+}
 
 const showPlayingNow = () => {
 
@@ -387,45 +426,31 @@ const lazyload = () => {
 const loadJson = () => {
 
     var promise1 = new Promise((resolve) => {
-        resolve($.get(listUrl + '7099604?api_key=' + tmdbKey + '&language=en-US', (data) => {
-            buildMoviesFromTmdb(data, 'marvel', $('#marvelContainer'), 1);
-        }));
+        resolve(getList(7099604, 'marvel', $('#marvelContainer'), 1, 1));
     });
 
     promise1.then(() => {
-        $.get(listUrl + '7099603?api_key=' + tmdbKey + '&language=en-US', (data) => {
-            buildMoviesFromTmdb(data, 'dc', $('#dcContainer'), 2);
-        });
+        getList(7099603, 'dc', $('#dcContainer'), 2, 1);
     });
 
     promise1.then(() => {
-        $.get(listUrl + '7099609?api_key=' + tmdbKey + '&language=en-US', (data) => {
-            buildMoviesFromTmdb(data, 'valiant', $('#valiantContainer'), 3);
-        });
+        getList(7099609, 'valiant', $('#valiantContainer'), 3, 1);
     });
 
     promise1.then(() => {
-        $.get(listUrl + '7099605?api_key=' + tmdbKey + '&language=en-US', (data) => {
-            buildMoviesFromTmdb(data, 'others', $('#othersContainer'), 4);
-        });
+        getList(7099605, 'others', $('#othersContainer'), 4, 1);
     });
 
     promise1.then(() => {
-        $.get(listUrl + '7099575?api_key=' + tmdbKey + '&language=en-US', (data) => {
-            buildMoviesFromTmdb(data, 'animation', $('#animationContainer'), 5);
-        });
+        getList(7099575, 'animation', $('#animationContainer'), 5, 1);
     });
 
     promise1.then(() => {
-        $.get(listUrl + '7099607?api_key=' + tmdbKey + '&language=en-US', (data) => {
-            buildTvShowFromTmdb(data, 'tvShow', $('#tvShowContainer'));
-        });
+        getList(7099607, 'tvShow', $('#tvShowContainer'), null, 2);
     });
 
     promise1.then(() => {
-        $.get(listUrl + '7099559?api_key=' + tmdbKey + '&language=en-US', (data) => {
-            buildMoviesFromTmdb(data, '4k',  $('#ultraContainer'), 6);
-        });
+        getList(7099559, '4k', $('#ultraContainer'), 6, 1);
     });
 }
 
@@ -574,11 +599,13 @@ const buildMoviesFromTmdb = (data, div, wrapper, type) => {
 
     let finalItems;
 
-    if (type == 7 || type == 8) {
-        finalItems = data;
-    } else {
-        finalItems = data.items;
-    }
+    // if (type == 7 || type == 8 || type == 1) {
+    //     finalItems = data;
+    // } else {
+    //     finalItems = data.items;
+    // }
+
+    finalItems = data;
 
     for (let i = 0; i < finalItems.length; i++) {
         let movieWrapper = $('<div>', {
@@ -2211,42 +2238,42 @@ const buildTvShowFromTmdb = (data, div, wrapper) => {
         id: 'tvShowContent',
     }).appendTo(wrapper);
 
-    for (let i = 0; i < data.items.length; i++) {
+    for (let i = 0; i < data.length; i++) {
 
         let tvShowWrapper = $('<div>', {
             class: 'tvShowWrapper hoverEffect ' + div,
-            'year': data.items[i].first_air_date.substr(0, 4),
-            'value': data.items[i].id,
+            'year': data[i].first_air_date.substr(0, 4),
+            'value': data[i].id,
             click: function () {
-                chosenMovie(data.items[i].id, 2);
+                chosenMovie(data[i].id, 2);
             }
         }).appendTo(tvShowContent);
 
         let tvShowImg = $('<img>', {
             class: 'tvShowImg',
             alt: 'tvShowImg',
-            src: 'https://image.tmdb.org/t/p/w1280' + data.items[i].poster_path
+            src: 'https://image.tmdb.org/t/p/w1280' + data[i].poster_path
         }).appendTo(tvShowWrapper);
 
         let tvShowName = $('<p>', {
             class: 'name',
-            text: capitalize(data.items[i].name)
+            text: capitalize(data[i].name)
         }).appendTo(tvShowWrapper);
 
         let tvShowYear = $('<p>', {
             class: 'year',
-            text: 'Year: ' + data.items[i].first_air_date.substr(0, 4)
+            text: 'Year: ' + data[i].first_air_date.substr(0, 4)
         }).appendTo(tvShowWrapper);
 
-        if (data.items[i].vote_average !== null || data.items[i].vote_average !== 0) {
+        if (data[i].vote_average !== null || data[i].vote_average !== 0) {
             let finalVoteText;
 
-            finalVoteText = data.items[i].vote_average.toString();
+            finalVoteText = data[i].vote_average.toString();
     
-            if ((finalVoteText.length == 1 && data.items[i].vote_average !== '0') || data.items[i].vote_average == '10') {
-                finalVoteText = data.items[i].vote_average + '0'
+            if ((finalVoteText.length == 1 && data[i].vote_average !== '0') || data[i].vote_average == '10') {
+                finalVoteText = data[i].vote_average + '0'
             } else {
-                finalVoteText = data.items[i].vote_average;
+                finalVoteText = data[i].vote_average;
             }
     
             finalVoteText = finalVoteText.toString();
