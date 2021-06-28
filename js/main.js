@@ -110,8 +110,7 @@ $(document).ready((event) => {
         $('#upcomingContainer').hide();
     }, 500);
 
-    $('#search').on('input', () => {
-
+    $('#search').on('keyup', () => {
         if ($('.sortContainer').is(':visible')) {
             $('.sortContainer').hide();
             DCCounter = 1;
@@ -132,9 +131,7 @@ $(document).ready((event) => {
     
         if (lastChar == ' ') {
             return;
-        } else {
-            $('#searchResults').empty();
-        }
+        } 
 
         if (searchVal.length == 0) {
             $('#searchResults').hide();
@@ -244,6 +241,7 @@ const showResults = (value) => {
         }
 
         if (data.results.length > 0) {
+            $('#searchResults').empty();
             $('#searchResults').show();
         } else {
             $('#searchResults').hide();
@@ -328,10 +326,6 @@ const showResults = (value) => {
                             $('main').hide();
                             getPersonDetails(data.results[i].id);
                             break;
-                    
-                        default:
-                            return;
-                            break;
                     }
                 }
             }).appendTo($('#searchResults'));
@@ -345,6 +339,11 @@ const showResults = (value) => {
             let resultName = $('<p>', {
                 class: 'resultName',
                 text: capitalize(finalTitle)
+            }).appendTo(resultWrapper);
+
+            let resultDate = $('<p>', {
+                class: 'resultDate',
+                text: finalReleaseDate
             }).appendTo(resultWrapper);
         }
 
