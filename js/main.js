@@ -701,15 +701,13 @@ const chosenMovie = (value, type) => {
     $('main').hide();
     $('#productionCompenies, #directorsWrapper, #castContent, #movieDesc, #similarMoviesContent, #chosenMovieImagesWrapper, #videosWrapper, #watchProviders').empty();
     $('#chosenMovie').show();
-
-    let finalUrl;
+    
     let chosenUrl;
+    let finalUrl = getFinalUrl(type);
 
     if (type == 1) {
-        finalUrl = movieInfoUrl;
         chosenUrl = 'movie';
     } else {
-        finalUrl = tvShowInfoUrl;
         chosenUrl = 'tvShow';
     }
 
@@ -884,15 +882,16 @@ const chosenMovie = (value, type) => {
     getWatchProviders(value, type);
 }
 
-const getWatchProviders = (value, type) => {
-
-    let finalUrl;
-
+const getFinalUrl = (type) => {
     if (type == 1) {
-        finalUrl = movieInfoUrl;
+        return movieInfoUrl;
     } else {
-        finalUrl = tvShowInfoUrl;
+        return tvShowInfoUrl;
     }
+}
+
+const getWatchProviders = (value, type) => {
+    let finalUrl = getFinalUrl(type);
 
     $.get(finalUrl + value + "/watch/providers?api_key=" + tmdbKey + '&language=en-US&sort_by=popularity.desc', (data) => {
 
@@ -921,13 +920,7 @@ const getCredits = (value, type) => {
     $('#directorsWrapper').hide();
     $('#castHeader').remove();
 
-    let finalUrl;
-
-    if (type == 1) {
-        finalUrl = movieInfoUrl;
-    } else {
-        finalUrl = tvShowInfoUrl;
-    }
+    let finalUrl = getFinalUrl(type);
 
     $.get(finalUrl + value + "/credits?api_key=" + tmdbKey + '&language=en-US', (data) => {
         if (type == 1) {
@@ -1597,15 +1590,13 @@ const getPersonMovieImages = (value) => {
 
 const getSimilar = (value, type) => {
 
-    let finalUrl;
-
     if (type == 1) {
-        finalUrl = movieInfoUrl;
         $('#similarHeader').html('Similar Movies');
     } else {
-        finalUrl = tvShowInfoUrl;
         $('#similarHeader').html('Similar TV Shows');
     }
+
+    let finalUrl = getFinalUrl(type);
     
     $('#similarMovies').hide();
 
@@ -1667,13 +1658,7 @@ const getSimilar = (value, type) => {
 
 const getImages = (value, type) => {
 
-    let finalUrl;
-
-    if (type == 1) {
-        finalUrl = movieInfoUrl;
-    } else {
-        finalUrl = tvShowInfoUrl;
-    }
+    let finalUrl = getFinalUrl(type);
 
     $('#chosenMovieImagesWrapper').hide();
 
@@ -1715,13 +1700,7 @@ const getImages = (value, type) => {
 
 const getVideos = (value, type) => {
 
-    let finalUrl;
-
-    if (type == 1) {
-        finalUrl = movieInfoUrl;
-    } else {
-        finalUrl = tvShowInfoUrl;
-    }
+    let finalUrl = getFinalUrl(type);
 
     $('#videosWrapper').hide();
 
@@ -2188,9 +2167,6 @@ const sortPopularMovies = (container, elem1, type) => {
             case 4: 
                 children = $(this).find('.popularPerson');
                 break;
-            // case 4: 
-            //     children = $(this).find('.actorMovie');
-            //     break;
         }
 
         for (i = 0, len = children.length; i < len; i++) {
