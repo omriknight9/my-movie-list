@@ -760,7 +760,6 @@ const chosenMovie = (value, type) => {
 
     $('main').hide();
     switchContent();
-    // $('#productionCompenies, #directorsWrapper, #castContent, #movieDesc, #similarMoviesContent, #chosenMovieImagesWrapper, #videosWrapper, #watchProviders').empty();
     $('#chosenMovie').show();
 
     let chosenUrl;
@@ -1255,9 +1254,9 @@ const getPersonDetails = (value) => {
         $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
     }, 1000)
 
-    $('#chosenPerson').show();
-
     switchContent();
+
+    $('#chosenPerson').show();
 
     $.get(movieActorsUrl + value + "?api_key=" + tmdbKey + "&language=en-US", (data) => {
         $('#chosenPersonName').html(data.name);
