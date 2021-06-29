@@ -16,18 +16,8 @@ const addClass = (elem, className) => {
     }
 }
 
-const removeClass = (elem, className) => {
-    var newClass = ' ' + elem.className.replace( /[\t\r\n]/g, ' ') + ' ';
-    if (hasClass(elem, className)) {
-        while (newClass.indexOf(' ' + className + ' ') >= 0 ) {
-            newClass = newClass.replace(' ' + className + ' ', ' ');
-        }
-        elem.className = newClass.replace(/^\s+|\s+$/g, '');
-    }
-}
-
 const toggleClass = (elem, className) => {
-    var newClass = ' ' + elem.className.replace( /[\t\r\n]/g, " " ) + ' ';
+    let newClass = ' ' + elem.className.replace( /[\t\r\n]/g, " " ) + ' ';
     if (hasClass(elem, className)) {
         while (newClass.indexOf(" " + className + " ") >= 0 ) {
             newClass = newClass.replace( " " + className + " " , " " );
@@ -156,5 +146,15 @@ const getAge = (dateString, type, deadBirthDate) => {
             age--;
         }
         return age; 
+    }
+}
+
+const closeMenus = () => {
+    if ($('#toggle').hasClass('on')) {
+        $('#toggle').removeClass('on')
+    }
+
+    if ($('#socials').hasClass('on')) {
+        $('#socials').removeClass('on')
     }
 }
