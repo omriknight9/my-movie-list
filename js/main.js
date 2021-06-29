@@ -291,6 +291,7 @@ const switchContent = () => {
     $('#spinnerWrapper').show();
     $('main, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
     $('html,body').scrollTop(0);
+    $('#progressBar').css('width', 0);
 
     setTimeout(() => {
         $('#spinnerWrapper').hide();
@@ -741,7 +742,6 @@ const chosenMovie = (value, type) => {
 
     $('#spinnerWrapper').show();
     $('#chosenMovie, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
-    $('html,body').scrollTop(0);
 
     setTimeout(() => {
         $('#spinnerWrapper').hide();
@@ -1252,7 +1252,6 @@ const getPersonDetails = (value) => {
 
     $('#spinnerWrapper').show();
     $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
-    $('html,body').scrollTop(0);
 
     setTimeout(() => {
         $('#spinnerWrapper').hide();
@@ -1995,6 +1994,7 @@ const showTimeline = (type, cinematicType) => {
     $('.timelineMovieWrapper').remove();
     $('#timeline').show();
     $('html,body').scrollTop(0);
+    $('#progressBar').css('width', 0);
     $('main, #nextCinematicFilmPop').hide();
     goToTop();
 
