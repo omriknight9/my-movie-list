@@ -29,13 +29,13 @@
     </div>
 
     <div id="socials">
-        <a href="https://www.facebook.com/omri.shalev.31" id="facebook" rel="noopener" target="_blank">
+        <a href="https://www.facebook.com/omri.shalev.31" id="facebook" rel="noopener" target="_blank" aria-label="facebook">
             <i class="fa fa-facebook"></i>
         </a>
-        <a href="https://github.com/omriknight9" id="github" rel="noopener" target="_blank">
+        <a href="https://github.com/omriknight9" id="github" rel="noopener" target="_blank" aria-label="github">
             <i class="fab fa-github"></i>
         </a>
-        <a href="https://www.linkedin.com/in/omri-shalev-8b3515119/" id="linkedin" rel="noopener" target="_blank">
+        <a href="https://www.linkedin.com/in/omri-shalev-8b3515119/" id="linkedin" rel="noopener" target="_blank" aria-label="linkedin">
             <i class="fa fa-linkedin"></i>
         </a>
     </div>
@@ -52,38 +52,38 @@
         <div id="menu">
             <ul>
                 <li onclick="showPlayingNow()">
-                    <img src="./images/theater.png" alt="movie theater">
+                    <img src="./images/theater.png" alt="movie theater" class="menuImg" id="playingNowLink">
                     <span>Playing Now</span>
                 </li>
                 
                 <li onclick="showUpcoming()">
-                    <img src="./images/comingSoon.png" alt="comingSoon">
+                    <img src="./images/comingSoon.png" alt="comingSoon" class="menuImg" id="comingSoonLink">
                     <span>Upcoming</span>
                 </li>
 
                 <li onclick="getPopular()">
-                    <img src="./images/star.png" alt="star">
+                    <img src="./images/star.png" alt="star" class="menuImg">
                     <span>Popular People</span>
                 </li>
 
                 <li onclick="goToDiv('#marvelContainer')">
-                    <img src="./images/ironman.png" alt="ironman">
+                    <img src="./images/ironman.png" alt="ironman" class="menuImg">
                     <span>Marvel</span>
                 </li>
                 <li onclick="goToDiv('#dcContainer')">
-                    <img src="./images/superman.png" alt="superman">
+                    <img src="./images/superman.png" alt="superman" class="menuImg">
                     <span>DC</span>
                 </li>
                 <li onclick="goToDiv('#valiantContainer')">
-                    <img src="./images/valiant.png" alt="valiant">
+                    <img src="./images/valiant.png" alt="valiant" class="menuImg" id="valiantLink">
                     <span>Valiant</span>
                 </li>
                 <li onclick="goToDiv('#othersContainer')">
-                    <img src="./images/others.png" alt="others">
+                    <img src="./images/others.png" alt="others" class="menuImg">
                     <span>Others</span>
                 </li>
                 <li onclick="goToDiv('#animationContainer')">
-                    <img src="./images/animation.png" alt="animation">
+                    <img src="./images/animation.png" alt="animation" class="menuImg">
                     <span>Animation</span>
                 </li>
                 <li onclick="goToDiv('#tvShowContainer')">
@@ -91,7 +91,7 @@
                     <span>TV Shows</span>
                 </li>
                 <li onclick="goToDiv('#ultraContainer')">
-                    <img src="./images/ultra.png" alt="ultra">
+                    <img src="./images/ultra.png" alt="ultra" class="menuImg" id="ultraLink">
                     <span>4K</span>
                 </li>
             </ul>
@@ -137,7 +137,7 @@
     <div id="chosenMovie">
         <h2 id="chosenMovieTitle"></h2>
         <div id="chosenMovieImgWrapper">
-            <a href="" id="chosenMovieImdb" target="_blank" rel="noopener">
+            <a href="https://www.imdb.com" id="chosenMovieImdb" target="_blank" rel="noopener">
                 <img src="" id="chosenMovieImg" alt="movie img">
             </a>
         </div>
