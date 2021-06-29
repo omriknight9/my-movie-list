@@ -35,8 +35,9 @@ const nowPlayingUrl = "https://api.themoviedb.org/3/movie/now_playing?api_key=" 
 const getTrendingUrl = "https://api.themoviedb.org/3/trending/all/day?api_key=" + tmdbKey + "&language=en-US&page=";
 
 let directorCounter = 0;
+let commentsArr = [];
 
-$(document).ready((event) => {
+$(document).ready(() => {
 
     if (window.location.href.indexOf("?movie=") > -1) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -143,9 +144,21 @@ $(document).ready((event) => {
 
 const getList = (value, div, wrapper, type, movieOrTv) => {
 
+
     let arr = [];
 
     $.get('https://api.themoviedb.org/4/list/' + value + '?api_key=' + tmdbKey + '&language=en-US', (data) => {
+
+        $.each(data.comments, function (key, value) {
+            if (value !== null) {
+                let obj = {
+                    value: key.replace('movie:', ''),
+                    quality: value
+                }
+
+                commentsArr.push(obj);
+            }
+        });
 
         for (var i = 0; i < data.results.length; i++) {
             arr.push(data.results[i]);
@@ -154,6 +167,18 @@ const getList = (value, div, wrapper, type, movieOrTv) => {
         if (data.total_pages > 1) {
             for (let i = 2; i < data.total_pages + 1; i++) {
                 $.get('https://api.themoviedb.org/4/list/' + value + '?api_key=' + tmdbKey + '&language=en-US&page=' + i, (data) => {
+
+                    $.each(data.comments, function (key, value) {
+                        if (value !== null) {   
+                            let obj = {
+                                value: key.replace('movie:', ''),
+                                quality: value
+                            }
+            
+                            commentsArr.push(obj);
+                        }
+                    });
+
                     for (var j = 0; j < data.results.length; j++) {
                         arr.push(data.results[j]);
                     }
@@ -452,6 +477,18 @@ const loadJson = () => {
     promise1.then(() => {
         getList(7099559, '4k', $('#ultraContainer'), 6, 1);
     });
+
+    promise1.then(() => {
+        setTimeout(() => {
+            $.each($('.movieWrapper:not(#ultraContainer .movieWrapper)'), function (key, value) {
+                for (let i = 0; i < commentsArr.length; i++) {
+                    if (commentsArr[i].value == $(value).attr('value')) {
+                        $(value).attr('quality', commentsArr[i].quality);
+                    } 
+                }
+            });
+        }, 3000)
+    });
 }
 
 const buildMoviesFromTmdb = (data, div, wrapper, type) => {
@@ -598,12 +635,6 @@ const buildMoviesFromTmdb = (data, div, wrapper, type) => {
     }
 
     let finalItems;
-
-    // if (type == 7 || type == 8 || type == 1) {
-    //     finalItems = data;
-    // } else {
-    //     finalItems = data.items;
-    // }
 
     finalItems = data;
 
@@ -1002,8 +1033,9 @@ const getCredits = (value, type) => {
                             }).appendTo(directorName);
         
                             let directorImg = $('<img>', {
-                                class: 'directorImg',
-                                src: directorImgPath,
+                                class: 'directorImg lazy',
+                                'data-src': directorImgPath,
+                                'src': './images/actor.jpg',
                                 alt: 'director',
                                 id: data.crew[w].id,
                             }).appendTo(imageLink);
@@ -1140,8 +1172,9 @@ const getCredits = (value, type) => {
                     }).appendTo(castContent);
 
                     let actorImg = $('<img>', {
-                        class: 'actorImg hoverEffect',
-                        src: actorImgPath,
+                        class: 'actorImg hoverEffect lazy',
+                        'data-src': actorImgPath,
+                        'src': './images/actor.jpg',
                         alt: 'actorImg',
                         id: data.cast[k].id,
                         click: () => {
@@ -1507,8 +1540,9 @@ const getPersonCredits = (value) => {
                         }).appendTo(credit);
     
                         let actorImg = $('<img>', {
-                            class: 'actorImg hoverEffect',
-                            src: movieImgPath,
+                            class: 'actorImg hoverEffect lazy',
+                            'data-src': movieImgPath,
+                            'src': './images/actor.jpg',
                             alt: 'actorImg',
                             mediaType: data.cast[i].media_type,
                             id: data.cast[i].id,
@@ -1666,8 +1700,9 @@ const getSimilar = (value, type) => {
                     }
 
                     let similarMovieImg = $('<img>', {
-                        class: 'similarMovieImg hoverEffect',
-                        src: img,
+                        class: 'similarMovieImg hoverEffect lazy',
+                        'data-src': img,
+                        'src': './images/stock.png',
                         alt: 'similarMovieImg',
                         click: () => {
                             chosenMovie(data.results[i].id, type);
