@@ -123,9 +123,7 @@ $(document).ready(() => {
             playingNowCounter = 1;
         }
 
-        if ($('#toggle').hasClass('on')) {
-            $('#toggle').removeClass('on')
-        }
+        closeMenus();
 
         searchVal = $('#search').val();
         lastChar = searchVal.substr(searchVal.length - 1);
@@ -625,9 +623,7 @@ const buildMoviesFromTmdb = (data, div, wrapper, type) => {
                         playingNowCounter = 1;
                     }
 
-                    if ($('#toggle').hasClass('on')) {
-                        $('#toggle').removeClass('on')
-                    }
+                    closeMenus();
 
                     $('main, #menuOpenWrapper, footer, #goToTopBtn').css({'pointer-events': 'none', 'opacity': '0'});
                     $('.popUpInfo').css({'pointer-events': 'none', 'opacity': '.1'});
@@ -759,9 +755,7 @@ const chosenMovie = (value, type) => {
         playingNowCounter = 1;
     }
 
-    if ($('#toggle').hasClass('on')) {
-        $('#toggle').removeClass('on')
-    }
+    closeMenus();
 
     $('main').hide();
     switchContent();
@@ -2135,9 +2129,7 @@ const sort = (div, num) => {
         $('.sortContainer').hide();
     }
 
-    if ($('#toggle').hasClass('on')) {
-        $('#toggle').removeClass('on')
-    }
+    closeMenus();
 
     switch (num) {
         case 1:
