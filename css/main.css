@@ -885,8 +885,17 @@ footer span {
     margin-top: 5rem;
 }
 
-#chosenMovieImgWrapper, #chosenPersonImgWrapper {
+#chosenMovieImgWrapper, #chosenPersonImgWrapper, #personInstagramWrapper {
     text-align: center;
+}
+
+#personInstagramWrapper {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+#personInstagramImg {
+    width: 50px;
 }
 
 #chosenMovieImg {
