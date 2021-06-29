@@ -296,7 +296,7 @@ const switchContent = () => {
     setTimeout(() => {
         $('#spinnerWrapper').hide();
         $('main, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
-    }, 1000)
+    }, 1500)
 }
 
 const showResults = (value) => {
@@ -746,7 +746,7 @@ const chosenMovie = (value, type) => {
     setTimeout(() => {
         $('#spinnerWrapper').hide();
         $('#chosenMovie, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
-    }, 1000)
+    }, 1500)
 
     if ($('.sortContainer').is(':visible')) {
         $('.sortContainer').hide();
@@ -1252,7 +1252,7 @@ const getPersonDetails = (value) => {
     setTimeout(() => {
         $('#spinnerWrapper').hide();
         $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
-    }, 1000)
+    }, 1500)
 
     switchContent();
 
