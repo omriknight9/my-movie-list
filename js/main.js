@@ -423,9 +423,15 @@ const showResults = (value) => {
                 }).appendTo(resultWrapper);
             } else {
                 if (data.results[i].known_for.length !== 0) {
+                    let finalKnownFor;
+                    if (data.results[i].known_for[0].media_type == 'movie') {
+                        finalKnownFor = data.results[i].known_for[0].title;
+                    } else {
+                        finalKnownFor = data.results[i].known_for[0].original_name;
+                    }
                     let knownFor = $('<p>', {
                         class: 'knownFor',
-                        text: data.results[i].known_for[0].title
+                        text: finalKnownFor
                     }).appendTo(resultWrapper);
                 }
             }
