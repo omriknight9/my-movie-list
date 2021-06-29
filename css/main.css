@@ -52,6 +52,14 @@ main {
   opacity: .7;
 }
 
+#social {
+    background-color: gray;
+    border-radius: 50%;
+    font-size: 2rem;
+    padding: 8px;
+
+}
+
 #socials {
     position: fixed;
     left: 0;
@@ -85,6 +93,14 @@ main {
 
 #socials i {
     font-size: 1.5rem;
+}
+
+#facebook {
+    border-top-right-radius: 5px;
+}
+
+#linkedin {
+    border-bottom-right-radius: 5px;
 }
 
 h1 {
