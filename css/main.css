@@ -52,25 +52,45 @@ main {
   opacity: .7;
 }
 
-#social {
-    background-color: gray;
-    border-radius: 50%;
-    font-size: 2rem;
-    padding: 8px;
+#socialsBtn {
+    z-index: 99999;
+    position: fixed;
+    bottom: 2rem;
+    left: 1rem;
+    cursor: pointer;
+}
 
+#social {
+    background-color: var(--orange);;
+    border-radius: 50%;
+    font-size: 1.7rem;
+    padding: 8px;
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
 }
 
 #socials {
+    opacity: 0;
+    pointer-events: none;
     position: fixed;
     left: 0;
-    top: 10%;
+    bottom: 2rem;
     display: flex;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
-    flex-direction: column;
     align-items: center;
     z-index: 99999;
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
+}
+
+#socials.on {
+    opacity: 1;
+    pointer-events: all;
+    left: 4.5rem;
+    transition: .2s;
+    -webkit-transition: .2s;
+    -o-transition: .2s;
+    -moz-transition: .2s;
 }
 
 #socials a {
@@ -96,10 +116,12 @@ main {
 }
 
 #facebook {
-    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
 #linkedin {
+    border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
 
