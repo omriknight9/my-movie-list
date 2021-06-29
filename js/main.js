@@ -610,7 +610,7 @@ const buildMoviesFromTmdb = (data, div, wrapper, type) => {
             }
 
             let nextInLineBtn = $('<button>', {
-                id: 'nextInLineBtn',
+                class: 'nextInLineBtn',
                 text: finalBtnText,
                 click: () => {
 
@@ -1034,10 +1034,6 @@ const getCredits = (value, type) => {
                             let directorName = $('<div>', {
                                 class: 'directorName',
                             }).appendTo(director);
-    
-                            let imageLink = $('<a>', {
-                                class: 'imageLink',
-                            }).appendTo(directorName);
         
                             let directorImg = $('<img>', {
                                 class: 'directorImg lazy',
@@ -1045,7 +1041,7 @@ const getCredits = (value, type) => {
                                 'src': './images/actor.jpg',
                                 alt: 'director',
                                 id: data.crew[w].id,
-                            }).appendTo(imageLink);
+                            }).appendTo(directorName);
     
                             let actorName = $('<span>', {
                                 class: 'actorName',
@@ -1775,14 +1771,14 @@ const getImages = (value, type) => {
                 try {
     
                     if (data.backdrops[i].file_path == null || data.backdrops[i].file_path == '') {
-                        galleryImg = './images/noImage.png';
+                        galleryImg = './images/stockMovie.jpg';
                     } else {
                         galleryImg = 'https://image.tmdb.org/t/p/w1280' + data.backdrops[i].file_path;
                     }
     
                     let movieGalleryImg = $('<img>', {
                         class: 'movieGalleryImg lazy',
-                        src: './images/stock.png',
+                        src: './images/stockMovie.jpg',
                         'data-src': galleryImg,
                         alt: 'movieGalleryImg',
                     }).appendTo($('#chosenMovieImagesWrapper'));
@@ -1817,6 +1813,7 @@ const getVideos = (value, type) => {
                 let objectUrl = youtubeVideo + data.results[i].key + '?showinfo=0&enablejsapi=1';
                 let movieVideo = $('<iframe>', {
                     class: 'movieVideo',
+                    title: 'video',
                     src: objectUrl,
                     width: '420',
                     height: '315',
@@ -1869,7 +1866,7 @@ const goToDiv = (div) => {
 
 const emptyChosen = () => {
     $('#productionCompenies, #overview, #watchProviders, #directorsWrapper, #castContent, #similarMoviesContent, #chosenMovieImagesWrapper, #videosWrapper').empty();
-    $('#chosenMovieImdb').attr('href', '');
+    $('#chosenMovieImdb').attr('href', 'https://www.imdb.com');
     $('#chosenMovieImg').attr('src', '');   
     $('#chosenMovieSentence, #movieDate, #movieRuntime, #movieRevenue, #movieRating, #movieGenres, #movieLang, #castHeader, #similarHeader, #chosenMovieTitle').html('');
     $('#chosenMovieDate, #chosenMovieRuntime, #chosenMovieRevenue, #chosenMovie, #seasons, #episodes, #chosenMovieRating, #chosenMovieGenres, #chosenMovieLang, #similarMovies, #chosenMovieImagesWrapper, #videosWrapper').hide();
