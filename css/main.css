@@ -52,6 +52,41 @@ main {
   opacity: .7;
 }
 
+#socials {
+    position: fixed;
+    left: 0;
+    top: 10%;
+    display: flex;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    flex-direction: column;
+    align-items: center;
+    z-index: 99999;
+}
+
+#socials a {
+    width: 2rem;
+    height: 2rem;
+    text-align: center;
+    padding: 8px;
+    transition: .2s;
+    -webkit-transition: .2s;
+    -o-transition: .2s;
+    -moz-transition: .2s;
+    background-color: #3f4553;
+    color: white;
+    transition: .2s;
+    -webkit-transition: .2s;
+    -o-transition: .2s;
+    -moz-transition: .2s;
+
+}
+
+#socials i {
+    font-size: 1.5rem;
+}
+
 h1 {
 	text-align: center;
 	margin-top: 2rem;
@@ -1252,6 +1287,21 @@ footer span {
         -ms-transform: perspective(800px) rotateY(20deg) scale(1.05);
         -o-transform: perspective(800px) rotateY(20deg) scale(1.05);
         filter: grayscale(0) blur(0) drop-shadow(0 1px 4px rgba(10, 10, 10, 0.5));
+    }
+    
+    #facebook:hover {
+        background: #3b5998; 
+        color: white;  
+    }
+
+    #github:hover {
+        background-color: white;
+        color: black;
+    }
+
+    #linkedin:hover {   
+        background: #0e76a8;   
+        color: white;   
     }
 
     #marvelContainer button:hover {
