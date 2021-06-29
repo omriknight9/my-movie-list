@@ -144,7 +144,6 @@ $(document).ready(() => {
 
 const getList = (value, div, wrapper, type, movieOrTv) => {
 
-
     let arr = [];
 
     $.get('https://api.themoviedb.org/4/list/' + value + '?api_key=' + tmdbKey + '&language=en-US', (data) => {
@@ -288,6 +287,8 @@ const showUpcoming = () => {
 }
 
 const switchContent = () => {
+    
+    emptyChosen();
     $('#spinnerWrapper').show();
     $('main, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
     $('html,body').scrollTop(0);
@@ -378,6 +379,7 @@ const showResults = (value) => {
                 id: data.results[i].id,
                 type: data.results[i].media_type,
                 click: () => {
+                    emptyChosen();
 
                     window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
@@ -1254,7 +1256,6 @@ const getPersonDetails = (value) => {
 
     $('#chosenMovie').hide();
     $('#chosenPerson').show();
-    $('#chosenPersonImgWrapper').empty();
 
     $.get(movieActorsUrl + value + "?api_key=" + tmdbKey + "&language=en-US", (data) => {
         $('#chosenPersonName').html(data.name);
@@ -1349,8 +1350,33 @@ const getPersonDetails = (value) => {
     });
 
     getPersonCredits(value);
+    getPersonExternalIds(value);
     getPersonImages(value);
     getPersonMovieImages(value);
+}
+
+const getPersonExternalIds = (value) => {
+    $.get(movieActorsUrl + value + "/external_ids?api_key=" + tmdbKey + '&language=en-US', (data) => {
+        console.log(data)
+
+        if(data.instagram_id !== null) {
+                                        
+            let personInstagramLink = $('<a>', {
+                id: 'personInstagramLink',
+                rel: 'noopener',
+                target: '_blank',
+                href: 'https://www.instagram.com/' + data.instagram_id
+            }).appendTo($('#personInstagramWrapper'));
+
+            let personInstagramImg = $('<img>', {
+                id: 'personInstagramImg',
+                src: './images/instagram.png',
+                alt: 'instagramImg',
+            }).appendTo(personInstagramLink);
+        }
+
+        // $('#chosenMovieImdb').attr('href', 'https://www.imdb.com/title/' + data.imdb_id);
+    })
 }
 
 const getPopular = () => {
@@ -1449,6 +1475,7 @@ const buildPopular = (arr) => {
             'src': finalSrc,
             'data-src': dataSrc,
             click: () => {
+                emptyChosen();
                 $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
                 $('#searchResults').hide();
                 $('#search').val('');
@@ -1818,22 +1845,13 @@ const goToDiv = (div) => {
         upcomingCounter = 1;
         playingNowCounter = 1;
     }
-
-    if ($('#chosenMovie').is(':visible')) {
-        $('#chosenMovie').hide();
-    }
-
-    if ($('#chosenPerson').is(':visible')) {
-        $('#chosenPerson').hide();
-    }
-
+    
     if ($('#timeline').is(':visible')) {
         $('#timeline').hide();
     }
 
     if ($('main').is(":hidden")) {
         $('main').show();
-
 
         window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
@@ -1842,6 +1860,24 @@ const goToDiv = (div) => {
         }, 0)
     } else {
         document.querySelector(div).scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+const emptyChosen = () => {
+
+    if ($('#chosenMovie').is(':visible')) {
+        $('#productionCompenies, #overview, #watchProviders, #directorsWrapper, #castContent, #similarMoviesContent, #chosenMovieImagesWrapper, #videosWrapper').empty();
+        $('#chosenMovieImdb').attr('href', '');
+        $('#chosenMovieImg').attr('src', '');   
+        $('#chosenMovieSentence, #movieDate, #movieRuntime, #movieRevenue, #movieRating, #movieGenres, #movieLang, #castHeader, #similarHeader, #chosenMovieTitle').html('');
+        $('#chosenMovieDate, #chosenMovieRuntime, #chosenMovieRevenue, #chosenMovie, #seasons, #episodes, #chosenMovieRating, #chosenMovieGenres, #chosenMovieLang, #similarMovies, #chosenMovieImagesWrapper, #videosWrapper').hide();
+    }
+
+    if ($('#chosenPerson').is(':visible')) {
+        $('#personInstagramWrapper, #chosenPersonImgWrapper, #personMovies, #personImages').empty();
+        $('#chosenPersonName, #birthDate, #deathDate, #personHometown').html('');
+        $('#personBirthDate, #personDeathDate, #personHometown, #chosenPerson').hide();
+        $('#personCreditsHeader').remove();
     }
 }
 
