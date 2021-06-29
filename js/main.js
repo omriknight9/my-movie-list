@@ -287,7 +287,6 @@ const showUpcoming = () => {
 }
 
 const switchContent = () => {
-    
     emptyChosen();
     $('#spinnerWrapper').show();
     $('main, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
@@ -1862,21 +1861,18 @@ const goToDiv = (div) => {
 }
 
 const emptyChosen = () => {
+    $('#productionCompenies, #overview, #watchProviders, #directorsWrapper, #castContent, #similarMoviesContent, #chosenMovieImagesWrapper, #videosWrapper').empty();
+    $('#chosenMovieImdb').attr('href', '');
+    $('#chosenMovieImg').attr('src', '');   
+    $('#chosenMovieSentence, #movieDate, #movieRuntime, #movieRevenue, #movieRating, #movieGenres, #movieLang, #castHeader, #similarHeader, #chosenMovieTitle').html('');
+    $('#chosenMovieDate, #chosenMovieRuntime, #chosenMovieRevenue, #chosenMovie, #seasons, #episodes, #chosenMovieRating, #chosenMovieGenres, #chosenMovieLang, #similarMovies, #chosenMovieImagesWrapper, #videosWrapper').hide();
 
-    if ($('#chosenMovie').is(':visible')) {
-        $('#productionCompenies, #overview, #watchProviders, #directorsWrapper, #castContent, #similarMoviesContent, #chosenMovieImagesWrapper, #videosWrapper').empty();
-        $('#chosenMovieImdb').attr('href', '');
-        $('#chosenMovieImg').attr('src', '');   
-        $('#chosenMovieSentence, #movieDate, #movieRuntime, #movieRevenue, #movieRating, #movieGenres, #movieLang, #castHeader, #similarHeader, #chosenMovieTitle').html('');
-        $('#chosenMovieDate, #chosenMovieRuntime, #chosenMovieRevenue, #chosenMovie, #seasons, #episodes, #chosenMovieRating, #chosenMovieGenres, #chosenMovieLang, #similarMovies, #chosenMovieImagesWrapper, #videosWrapper').hide();
-    }
 
-    if ($('#chosenPerson').is(':visible')) {
-        $('#personInstagramWrapper, #chosenPersonImgWrapper, #personMovies, #personImages').empty();
-        $('#chosenPersonName, #birthDate, #deathDate, #personHometown').html('');
-        $('#personBirthDate, #personDeathDate, #personHometown, #chosenPerson').hide();
-        $('#personCreditsHeader').remove();
-    }
+    $('#personInstagramWrapper, #chosenPersonImgWrapper, #personMovies, #personImages').empty();
+    $('#chosenPersonName, #birthDate, #deathDate, #personHometown').html('');
+    $('#personBirthDate, #personDeathDate, #personHometown, #chosenPerson').hide();
+    $('#personCreditsHeader').remove();
+    
 }
 
 const getCinematicInfo = (url, type) => {
