@@ -1522,14 +1522,16 @@ const getPersonCredits = (value) => {
                         movieImgPath = './images/stock.png';
                     }
 
+                    let trimmedString;
+
                     if (data.cast[i].character && data.cast[i].character.length > 25) {
 
                         if (countInstances(data.cast[i].character, '/') > 1) {
                         
                             let maxLength = 25;
-                            let trimmedString = data.cast[i].character.substr(0, maxLength);
-                            trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
+                            trimmedString = data.cast[i].character.substr(0, maxLength);
 
+                            trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
                             trimmedString = data.cast[i].character.split('/');
 
                             if (trimmedString.length > 2) {
