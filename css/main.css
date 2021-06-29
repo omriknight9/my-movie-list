@@ -549,16 +549,28 @@ p {
     border-bottom: 1px solid var(--orange);
 }
 
-#menu img {
+.menuImg {
     width: 40px;
-    height: 38px;
+    height: 40px;
     position: absolute;
     top: .2rem;
     left: 0;
 }
 
-#menu li:first-child img, #menu li:nth-child(2) img {
-    width: 50px;
+#ultraLink {
+    height: 32px;
+}
+
+#playingNowLink {
+    height: 35px;
+}
+
+#comingSoonLink {
+    height: 23px;
+}
+
+#valiantLink {
+    height: 45px;
 }
 
 .line {
@@ -769,7 +781,7 @@ p {
 
 .movieImg, .tvShowImg, .popularPersonImg {
     width: 100%;
-    height: 230px;
+    height: 215px;
     border-radius: 5px;
     clip-path: polygon(30% 0%, 100% 0, 100% 30%, 100% 95%, 89% 100%, 0 100%, 0% 92%, 0 0);
     -ms-clip-path: polygon(30% 0%, 100% 0, 100% 30%, 100% 95%, 89% 100%, 0 100%, 0% 92%, 0 0);
@@ -1421,7 +1433,7 @@ footer span {
 
     .actorImg, .similarMovieImg {
         width: 100px;
-        height: 175px;
+        height: 160px;
     }
 
     .actorImdbLink, .actorInstagramLink {
