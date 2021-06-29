@@ -832,7 +832,7 @@ const chosenMovie = (value, type) => {
         if (data.production_companies.length > 0) {
             for (let i = 0; i < data.production_companies.length; i++) {
 
-                if (data.production_companies[i].logo_path !== null) { 
+                if (data.production_companies[i].logo_path !== null && data.production_companies[i].id !== 7297) { 
                     let companyImg = $('<img>', {
                         class: 'companyImg',
                         alt: 'company img',
