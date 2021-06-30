@@ -29,7 +29,6 @@ main {
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: #ff5a4e;
     background-color: var(--orange);
 }
 
