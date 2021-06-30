@@ -66,8 +66,7 @@ $(document).ready(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const value = urlParams.get('value');
 
-        $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
-        $('#searchResults').hide();
+        $('#playingNowContainer, #upcomingContainer, #popular, #searchResults').empty().hide();
         $('#search').val('');
         $('main').hide();
 
@@ -133,7 +132,7 @@ $(document).ready(() => {
         } 
 
         if (searchVal.length == 0) {
-            $('#searchResults').hide();
+            $('#searchResults').empty().hide();
         } else {
             showResults(searchVal);
         }
@@ -303,8 +302,9 @@ const showResults = (value) => {
             return;
         }
 
+        $('#searchResults').empty();
+
         if (data.results.length > 0) {
-            $('#searchResults').empty();
             $('#searchResults').show();
         } else {
             $('#searchResults').hide();
@@ -377,25 +377,21 @@ const showResults = (value) => {
                 id: data.results[i].id,
                 type: data.results[i].media_type,
                 click: () => {
-                    emptyChosen();
 
                     window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
                     switch (data.results[i].media_type) {
                         case 'movie':
-                            $('#searchResults').hide();
                             $('#search').val('');
                             $('main').hide();
                             chosenMovie(data.results[i].id, 1);
                             break;
                         case 'tv':
-                            $('#searchResults').hide();
                             $('#search').val('');
                             $('main').hide();
                             chosenMovie(data.results[i].id, 2);
                             break;
                         case 'person':
-                            $('#searchResults').hide();
                             $('#search').val('');
                             $('main').hide();
                             getPersonDetails(data.results[i].id);
@@ -1467,9 +1463,7 @@ const buildPopular = (arr) => {
             'src': finalSrc,
             'data-src': dataSrc,
             click: () => {
-                emptyChosen();
                 $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
-                $('#searchResults').hide();
                 $('#search').val('');
                 $('main').hide();
                 getPersonDetails(arr[i].id);
@@ -1859,13 +1853,11 @@ const goToDiv = (div) => {
 }
 
 const emptyChosen = () => {
-    $('#productionCompenies, #overview, #watchProviders, #directorsWrapper, #castContent, #similarMoviesContent, #chosenMovieImagesWrapper, #videosWrapper').empty();
+    $('#productionCompenies, #overview, #watchProviders, #directorsWrapper, #castContent, #similarMoviesContent, #chosenMovieImagesWrapper, #videosWrapper, #searchResults').empty();
     $('#chosenMovieImdb').attr('href', 'https://www.imdb.com');
     $('#chosenMovieImg').attr('src', '');   
     $('#chosenMovieSentence, #movieDate, #movieRuntime, #movieRevenue, #movieRating, #movieGenres, #movieLang, #castHeader, #similarHeader, #chosenMovieTitle').html('');
-    $('#chosenMovieDate, #chosenMovieRuntime, #chosenMovieRevenue, #chosenMovie, #seasons, #episodes, #chosenMovieRating, #chosenMovieGenres, #chosenMovieLang, #similarMovies, #chosenMovieImagesWrapper, #videosWrapper').hide();
-
-
+    $('#chosenMovieDate, #chosenMovieRuntime, #chosenMovieRevenue, #chosenMovie, #seasons, #episodes, #chosenMovieRating, #chosenMovieGenres, #chosenMovieLang, #similarMovies, #chosenMovieImagesWrapper, #videosWrapper, #searchResults').hide();
     $('#personInstagramWrapper, #chosenPersonImgWrapper, #personMovies, #personImages').empty();
     $('#chosenPersonName, #birthDate, #deathDate, #personHometown').html('');
     $('#personBirthDate, #personDeathDate, #personHometown, #chosenPerson').hide();
