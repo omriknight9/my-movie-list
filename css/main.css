@@ -777,14 +777,13 @@ p {
 }
 
 .voteWrapper {
-    position: relative;
     width: 2.5rem;
     height: 2.5rem;
     background-color: white;
     border: 1px solid #323538; 
     border-radius: 50%;
     position: absolute;
-    bottom: 6rem;
+    top: 9rem;
     right: -1rem;
     z-index: 1;
     text-align: center;
