@@ -1,9 +1,9 @@
 # my-movie-list
-List of movies that I hold on my external drives
+First page is a list of movies that I hold on my external drives.
 
-Search Info About Movies, TV Shows And People
+The user can also search info about movies, tv shows and people.
 
-1. Search A Movie,TV Show Or Person.
-2. Click On It.
-3. Get Info: Actors, Images, Videos, Similar Movies/TV Shows.
-4. All Actors Have IMDB And Some Have Instagram links.
+1. Search a Movie, tv show or person.
+2. Click on it.
+3. Get info: for movies / tv shows -  actors, images, videos, similar movies / tv shows.
+For actors: birth date, death date, hometown, movie + tv credits, IMDB Instagram links.
