@@ -108,7 +108,7 @@ $(document).ready(() => {
         $('button').show();
         $('.container, footer').css('display', 'flex');
         $('#upcomingContainer').hide();
-    }, 1500);
+    }, 2000);
 
     $('#search').on('keyup', () => {
         if ($('.sortContainer').is(':visible')) {
@@ -213,7 +213,7 @@ const showPlayingNow = () => {
 
     $('.container').hide();
     $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
-    switchContent();
+    switchContent(2);
 
     let totalPages;
     let arr = [];
@@ -254,7 +254,7 @@ const showUpcoming = () => {
 
     $('.container').hide();
     $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
-    switchContent();
+    switchContent(2);
 
     let totalPages;
     let arr = [];
@@ -283,17 +283,25 @@ const showUpcoming = () => {
     });
 }
 
-const switchContent = () => {
+const switchContent = (type) => {
     emptyChosen();
     $('#spinnerWrapper').show();
     $('main, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
     $('html,body').scrollTop(0);
     $('#progressBar').css('width', 0);
 
+    let time;
+
+    if (type == 1) {
+        time = 500;
+    } else {
+        time = 2000;
+    }
+
     setTimeout(() => {
         $('#spinnerWrapper').hide();
         $('main, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
-    }, 1500)
+    }, time)
 }
 
 const showResults = (value) => {
@@ -378,7 +386,7 @@ const showResults = (value) => {
                 type: data.results[i].media_type,
                 click: () => {
 
-                    window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+                    // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
                     switch (data.results[i].media_type) {
                         case 'movie':
@@ -738,7 +746,7 @@ const chosenMovie = (value, type) => {
     setTimeout(() => {
         $('#spinnerWrapper').hide();
         $('#chosenMovie, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
-    }, 1500)
+    }, 2000)
 
     if ($('.sortContainer').is(':visible')) {
         $('.sortContainer').hide();
@@ -754,7 +762,7 @@ const chosenMovie = (value, type) => {
     closeMenus();
 
     $('main').hide();
-    switchContent();
+    switchContent(2);
     $('#chosenMovie').show();
 
     let chosenUrl;
@@ -783,7 +791,7 @@ const chosenMovie = (value, type) => {
         finalNameToSend = finalNameToSend.replace(/:/, "");
         finalNameToSend = finalNameToSend.replace(/\s/g, '');
 
-        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+        // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
     
         const url = new URL(window.location);
         url.searchParams.set(chosenUrl, finalNameToSend);
@@ -1242,9 +1250,9 @@ const getPersonDetails = (value) => {
     setTimeout(() => {
         $('#spinnerWrapper').hide();
         $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
-    }, 1500)
+    }, 2000)
 
-    switchContent();
+    switchContent(2);
 
     $('#chosenPerson').show();
 
@@ -1258,7 +1266,7 @@ const getPersonDetails = (value) => {
         finalNameToSend = finalNameToSend.replace(/:/, "");
         finalNameToSend = finalNameToSend.replace(/\s/g, '');
 
-        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+        // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
         const url = new URL(window.location);
         url.searchParams.set('actor', finalNameToSend);
@@ -1379,7 +1387,7 @@ const getPopular = () => {
     $('.container').hide();
     $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
 
-    switchContent();
+    switchContent(2);
 
     let totalPages;
     let arr = [];
@@ -1818,10 +1826,9 @@ const goToDiv = (div) => {
     $('.searchContainer').removeClass('chosenSearch');
 
     if (!$('#marvelContainer').is(':visible')) {
-
         $('.container').css('display', 'flex');
         $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
-        switchContent();
+        switchContent(1);
     }
 
     if ($('.sortContainer').is(':visible')) {
@@ -1842,7 +1849,7 @@ const goToDiv = (div) => {
     if ($('main').is(":hidden")) {
         $('main').show();
 
-        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+        // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
         setTimeout(() => {
             document.querySelector(div).scrollIntoView({ behavior: 'smooth' });
@@ -1862,7 +1869,6 @@ const emptyChosen = () => {
     $('#chosenPersonName, #birthDate, #deathDate, #personHometown').html('');
     $('#personBirthDate, #personDeathDate, #personHometown, #chosenPerson').hide();
     $('#personCreditsHeader').remove();
-    
 }
 
 const getCinematicInfo = (url, type) => {
@@ -2094,7 +2100,7 @@ const showTimeline = (type, cinematicType) => {
         }
     }
 
-    window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+    // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
     const url = new URL(window.location);
     url.searchParams.set('timeline', timelineUrl);
