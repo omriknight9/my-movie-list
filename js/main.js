@@ -211,13 +211,21 @@ const showPlayingNow = () => {
         return;
     }
 
+    $('#spinnerWrapper').show();
+    $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
+
+    setTimeout(() => {
+        $('#spinnerWrapper').hide();
+        $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+    }, 2000)
+
     if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible') || $('#timeline').is(':visible')) {
         goToDiv('#playingNowContainer');
     }
 
     $('.container').hide();
     $('#playingNowContainer, #upcomingContainer, #popular, #genreChosen').empty().hide();
-    switchContent(2);
+    // switchContent(2);
 
     let totalPages;
     let arr = [];
@@ -252,13 +260,21 @@ const showUpcoming = () => {
         return;
     }
 
+    $('#spinnerWrapper').show();
+    $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
+
+    setTimeout(() => {
+        $('#spinnerWrapper').hide();
+        $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+    }, 2000)
+
     if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible') || $('#timeline').is(':visible')) {
         goToDiv('#upcomingContainer');
     }
 
     $('.container').hide();
     $('#playingNowContainer, #upcomingContainer, #popular, #genreChosen').empty().hide();
-    switchContent(2);
+    // switchContent(2);
 
     let totalPages;
     let arr = [];
@@ -961,10 +977,19 @@ const chosenMovie = (value, type) => {
                         text: movieObj[w].name,
                         
                         click: () => {
+
+                            $('#spinnerWrapper').show();
+                            $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
+                        
+                            setTimeout(() => {
+                                $('#spinnerWrapper').hide();
+                                $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+                            }, 2000)
+
                             goToDiv('#genreChosen');
                             $('.container').hide();
                             $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
-                            switchContent(2);
+                            // switchContent(2);
 
                             let totalPages;
                             let arr = [];
@@ -1905,7 +1930,7 @@ const goToDiv = (div) => {
     if (!$('#marvelContainer').is(':visible')) {
         $('.container').css('display', 'flex');
         $('#playingNowContainer, #upcomingContainer, #popular, #genreChosen').empty().hide();
-        switchContent(1);
+        switchContent(2);
     }
 
     if ($('.sortContainer').is(':visible')) {
@@ -2194,7 +2219,6 @@ const goHome = () => {
     $('main').show();
 
     if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible') || $('#timeline').is(':visible')) {
-
         goToDiv('#marvelContainer');
     }
 }
