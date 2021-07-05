@@ -213,7 +213,7 @@ const checkAudio = (value, type) => {
         }).appendTo('#chosenMovie')
 
         let source = $('<source>', {
-            src: '../audio/' + audioFile,
+            src: './audio/' + audioFile,
         }).appendTo(audio)
 
         setTimeout(() => {
