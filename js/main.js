@@ -865,7 +865,6 @@ const chosenMovie = (value, type) => {
         
         if (data.production_companies.length > 0) {
             for (let i = 0; i < data.production_companies.length; i++) {
-
                 if (data.production_companies[i].logo_path !== null && data.production_companies[i].id !== 7297) { 
                     let companyImg = $('<img>', {
                         class: 'companyImg',
@@ -1034,7 +1033,7 @@ const chosenMovie = (value, type) => {
         }
     });
 
-    checkAudio(value, type);
+    // checkAudio(value, type);
 
     getCredits(value, type);
     getSimilar(value, type);
@@ -1334,7 +1333,6 @@ const getCredits = (value, type) => {
                             }).appendTo(instagramWrapper);
                         }
                     });
-
                 } catch (e) {
                     console.log(e);
                 }
