@@ -101,10 +101,10 @@ const convertMinsToHrsMins = (mins) => {
     h = h < 10 ? '' + h : h;
     m = m < 10 ? '' + m : m;
 
-    if (h > 1) {
-    return h + ' Hours ' + ' And ' + m + ' Minutes';
+    if (h > 0) {
+        return h + 'h ' + m + ' m';
     } else {
-        return h + ' Hour ' + ' And ' + m + ' Minutes';
+        return m + ' m';
     }
 }
 
@@ -156,5 +156,68 @@ const closeMenus = () => {
 
     if ($('#socials').hasClass('on')) {
         $('#socials').removeClass('on')
+    }
+}
+
+const checkAudio = (value, type) => {
+
+    let audioFile;
+
+    if (type == 1) {
+        switch(value) {
+            case 1726:
+                audioFile = 'ironMan.mp3';
+                break;
+
+            default:
+                audioFile = null;
+                break;
+        }
+    } else {
+        switch(value) {
+            case 1405:
+                audioFile = 'dexter.mp3';
+                break;
+            case 1668:
+                audioFile = 'friends.mp3';
+                break;
+            case 1100:
+                audioFile = 'howIMetYourMother.mp3';
+                break;
+            case 1399:
+                audioFile = 'gameOfThrones.mp3';
+                break;
+            case 85271:
+                audioFile = 'wandavision.mp3';
+                break;
+            case 88396:
+                audioFile = 'theFalconAndTheWinterSoldier.mp3';
+                break;
+            case 84958:
+                audioFile = 'loki.mp3';
+                break;
+            case 1396:
+                audioFile = 'breakingBad.mp3';
+                break;
+            default:
+                audioFile = null;
+                break;
+        }
+    }
+
+    if (audioFile !== null) {
+            
+        let audio = $('<audio>', {
+            controls: true,
+            id: 'audio',
+        }).appendTo('#chosenMovie')
+
+        let source = $('<source>', {
+            src: '../audio/' + audioFile,
+        }).appendTo(audio)
+
+        setTimeout(() => {
+            $('#audio').trigger('play');
+        }, 1500)
     }
 }
