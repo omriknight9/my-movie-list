@@ -17,6 +17,7 @@ let othersCounter = 1;
 let animationCounter = 1;
 let upcomingCounter = 1;
 let playingNowCounter = 1;
+let genreCounter = 1;
 let selectedDiv;
 let lastChar;
 let searchVal;
@@ -24,15 +25,17 @@ let cinematicArr = [];
 let tvShowTimelineArr = [];
 
 const tmdbKey = '0271448f9ff674b76c353775fa9e6a82';
-const movieInfoUrl = "https://api.themoviedb.org/3/movie/";
-const tvShowInfoUrl = "https://api.themoviedb.org/3/tv/";
-const movieActorsUrl = "https://api.themoviedb.org/3/person/";
+const movieInfoUrl = 'https://api.themoviedb.org/3/movie/';
+const tvShowInfoUrl = 'https://api.themoviedb.org/3/tv/';
+const movieActorsUrl = 'https://api.themoviedb.org/3/person/';
 const youtubeVideo = 'https://www.youtube.com/embed/';
 const listUrl = 'https://api.themoviedb.org/3/list/';
-const searchMovieUrl = "https://api.themoviedb.org/3/search/multi?api_key=" + tmdbKey + "&query=";
-const upcomingUrl = "https://api.themoviedb.org/3/movie/upcoming?api_key=" + tmdbKey + "&language=en-US&region=US&page=";
-const nowPlayingUrl = "https://api.themoviedb.org/3/movie/now_playing?api_key=" + tmdbKey + "&language=en-US&region=US&page=";
-const getTrendingUrl = "https://api.themoviedb.org/3/trending/all/day?api_key=" + tmdbKey + "&language=en-US&page=";
+const searchMovieUrl = 'https://api.themoviedb.org/3/search/multi?api_key=' + tmdbKey + '&query=';
+const upcomingUrl = 'https://api.themoviedb.org/3/movie/upcoming?api_key=' + tmdbKey + '&language=en-US&region=US&page=';
+const nowPlayingUrl = 'https://api.themoviedb.org/3/movie/now_playing?api_key=' + tmdbKey + '&language=en-US&region=US&page=';
+const getTrendingUrl = 'https://api.themoviedb.org/3/trending/all/day?api_key=' + tmdbKey + '&language=en-US&page=';
+const moviesGenreUrl = 'https://api.themoviedb.org/3/discover/movie?api_key=' + tmdbKey + '&language=en-US&with_genres=';
+const tvGenreUrl = 'https://api.themoviedb.org/3/discover/tv?api_key=' + tmdbKey + '&language=en-US&with_genres=';
 
 let directorCounter = 0;
 let commentsArr = [];
@@ -41,7 +44,7 @@ $(document).ready(() => {
 
     if (window.location.href.indexOf("?movie=") > -1) {
         const urlParams = new URLSearchParams(window.location.search);
-        const value = urlParams.get('value');
+        const value = Number(urlParams.get('value'));
         chosenMovie(value, 1);
 
         $(window).on('popstate', function() {
@@ -52,7 +55,7 @@ $(document).ready(() => {
 
     if (window.location.href.indexOf("?tvShow=") > -1) {
         const urlParams = new URLSearchParams(window.location.search);
-        const value = urlParams.get('value');
+        const value = Number(urlParams.get('value'));
         chosenMovie(value, 2);
 
         $(window).on('popstate', function() {
@@ -64,9 +67,9 @@ $(document).ready(() => {
     if (window.location.href.indexOf("?actor=") > -1) {
 
         const urlParams = new URLSearchParams(window.location.search);
-        const value = urlParams.get('value');
+        const value = Number(urlParams.get('value'));
 
-        $('#playingNowContainer, #upcomingContainer, #popular, #searchResults').empty().hide();
+        $('#playingNowContainer, #upcomingContainer, #popular, #searchResults, #genreChosen').empty().hide();
         $('#search').val('');
         $('main').hide();
 
@@ -107,7 +110,7 @@ $(document).ready(() => {
         $('.searchContainer').show();
         $('button').show();
         $('.container, footer').css('display', 'flex');
-        $('#upcomingContainer').hide();
+        $('#upcomingContainer, #playingNowContainer, #popular, #genreChosen').hide();
     }, 2000);
 
     $('#search').on('keyup', () => {
@@ -120,6 +123,7 @@ $(document).ready(() => {
             animationCounter = 1;
             upcomingCounter = 1;
             playingNowCounter = 1;
+            genreCounter = 1;
         }
 
         closeMenus();
@@ -212,7 +216,7 @@ const showPlayingNow = () => {
     }
 
     $('.container').hide();
-    $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
+    $('#playingNowContainer, #upcomingContainer, #popular, #genreChosen').empty().hide();
     switchContent(2);
 
     let totalPages;
@@ -253,7 +257,7 @@ const showUpcoming = () => {
     }
 
     $('.container').hide();
-    $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
+    $('#playingNowContainer, #upcomingContainer, #popular, #genreChosen').empty().hide();
     switchContent(2);
 
     let totalPages;
@@ -539,7 +543,11 @@ const buildMoviesFromTmdb = (data, div, wrapper, type) => {
         case 8:
             headerText = 'Playing Now';
             headerLineClass = 'linePlayingNow';
-            break;    
+            break;   
+        case 9:
+            headerText = 'Movies by genre';
+            headerLineClass = 'linegenre';
+            break;
     }
 
     let typeheader = $('<h2>', {
@@ -625,6 +633,7 @@ const buildMoviesFromTmdb = (data, div, wrapper, type) => {
                         animationCounter = 1;
                         upcomingCounter = 1;
                         playingNowCounter = 1;
+                        genreCounter = 1;
                     }
 
                     closeMenus();
@@ -660,7 +669,7 @@ const buildMoviesFromTmdb = (data, div, wrapper, type) => {
         let finalSrc;
         let finalClass;
 
-        if (type == 1 && i < 10 || type == 7 && i < 10 || type == 8 && i < 10) {
+        if (type == 1 && i < 10 || type == 7 && i < 10 || type == 8 && i < 10 || type == 9 && i < 10) {
             dataSrc = '';
             finalClass = 'movieImg';
 
@@ -737,7 +746,7 @@ const buildMoviesFromTmdb = (data, div, wrapper, type) => {
 
 const chosenMovie = (value, type) => {
 
-    $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
+    $('#playingNowContainer, #upcomingContainer, #popular, #genreChosen').empty().hide();
     $('.searchContainer').addClass('chosenSearch');
 
     $('#spinnerWrapper').show();
@@ -757,6 +766,7 @@ const chosenMovie = (value, type) => {
         animationCounter = 1;
         upcomingCounter = 1;
         playingNowCounter = 1;
+        genreCounter = 1;
     }
 
     closeMenus();
@@ -816,12 +826,22 @@ const chosenMovie = (value, type) => {
             $('#chosenMovieTitle').html(capitalize(data.name));
 
             $.get(finalUrl + value + "/external_ids?api_key=" + tmdbKey + '&language=en-US', (data) => {
-                $('#chosenMovieImdb').attr('href', 'https://www.imdb.com/title/' + data.imdb_id);
+                if (data.imdb_id !== null) {
+                    $('#chosenMovieImdb').attr('href', 'https://www.imdb.com/title/' + data.imdb_id);
+                    $('#chosenMovieImdb').css('pointer-events', 'all');
+                } else {
+                    $('#chosenMovieImdb').css('pointer-events', 'none');
+                }
             })
         } else {
-
             $('#chosenMovieTitle').html(capitalize(data.title));
-            $('#chosenMovieImdb').attr('href', 'https://www.imdb.com/title/' + data.imdb_id);
+            if (data.imdb_id !== null) {
+
+                $('#chosenMovieImdb').attr('href', 'https://www.imdb.com/title/' + data.imdb_id);
+                $('#chosenMovieImdb').css('pointer-events', 'all');
+            } else {
+                $('#chosenMovieImdb').css('pointer-events', 'none');
+            }
         }
 
         $('#chosenMovieImg').attr('src', finalImg);
@@ -892,22 +912,16 @@ const chosenMovie = (value, type) => {
         }
 
         let finalVoteText;
-
         finalVoteText = data.vote_average.toString();
 
-        if ((finalVoteText.length == 1 && data.vote_average !== '0') || data.vote_average == '10') {
-            finalVoteText = data.vote_average + '0'
+        if ((finalVoteText.length == 1 && data.vote_average !== 0) || data.vote_average == '10') {
+            finalVoteText = data.vote_average + '0';
         } else {
             finalVoteText = data.vote_average;
         }
 
         finalVoteText = finalVoteText.toString();
-
         finalVoteText = finalVoteText.replace('.', '') + '%';
-
-        if (finalVoteText == '0%' && JSON.stringify(finalDateForShow > new Date())) {
-            finalVoteText = 'TBD';
-        }
     
         if (finalVoteText !== 0 && finalVoteText !== undefined) {
             $('#movieRating').html('Rating: ' + finalVoteText);
@@ -925,20 +939,77 @@ const chosenMovie = (value, type) => {
 
         if (data.genres.length > 0) {
             $('#chosenMovieGenres').show();
-            let arr = [];
+            let movieObj = [];
 
             for (let a = 0; a < data.genres.length; a++) {   
-                arr.push(data.genres[a].name);    
+                let obj = {
+                    id: data.genres[a].id,
+                    name: data.genres[a].name
+                }
+                movieObj.push(obj);
             }
 
             setTimeout(() => {
-                let newArr = arr.join(', ');
-                $('#movieGenres').html('Genres: ' + newArr);
-            }, 100)
+
+                let genresContent = $('<div>', {
+                    id: 'genresContent',
+                }).appendTo($('#chosenMovieGenres'));
+
+                for (let w = 0; w < movieObj.length; w++) {
+                    let genre = $('<span>', {
+                        class: 'genre',
+                        text: movieObj[w].name,
+                        
+                        click: () => {
+                            goToDiv('#genreChosen');
+                            $('.container').hide();
+                            $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
+                            switchContent(2);
+
+                            let totalPages;
+                            let arr = [];
+
+                            let finalGenreUrl;
+
+                            if (type == 1) {
+                                finalGenreUrl = moviesGenreUrl + movieObj[w].id;
+                            } else {
+                                finalGenreUrl = tvGenreUrl + movieObj[w].id;
+                            }
+
+                            $.get(finalGenreUrl + '&page=1', (data) => {
+                                for (var s = 0; s < data.results.length; s++) {
+                                    arr.push(data.results[s]);
+                                }
+
+                                totalPages = data.total_pages;
+
+                                if (totalPages > 1) {
+                                    setTimeout(() => {
+                                        $.get(finalGenreUrl + '&page=2', (data) => {
+                                            for (var x = 0; x < data.results.length; x++) {
+                                                arr.push(data.results[x]);
+                                            }
+
+                                            setTimeout(() => {
+                                                $('#genreChosen').css('display', 'flex');
+                                                buildMoviesFromTmdb(arr, 'genreMovie', $('#genreChosen'), 9);
+                                            }, 500)
+                                        });
+                                    }, 1000)
+                                }              
+                            });                     
+                        }
+                    }).appendTo(genresContent);
+                }
+            }, 500)
+
         } else {
             $('#chosenMovieGenres').hide();
         }
     });
+
+    checkAudio(value, type);
 
     getCredits(value, type);
     getSimilar(value, type);
@@ -960,12 +1031,11 @@ const getWatchProviders = (value, type) => {
 
     $.get(finalUrl + value + "/watch/providers?api_key=" + tmdbKey + '&language=en-US&sort_by=popularity.desc', (data) => {
 
-        if (data.results.US !== undefined && data.results.US.flatrate.length > 0) {
+        if (data.results.US !== undefined && data.results.US.flatrate !== undefined) {
             let results = data.results.US.flatrate;
 
             for (let i = 0; i < results.length; i++) {
-
-                if (results[i].logo_path !== null) { 
+                if (results[i].logo_path !== null) {
                     if (results[i].provider_id == 337 || results[i].provider_id == 8 || results[i].provider_id == 384 || results[i].provider_id == 37 || results[i].provider_id == 9 || results[i].provider_id == 15 || results[i].provider_id == 350) {
                         let watchProvider = $('<img>', {
                             class: 'watchProvider',
@@ -975,7 +1045,7 @@ const getWatchProviders = (value, type) => {
                     }
                 }
             }
-        }        
+        }
     });
 }
 
@@ -1183,9 +1253,17 @@ const getCredits = (value, type) => {
                         }
                     }).appendTo(actor);
 
+                    let finalActorName;
+
+                    if (data.cast[k].character == '') {
+                        finalActorName = data.cast[k].name;
+                    } else {
+                        finalActorName = data.cast[k].name + ':';
+                    }
+
                     let actorName = $('<span>', {
                         class: 'actorName',
-                        text: data.cast[k].name + ':'
+                        text: finalActorName
                     }).appendTo(actor);
 
                     let characterName = $('<span>', {
@@ -1385,7 +1463,7 @@ const getPopular = () => {
     }
 
     $('.container').hide();
-    $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
+    $('#playingNowContainer, #upcomingContainer, #popular, #genreChosen').empty().hide();
 
     switchContent(2);
 
@@ -1471,7 +1549,7 @@ const buildPopular = (arr) => {
             'src': finalSrc,
             'data-src': dataSrc,
             click: () => {
-                $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
+                $('#playingNowContainer, #upcomingContainer, #popular, #genreChosen').empty().hide();
                 $('#search').val('');
                 $('main').hide();
                 getPersonDetails(arr[i].id);
@@ -1814,7 +1892,6 @@ const getVideos = (value, type) => {
                     width: '420',
                     height: '315',
                     allowfullscreen: true,
-
                 }).appendTo($('#videosWrapper'));
             }
         }
@@ -1827,7 +1904,7 @@ const goToDiv = (div) => {
 
     if (!$('#marvelContainer').is(':visible')) {
         $('.container').css('display', 'flex');
-        $('#playingNowContainer, #upcomingContainer, #popular').empty().hide();
+        $('#playingNowContainer, #upcomingContainer, #popular, #genreChosen').empty().hide();
         switchContent(1);
     }
 
@@ -1840,6 +1917,7 @@ const goToDiv = (div) => {
         animationCounter = 1;
         upcomingCounter = 1;
         playingNowCounter = 1;
+        genreCounter = 1;
     }
     
     if ($('#timeline').is(':visible')) {
@@ -1863,12 +1941,12 @@ const emptyChosen = () => {
     $('#productionCompenies, #overview, #watchProviders, #directorsWrapper, #castContent, #similarMoviesContent, #chosenMovieImagesWrapper, #videosWrapper, #searchResults').empty();
     $('#chosenMovieImdb').attr('href', 'https://www.imdb.com');
     $('#chosenMovieImg').attr('src', '');   
-    $('#chosenMovieSentence, #movieDate, #movieRuntime, #movieRevenue, #movieRating, #movieGenres, #movieLang, #castHeader, #similarHeader, #chosenMovieTitle').html('');
+    $('#chosenMovieSentence, #movieDate, #movieRuntime, #movieRevenue, #movieRating, #movieLang, #castHeader, #similarHeader, #chosenMovieTitle').html('');
     $('#chosenMovieDate, #chosenMovieRuntime, #chosenMovieRevenue, #chosenMovie, #seasons, #episodes, #chosenMovieRating, #chosenMovieGenres, #chosenMovieLang, #similarMovies, #chosenMovieImagesWrapper, #videosWrapper, #searchResults').hide();
     $('#personInstagramWrapper, #chosenPersonImgWrapper, #personMovies, #personImages').empty();
     $('#chosenPersonName, #birthDate, #deathDate, #hometown').html('');
     $('#personBirthDate, #personDeathDate, #personHometown, #chosenPerson').hide();
-    $('#personCreditsHeader').remove();
+    $('#personCreditsHeader, #audio, #genresContent').remove();
 }
 
 const getCinematicInfo = (url, type) => {
@@ -2140,6 +2218,7 @@ const sort = (div, num) => {
                 animationCounter = 1;
                 upcomingCounter = 1;
                 playingNowCounter = 1;
+                genreCounter = 1;
             } else {
                 $(div).find($('.sortContainer')).fadeOut('fast');
                 marvelCounter = 1;
@@ -2155,6 +2234,7 @@ const sort = (div, num) => {
                 animationCounter = 1;
                 upcomingCounter = 1;
                 playingNowCounter = 1;
+                genreCounter = 1;
             } else {
                 $(div).find($('.sortContainer')).fadeOut('fast');
                 DCCounter = 1;
@@ -2171,6 +2251,7 @@ const sort = (div, num) => {
                 animationCounter = 1;
                 upcomingCounter = 1;
                 playingNowCounter = 1;
+                genreCounter = 1;
             } else {
                 $(div).find($('.sortContainer')).fadeOut('fast');
                 valiantCounter = 1;
@@ -2186,6 +2267,7 @@ const sort = (div, num) => {
                 animationCounter = 1;
                 upcomingCounter = 1;
                 playingNowCounter = 1;
+                genreCounter = 1;
             } else {
                 $(div).find($('.sortContainer')).fadeOut('fast');
                 othersCounter = 1;
@@ -2201,6 +2283,7 @@ const sort = (div, num) => {
                 othersCounter = 1;
                 upcomingCounter = 1;
                 playingNowCounter = 1;
+                genreCounter = 1;
             } else {
                 $(div).find($('.sortContainer')).fadeOut('fast');
                 animationCounter = 1;
@@ -2217,6 +2300,7 @@ const sort = (div, num) => {
                     DCCounter = 1;
                     othersCounter = 1;
                     playingNowCounter = 1;
+                    genreCounter = 1;
                 } else {
                     $(div).find($('.sortContainer')).fadeOut('fast');
                     upcomingCounter = 1;
@@ -2232,9 +2316,26 @@ const sort = (div, num) => {
                     DCCounter = 1;
                     othersCounter = 1;
                     upcomingCounter = 1;
+                    genreCounter = 1;
                 } else {
                     $(div).find($('.sortContainer')).fadeOut('fast');
                     playingNowCounter = 1;
+                }
+                break;
+            case 9:
+                if (genreCounter == 1) {
+                    $(div).find($('.sortContainer')).fadeIn('fast');
+                    genreCounter = 2;
+                    animationCounter = 1;
+                    marvelCounter = 1;
+                    valiantCounter = 1;
+                    DCCounter = 1;
+                    othersCounter = 1;
+                    upcomingCounter = 1;
+                    playingNowCounter = 1;
+                } else {
+                    $(div).find($('.sortContainer')).fadeOut('fast');
+                    genreCounter = 1;
                 }
                 break;
     }
@@ -2491,6 +2592,7 @@ const sortMovies = (container, elem1, kind) => {
     animationCounter = 1;
     upcomingCounter = 1;
     playingNowCounter = 1;
+    genreCounter = 1;
 }
 
 const removePopup = (container) => {
