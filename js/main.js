@@ -1033,7 +1033,7 @@ const chosenMovie = (value, type) => {
         }
     });
 
-    // checkAudio(value, type);
+    checkAudio(value, type);
 
     getCredits(value, type);
     getSimilar(value, type);
@@ -1969,7 +1969,7 @@ const emptyChosen = () => {
     $('#personInstagramWrapper, #chosenPersonImgWrapper, #personMovies, #personImages').empty();
     $('#chosenPersonName, #birthDate, #deathDate, #hometown').html('');
     $('#personBirthDate, #personDeathDate, #personHometown, #chosenPerson').hide();
-    $('#personCreditsHeader, #audio, #genresContent').remove();
+    $('#personCreditsHeader, #audioWrapper, #genresContent').remove();
 }
 
 const getCinematicInfo = (url, type) => {
