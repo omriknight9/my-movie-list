@@ -162,11 +162,13 @@ const closeMenus = () => {
 const checkAudio = (value, type) => {
 
     let audioFile;
+    let finalAudioText;
 
     if (type == 1) {
         switch(value) {
             case 1726:
                 audioFile = 'ironMan.mp3';
+                finalAudioText = 'Iron Man Suit Up';
                 break;
 
             default:
@@ -177,27 +179,35 @@ const checkAudio = (value, type) => {
         switch(value) {
             case 1405:
                 audioFile = 'dexter.mp3';
+                finalAudioText = 'Dexter - Blood Theme';
                 break;
             case 1668:
                 audioFile = 'friends.mp3';
+                finalAudioText = "The Rembrandts - I'll Be There For You";
                 break;
             case 1100:
                 audioFile = 'howIMetYourMother.mp3';
+                finalAudioText = 'How I Met Your Mother Theme';
                 break;
             case 1399:
                 audioFile = 'gameOfThrones.mp3';
+                finalAudioText = 'Game Of Thrones Theme';
                 break;
             case 85271:
                 audioFile = 'wandavision.mp3';
+                finalAudioText = 'Agatha All Along';
                 break;
             case 88396:
                 audioFile = 'theFalconAndTheWinterSoldier.mp3';
+                finalAudioText = 'The FalconAnd The Winter Soldier Theme';
                 break;
             case 84958:
                 audioFile = 'loki.mp3';
+                finalAudioText = 'Loki Theme';
                 break;
             case 1396:
                 audioFile = 'breakingBad.mp3';
+                finalAudioText = 'Breaking Bad Theme';
                 break;
             default:
                 audioFile = null;
@@ -206,15 +216,69 @@ const checkAudio = (value, type) => {
     }
 
     if (audioFile !== null) {
+
+        let audioWrapper = $('<div>', {
+            id: 'audioWrapper',
+        }).appendTo('#chosenMovie')
             
         let audio = $('<audio>', {
             controls: true,
             id: 'audio',
-        }).appendTo('#chosenMovie')
+        }).appendTo(audioWrapper)
+
+        let audioText = $('<span>', {
+            id: 'audioText',
+            text: finalAudioText
+        }).appendTo(audioWrapper)
 
         let source = $('<source>', {
             src: './audio/' + audioFile,
         }).appendTo(audio)
+
+        let pause = $('<i>', {
+            id: 'pause',
+            class: 'fas fa-pause',
+            click: () => {
+                $('#audio').trigger('pause');
+                $('#pause').css({'opacity': .3, 'pointer-events': 'none'});
+                $('#play, #stop').css({'opacity': 1, 'pointer-events': 'all'});
+            }
+        }).appendTo(audioWrapper)
+    
+        let play = $('<i>', {
+            id: 'play',
+            class: 'fas fa-play',
+            click: () => {
+                $('#audio').trigger('play');
+                $('#play').css({'opacity': .3, 'pointer-events': 'none'});
+                $('#pause, #stop').css({'opacity': 1, 'pointer-events': 'all'});
+            }
+        }).appendTo(audioWrapper)
+
+        let stop = $('<i>', {
+            id: 'stop',
+            class: 'fas fa-stop',
+            click: () => {
+                $('#audio').trigger('pause');
+                $('#audio')[0].currentTime = 0;
+                $('#stop, #pause').css({'opacity': .3, 'pointer-events': 'none'});
+                $('#play').css({'opacity': 1, 'pointer-events': 'all'});
+            }
+        }).appendTo(audioWrapper)
+
+        let closeAudio = $('<i>', {
+            id: 'closeAudio',
+            class: 'fas fa-times',
+            click: () => {
+                $('#audioWrapper').remove();
+            }
+        }).appendTo(audioWrapper)
+
+        document.getElementById("audio").onended = () => {
+            $('#audio')[0].currentTime = 0;
+            $('#stop, #pause').css({'opacity': .3, 'pointer-events': 'none'});
+            $('#play').css({'opacity': 1, 'pointer-events': 'all'});
+        };
 
         setTimeout(() => {
             $('#audio').trigger('play');
