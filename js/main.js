@@ -1778,7 +1778,7 @@ const getPersonMovieImages = (value) => {
 
                 let personMovieImg = $('<img>', {
                     class: 'personMovieImg lazy',
-                    src: './images/stockMovie.png',
+                    src: './images/stockMovie.jpg',
                     'data-src': finalImg,
                     alt: 'person tagged img',
                 }).appendTo($('#personMovieImages'));
