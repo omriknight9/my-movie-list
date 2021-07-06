@@ -561,8 +561,8 @@ const buildMoviesFromTmdb = (data, div, wrapper, type) => {
             headerLineClass = 'linePlayingNow';
             break;   
         case 9:
-            headerText = 'Movies by genre';
-            headerLineClass = 'linegenre';
+            headerText = 'Movies';
+            headerLineClass = 'lineGenre';
             break;
     }
 
@@ -1017,7 +1017,12 @@ const chosenMovie = (value, type) => {
 
                                             setTimeout(() => {
                                                 $('#genreChosen').css('display', 'flex');
-                                                buildMoviesFromTmdb(arr, 'genreMovie', $('#genreChosen'), 9);
+                                                if (type == 1) {
+                                                    buildMoviesFromTmdb(arr, 'genreMovie', $('#genreChosen'), 9);
+                                                } else {
+                                                    buildTvShowFromTmdb(arr, 'genreMovie', $('#genreChosen'));
+                                                }
+                                                
                                             }, 500)
                                         });
                                     }, 1000)
