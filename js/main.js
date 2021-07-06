@@ -1766,7 +1766,12 @@ const getPersonMovieImages = (value) => {
                 let finalImg;
 
                 if (data.results[i].media.backdrop_path == null) {
-                    finalImg = './images/stockMovie.jpg';
+                    if (data.results[i].file_path == null) {
+                        finalImg = './images/stockMovie.jpg'; 
+                    } else {
+                        finalImg = 'https://image.tmdb.org/t/p/w1280' + data.results[i].file_path;
+                    }
+                    
                 } else {
                     finalImg = 'https://image.tmdb.org/t/p/w1280' + data.results[i].media.backdrop_path;
                 }
