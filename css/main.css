@@ -812,6 +812,11 @@ p {
     margin-bottom: 4rem;
 }
 
+.lineGenre {
+    background: linear-gradient(to right, transparent, gold, transparent);
+    margin-bottom: 4rem;
+}
+
 .linePopular span {
     background: url(../images/star.png) no-repeat 50% 50%;
     background-size: 60px 60px;
