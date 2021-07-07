@@ -34,9 +34,7 @@ const listUrl = baseUrl + '/list/';
 const searchMovieUrl = baseUrl + '/search/multi?api_key=' + tmdbKey + '&query=';
 const upcomingUrl = movieInfoUrl + 'upcoming?api_key=' + tmdbKey + '&language=en-US&region=US&page=';
 const nowPlayingUrl = movieInfoUrl + 'now_playing?api_key=' + tmdbKey + '&language=en-US&region=US&page=';
-
 const getTrendingUrl = baseUrl + '/trending/all/day?api_key=' + tmdbKey + '&language=en-US&page=';
-
 const moviesGenreUrl = baseUrl + '/discover/movie?api_key=' + tmdbKey + '&language=en-US&with_genres=';
 const tvGenreUrl = baseUrl + '/discover/tv?api_key=' + tmdbKey + '&language=en-US&with_genres=';
 
@@ -44,6 +42,7 @@ let directorCounter = 0;
 let commentsArr = [];
 
 $(document).ready(() => {
+
     if (window.location.href.indexOf("?movie=") > -1) {
         const urlParams = new URLSearchParams(window.location.search);
         const value = Number(urlParams.get('value'));
@@ -409,7 +408,7 @@ const showResults = (value) => {
                 } else {
                     posterUrl = 'https://image.tmdb.org/t/p/w1280' + data.results[i].poster_path;
                 }
-                
+
             } else {
                 if (data.results[i].profile_path == null) {
                     posterUrl = './images/stock.png';
