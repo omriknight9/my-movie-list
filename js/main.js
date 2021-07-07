@@ -227,7 +227,6 @@ const showTrending = () => {
 
     $('.container').hide();
     $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen').empty().hide();
-    // switchContent(2);
 
     let totalPages;
     let arr = [];
@@ -277,7 +276,6 @@ const showPlayingNow = () => {
 
     $('.container').hide();
     $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen').empty().hide();
-    // switchContent(2);
 
     let totalPages;
     let arr = [];
@@ -326,7 +324,6 @@ const showUpcoming = () => {
 
     $('.container').hide();
     $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen').empty().hide();
-    // switchContent(2);
 
     let totalPages;
     let arr = [];
@@ -1167,7 +1164,6 @@ const chosenMovie = (value, type) => {
                             goToDiv('#genreChosen');
                             $('.container').hide();
                             $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular').empty().hide();
-                            // switchContent(2);
 
                             let totalPages;
                             let arr = [];
