@@ -817,6 +817,18 @@ p {
     margin-bottom: 4rem;
 }
 
+.lineTrending {
+    background: linear-gradient(to right, transparent, gold, transparent);
+    margin-bottom: 4rem;
+}
+
+.lineTrending span {
+    background: url(../images/fire.png) no-repeat 50% 50%;
+    background-size: 60px 60px;
+    width: 100px;
+    margin-left: -69px;
+}
+
 .linePopular span {
     background: url(../images/star.png) no-repeat 50% 50%;
     background-size: 60px 60px;
@@ -829,7 +841,7 @@ p {
     position: relative;
 }
 
-#moviesContent, #tvShowContent, #popularContent {
+#moviesContent, #tvShowContent, #popularContent, #trendingContent {
     display: flex;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -840,7 +852,7 @@ p {
     width: 100%;
 }
 
-.movieWrapper, .tvShowWrapper, .popularPerson {
+.movieWrapper, .tvShowWrapper, .popularPerson, .trendingWrapper {
     position: relative;
     width: 9rem;
     margin: 1rem;
