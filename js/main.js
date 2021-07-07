@@ -458,7 +458,7 @@ const showResults = (value) => {
                 type: data.results[i].media_type,
                 click: () => {
 
-                    // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+                    window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
                     switch (data.results[i].media_type) {
                         case 'movie':
@@ -996,7 +996,7 @@ const chosenMovie = (value, type) => {
         finalNameToSend = finalNameToSend.replace(/:/, "");
         finalNameToSend = finalNameToSend.replace(/\s/g, '');
 
-        // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
     
         const url = new URL(window.location);
         url.searchParams.set(chosenUrl, finalNameToSend);
@@ -1551,7 +1551,7 @@ const getPersonDetails = (value) => {
         finalNameToSend = finalNameToSend.replace(/:/, "");
         finalNameToSend = finalNameToSend.replace(/\s/g, '');
 
-        // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
         const url = new URL(window.location);
         url.searchParams.set('actor', finalNameToSend);
@@ -2139,7 +2139,7 @@ const goToDiv = (div) => {
     if ($('main').is(":hidden")) {
         $('main').show();
 
-        // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
         setTimeout(() => {
             document.querySelector(div).scrollIntoView({ behavior: 'smooth' });
@@ -2390,7 +2390,7 @@ const showTimeline = (type, cinematicType) => {
         }
     }
 
-    // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+    window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
     const url = new URL(window.location);
     url.searchParams.set('timeline', timelineUrl);
