@@ -1251,7 +1251,6 @@ const chosenMovie = (value, type) => {
         }
     }, 1000)
 
-    // checkAudio(value, type);
     getCredits(value, type);
     getSimilar(value, type);
     getImages(value, type);
