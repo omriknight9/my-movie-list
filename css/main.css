@@ -1163,18 +1163,7 @@ footer span {
     display: none;
 }
 
-.directorImg {
-    width: 150px;
-    height: 225px;
-    border-radius: 5px;
-    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
-    transition: .2s;
-    -webkit-transition: .2s;
-    -moz-transition: .2s;
-    -o-transition: .2s;
-}
-
-.actorImg, .similarMovieImg {
+.actorImg, .similarMovieImg, .directorImg {
     width: 150px;
     height: 225px;
     border-radius: 5px;
@@ -1200,7 +1189,7 @@ footer span {
     align-items: center;
 }
 
-.actorName, .similarMovieName {
+.actorName, .similarMovieName, .actorMovieName {
     display: block;
     color: lightgray;
     font-weight: 600; 
@@ -1217,7 +1206,7 @@ footer span {
     margin: 1rem 0;
 }
 
-.similarMovieName {
+.similarMovieName, .actorMovieName {
     margin: 1rem 0 0 0;
 }
 
