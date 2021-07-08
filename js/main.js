@@ -1460,9 +1460,8 @@ const getCredits = (value, type) => {
                     if (data.cast[k].character.length > 25) {
 
                         if (countInstances(data.cast[k].character, '/') > 1) {
-                        
-                            let maxLength = 25;
-                            trimmedString = data.cast[k].character.substr(0, maxLength);
+
+                            trimmedString = data.cast[k].character.substr(0, 25);
                             trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
 
                             trimmedString = data.cast[k].character.split('/');
@@ -1817,7 +1816,6 @@ const buildPopular = (arr) => {
 }
 
 const getPersonCredits = (value, type) => {
-
     $('#personMovies').empty();
     $('#personCreditsHeader').remove();
 
@@ -1848,16 +1846,14 @@ const getPersonCredits = (value, type) => {
                         movieImgPath = './images/stock.png';
                     }
 
-                    if (type == 1) {
-                        let trimmedString;
+                    let trimmedString;
 
+                    if (type == 1) {
+                    
                         if (finalData[i].character && finalData[i].character.length > 25) {
     
                             if (countInstances(finalData[i].character, '/') > 1) {
-                            
-                                let maxLength = 25;
-                                trimmedString = finalData[i].character.substr(0, maxLength);
-    
+                                trimmedString = finalData[i].character.substr(0, 25);
                                 trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
                                 trimmedString = finalData[i].character.split('/');
     
@@ -1876,7 +1872,7 @@ const getPersonCredits = (value, type) => {
                         }
     
                         if (trimmedString == '') {
-                            trimmedString = 'Unknown'
+                            trimmedString = 'Unknown';
                         }
                     }
 
@@ -1888,14 +1884,12 @@ const getPersonCredits = (value, type) => {
                         } else {
                             finalTitle = finalData[i].title;
                         }
-                        
                     } else {
                         if (type == 1) {
                             finalTitle = finalData[i].name + ':';
                         } else {
                             finalTitle = finalData[i].name;
                         }
- 
                     }
 
                     if (finalData[i].character && type == 1) {
@@ -1932,7 +1926,7 @@ const getPersonCredits = (value, type) => {
     
                         let actorMovieName = $('<span>', {
                             class: 'actorMovieName',
-                            text: finalTitle + ':'
+                            text: finalTitle
                         }).appendTo(credit);
     
                         let characterName = $('<span>', {
