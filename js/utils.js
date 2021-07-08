@@ -6,6 +6,28 @@ const scrollIndicator = () => {
     document.getElementById("progressBar").style.width = scrolled + "%";
 }
 
+const checkSoundOnScroll = () => {
+    if (window.location.href.indexOf("?movie=") > -1) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const value = Number(urlParams.get('value'));
+        checkAudio(value, 1);
+    }
+
+    if (window.location.href.indexOf("?tvShow=") > -1) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const value = Number(urlParams.get('value'));
+        checkAudio(value, 2);
+    }
+
+    if ($(window).scrollTop() !== 0) {
+        window.onscroll = () => {
+            scrollBtn();
+            lazyload();
+            scrollIndicator();
+        }
+    }
+}
+
 const hasClass = (elem, className) => {
     return new RegExp(' ' + className + ' ').test(' ' + elem.className + ' ');
 }
