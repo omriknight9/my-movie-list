@@ -51,10 +51,15 @@ $(document).ready(() => {
         $(window).on('popstate', function() {
             goHome();
             window.history.replaceState({}, document.title, "/" + "my-movie-list/");
-        });  
-    }
+        });
 
-    if (window.location.href.indexOf("?tvShow=") > -1) {
+        window.onscroll = () => {
+            scrollBtn();
+            lazyload();
+            scrollIndicator();
+            checkSoundOnScroll();
+        }
+    } else if (window.location.href.indexOf("?tvShow=") > -1) {
         const urlParams = new URLSearchParams(window.location.search);
         const value = Number(urlParams.get('value'));
         chosenMovie(value, 2);
@@ -63,9 +68,15 @@ $(document).ready(() => {
             goHome();
             window.history.replaceState({}, document.title, "/" + "my-movie-list/");
         });
-    }
 
-    if (window.location.href.indexOf("?actor=") > -1) {
+        window.onscroll = () => {
+            scrollBtn();
+            lazyload();
+            scrollIndicator();
+            checkSoundOnScroll();
+        }
+
+    } else if (window.location.href.indexOf("?actor=") > -1) {
 
         const urlParams = new URLSearchParams(window.location.search);
         const value = Number(urlParams.get('value'));
@@ -80,9 +91,7 @@ $(document).ready(() => {
             goHome();
             window.history.replaceState({}, document.title, "/" + "my-movie-list/");
         });
-    }
-    
-    if (window.location.href.indexOf("?director=") > -1) {
+    } else if (window.location.href.indexOf("?director=") > -1) {
 
         const urlParams = new URLSearchParams(window.location.search);
         const value = Number(urlParams.get('value'));
@@ -97,22 +106,31 @@ $(document).ready(() => {
             goHome();
             window.history.replaceState({}, document.title, "/" + "my-movie-list/");
         });
-    }
 
-    if (window.location.href.indexOf("?timeline=") > -1) {
+        window.onscroll = () => {
+            scrollBtn();
+            lazyload();
+            scrollIndicator();
+        }
+    } else if (window.location.href.indexOf("?timeline=") > -1) {
         window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+        window.onscroll = () => {
+            scrollBtn();
+            lazyload();
+            scrollIndicator();
+        }
+    } else {
+        window.onscroll = () => {
+            scrollBtn();
+            lazyload();
+            scrollIndicator();
+        }
     }
 
     loadJson();
 
     window.onbeforeunload = () => {
         window.scrollTo(0, 0);
-    }
-
-    window.onscroll = () => {
-        scrollBtn();
-        lazyload();
-        scrollIndicator();
     }
 
     $('.Xbtn').click(function () {
@@ -956,7 +974,6 @@ const chosenMovie = (value, type) => {
 
     $('#playingNowContainer, #trendingContainer,  #upcomingContainer, #popular, #genreChosen').empty().hide();
     $('.searchContainer').addClass('chosenSearch');
-
     $('#spinnerWrapper').show();
     $('#chosenMovie, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
 
@@ -1115,7 +1132,6 @@ const chosenMovie = (value, type) => {
             $('#chosenMovieRuntime, #chosenMovieRevenue').hide();
             $('#seriesSeasons').html('Seasons: ' + data.number_of_seasons);
             $('#seriesEpisodes').html('Episodes: ' + data.number_of_episodes);
-
         }
 
         let finalVoteText;
@@ -1166,7 +1182,6 @@ const chosenMovie = (value, type) => {
                     let genre = $('<span>', {
                         class: 'genre',
                         text: movieObj[w].name,
-                        
                         click: () => {
 
                             $('#spinnerWrapper').show();
@@ -1205,15 +1220,13 @@ const chosenMovie = (value, type) => {
                                             for (var x = 0; x < data.results.length; x++) {
                                                 arr.push(data.results[x]);
                                             }
-
                                             setTimeout(() => {
                                                 $('#genreChosen').css('display', 'flex');
                                                 if (type == 1) {
                                                     buildMoviesFromTmdb(arr, 'genreMovie', $('#genreChosen'), 9);
                                                 } else {
                                                     buildTvShowFromTmdb(arr, 'genreMovie', $('#genreChosen'));
-                                                }
-                                                
+                                                } 
                                             }, 500)
                                         });
                                     }, 1000)
@@ -1229,8 +1242,16 @@ const chosenMovie = (value, type) => {
         }
     });
 
-    checkAudio(value, type);
+    setTimeout(() => {
+        window.onscroll = () => {
+            scrollBtn();
+            lazyload();
+            scrollIndicator();
+            checkSoundOnScroll();
+        }
+    }, 1000)
 
+    // checkAudio(value, type);
     getCredits(value, type);
     getSimilar(value, type);
     getImages(value, type);
