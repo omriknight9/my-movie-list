@@ -74,7 +74,24 @@ $(document).ready(() => {
         $('#search').val('');
         $('main').hide();
 
-        getPersonDetails(value);
+        getPersonDetails(value, 1);
+
+        $(window).on('popstate', function() {
+            goHome();
+            window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+        });
+    }
+    
+    if (window.location.href.indexOf("?director=") > -1) {
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const value = Number(urlParams.get('value'));
+
+        $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #searchResults, #genreChosen').empty().hide();
+        $('#search').val('');
+        $('main').hide();
+
+        getPersonDetails(value, 2);
 
         $(window).on('popstate', function() {
             goHome();
@@ -470,7 +487,7 @@ const showResults = (value) => {
                         case 'person':
                             $('#search').val('');
                             $('main').hide();
-                            getPersonDetails(data.results[i].id);
+                            getPersonDetails(data.results[i].id, 1);
                             break;
                     }
                 }
@@ -1307,11 +1324,14 @@ const getCredits = (value, type) => {
                             }).appendTo(director);
         
                             let directorImg = $('<img>', {
-                                class: 'directorImg lazy',
+                                class: 'directorImg hoverEffect lazy',
                                 'data-src': directorImgPath,
                                 'src': './images/actor.jpg',
                                 alt: 'director',
                                 id: data.crew[w].id,
+                                click: () => {
+                                    getPersonDetails(data.crew[w].id, 2);
+                                }
                             }).appendTo(directorName);
     
                             let actorName = $('<span>', {
@@ -1452,7 +1472,7 @@ const getCredits = (value, type) => {
                         alt: 'actorImg',
                         id: data.cast[k].id,
                         click: () => {
-                            getPersonDetails(data.cast[k].id);
+                            getPersonDetails(data.cast[k].id, 1);
                         }
                     }).appendTo(actor);
 
@@ -1520,7 +1540,7 @@ const getCredits = (value, type) => {
     });
 }
 
-const getPersonDetails = (value) => {
+const getPersonDetails = (value, type) => {
 
     $('.searchContainer').addClass('chosenSearch');
 
@@ -1549,7 +1569,14 @@ const getPersonDetails = (value) => {
         window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
         const url = new URL(window.location);
-        url.searchParams.set('actor', finalNameToSend);
+        
+        if (type == 1) {
+            url.searchParams.set('actor', finalNameToSend);
+        } else {
+            url.searchParams.set('director', finalNameToSend);
+        }
+
+
         url.searchParams.set('value', value);
         window.history.pushState({}, '', url);
 
@@ -1628,7 +1655,7 @@ const getPersonDetails = (value) => {
         }
     });
 
-    getPersonCredits(value);
+    getPersonCredits(value, type);
     getPersonExternalIds(value);
     getPersonImages(value);
     getPersonMovieImages(value);
@@ -1754,7 +1781,7 @@ const buildPopular = (arr) => {
                 $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen').empty().hide();
                 $('#search').val('');
                 $('main').hide();
-                getPersonDetails(arr[i].id);
+                getPersonDetails(arr[i].id, 1);
             }
         }).appendTo(popularPerson)
 
@@ -1769,14 +1796,22 @@ const buildPopular = (arr) => {
     }, 500);
 }
 
-const getPersonCredits = (value) => {
+const getPersonCredits = (value, type) => {
 
     $('#personMovies').empty();
     $('#personCreditsHeader').remove();
 
     $.get(movieActorsUrl + value + "/combined_credits?api_key=" + tmdbKey + "&language=en-US", (data) => {
 
-        if (data.cast.length !== 0) {
+        let finalData;
+
+        if (type == 1) {
+            finalData = data.cast;
+        } else {
+            finalData = data.crew;
+        }
+
+        if (finalData.length !== 0) {
 
             let creditsHeader = $('<p>', {
                 id: 'personCreditsHeader',
@@ -1784,57 +1819,69 @@ const getPersonCredits = (value) => {
                 text: 'Credits',
             }).insertBefore($('#personMovies'));
 
-            for (let i = 0; i < data.cast.length; i++) {
+            for (let i = 0; i < finalData.length; i++) {
                 try {
-                    let movieImgPath = 'https://image.tmdb.org/t/p/w1280' + data.cast[i].poster_path;
+                    let movieImgPath = 'https://image.tmdb.org/t/p/w1280' + finalData[i].poster_path;
 
-                    if (data.cast[i].poster_path == 'undefined' || data.cast[i].poster_path == null || data.cast[i].poster_path == '') {
+                    if (finalData[i].poster_path == 'undefined' || finalData[i].poster_path == null || finalData[i].poster_path == '') {
 
                         movieImgPath = './images/stock.png';
                     }
 
-                    let trimmedString;
+                    if (type == 1) {
+                        let trimmedString;
 
-                    if (data.cast[i].character && data.cast[i].character.length > 25) {
-
-                        if (countInstances(data.cast[i].character, '/') > 1) {
-                        
-                            let maxLength = 25;
-                            trimmedString = data.cast[i].character.substr(0, maxLength);
-
-                            trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
-                            trimmedString = data.cast[i].character.split('/');
-
-                            if (trimmedString.length > 2) {
-                                trimmedString = trimmedString[0] + '/' + trimmedString[1] + '& More';
+                        if (finalData[i].character && finalData[i].character.length > 25) {
+    
+                            if (countInstances(finalData[i].character, '/') > 1) {
+                            
+                                let maxLength = 25;
+                                trimmedString = finalData[i].character.substr(0, maxLength);
+    
+                                trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
+                                trimmedString = finalData[i].character.split('/');
+    
+                                if (trimmedString.length > 2) {
+                                    trimmedString = trimmedString[0] + '/' + trimmedString[1] + '& More';
+                                } else {
+                                    trimmedString = trimmedString[0] + '/' + trimmedString[1];
+                                }
+        
                             } else {
-                                trimmedString = trimmedString[0] + '/' + trimmedString[1];
+                                trimmedString = finalData[i].character;
                             }
     
                         } else {
-                            trimmedString = data.cast[i].character;
+                            trimmedString = finalData[i].character;
                         }
-
-                    } else {
-                        trimmedString = data.cast[i].character;
-                    }
-
-                    if (trimmedString == '') {
-                        trimmedString = 'Unknown'
+    
+                        if (trimmedString == '') {
+                            trimmedString = 'Unknown'
+                        }
                     }
 
                     let finalTitle;
 
-                    if (data.cast[i].media_type == 'movie') {
-                        finalTitle = data.cast[i].title;
+                    if (finalData[i].media_type == 'movie') {
+                        if (type == 1) {
+                            finalTitle = finalData[i].title + ':';
+                        } else {
+                            finalTitle = finalData[i].title;
+                        }
+                        
                     } else {
-                        finalTitle = data.cast[i].name;
+                        if (type == 1) {
+                            finalTitle = finalData[i].name + ':';
+                        } else {
+                            finalTitle = finalData[i].name;
+                        }
+ 
                     }
 
-                    if (data.cast[i].character) {
+                    if (finalData[i].character && type == 1) {
                         let credit = $('<div>', {
                             class: 'credit',
-                            popularity: data.cast[i].popularity
+                            popularity: finalData[i].popularity
                         }).appendTo($('#personMovies'));
     
                         let imageLink = $('<a>', {
@@ -1847,11 +1894,11 @@ const getPersonCredits = (value) => {
                             'data-src': movieImgPath,
                             'src': './images/actor.jpg',
                             alt: 'actorImg',
-                            mediaType: data.cast[i].media_type,
-                            id: data.cast[i].id,
+                            mediaType: finalData[i].media_type,
+                            id: finalData[i].id,
                             click: () => {
                                 let typeOfContent;
-                                if (data.cast[i].media_type == 'movie') {
+                                if (finalData[i].media_type == 'movie') {
                                     typeOfContent = 1;
                                 } else {
                                     typeOfContent = 2;
@@ -1859,18 +1906,56 @@ const getPersonCredits = (value) => {
 
                                 $('#chosenPerson').hide();
 
-                                chosenMovie(data.cast[i].id, typeOfContent);
+                                chosenMovie(finalData[i].id, typeOfContent);
                             }
                         }).appendTo(imageLink);
     
-                        let similarMovieName = $('<span>', {
-                            class: 'similarMovieName',
+                        let actorMovieName = $('<span>', {
+                            class: 'actorMovieName',
                             text: finalTitle + ':'
                         }).appendTo(credit);
     
                         let characterName = $('<span>', {
                             class: 'characterName',
                             text: trimmedString
+                        }).appendTo(credit);
+                    }
+
+                    if (finalData[i].job == 'Director' && type == 2) {
+                        let credit = $('<div>', {
+                            class: 'credit',
+                            popularity: finalData[i].popularity
+                        }).appendTo($('#personMovies'));
+    
+                        let imageLink = $('<a>', {
+                            class: 'imageLink',
+                            'target': '_blank'
+                        }).appendTo(credit);
+    
+                        let actorImg = $('<img>', {
+                            class: 'actorImg hoverEffect lazy',
+                            'data-src': movieImgPath,
+                            'src': './images/actor.jpg',
+                            alt: 'actorImg',
+                            mediaType: finalData[i].media_type,
+                            id: finalData[i].id,
+                            click: () => {
+                                let typeOfContent;
+                                if (finalData[i].media_type == 'movie') {
+                                    typeOfContent = 1;
+                                } else {
+                                    typeOfContent = 2;
+                                }
+
+                                $('#chosenPerson').hide();
+
+                                chosenMovie(finalData[i].id, typeOfContent);
+                            }
+                        }).appendTo(imageLink);
+    
+                        let actorMovieName = $('<span>', {
+                            class: 'actorMovieName',
+                            text: finalTitle
                         }).appendTo(credit);
                     }
 
