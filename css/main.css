@@ -682,6 +682,7 @@ p {
 
 #ultraLink {
     height: 32px;
+    top: .5rem;
 }
 
 #playingNowLink {
@@ -834,6 +835,39 @@ p {
     background-size: 60px 60px;
     width: 100px;
     margin-left: -69px;
+}
+
+.lineProvider {
+    background: linear-gradient(to right, transparent, red, transparent);
+    margin-bottom: 4rem;
+}
+
+.disneyPlus span {
+    background: url(../images/disneyPlus.png) no-repeat 50% 50%;
+    background-size: 110px 60px;
+    width: 100px;
+    margin-left: -69px;
+}
+
+.hboMax span {
+    background: url(../images/hboMax.png) no-repeat 50% 50%;
+    background-size: 271px 60px;
+    width: 270px;
+    margin-left: -137px;
+}
+
+.netflix span {
+    background: url(../images/netflix.png) no-repeat 50% 50%;
+    background-size: 60px 60px;
+    width: 100px;
+    margin-left: -69px;
+}
+
+.amazonPrime span {
+    background: url(../images/amazonPrime.png) no-repeat 50% 50%;
+    background-size: 150px 60px;
+    width: 150px;
+    margin-left: -91px;
 }
 
 .container {
