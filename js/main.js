@@ -18,11 +18,14 @@ let animationCounter = 1;
 let upcomingCounter = 1;
 let playingNowCounter = 1;
 let genreCounter = 1;
+let providerCounter = 1;
 let selectedDiv;
 let lastChar;
 let searchVal;
 let cinematicArr = [];
 let tvShowTimelineArr = [];
+let providerTitle;
+let providerClass;
 
 const baseUrl = 'https://api.themoviedb.org/3';
 const tmdbKey = '0271448f9ff674b76c353775fa9e6a82';
@@ -37,12 +40,12 @@ const nowPlayingUrl = movieInfoUrl + 'now_playing?api_key=' + tmdbKey + '&langua
 const getTrendingUrl = baseUrl + '/trending/all/day?api_key=' + tmdbKey + '&language=en-US&page=';
 const moviesGenreUrl = baseUrl + '/discover/movie?api_key=' + tmdbKey + '&language=en-US&with_genres=';
 const tvGenreUrl = baseUrl + '/discover/tv?api_key=' + tmdbKey + '&language=en-US&with_genres=';
+const providerUpcomingUrl = baseUrl + '/discover/movie?api_key=' + tmdbKey + '&language=en-US&watch_region=US&with_watch_providers=';
 
 let directorCounter = 0;
 let commentsArr = [];
 
 $(document).ready(() => {
-
     if (window.location.href.indexOf("?movie=") > -1) {
         const urlParams = new URLSearchParams(window.location.search);
         const value = Number(urlParams.get('value'));
@@ -75,13 +78,11 @@ $(document).ready(() => {
             scrollIndicator();
             checkSoundOnScroll();
         }
-
     } else if (window.location.href.indexOf("?actor=") > -1) {
-
         const urlParams = new URLSearchParams(window.location.search);
         const value = Number(urlParams.get('value'));
 
-        $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #searchResults, #genreChosen').empty().hide();
+        $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #searchResults, #genreChosen, #providerContainer').empty().hide();
         $('#search').val('');
         $('main').hide();
 
@@ -96,7 +97,7 @@ $(document).ready(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const value = Number(urlParams.get('value'));
 
-        $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #searchResults, #genreChosen').empty().hide();
+        $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #searchResults, #genreChosen, #providerContainer').empty().hide();
         $('#search').val('');
         $('main').hide();
 
@@ -137,7 +138,7 @@ $(document).ready(() => {
         if($(this).parent().parent().attr('id') == 'movieDetails') {
             $('#movieDetails').attr('chosenMovieId', '');
         }
-        
+
         $(this).parent().parent().fadeOut(150);
     })
 
@@ -146,20 +147,13 @@ $(document).ready(() => {
         $('.searchContainer').show();
         $('button').show();
         $('.container, footer').css('display', 'flex');
-        $('#upcomingContainer, #playingNowContainer, #popular, #genreChosen, #trendingContainer').hide();
+        $('#upcomingContainer, #playingNowContainer, #popular, #genreChosen, #trendingContainer, #providerContainer').hide();
     }, 2000);
 
     $('#search').on('keyup', () => {
         if ($('.sortContainer').is(':visible')) {
             $('.sortContainer').hide();
-            DCCounter = 1;
-            marvelCounter = 1;
-            valiantCounter = 1;
-            othersCounter = 1;
-            animationCounter = 1;
-            upcomingCounter = 1;
-            playingNowCounter = 1;
-            genreCounter = 1;
+            emptyCounters();
         }
 
         closeMenus();
@@ -180,11 +174,9 @@ $(document).ready(() => {
 });
 
 const getList = (value, div, wrapper, type, movieOrTv) => {
-
     let arr = [];
 
     $.get('https://api.themoviedb.org/4/list/' + value + '?api_key=' + tmdbKey + '&language=en-US', (data) => {
-
         $.each(data.comments, function (key, value) {
             if (value !== null) {
                 let obj = {
@@ -196,7 +188,7 @@ const getList = (value, div, wrapper, type, movieOrTv) => {
             }
         });
 
-        for (var i = 0; i < data.results.length; i++) {
+        for (let i = 0; i < data.results.length; i++) {
             arr.push(data.results[i]);
         }
 
@@ -215,7 +207,7 @@ const getList = (value, div, wrapper, type, movieOrTv) => {
                         }
                     });
 
-                    for (var j = 0; j < data.results.length; j++) {
+                    for (let  j = 0; j < data.results.length; j++) {
                         arr.push(data.results[j]);
                     }
                 });
@@ -223,18 +215,18 @@ const getList = (value, div, wrapper, type, movieOrTv) => {
 
             setTimeout(() => {
                 if (movieOrTv == 1) {
-                    buildMoviesFromTmdb(arr, div, wrapper, type); 
+                    buildMovies(arr, div, wrapper, type); 
                 } else {
-                    buildTvShowFromTmdb(arr, 'tvShow', $('#tvShowContainer'));
+                    buildTvShows(arr, 'tvShow', $('#tvShowContainer'));
                 }
 
             }, 1000)
         } else {
             setTimeout(() => {
                 if (movieOrTv == 1) {
-                    buildMoviesFromTmdb(arr, div, wrapper, type); 
+                    buildMovies(arr, div, wrapper, type); 
                 } else {
-                    buildTvShowFromTmdb(arr, 'tvShow', $('#tvShowContainer'));
+                    buildTvShows(arr, 'tvShow', $('#tvShowContainer'));
                 }
             }, 1000)
         }
@@ -242,7 +234,6 @@ const getList = (value, div, wrapper, type, movieOrTv) => {
 }
 
 const showTrending = () => {
-
     if ($("#trendingContainer").text().length > 0) {
         return;
     }
@@ -260,13 +251,13 @@ const showTrending = () => {
     }
 
     $('.container').hide();
-    $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen').empty().hide();
+    $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
 
     let totalPages;
     let arr = [];
 
     $.get(getTrendingUrl + 1, (data) => {
-        for (var i = 0; i < data.results.length; i++) {
+        for (let  i = 0; i < data.results.length; i++) {
             arr.push(data.results[i]);
         }
 
@@ -275,7 +266,7 @@ const showTrending = () => {
         if (totalPages > 1) {
             setTimeout(() => {
                 $.get(getTrendingUrl + 2, (data) => {
-                    for (var j = 0; j < data.results.length; j++) {
+                    for (let  j = 0; j < data.results.length; j++) {
                         arr.push(data.results[j]);
                     }
         
@@ -289,9 +280,73 @@ const showTrending = () => {
     });
 }
 
+const showProvider = (providerId) => {
+    switch (providerId) {
+        case 337:
+            providerTitle = 'Disney Plus';
+            providerClass = 'disneyPlus';
+            break;
+        case 384:
+            providerTitle = 'HBO Max';
+            providerClass = 'hboMax';
+            break;
+        case 8:
+            providerTitle = 'Netflix';
+            providerClass = 'netflix';
+            break;
+        case 9:
+            providerTitle = 'Amazon Prime Video';
+            providerClass = 'amazonPrime';
+            break;
+    }
+
+    if ($("#providerContainer").text().length > 0) {
+        return;
+    }
+
+    $('#spinnerWrapper').show();
+    $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
+
+    setTimeout(() => {
+        $('#spinnerWrapper').hide();
+        $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+    }, 2000)
+
+    if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible') || $('#timeline').is(':visible')) {
+        goToDiv('#providerContainer');
+    }
+
+    $('.container').hide();
+    $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
+
+    let totalPages;
+    let arr = [];
+
+    $.get(providerUpcomingUrl + providerId + '&page=1', (data) => {
+        for (let i = 0; i < data.results.length; i++) {
+            arr.push(data.results[i]);     
+        }
+
+        totalPages = data.total_pages;
+
+        if (totalPages > 1) {
+            setTimeout(() => {
+                $.get(providerUpcomingUrl + providerId + '&page=2', (data) => {
+                    for (let j = 0; j < data.results.length; j++) {
+                        arr.push(data.results[j]);
+                    }
+
+                    setTimeout(() => {
+                        $('#providerContainer').css('display', 'flex');
+                        buildMovies(arr, 'provider', $('#providerContainer'), 10);
+                    }, 500)
+                });
+            }, 1000)
+        }
+    });
+}
 
 const showPlayingNow = () => {
-
     if ($("#playingNowContainer").text().length > 0) {
         return;
     }
@@ -309,13 +364,13 @@ const showPlayingNow = () => {
     }
 
     $('.container').hide();
-    $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen').empty().hide();
+    $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
 
     let totalPages;
     let arr = [];
 
     $.get(nowPlayingUrl + 1, (data) => {
-        for (var i = 0; i < data.results.length; i++) {
+        for (let  i = 0; i < data.results.length; i++) {
             arr.push(data.results[i]);
         }
 
@@ -324,13 +379,13 @@ const showPlayingNow = () => {
         if (totalPages > 1) {
             setTimeout(() => {
                 $.get(nowPlayingUrl + 2, (data) => {
-                    for (var j = 0; j < data.results.length; j++) {
+                    for (let  j = 0; j < data.results.length; j++) {
                         arr.push(data.results[j]);
                     }
         
                     setTimeout(() => {
                         $('#playingNowContainer').css('display', 'flex');
-                        buildMoviesFromTmdb(arr, 'playingNow', $('#playingNowContainer'), 8);
+                        buildMovies(arr, 'playingNow', $('#playingNowContainer'), 8);
                     }, 500)
                 });
             }, 1000)
@@ -339,7 +394,6 @@ const showPlayingNow = () => {
 }
 
 const showUpcoming = () => {
-
     if ($("#upcomingContainer").text().length > 0) {
         return;
     }
@@ -357,13 +411,13 @@ const showUpcoming = () => {
     }
 
     $('.container').hide();
-    $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen').empty().hide();
+    $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
 
     let totalPages;
     let arr = [];
 
     $.get(upcomingUrl + 1, (data) => {
-        for (var i = 0; i < data.results.length; i++) {
+        for (let  i = 0; i < data.results.length; i++) {
             arr.push(data.results[i]);
         }
 
@@ -372,13 +426,13 @@ const showUpcoming = () => {
         if (totalPages > 1) {
             setTimeout(() => {
                 $.get(upcomingUrl + 2, (data) => {
-                    for (var j = 0; j < data.results.length; j++) {
+                    for (let  j = 0; j < data.results.length; j++) {
                         arr.push(data.results[j]);
                     }
         
                     setTimeout(() => {
                         $('#upcomingContainer').css('display', 'flex');
-                        buildMoviesFromTmdb(arr, 'upcoming', $('#upcomingContainer'), 7);
+                        buildMovies(arr, 'upcoming', $('#upcomingContainer'), 7);
                     }, 500)
                 });
             }, 1000)
@@ -422,9 +476,7 @@ const showResults = (value) => {
         }
 
         for (let i = 0; i < data.results.length; i++) {
-
             if (data.results[i].media_type == 'movie' || data.results[i].media_type == 'tv') {
-
                 let finalReleaseDate;
 
                 if (data.results[i].media_type == 'tv') {
@@ -443,7 +495,6 @@ const showResults = (value) => {
                 } else {
                     posterUrl = 'https://image.tmdb.org/t/p/w1280' + data.results[i].poster_path;
                 }
-
             } else {
                 if (data.results[i].profile_path == null) {
                     posterUrl = './images/stock.png';
@@ -460,7 +511,6 @@ const showResults = (value) => {
                     } else {
                         finalReleaseDate = 'Unknown';
                     }
-    
                     break;
                 case 'tv':
                     finalTitle = data.results[i].name;
@@ -469,12 +519,10 @@ const showResults = (value) => {
                     } else {
                         finalReleaseDate = 'Unknown';
                     }
-    
                     break;
                 case 'person':
                     finalTitle = data.results[i].name;
                     break;
-            
                 default:
                     finalTitle = 'No Name';
                     finalReleaseDate = 'No Date';
@@ -488,7 +536,6 @@ const showResults = (value) => {
                 id: data.results[i].id,
                 type: data.results[i].media_type,
                 click: () => {
-
                     window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
                     switch (data.results[i].media_type) {
@@ -548,9 +595,7 @@ const showResults = (value) => {
 }
 
 const lazyload = () => {
-
     let lazyloadImages = document.querySelectorAll(".lazy");
-
     let scrollTop = window.pageYOffset;
 
     lazyloadImages.forEach((img) => {
@@ -562,8 +607,7 @@ const lazyload = () => {
 }
 
 const loadJson = () => {
-
-    var promise1 = new Promise((resolve) => {
+    let  promise1 = new Promise((resolve) => {
         resolve(getList(7099604, 'marvel', $('#marvelContainer'), 1, 1));
     });
 
@@ -605,7 +649,6 @@ const loadJson = () => {
 }
 
 const buildTrending = (data, div, wrapper) => {
-
     let typeheader = $('<h2>', {
         class: 'typeheader',
         text: 'Trending'
@@ -624,7 +667,6 @@ const buildTrending = (data, div, wrapper) => {
     }).appendTo(wrapper);
 
     for (let i = 0; i < data.length; i++) {
-
         let type;
 
         if (data[i].media_type == 'movie') {
@@ -696,9 +738,7 @@ const buildTrending = (data, div, wrapper) => {
             }).appendTo(trendingWrapper);
     
             if (data[i].vote_average !== null && data[i].vote_average !== 0) {
-    
                 let finalVoteText;
-    
                 finalVoteText = data[i].vote_average.toString();
         
                 if ((finalVoteText.length == 1 && data[i].vote_average !== '0') || data[i].vote_average == '10') {
@@ -732,11 +772,9 @@ const buildTrending = (data, div, wrapper) => {
             }
         }
     } 
-
 }
 
-const buildMoviesFromTmdb = (data, div, wrapper, type) => {
-
+const buildMovies = (data, div, wrapper, type) => {
     let headerText;
     let typeSortClick = wrapper;
     let headerLineClass;
@@ -778,6 +816,10 @@ const buildMoviesFromTmdb = (data, div, wrapper, type) => {
             headerText = 'Movies';
             headerLineClass = 'lineGenre';
             break;
+        case 10:
+            headerText = providerTitle;
+            headerLineClass = 'lineProvider ' + providerClass;
+            break;
     }
 
     let typeheader = $('<h2>', {
@@ -798,7 +840,6 @@ const buildMoviesFromTmdb = (data, div, wrapper, type) => {
     }).appendTo(wrapper);
 
     if (type !== 6 && type !== 3) {
-
         let btnWrapper = $('<div>', {
             class: 'btnWrapper',
         }).appendTo(moviesContent);
@@ -833,7 +874,6 @@ const buildMoviesFromTmdb = (data, div, wrapper, type) => {
         }).appendTo(sortContent);
 
         if (type == 1 || type == 2) {
-
             let finalBtnText;
             let finalCinematicUrl;
             let finalTvUrl;
@@ -853,17 +893,9 @@ const buildMoviesFromTmdb = (data, div, wrapper, type) => {
                 class: 'nextInLineBtn',
                 text: finalBtnText,
                 click: () => {
-
                     if ($('.sortContainer').is(':visible')) {
                         $('.sortContainer').hide();
-                        DCCounter = 1;
-                        marvelCounter = 1;
-                        valiantCounter = 1;
-                        othersCounter = 1;
-                        animationCounter = 1;
-                        upcomingCounter = 1;
-                        playingNowCounter = 1;
-                        genreCounter = 1;
+                        emptyCounters();
                     }
 
                     closeMenus();
@@ -971,8 +1003,7 @@ const buildMoviesFromTmdb = (data, div, wrapper, type) => {
 }
 
 const chosenMovie = (value, type) => {
-
-    $('#playingNowContainer, #trendingContainer,  #upcomingContainer, #popular, #genreChosen').empty().hide();
+    $('#playingNowContainer, #trendingContainer,  #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
     $('.searchContainer').addClass('chosenSearch');
     $('#spinnerWrapper').show();
     $('#chosenMovie, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
@@ -984,14 +1015,7 @@ const chosenMovie = (value, type) => {
 
     if ($('.sortContainer').is(':visible')) {
         $('.sortContainer').hide();
-        DCCounter = 1;
-        marvelCounter = 1;
-        valiantCounter = 1;
-        othersCounter = 1;
-        animationCounter = 1;
-        upcomingCounter = 1;
-        playingNowCounter = 1;
-        genreCounter = 1;
+        emptyCounters();
     }
 
     closeMenus();
@@ -1010,7 +1034,6 @@ const chosenMovie = (value, type) => {
     }
 
     $.get(finalUrl + value + "?api_key=" + tmdbKey + '&language=en-US', (data) => {
-
         let finalTitle;
 
         if (type == 1) {
@@ -1020,12 +1043,10 @@ const chosenMovie = (value, type) => {
         }
 
         let finalNameToSend;
-   
         finalNameToSend = finalTitle.replace(/'/, "");
         finalNameToSend = finalNameToSend.replace(/-/, "");
         finalNameToSend = finalNameToSend.replace(/:/, "");
         finalNameToSend = finalNameToSend.replace(/\s/g, '');
-
         window.history.replaceState({}, document.title, "/" + "my-movie-list/");
     
         const url = new URL(window.location);
@@ -1092,7 +1113,6 @@ const chosenMovie = (value, type) => {
         }
 
         if (type == 1) {
-
             $('#seasons, #episodes').hide();
 
             if (data.release_date !== '') {
@@ -1118,11 +1138,8 @@ const chosenMovie = (value, type) => {
             } else {
                 $('#chosenMovieRevenue').hide();
             }
-
         } else {
-
             $('#seasons, #episodes').show();
-
             if (data.release_date !== '') {
                 $('#movieDate').html('First Aired: ' + configureDate(data.first_air_date));
                 $('#chosenMovieDate').show();
@@ -1173,7 +1190,6 @@ const chosenMovie = (value, type) => {
             }
 
             setTimeout(() => {
-
                 let genresContent = $('<div>', {
                     id: 'genresContent',
                 }).appendTo($('#chosenMovieGenres'));
@@ -1183,7 +1199,6 @@ const chosenMovie = (value, type) => {
                         class: 'genre',
                         text: movieObj[w].name,
                         click: () => {
-
                             $('#spinnerWrapper').show();
                             $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
                         
@@ -1194,7 +1209,7 @@ const chosenMovie = (value, type) => {
 
                             goToDiv('#genreChosen');
                             $('.container').hide();
-                            $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular').empty().hide();
+                            $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #providerContainer').empty().hide();
 
                             let totalPages;
                             let arr = [];
@@ -1208,7 +1223,7 @@ const chosenMovie = (value, type) => {
                             }
 
                             $.get(finalGenreUrl + '&page=1', (data) => {
-                                for (var s = 0; s < data.results.length; s++) {
+                                for (let  s = 0; s < data.results.length; s++) {
                                     arr.push(data.results[s]);
                                 }
 
@@ -1217,15 +1232,15 @@ const chosenMovie = (value, type) => {
                                 if (totalPages > 1) {
                                     setTimeout(() => {
                                         $.get(finalGenreUrl + '&page=2', (data) => {
-                                            for (var x = 0; x < data.results.length; x++) {
+                                            for (let  x = 0; x < data.results.length; x++) {
                                                 arr.push(data.results[x]);
                                             }
                                             setTimeout(() => {
                                                 $('#genreChosen').css('display', 'flex');
                                                 if (type == 1) {
-                                                    buildMoviesFromTmdb(arr, 'genreMovie', $('#genreChosen'), 9);
+                                                    buildMovies(arr, 'genreMovie', $('#genreChosen'), 9);
                                                 } else {
-                                                    buildTvShowFromTmdb(arr, 'genreMovie', $('#genreChosen'));
+                                                    buildTvShows(arr, 'genreMovie', $('#genreChosen'));
                                                 } 
                                             }, 500)
                                         });
@@ -1270,7 +1285,6 @@ const getWatchProviders = (value, type) => {
     let finalUrl = getFinalUrl(type);
 
     $.get(finalUrl + value + "/watch/providers?api_key=" + tmdbKey + '&language=en-US&sort_by=popularity.desc', (data) => {
-
         if (data.results.US !== undefined && data.results.US.flatrate !== undefined) {
             let results = data.results.US.flatrate;
 
@@ -1290,7 +1304,6 @@ const getWatchProviders = (value, type) => {
 }
 
 const getCredits = (value, type) => {
-
     directorCounter = 0;
     $('#directorsWrapper').hide();
     $('#castHeader').remove();
@@ -1314,10 +1327,9 @@ const getCredits = (value, type) => {
                 for (let w = 0; w < data.crew.length; w++) {
                     if(data.crew[w].job == 'Director') {
                         directorCounter++;
-    
+
                         try {
                             let directorImgPath;
-        
                             if (data.crew[w].profile_path == 'undefined' || data.crew[w].profile_path == null || data.crew[w].profile_path == '') {
         
                                 switch (data.crew[w].gender) {
@@ -1334,7 +1346,7 @@ const getCredits = (value, type) => {
                             } else {
                                 directorImgPath = 'https://image.tmdb.org/t/p/w1280' + data.crew[w].profile_path;
                             }
-        
+
                             let director = $('<div>', {
                                 class: 'director'
                             }).appendTo(directorContent);
@@ -1380,8 +1392,7 @@ const getCredits = (value, type) => {
                                     }).appendTo(imdbLinkWrapper);
                                 }
     
-                                if(data.instagram_id !== null) {
-                                        
+                                if(data.instagram_id !== null) {     
                                     let instagramWrapper = $('<a>', {
                                         class: 'instagramWrapper',
                                         rel: 'noopener',
@@ -1414,7 +1425,6 @@ const getCredits = (value, type) => {
         }
 
         if (data.cast.length > 0) {
-
             if (data.cast.length < 21) {
                 finalLength = data.cast.length;
             } else {
@@ -1433,9 +1443,7 @@ const getCredits = (value, type) => {
             }).appendTo($('#castWrapper'));
 
             for (let k = 0; k < finalLength; k++) {
-
                 try {
-    
                     let actorImgPath;
 
                     if (data.cast[k].profile_path == 'undefined' || data.cast[k].profile_path == null || data.cast[k].profile_path == '') {
@@ -1458,12 +1466,9 @@ const getCredits = (value, type) => {
                     let trimmedString;
 
                     if (data.cast[k].character.length > 25) {
-
                         if (countInstances(data.cast[k].character, '/') > 1) {
-
                             trimmedString = data.cast[k].character.substr(0, 25);
                             trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
-
                             trimmedString = data.cast[k].character.split('/');
 
                             if (trimmedString.length > 2) {
@@ -1471,11 +1476,9 @@ const getCredits = (value, type) => {
                             } else {
                                 trimmedString = trimmedString[0] + '/' + trimmedString[1];
                             }
-    
                         } else {
                             trimmedString = data.cast[k].character;
                         }
-
                     } else {
                         trimmedString = data.cast[k].character;
                     }
@@ -1513,14 +1516,12 @@ const getCredits = (value, type) => {
                         text: trimmedString
                     }).appendTo(actor);
 
-
                     let actorLinksWrapper = $('<div>', {
                         class: 'linksWrapper',
                     }).appendTo(actor);
 
                     $.get(movieActorsUrl + data.cast[k].id + "/external_ids?api_key=" + tmdbKey + "&language=en-US", (data) => {
                         if(data.imdb_id !== null) {
-
                             let imdbLinkWrapper = $('<a>', {
                                 class: 'imdbLinkWrapper',
                                 rel: 'noopener',
@@ -1535,8 +1536,7 @@ const getCredits = (value, type) => {
                             }).appendTo(imdbLinkWrapper);
                         }
 
-                        if(data.instagram_id !== null) {
-                                
+                        if(data.instagram_id !== null) {         
                             let instagramWrapper = $('<a>', {
                                 class: 'instagramWrapper',
                                 rel: 'noopener',
@@ -1560,9 +1560,7 @@ const getCredits = (value, type) => {
 }
 
 const getPersonDetails = (value, type) => {
-
     $('.searchContainer').addClass('chosenSearch');
-
     $('#spinnerWrapper').show();
     $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
 
@@ -1579,7 +1577,6 @@ const getPersonDetails = (value, type) => {
         $('#chosenPersonName').html(data.name);
 
         let finalNameToSend;
-    
         finalNameToSend = data.name.replace(/'/, "");
         finalNameToSend = finalNameToSend.replace(/-/, "");
         finalNameToSend = finalNameToSend.replace(/:/, "");
@@ -1594,7 +1591,6 @@ const getPersonDetails = (value, type) => {
         } else {
             url.searchParams.set('director', finalNameToSend);
         }
-
 
         url.searchParams.set('value', value);
         window.history.pushState({}, '', url);
@@ -1611,14 +1607,12 @@ const getPersonDetails = (value, type) => {
                 finalImg = './images/actor.jpg';
             } else {
                 finalImg = './images/actress.jpg';
-            }
-            
+            }        
         } else {
             finalImg = 'https://image.tmdb.org/t/p/w1280' + data.profile_path;
         }
 
         if (data.imdb_id !== '' && data.imdb_id !== null) {
-
             let personImdb = $('<a>', {
                 id: 'chosenPersonImdb',
                 target: '_blank',
@@ -1641,7 +1635,6 @@ const getPersonDetails = (value, type) => {
         }
 
         if (data.birthday !== null) {
-
             $('#personBirthDate').show();
 
             let finalAge = getAge(data.birthday, 1);
@@ -1682,9 +1675,7 @@ const getPersonDetails = (value, type) => {
 
 const getPersonExternalIds = (value) => {
     $.get(movieActorsUrl + value + "/external_ids?api_key=" + tmdbKey + '&language=en-US', (data) => {
-
-        if(data.instagram_id !== null) {
-                                        
+        if(data.instagram_id !== null) {                               
             let personInstagramLink = $('<a>', {
                 id: 'personInstagramLink',
                 rel: 'noopener',
@@ -1711,7 +1702,7 @@ const getPopular = () => {
     }
 
     $('.container').hide();
-    $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen').empty().hide();
+    $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
 
     switchContent(2);
 
@@ -1719,7 +1710,7 @@ const getPopular = () => {
     let arr = [];
 
     $.get(movieActorsUrl + "popular?api_key=" + tmdbKey + "&language=en-US", (data) => {
-        for (var i = 0; i < data.results.length; i++) {
+        for (let  i = 0; i < data.results.length; i++) {
             arr.push(data.results[i]);
         }
 
@@ -1728,7 +1719,7 @@ const getPopular = () => {
         if (totalPages > 1) {
             setTimeout(() => {
                 $.get(movieActorsUrl + "popular?api_key=" + tmdbKey + "&language=en-US&page=2", (data) => {
-                    for (var j = 0; j < data.results.length; j++) {
+                    for (let  j = 0; j < data.results.length; j++) {
                         arr.push(data.results[j]);
                     }
         
@@ -1761,7 +1752,6 @@ const buildPopular = (arr) => {
     }).appendTo($('#popular'));
 
     for (let i = 0; i < arr.length; i++) {
-
         let popularPerson = $('<div>', {
             class: 'popularPerson hoverEffect',
             popularity: arr[i].popularity
@@ -1797,7 +1787,7 @@ const buildPopular = (arr) => {
             'src': finalSrc,
             'data-src': dataSrc,
             click: () => {
-                $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen').empty().hide();
+                $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
                 $('#search').val('');
                 $('main').hide();
                 getPersonDetails(arr[i].id, 1);
@@ -1820,7 +1810,6 @@ const getPersonCredits = (value, type) => {
     $('#personCreditsHeader').remove();
 
     $.get(movieActorsUrl + value + "/combined_credits?api_key=" + tmdbKey + "&language=en-US", (data) => {
-
         let finalData;
 
         if (type == 1) {
@@ -1830,7 +1819,6 @@ const getPersonCredits = (value, type) => {
         }
 
         if (finalData.length !== 0) {
-
             let creditsHeader = $('<p>', {
                 id: 'personCreditsHeader',
                 class: 'chosenHeader',
@@ -1848,10 +1836,8 @@ const getPersonCredits = (value, type) => {
 
                     let trimmedString;
 
-                    if (type == 1) {
-                    
+                    if (type == 1) { 
                         if (finalData[i].character && finalData[i].character.length > 25) {
-    
                             if (countInstances(finalData[i].character, '/') > 1) {
                                 trimmedString = finalData[i].character.substr(0, 25);
                                 trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
@@ -1862,11 +1848,9 @@ const getPersonCredits = (value, type) => {
                                 } else {
                                     trimmedString = trimmedString[0] + '/' + trimmedString[1];
                                 }
-        
                             } else {
                                 trimmedString = finalData[i].character;
                             }
-    
                         } else {
                             trimmedString = finalData[i].character;
                         }
@@ -1986,7 +1970,6 @@ const getPersonCredits = (value, type) => {
 }
 
 const getPersonImages = (value) => {
-
     $('#personImages').empty();
 
     $.get(movieActorsUrl + value + "/images?api_key=" + tmdbKey + "&language=en-US", (data) => {
@@ -2021,11 +2004,9 @@ const getPersonImages = (value) => {
 }
 
 const getPersonMovieImages = (value) => {
-
     $('#personMovieImages').empty();
 
     $.get(movieActorsUrl + value + "/tagged_images?api_key=" + tmdbKey + "&language=en-US", (data) => {
-
         if (data.results.length > 0) {
             let finalLength;
 
@@ -2043,8 +2024,7 @@ const getPersonMovieImages = (value) => {
                         finalImg = './images/stockMovie.jpg'; 
                     } else {
                         finalImg = 'https://image.tmdb.org/t/p/w1280' + data.results[i].file_path;
-                    }
-                    
+                    }        
                 } else {
                     finalImg = 'https://image.tmdb.org/t/p/w1280' + data.results[i].media.backdrop_path;
                 }
@@ -2061,7 +2041,6 @@ const getPersonMovieImages = (value) => {
 }
 
 const getSimilar = (value, type) => {
-
     if (type == 1) {
         $('#similarHeader').html('Similar Movies');
     } else {
@@ -2069,16 +2048,13 @@ const getSimilar = (value, type) => {
     }
 
     let finalUrl = getFinalUrl(type);
-    
     $('#similarMovies').hide();
 
     $.get(finalUrl + value + "/similar?api_key=" + tmdbKey + "&language=en-US", (data) => {
-
         if (data.results.length !== 0) {
             $('#similarMovies').show();
 
             for (let i = 0; i < data.results.length; i++) {
-
                 try {
                     let img;
 
@@ -2120,7 +2096,6 @@ const getSimilar = (value, type) => {
                         class: 'similarMovieName',
                         text: finalTitle
                     }).appendTo(credit);
-
                 } catch (e) {
                     console.log(e);
                 }
@@ -2130,13 +2105,10 @@ const getSimilar = (value, type) => {
 }
 
 const getImages = (value, type) => {
-
     let finalUrl = getFinalUrl(type);
-
     $('#chosenMovieImagesWrapper').hide();
 
     $.get(finalUrl + value + "/images?api_key=" + tmdbKey, (data) => {
-
         if (data.backdrops.length > 0) {
             $('#chosenMovieImagesWrapper').css('display', 'flex');
             let finalLength;
@@ -2147,9 +2119,7 @@ const getImages = (value, type) => {
             }
 
             for (let i = 0; i < finalLength; i++) {
-
                 try {
-    
                     if (data.backdrops[i].file_path == null || data.backdrops[i].file_path == '') {
                         galleryImg = './images/stockMovie.jpg';
                     } else {
@@ -2172,13 +2142,10 @@ const getImages = (value, type) => {
 }
 
 const getVideos = (value, type) => {
-
     let finalUrl = getFinalUrl(type);
-
     $('#videosWrapper').hide();
 
     $.get(finalUrl + value + "/videos?api_key=" + tmdbKey, (data) => {
-
         if (data.results.length > 0) {
             $('#videosWrapper').css('display', 'flex');
             let finalLength;
@@ -2189,7 +2156,6 @@ const getVideos = (value, type) => {
             }
 
             for (let i = 0; i < finalLength; i++) {
-
                 let objectUrl = youtubeVideo + data.results[i].key + '?showinfo=0&enablejsapi=1';
                 let movieVideo = $('<iframe>', {
                     class: 'movieVideo',
@@ -2205,25 +2171,17 @@ const getVideos = (value, type) => {
 }
 
 const goToDiv = (div) => {
-
     $('.searchContainer').removeClass('chosenSearch');
 
     if (!$('#marvelContainer').is(':visible')) {
         $('.container').css('display', 'flex');
-        $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen').empty().hide();
+        $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
         switchContent(2);
     }
 
     if ($('.sortContainer').is(':visible')) {
         $('.sortContainer').hide();
-        DCCounter = 1;
-        marvelCounter = 1;
-        valiantCounter = 1;
-        othersCounter = 1;
-        animationCounter = 1;
-        upcomingCounter = 1;
-        playingNowCounter = 1;
-        genreCounter = 1;
+        emptyCounters();
     }
     
     if ($('#timeline').is(':visible')) {
@@ -2263,7 +2221,6 @@ const getCinematicInfo = (url, type) => {
 
         for (let i = 0; i < elements.length; i++) {       
             if (elements[i].release_date !== '' && elements[i].release_date !== undefined && elements[i].release_date !== null) {
-
                 let obj = {
                     id: elements[i].id,
                     name: elements[i].title,
@@ -2282,7 +2239,6 @@ const getCinematicInfo = (url, type) => {
             let tempArr = cinematicArr.slice(0);
 
             cinematicArr.forEach(function(d) {
-
                 const date = new Date(d.date);
 
                 if (date >= now && (date < new Date(closest) || date < closest)) {
@@ -2291,11 +2247,8 @@ const getCinematicInfo = (url, type) => {
             });
 
             const index = tempArr.indexOf(closest);
-
             tempArr.splice(index, 1);
-
             tempArr.forEach(function(d) {
-
                 const date = new Date(d.date);
 
                 if (date >= now && (date < new Date(closest2) || date < closest2)) {
@@ -2323,10 +2276,8 @@ const getCinematicInfo = (url, type) => {
                     $('#nextCinematicFilmPop').hide();
                     chosenMovie(closest.id, 1);
                 }
-
             }).insertAfter($('#dateOfNextMovie'));
 
-            
             $('#afterNextMovieTitle').html(capitalize(closest2.name));
             $('#afterNextMovieDate').html(configureDate(closest2.date));
             $('#nextCinematicFilmPop').show();
@@ -2341,7 +2292,6 @@ const getTVShowInfo = (url, type) => {
         tvShowTimelineArr = [];
 
         for (let i = 0; i < elements.length; i++) {     
-            
             let obj = {
                 id: elements[i].id,
                 name: elements[i].name,
@@ -2362,7 +2312,6 @@ const getTVShowInfo = (url, type) => {
 }
 
 const showTimeline = (type, cinematicType) => {
-
     $('.searchContainer').addClass('chosenSearch');
     $('.timelineMovieWrapper').remove();
     $('#timeline').show();
@@ -2379,7 +2328,6 @@ const showTimeline = (type, cinematicType) => {
         }
         
         for (let i = 0; i < cinematicArr.length; i++) {
-    
             let timelineMovieWrapper = $('<div>', {
                 class: 'timelineMovieWrapper'
             }).appendTo($('#timelineContent'))
@@ -2400,7 +2348,6 @@ const showTimeline = (type, cinematicType) => {
                 }
 
                 finalClass = 'timelineMovieImg hoverEffect poster';
-
             } else {
                 finalImg = 'https://image.tmdb.org/t/p/w1280' + cinematicArr[i].background;
                 finalClass = 'timelineMovieImg hoverEffect background';
@@ -2423,7 +2370,6 @@ const showTimeline = (type, cinematicType) => {
             }).appendTo(timelineMovieWrapper)    
         }
     } else {
-
         if(cinematicType == 1) {
             timelineUrl = 'MarvelTVUniverseTimeline';
         } else {
@@ -2431,7 +2377,6 @@ const showTimeline = (type, cinematicType) => {
         }
 
         for (let i = 0; i < tvShowTimelineArr.length; i++) {
-    
             let timelineMovieWrapper = $('<div>', {
                 class: 'timelineMovieWrapper'
             }).appendTo($('#timelineContent'))
@@ -2452,7 +2397,6 @@ const showTimeline = (type, cinematicType) => {
                 }
 
                 finalClass = 'timelineMovieImg hoverEffect poster';
-
             } else {
                 finalImg = 'https://image.tmdb.org/t/p/w1280' + tvShowTimelineArr[i].background;
                 finalClass = 'timelineMovieImg hoverEffect background';
@@ -2485,7 +2429,6 @@ const showTimeline = (type, cinematicType) => {
     }
 
     window.history.replaceState({}, document.title, "/" + "my-movie-list/");
-
     const url = new URL(window.location);
     url.searchParams.set('timeline', timelineUrl);
     window.history.pushState({}, '', url);
@@ -2498,14 +2441,12 @@ const showTimeline = (type, cinematicType) => {
 
 const goHome = () => {
     $('main').show();
-
     if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible') || $('#timeline').is(':visible')) {
         goToDiv('#marvelContainer');
     }
 }
 
 const sort = (div, num) => {
-
     if ($('.sortContainer').is(':visible')) {
         $('.sortContainer').hide();
     }
@@ -2516,14 +2457,8 @@ const sort = (div, num) => {
         case 1:
             if (marvelCounter == 1) {
                 $(div).find($('.sortContainer')).fadeIn('fast');
+                emptyCounters();
                 marvelCounter = 2;
-                DCCounter = 1;
-                valiantCounter = 1;
-                othersCounter = 1;
-                animationCounter = 1;
-                upcomingCounter = 1;
-                playingNowCounter = 1;
-                genreCounter = 1;
             } else {
                 $(div).find($('.sortContainer')).fadeOut('fast');
                 marvelCounter = 1;
@@ -2532,14 +2467,8 @@ const sort = (div, num) => {
         case 2:
             if (DCCounter == 1) {
                 $(div).find($('.sortContainer')).fadeIn('fast');
+                emptyCounters();
                 DCCounter = 2;
-                marvelCounter = 1;
-                valiantCounter = 1;
-                othersCounter = 1;
-                animationCounter = 1;
-                upcomingCounter = 1;
-                playingNowCounter = 1;
-                genreCounter = 1;
             } else {
                 $(div).find($('.sortContainer')).fadeOut('fast');
                 DCCounter = 1;
@@ -2548,15 +2477,8 @@ const sort = (div, num) => {
         case 3:
             if (valiantCounter == 1) {
                 $(div).find($('.sortContainer')).fadeIn('fast');
+                emptyCounters();
                 valiantCounter = 2;
-                marvelCounter = 1;
-                DCCounter = 1;
-                valiantCounter = 1;
-                othersCounter = 1;
-                animationCounter = 1;
-                upcomingCounter = 1;
-                playingNowCounter = 1;
-                genreCounter = 1;
             } else {
                 $(div).find($('.sortContainer')).fadeOut('fast');
                 valiantCounter = 1;
@@ -2565,14 +2487,8 @@ const sort = (div, num) => {
         case 4:
             if (othersCounter == 1) {
                 $(div).find($('.sortContainer')).fadeIn('fast');
+                emptyCounters();
                 othersCounter = 2;
-                marvelCounter = 1;
-                valiantCounter = 1;
-                DCCounter = 1;
-                animationCounter = 1;
-                upcomingCounter = 1;
-                playingNowCounter = 1;
-                genreCounter = 1;
             } else {
                 $(div).find($('.sortContainer')).fadeOut('fast');
                 othersCounter = 1;
@@ -2581,14 +2497,8 @@ const sort = (div, num) => {
         case 5:
             if (animationCounter == 1) {
                 $(div).find($('.sortContainer')).fadeIn('fast');
+                emptyCounters();
                 animationCounter = 2;
-                marvelCounter = 1;
-                valiantCounter = 1;
-                DCCounter = 1;
-                othersCounter = 1;
-                upcomingCounter = 1;
-                playingNowCounter = 1;
-                genreCounter = 1;
             } else {
                 $(div).find($('.sortContainer')).fadeOut('fast');
                 animationCounter = 1;
@@ -2598,14 +2508,8 @@ const sort = (div, num) => {
             case 7:
                 if (upcomingCounter == 1) {
                     $(div).find($('.sortContainer')).fadeIn('fast');
+                    emptyCounters();
                     upcomingCounter = 2
-                    animationCounter = 1;
-                    marvelCounter = 1;
-                    valiantCounter = 1;
-                    DCCounter = 1;
-                    othersCounter = 1;
-                    playingNowCounter = 1;
-                    genreCounter = 1;
                 } else {
                     $(div).find($('.sortContainer')).fadeOut('fast');
                     upcomingCounter = 1;
@@ -2614,14 +2518,8 @@ const sort = (div, num) => {
             case 8:
                 if (playingNowCounter == 1) {
                     $(div).find($('.sortContainer')).fadeIn('fast');
+                    emptyCounters();
                     playingNowCounter = 2;
-                    animationCounter = 1;
-                    marvelCounter = 1;
-                    valiantCounter = 1;
-                    DCCounter = 1;
-                    othersCounter = 1;
-                    upcomingCounter = 1;
-                    genreCounter = 1;
                 } else {
                     $(div).find($('.sortContainer')).fadeOut('fast');
                     playingNowCounter = 1;
@@ -2630,17 +2528,21 @@ const sort = (div, num) => {
             case 9:
                 if (genreCounter == 1) {
                     $(div).find($('.sortContainer')).fadeIn('fast');
+                    emptyCounters();
                     genreCounter = 2;
-                    animationCounter = 1;
-                    marvelCounter = 1;
-                    valiantCounter = 1;
-                    DCCounter = 1;
-                    othersCounter = 1;
-                    upcomingCounter = 1;
-                    playingNowCounter = 1;
                 } else {
                     $(div).find($('.sortContainer')).fadeOut('fast');
                     genreCounter = 1;
+                }
+                break;
+            case 10:
+                if (providerCounter == 1) {
+                    $(div).find($('.sortContainer')).fadeIn('fast');
+                    emptyCounters();
+                    providerCounter = 2;
+                } else {
+                    $(div).find($('.sortContainer')).fadeOut('fast');
+                    providerCounter = 1;
                 }
                 break;
     }
@@ -2649,7 +2551,6 @@ const sort = (div, num) => {
 const sortPopularMovies = (container, elem1, type) => {
     let children;
     $.each($(container), function (key, value) {
-
         let ids = [], obj, i, len;
 
         switch(type) {
@@ -2669,7 +2570,6 @@ const sortPopularMovies = (container, elem1, type) => {
         }
 
         for (i = 0, len = children.length; i < len; i++) {
-
             obj = {};
             obj.element = children[i];
             let elem2 = $(children[i]).attr(elem1);
@@ -2685,8 +2585,7 @@ const sortPopularMovies = (container, elem1, type) => {
     });
 }
 
-const buildTvShowFromTmdb = (data, div, wrapper) => {
-
+const buildTvShows = (data, div, wrapper) => {
     let typeheader = $('<h2>', {
         class: 'typeheader',
         text: 'TV Shows'
@@ -2705,7 +2604,6 @@ const buildTvShowFromTmdb = (data, div, wrapper) => {
     }).appendTo(wrapper);
 
     for (let i = 0; i < data.length; i++) {
-
         let tvShowWrapper = $('<div>', {
             class: 'tvShowWrapper hoverEffect ' + div,
             'year': data[i].first_air_date.substr(0, 4),
@@ -2733,7 +2631,6 @@ const buildTvShowFromTmdb = (data, div, wrapper) => {
 
         if (data[i].vote_average !== null || data[i].vote_average !== 0) {
             let finalVoteText;
-
             finalVoteText = data[i].vote_average.toString();
     
             if ((finalVoteText.length == 1 && data[i].vote_average !== '0') || data[i].vote_average == '10') {
@@ -2743,11 +2640,9 @@ const buildTvShowFromTmdb = (data, div, wrapper) => {
             }
     
             finalVoteText = finalVoteText.toString();
-    
             finalVoteText = finalVoteText.replace('.', '') + '%';
 
             if (finalVoteText !== 0 && finalVoteText !== undefined) {
-
                 let voteWrapper = $('<div>', {
                     class: 'voteWrapper',
                 }).appendTo(tvShowWrapper);
@@ -2777,9 +2672,8 @@ const updateVotes = () => {
         $.each($('.voteBackground'), (key, value) => {
             let height = $(value).attr('voteCount');
             $(value).css('height', height + '%');
-
-            var r = height < 70 ? 255 : Math.floor(255-(height*2-100)*255/100);
-            var g = height >= 70 ? 255 : Math.floor((height*2)*255/100);
+            let  r = height < 70 ? 255 : Math.floor(255-(height*2-100)*255/100);
+            let  g = height >= 70 ? 255 : Math.floor((height*2)*255/100);
 
             if (height > 45 && height < 70) {
                 g = g - 100;
@@ -2788,7 +2682,6 @@ const updateVotes = () => {
             } else {
                 g = g;
             }
-
             $(value).css('background-color', 'rgb('+r+','+g+',0)');          
         });
     }, 500)
@@ -2808,7 +2701,6 @@ const scrollBtn = () =>{
 }
 
 const sortMovies = (container, elem1, kind) => {
-
     let btnWrapper = $(container).find($('.btnWrapper'));
 
     if ($(btnWrapper).attr('kind') == kind) {
@@ -2869,7 +2761,6 @@ const sortMovies = (container, elem1, kind) => {
 
                         counter = 2;
                         break;
-
                     case 2:
                         ids.sort((a, b) => {
                             if (a.idNum < b.idNum) {
@@ -2890,18 +2781,10 @@ const sortMovies = (container, elem1, kind) => {
         }
     });
     $('.sortContainer').fadeOut('fast');
-    marvelCounter = 1;
-    DCCounter = 1;
-    valiantCounter = 1;
-    othersCounter = 1;
-    animationCounter = 1;
-    upcomingCounter = 1;
-    playingNowCounter = 1;
-    genreCounter = 1;
+    emptyCounters();
 }
 
 const removePopup = (container) => {
-
     $(document).mouseup((e) => {
         if (container.is(e.target) && container.has(e.target).length === 0) {
             container.hide();
