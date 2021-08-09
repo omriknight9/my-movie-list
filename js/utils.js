@@ -143,27 +143,26 @@ const configureDate = (data) => {
     let day = date.getDate();
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
-
     return changeMonthName(month - 1) + ' ' + changeDayName(day) + ' ' + year;
 }
 
 const getAge = (dateString, type, deadBirthDate) => {
     if (type == 1) {
-        var today = new Date();
-        var birthDate = new Date(dateString);
+        let today = new Date();
+        let birthDate = new Date(dateString);
 
-        var age = today.getFullYear() - birthDate.getFullYear();
-        var m = today.getMonth() - birthDate.getMonth();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        let m = today.getMonth() - birthDate.getMonth();
         if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
             age--;
         }
         return age; 
     } else {
-        var today = new Date(dateString);
-        var birthDate = new Date(deadBirthDate);
+        let today = new Date(dateString);
+        let birthDate = new Date(deadBirthDate);
 
-        var age = today.getFullYear() - birthDate.getFullYear();
-        var m = today.getMonth() - birthDate.getMonth();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        let m = today.getMonth() - birthDate.getMonth();
         if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
             age--;
         }
@@ -238,7 +237,6 @@ const checkAudio = (value, type) => {
     }
 
     if (audioFile !== null) {
-
         let audioWrapper = $('<div>', {
             id: 'audioWrapper',
         }).appendTo('#chosenMovie')
@@ -306,4 +304,16 @@ const checkAudio = (value, type) => {
             $('#audio').trigger('play');
         }, 1500)
     }
+}
+
+const emptyCounters = () => {
+    DCCounter = 1;
+    marvelCounter = 1;
+    valiantCounter = 1;
+    othersCounter = 1;
+    animationCounter = 1;
+    upcomingCounter = 1;
+    playingNowCounter = 1;
+    genreCounter = 1;
+    providerCounter = 1;
 }
