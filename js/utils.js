@@ -257,7 +257,7 @@ const checkAudio = (value, type) => {
 
         let pause = $('<i>', {
             id: 'pause',
-            class: 'fas fa-pause',
+            class: 'fas fa-pause pointer',
             click: () => {
                 $('#audio').trigger('pause');
                 $('#pause').css({'opacity': .3, 'pointer-events': 'none'});
@@ -267,7 +267,7 @@ const checkAudio = (value, type) => {
     
         let play = $('<i>', {
             id: 'play',
-            class: 'fas fa-play',
+            class: 'fas fa-play pointer',
             click: () => {
                 $('#audio').trigger('play');
                 $('#play').css({'opacity': .3, 'pointer-events': 'none'});
@@ -277,7 +277,7 @@ const checkAudio = (value, type) => {
 
         let stop = $('<i>', {
             id: 'stop',
-            class: 'fas fa-stop',
+            class: 'fas fa-stop pointer',
             click: () => {
                 $('#audio').trigger('pause');
                 $('#audio')[0].currentTime = 0;
@@ -288,7 +288,7 @@ const checkAudio = (value, type) => {
 
         let closeAudio = $('<i>', {
             id: 'closeAudio',
-            class: 'fas fa-times',
+            class: 'fas fa-times pointer',
             click: () => {
                 $('#audioWrapper').remove();
             }
@@ -304,16 +304,4 @@ const checkAudio = (value, type) => {
             $('#audio').trigger('play');
         }, 1500)
     }
-}
-
-const emptyCounters = () => {
-    DCCounter = 1;
-    marvelCounter = 1;
-    valiantCounter = 1;
-    othersCounter = 1;
-    animationCounter = 1;
-    upcomingCounter = 1;
-    playingNowCounter = 1;
-    genreCounter = 1;
-    providerCounter = 1;
 }
