@@ -7,18 +7,6 @@ let animationMovies = [];
 let tvShows = [];
 let ultraMovies = [];
 let cinematicType;
-let counter = 1;
-let marvelCinematicCounter = 1;
-let dcCinematicCounter = 1;
-let marvelCounter = 1;
-let DCCounter = 1;
-let valiantCounter = 1;
-let othersCounter = 1;
-let animationCounter = 1;
-let upcomingCounter = 1;
-let playingNowCounter = 1;
-let genreCounter = 1;
-let providerCounter = 1;
 let selectedDiv;
 let lastChar;
 let searchVal;
@@ -26,6 +14,8 @@ let cinematicArr = [];
 let tvShowTimelineArr = [];
 let providerTitle;
 let providerClass;
+let directorCounter = 0;
+let commentsArr = [];
 
 const baseUrl = 'https://api.themoviedb.org/3';
 const tmdbKey = '0271448f9ff674b76c353775fa9e6a82';
@@ -40,10 +30,9 @@ const nowPlayingUrl = movieInfoUrl + 'now_playing?api_key=' + tmdbKey + '&langua
 const getTrendingUrl = baseUrl + '/trending/all/day?api_key=' + tmdbKey + '&language=en-US&page=';
 const moviesGenreUrl = baseUrl + '/discover/movie?api_key=' + tmdbKey + '&language=en-US&with_genres=';
 const tvGenreUrl = baseUrl + '/discover/tv?api_key=' + tmdbKey + '&language=en-US&with_genres=';
-const providerUpcomingUrl = baseUrl + '/discover/movie?api_key=' + tmdbKey + '&language=en-US&watch_region=US&with_watch_providers=';
 
-let directorCounter = 0;
-let commentsArr = [];
+// const providerUpcomingUrl = baseUrl + '/discover/movie?api_key=' + tmdbKey + '&language=en-US&watch_region=US&primary_release_date.gte=' + new Date().toISOString().substring(0, 10) + '&with_watch_providers=';
+const providerUpcomingUrl = baseUrl + '/discover/movie?api_key=' + tmdbKey + '&language=en-US&watch_region=US&with_watch_providers=';
 
 $(document).ready(() => {
     if (window.location.href.indexOf("?movie=") > -1) {
@@ -151,10 +140,6 @@ $(document).ready(() => {
     }, 2000);
 
     $('#search').on('keyup', () => {
-        if ($('.sortContainer').is(':visible')) {
-            $('.sortContainer').hide();
-            emptyCounters();
-        }
 
         closeMenus();
 
@@ -530,7 +515,7 @@ const showResults = (value) => {
             }
 
             let resultWrapper = $('<div>', {
-                class: 'resultRow',
+                class: 'resultRow pointer',
                 popularity: data.results[i].popularity,
                 name: finalTitle,
                 id: data.results[i].id,
@@ -649,6 +634,9 @@ const loadJson = () => {
 }
 
 const buildTrending = (data, div, wrapper) => {
+
+    $('#trendingContainer').attr({'nameCounter': '1', 'dateCounter': '1'})
+
     let typeheader = $('<h2>', {
         class: 'typeheader',
         text: 'Trending'
@@ -666,19 +654,46 @@ const buildTrending = (data, div, wrapper) => {
         id: 'trendingContent',
     }).appendTo(wrapper);
 
-    for (let i = 0; i < data.length; i++) {
-        let type;
+    let btnWrapper = $('<div>', {
+        class: 'btnWrapper',
+    }).appendTo(trendingContent);
 
+    let sortNameBtn = $('<img>', {
+        src: './images/nameSort.jpg',
+        class: 'sortNameBtn pointer',
+        alt: 'sort',
+        click: function () {
+            sortByName(wrapper, 2);
+        }
+    }).appendTo(btnWrapper);
+
+    let sortDateBtn = $('<img>', {
+        src: './images/calendar.png',
+        class: 'sortDateBtn pointer',
+        alt: 'sort',
+        click: function () {
+            sortByDate(wrapper, 2);
+        }
+    }).appendTo(btnWrapper);
+
+    for (let i = 0; i < data.length; i++) {
+        let finalTitle;
+        let type;
+        let finalDate;
         if (data[i].media_type == 'movie') {
             type = 1;
+            finalTitle = data[i].title;
+            finalDate = data[i].release_date;
         } else if (data[i].media_type == 'tv') {
             type = 2;
+            finalTitle = data[i].name;
+            finalDate = data[i].first_air_date;
         }
 
         if (type == 1 || type == 2) {
             let trendingWrapper = $('<div>', {
-                class: 'trendingWrapper hoverEffect ' + div,
-                'date': data[i].release_date,
+                class: 'trendingWrapper hoverEffect pointer ' + div,
+                'date': finalDate,
                 'value': data[i].id,
                 click: () => {
                     chosenMovie(data[i].id, type);
@@ -715,17 +730,6 @@ const buildTrending = (data, div, wrapper) => {
                 'data-src': dataSrc,
                 'src': finalSrc
             }).appendTo(trendingWrapper);
-
-            let finalTitle;
-            let finalDate;
-
-            if (type == 1) {
-                finalTitle = data[i].title;
-                finalDate = data[i].release_date;
-            } else {
-                finalTitle = data[i].name;
-                finalDate = data[i].first_air_date;
-            }
     
             let movieFullName = $('<p>', {
                 class: 'name',
@@ -775,8 +779,10 @@ const buildTrending = (data, div, wrapper) => {
 }
 
 const buildMovies = (data, div, wrapper, type) => {
+
+    $('.container').attr({'nameCounter': '1', 'dateCounter': '1'});
+
     let headerText;
-    let typeSortClick = wrapper;
     let headerLineClass;
 
     switch (type) {
@@ -843,41 +849,29 @@ const buildMovies = (data, div, wrapper, type) => {
         let btnWrapper = $('<div>', {
             class: 'btnWrapper',
         }).appendTo(moviesContent);
-    
-        let sortContainer = $('<div>', {
-            class: 'sortContainer',
-        }).appendTo(btnWrapper);
-    
-        let sortContent = $('<div>', {
-            class: 'sortContent',
-        }).appendTo(sortContainer);
-    
-        let sortBtn = $('<button>', {
-            text: 'Sort',
+
+        let sortNameBtn = $('<img>', {
+            src: './images/nameSort.jpg',
+            class: 'sortNameBtn pointer',
+            alt: 'sort',
             click: function () {
-                sort($(this).parent().parent(), type);
+                sortByName(wrapper, 1);
             }
         }).appendTo(btnWrapper);
-    
-        let dateSortBtn = $('<button>', {
-            text: 'By Date',
-            click: () => {
-                sortMovies(typeSortClick, 'date', 1);
+
+        let sortDateBtn = $('<img>', {
+            src: './images/calendar.png',
+            class: 'sortDateBtn pointer',
+            alt: 'sort',
+            click: function () {
+                sortByDate(wrapper, 1);
             }
-        }).appendTo(sortContent);
-    
-        let nameSortBtn = $('<button>', {
-            text: 'By Name',
-            click: () => {
-                sortMovies(typeSortClick, 'name', 2);
-            }
-        }).appendTo(sortContent);
+        }).appendTo(btnWrapper);
 
         if (type == 1 || type == 2) {
             let finalBtnText;
             let finalCinematicUrl;
             let finalTvUrl;
-            let tmdbUrl;
 
             if (type == 1) {
                 finalBtnText = 'Next MCU Film';
@@ -893,10 +887,6 @@ const buildMovies = (data, div, wrapper, type) => {
                 class: 'nextInLineBtn',
                 text: finalBtnText,
                 click: () => {
-                    if ($('.sortContainer').is(':visible')) {
-                        $('.sortContainer').hide();
-                        emptyCounters();
-                    }
 
                     closeMenus();
 
@@ -915,7 +905,7 @@ const buildMovies = (data, div, wrapper, type) => {
 
     for (let i = 0; i < data.length; i++) {
         let movieWrapper = $('<div>', {
-            class: 'movieWrapper hoverEffect ' + div,
+            class: 'movieWrapper hoverEffect pointer ' + div,
             'date': data[i].release_date,
             'value': data[i].id,
             click: () => {
@@ -1012,11 +1002,6 @@ const chosenMovie = (value, type) => {
         $('#spinnerWrapper').hide();
         $('#chosenMovie, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
     }, 2000)
-
-    if ($('.sortContainer').is(':visible')) {
-        $('.sortContainer').hide();
-        emptyCounters();
-    }
 
     closeMenus();
 
@@ -1196,7 +1181,7 @@ const chosenMovie = (value, type) => {
 
                 for (let w = 0; w < movieObj.length; w++) {
                     let genre = $('<span>', {
-                        class: 'genre',
+                        class: 'genre pointer',
                         text: movieObj[w].name,
                         click: () => {
                             $('#spinnerWrapper').show();
@@ -1356,7 +1341,7 @@ const getCredits = (value, type) => {
                             }).appendTo(director);
         
                             let directorImg = $('<img>', {
-                                class: 'directorImg hoverEffect lazy',
+                                class: 'directorImg hoverEffect lazy pointer',
                                 'data-src': directorImgPath,
                                 'src': './images/actor.jpg',
                                 alt: 'director',
@@ -1488,7 +1473,7 @@ const getCredits = (value, type) => {
                     }).appendTo(castContent);
 
                     let actorImg = $('<img>', {
-                        class: 'actorImg hoverEffect lazy',
+                        class: 'actorImg hoverEffect lazy pointer',
                         'data-src': actorImgPath,
                         'src': './images/actor.jpg',
                         alt: 'actorImg',
@@ -1753,7 +1738,7 @@ const buildPopular = (arr) => {
 
     for (let i = 0; i < arr.length; i++) {
         let popularPerson = $('<div>', {
-            class: 'popularPerson hoverEffect',
+            class: 'popularPerson hoverEffect pointer',
             popularity: arr[i].popularity
         }).appendTo(popularContent)
 
@@ -2083,7 +2068,7 @@ const getSimilar = (value, type) => {
                     }
 
                     let similarMovieImg = $('<img>', {
-                        class: 'similarMovieImg hoverEffect lazy',
+                        class: 'similarMovieImg hoverEffect lazy pointer',
                         'data-src': img,
                         'src': './images/stock.png',
                         alt: 'similarMovieImg',
@@ -2178,11 +2163,6 @@ const goToDiv = (div) => {
         $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
         switchContent(2);
     }
-
-    if ($('.sortContainer').is(':visible')) {
-        $('.sortContainer').hide();
-        emptyCounters();
-    }
     
     if ($('#timeline').is(':visible')) {
         $('#timeline').hide();
@@ -2270,6 +2250,7 @@ const getCinematicInfo = (url, type) => {
 
             let cinematicImg = $('<img>', {
                 id: 'nextCinematicImg',
+                class: 'pointer',
                 alt: closest.name,
                 src: finalImg,
                 click: () => {
@@ -2347,10 +2328,10 @@ const showTimeline = (type, cinematicType) => {
                     finalImg = 'https://image.tmdb.org/t/p/w1280' + cinematicArr[i].poster;
                 }
 
-                finalClass = 'timelineMovieImg hoverEffect poster';
+                finalClass = 'timelineMovieImg hoverEffect poster pointer';
             } else {
                 finalImg = 'https://image.tmdb.org/t/p/w1280' + cinematicArr[i].background;
-                finalClass = 'timelineMovieImg hoverEffect background';
+                finalClass = 'timelineMovieImg hoverEffect background pointer';
             }
     
             let timelineMovieImg = $('<img>', {
@@ -2446,108 +2427,6 @@ const goHome = () => {
     }
 }
 
-const sort = (div, num) => {
-    if ($('.sortContainer').is(':visible')) {
-        $('.sortContainer').hide();
-    }
-
-    closeMenus();
-
-    switch (num) {
-        case 1:
-            if (marvelCounter == 1) {
-                $(div).find($('.sortContainer')).fadeIn('fast');
-                emptyCounters();
-                marvelCounter = 2;
-            } else {
-                $(div).find($('.sortContainer')).fadeOut('fast');
-                marvelCounter = 1;
-            }
-            break;
-        case 2:
-            if (DCCounter == 1) {
-                $(div).find($('.sortContainer')).fadeIn('fast');
-                emptyCounters();
-                DCCounter = 2;
-            } else {
-                $(div).find($('.sortContainer')).fadeOut('fast');
-                DCCounter = 1;
-            }
-            break;
-        case 3:
-            if (valiantCounter == 1) {
-                $(div).find($('.sortContainer')).fadeIn('fast');
-                emptyCounters();
-                valiantCounter = 2;
-            } else {
-                $(div).find($('.sortContainer')).fadeOut('fast');
-                valiantCounter = 1;
-            }
-            break;
-        case 4:
-            if (othersCounter == 1) {
-                $(div).find($('.sortContainer')).fadeIn('fast');
-                emptyCounters();
-                othersCounter = 2;
-            } else {
-                $(div).find($('.sortContainer')).fadeOut('fast');
-                othersCounter = 1;
-            }
-            break;
-        case 5:
-            if (animationCounter == 1) {
-                $(div).find($('.sortContainer')).fadeIn('fast');
-                emptyCounters();
-                animationCounter = 2;
-            } else {
-                $(div).find($('.sortContainer')).fadeOut('fast');
-                animationCounter = 1;
-            }
-            break;
-
-            case 7:
-                if (upcomingCounter == 1) {
-                    $(div).find($('.sortContainer')).fadeIn('fast');
-                    emptyCounters();
-                    upcomingCounter = 2
-                } else {
-                    $(div).find($('.sortContainer')).fadeOut('fast');
-                    upcomingCounter = 1;
-                }
-                break;
-            case 8:
-                if (playingNowCounter == 1) {
-                    $(div).find($('.sortContainer')).fadeIn('fast');
-                    emptyCounters();
-                    playingNowCounter = 2;
-                } else {
-                    $(div).find($('.sortContainer')).fadeOut('fast');
-                    playingNowCounter = 1;
-                }
-                break;
-            case 9:
-                if (genreCounter == 1) {
-                    $(div).find($('.sortContainer')).fadeIn('fast');
-                    emptyCounters();
-                    genreCounter = 2;
-                } else {
-                    $(div).find($('.sortContainer')).fadeOut('fast');
-                    genreCounter = 1;
-                }
-                break;
-            case 10:
-                if (providerCounter == 1) {
-                    $(div).find($('.sortContainer')).fadeIn('fast');
-                    emptyCounters();
-                    providerCounter = 2;
-                } else {
-                    $(div).find($('.sortContainer')).fadeOut('fast');
-                    providerCounter = 1;
-                }
-                break;
-    }
-}
-
 const sortPopularMovies = (container, elem1, type) => {
     let children;
     $.each($(container), function (key, value) {
@@ -2605,7 +2484,7 @@ const buildTvShows = (data, div, wrapper) => {
 
     for (let i = 0; i < data.length; i++) {
         let tvShowWrapper = $('<div>', {
-            class: 'tvShowWrapper hoverEffect ' + div,
+            class: 'tvShowWrapper hoverEffect pointer ' + div,
             'year': data[i].first_air_date.substr(0, 4),
             'value': data[i].id,
             click: function () {
@@ -2700,88 +2579,133 @@ const scrollBtn = () =>{
     }
 }
 
-const sortMovies = (container, elem1, kind) => {
-    let btnWrapper = $(container).find($('.btnWrapper'));
+const sortByName = (container, type) => {
 
-    if ($(btnWrapper).attr('kind') == kind) {
-    } else {
-        $(btnWrapper).attr('kind', kind);
-        counter = 1;
+    if ($(container).attr('dateCounter') == '2') {
+        $(container).attr('dateCounter', '1');
     }
 
     let children;
     $.each($(container), function (key, value) {
         let ids = [], obj, i, len;
 
-        if ($(container).attr('id') == 'tvShowContainer') {
-            children = $(this).find('.tvShowWrapper');
-        } else {
+        if(type == 1){
             children = $(this).find('.movieWrapper');
+        } else {
+            children = $(this).find('.trendingWrapper');
         }
 
-        for (i = 0, len = children.length; i < len; i++) {
+        for (i = 0, len = children.length; i < len; i++) { 
             obj = {};
             obj.element = children[i];
-            let elem2 = $(children[i]).attr(elem1);
-            switch (kind) {
-                case 1:
-                    obj.idNum = new Date(elem2);
-                    break;
-                case 2:
-                    obj.idNum = elem2;
-                    break;
-            }
+            let elem2 = $(children[i]).find($('.name')).html();
+			obj.idNum = elem2;
             ids.push(obj);
         }
 
-        switch (kind) {
-            case 1:
-                switch (counter) {
-                    case 1:
-                        ids.sort((a, b) => { return (a.idNum - b.idNum); });
-                        counter = 2;
-                        break;
-                    case 2:
-                        ids.sort((a, b) => { return (b.idNum - a.idNum); });
-                        counter = 1;
-                        break;
-                }
-                $(btnWrapper).attr('kind', kind);
-                break;
-            case 2:
-                switch (counter) {
-                    case 1:
-                        ids.sort((a, b) => {
-                            if (a.idNum > b.idNum) {
-                                return 1;
-                            } else {
-                                return -1;
-                            }
-                        });
 
-                        counter = 2;
-                        break;
-                    case 2:
-                        ids.sort((a, b) => {
-                            if (a.idNum < b.idNum) {
-                                return 1;
-                            } else {
-                                return -1;
-                            }
-                        });
-                        counter = 1;
-                        break;
+        if ($(container).attr('nameCounter') == '1') {
+            
+            ids.sort(function (a, b) { 
+
+                if(a.idNum < b.idNum) { 
+                    return -1; 
                 }
-                $(btnWrapper).attr('kind', kind);
-                break;
+                if(a.idNum > b.idNum) {
+                    return 1; 
+                }
+                
+                return 0;    
+            });
+
+            $(container).attr('nameCounter', '2');
+
+        } else {
+            ids.sort(function (a, b) { 
+
+                if(b.idNum < a.idNum) { 
+                    return -1; 
+                }
+                if(b.idNum > a.idNum) {
+                    return 1; 
+                }
+                return 0;    
+            });
+
+            $(container).attr('nameCounter', '1');
         }
 
         for (i = 0; i < ids.length; i++) {
             $(this).append(ids[i].element);
         }
     });
-    $('.sortContainer').fadeOut('fast');
-    emptyCounters();
+}
+
+const sortByDate = (container, type) => {
+
+    if ($(container).attr('nameCounter') == '2') {
+        $(container).attr('nameCounter', '1');
+    }
+
+    let children;
+    $.each($(container), function (key, value) {
+        if(type == 1){
+            children = $(this).find('.movieWrapper');
+        } else {
+            children = $(this).find('.trendingWrapper');
+        }
+        let ids = [], obj, i, len;
+
+        // if ($(container).attr('id') == 'tvShowContainer') {
+        //     children = $(this).find('.tvShowWrapper');
+        // } else {
+        //     children = $(this).find('.movieWrapper');
+        // }
+
+        for (i = 0, len = children.length; i < len; i++) {
+            obj = {};
+            obj.element = children[i];
+            let elem2 = $(children[i]).attr('date');
+            // let elem2 = $(children[i]).find($('.name')).html();
+            obj.idNum = new Date(elem2);
+            ids.push(obj);
+        }
+
+        if ($(container).attr('dateCounter') == '1') {
+            
+            ids.sort(function (a, b) { 
+
+                if(a.idNum < b.idNum) { 
+                    return -1; 
+                }
+                if(a.idNum > b.idNum) {
+                    return 1; 
+                }
+                
+                return 0;    
+            });
+
+            $(container).attr('dateCounter', '2');
+
+        } else {
+            ids.sort(function (a, b) { 
+
+                if(b.idNum < a.idNum) { 
+                    return -1; 
+                }
+                if(b.idNum > a.idNum) {
+                    return 1; 
+                }
+                return 0;    
+            });
+
+            $(container).attr('dateCounter', '1');
+        }
+
+        for (i = 0; i < ids.length; i++) {
+            $(this).append(ids[i].element);
+        }
+    });
 }
 
 const removePopup = (container) => {
