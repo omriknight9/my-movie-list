@@ -223,6 +223,7 @@ h1 {
     -webkit-flex-wrap: wrap;
     justify-content: center;
     margin-bottom: 3rem;
+    margin-top: 1rem;
     width: 100%;
 }
 
@@ -234,6 +235,15 @@ h1 {
 .sortDateBtn {
     width: 60px;
     margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.mcuBtn {
+    width: 130px;
+}
+
+.dceuBtn {
+    width: 130px;
 }
 
 button {
