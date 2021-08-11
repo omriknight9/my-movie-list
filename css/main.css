@@ -228,10 +228,12 @@ h1 {
 
 .sortNameBtn {
     width: 60px;
+    margin-right: 1rem;
 }
 
 .sortDateBtn {
     width: 60px;
+    margin-left: 1rem;
 }
 
 button {
