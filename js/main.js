@@ -872,20 +872,27 @@ const buildMovies = (data, div, wrapper, type) => {
             let finalBtnText;
             let finalCinematicUrl;
             let finalTvUrl;
+            let finalImgSrc;
+            let finalCinematicClass;
 
             if (type == 1) {
                 finalBtnText = 'Next MCU Film';
                 finalCinematicUrl = listUrl + '7099064?api_key=' + tmdbKey + '&language=en-US';
                 finalTvUrl = listUrl + '7099128?api_key=' + tmdbKey + '&language=en-US';
+                finalImgSrc = './images/mcu.png';
+                finalCinematicClass = 'mcuBtn';
             } else {
                 finalBtnText = 'Next DCEU Film';
                 finalCinematicUrl = listUrl + '7099063?api_key=' + tmdbKey + '&language=en-US';
                 finalTvUrl = listUrl + '7099130?api_key=' + tmdbKey + '&language=en-US';
+                finalImgSrc = './images/dceu.png';
+                finalCinematicClass = 'dceuBtn';
             }
 
-            let nextInLineBtn = $('<button>', {
-                class: 'nextInLineBtn',
-                text: finalBtnText,
+            let nextInLineBtn = $('<img>', {
+                class: 'pointer ' + finalCinematicClass,
+                src: finalImgSrc,
+                alt: 'cinematic',
                 click: () => {
 
                     closeMenus();
@@ -900,6 +907,25 @@ const buildMovies = (data, div, wrapper, type) => {
                     }, 1000);
                 }
             }).appendTo(btnWrapper);
+
+
+            // let nextInLineBtn = $('<button>', {
+            //     class: 'nextInLineBtn',
+            //     text: finalBtnText,
+            //     click: () => {
+
+            //         closeMenus();
+
+            //         $('main, #menuOpenWrapper, footer, #goToTopBtn').css({'pointer-events': 'none', 'opacity': '0'});
+            //         $('.popUpInfo').css({'pointer-events': 'none', 'opacity': '.1'});
+            //         $('#spinnerWrapper').show();
+
+            //         getCinematicInfo(finalCinematicUrl, type);
+            //         setTimeout(() => {
+            //             getTVShowInfo(finalTvUrl, type);
+            //         }, 1000);
+            //     }
+            // }).appendTo(btnWrapper);
         }    
     }
 
