@@ -228,12 +228,14 @@ h1 {
 }
 
 .sortNameBtn {
-    width: 60px;
+    font-size: 3rem;
+    color: var(--orange);
     margin-right: 1rem;
 }
 
 .sortDateBtn {
-    width: 60px;
+    font-size: 3rem;
+    color: var(--orange);
     margin-left: 1rem;
     margin-right: 1rem;
 }
