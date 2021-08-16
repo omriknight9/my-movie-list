@@ -658,19 +658,15 @@ const buildTrending = (data, div, wrapper) => {
         class: 'btnWrapper',
     }).appendTo(trendingContent);
 
-    let sortNameBtn = $('<img>', {
-        src: './images/nameSort.jpg',
-        class: 'sortNameBtn pointer',
-        alt: 'sort',
+    let sortNameBtn = $('<i>', {
+        class: 'sortNameBtn fas fa-sort-alpha-down pointer',
         click: function () {
             sortByName(wrapper, 2);
         }
     }).appendTo(btnWrapper);
 
-    let sortDateBtn = $('<img>', {
-        src: './images/calendar.png',
-        class: 'sortDateBtn pointer',
-        alt: 'sort',
+    let sortDateBtn = $('<i>', {
+        class: 'sortDateBtn far fa-calendar-alt pointer',
         click: function () {
             sortByDate(wrapper, 2);
         }
@@ -779,8 +775,7 @@ const buildTrending = (data, div, wrapper) => {
 }
 
 const buildMovies = (data, div, wrapper, type) => {
-
-    $('.container').attr({'nameCounter': '1', 'dateCounter': '1'});
+    $(wrapper).attr({'nameCounter': '1', 'dateCounter': '1'});
 
     let headerText;
     let headerLineClass;
@@ -850,19 +845,15 @@ const buildMovies = (data, div, wrapper, type) => {
             class: 'btnWrapper',
         }).appendTo(moviesContent);
 
-        let sortNameBtn = $('<img>', {
-            src: './images/nameSort.jpg',
-            class: 'sortNameBtn pointer',
-            alt: 'sort',
+        let sortNameBtn = $('<i>', {
+            class: 'sortNameBtn fas fa-sort-alpha-down pointer',
             click: function () {
                 sortByName(wrapper, 1);
             }
         }).appendTo(btnWrapper);
 
-        let sortDateBtn = $('<img>', {
-            src: './images/calendar.png',
-            class: 'sortDateBtn pointer',
-            alt: 'sort',
+        let sortDateBtn = $('<i>', {
+            class: 'sortDateBtn far fa-calendar-alt pointer',
             click: function () {
                 sortByDate(wrapper, 1);
             }
@@ -907,25 +898,6 @@ const buildMovies = (data, div, wrapper, type) => {
                     }, 1000);
                 }
             }).appendTo(btnWrapper);
-
-
-            // let nextInLineBtn = $('<button>', {
-            //     class: 'nextInLineBtn',
-            //     text: finalBtnText,
-            //     click: () => {
-
-            //         closeMenus();
-
-            //         $('main, #menuOpenWrapper, footer, #goToTopBtn').css({'pointer-events': 'none', 'opacity': '0'});
-            //         $('.popUpInfo').css({'pointer-events': 'none', 'opacity': '.1'});
-            //         $('#spinnerWrapper').show();
-
-            //         getCinematicInfo(finalCinematicUrl, type);
-            //         setTimeout(() => {
-            //             getTVShowInfo(finalTvUrl, type);
-            //         }, 1000);
-            //     }
-            // }).appendTo(btnWrapper);
         }    
     }
 
@@ -2629,9 +2601,7 @@ const sortByName = (container, type) => {
             ids.push(obj);
         }
 
-
-        if ($(container).attr('nameCounter') == '1') {
-            
+        if ($(container).attr('nameCounter') == '1') {   
             ids.sort(function (a, b) { 
 
                 if(a.idNum < b.idNum) { 
@@ -2641,10 +2611,11 @@ const sortByName = (container, type) => {
                     return 1; 
                 }
                 
-                return 0;    
+                return 0;  
             });
 
             $(container).attr('nameCounter', '2');
+            $(container).find($('.sortNameBtn ').attr('class', 'sortNameBtn fas fa-sort-alpha-down-alt pointer'));
 
         } else {
             ids.sort(function (a, b) { 
@@ -2659,6 +2630,7 @@ const sortByName = (container, type) => {
             });
 
             $(container).attr('nameCounter', '1');
+            $(container).find($('.sortNameBtn ').attr('class', 'sortNameBtn fas fa-sort-alpha-up pointer'));
         }
 
         for (i = 0; i < ids.length; i++) {
@@ -2671,6 +2643,7 @@ const sortByDate = (container, type) => {
 
     if ($(container).attr('nameCounter') == '2') {
         $(container).attr('nameCounter', '1');
+        $(container).find($('.sortNameBtn ').attr('class', 'sortNameBtn fas fa-sort-alpha-up pointer'));
     }
 
     let children;
@@ -2682,17 +2655,10 @@ const sortByDate = (container, type) => {
         }
         let ids = [], obj, i, len;
 
-        // if ($(container).attr('id') == 'tvShowContainer') {
-        //     children = $(this).find('.tvShowWrapper');
-        // } else {
-        //     children = $(this).find('.movieWrapper');
-        // }
-
         for (i = 0, len = children.length; i < len; i++) {
             obj = {};
             obj.element = children[i];
             let elem2 = $(children[i]).attr('date');
-            // let elem2 = $(children[i]).find($('.name')).html();
             obj.idNum = new Date(elem2);
             ids.push(obj);
         }
