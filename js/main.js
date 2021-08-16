@@ -58,7 +58,7 @@ $(document).ready(() => {
 
         $(window).on('popstate', function() {
             goHome();
-            // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+            window.history.replaceState({}, document.title, "/" + "my-movie-list/");
         });
 
         window.onscroll = () => {
@@ -79,7 +79,7 @@ $(document).ready(() => {
 
         $(window).on('popstate', function() {
             goHome();
-            // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+            window.history.replaceState({}, document.title, "/" + "my-movie-list/");
         });
     } else if (window.location.href.indexOf("?director=") > -1) {
 
@@ -94,7 +94,7 @@ $(document).ready(() => {
 
         $(window).on('popstate', function() {
             goHome();
-            // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+            window.history.replaceState({}, document.title, "/" + "my-movie-list/");
         });
 
         window.onscroll = () => {
@@ -103,7 +103,7 @@ $(document).ready(() => {
             scrollIndicator();
         }
     } else if (window.location.href.indexOf("?timeline=") > -1) {
-        // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
         window.onscroll = () => {
             scrollBtn();
             lazyload();
@@ -521,7 +521,7 @@ const showResults = (value) => {
                 id: data.results[i].id,
                 type: data.results[i].media_type,
                 click: () => {
-                    // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+                    window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
                     switch (data.results[i].media_type) {
                         case 'movie':
@@ -1030,7 +1030,7 @@ const chosenMovie = (value, type) => {
         finalNameToSend = finalNameToSend.replace(/-/, "");
         finalNameToSend = finalNameToSend.replace(/:/, "");
         finalNameToSend = finalNameToSend.replace(/\s/g, '');
-        // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
     
         const url = new URL(window.location);
         url.searchParams.set(chosenUrl, finalNameToSend);
@@ -1040,7 +1040,7 @@ const chosenMovie = (value, type) => {
     
         $(window).on('popstate', function() {
             goHome();
-            // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+            window.history.replaceState({}, document.title, "/" + "my-movie-list/");
         });
 
         let finalImg;
@@ -1565,7 +1565,7 @@ const getPersonDetails = (value, type) => {
         finalNameToSend = finalNameToSend.replace(/:/, "");
         finalNameToSend = finalNameToSend.replace(/\s/g, '');
 
-        // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
         const url = new URL(window.location);
         
@@ -1580,7 +1580,7 @@ const getPersonDetails = (value, type) => {
 
         $(window).on('popstate', function() {
             goHome();
-            // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+            window.history.replaceState({}, document.title, "/" + "my-movie-list/");
         });
 
         let finalImg;
@@ -2168,7 +2168,7 @@ const goToDiv = (div) => {
     if ($('main').is(":hidden")) {
         $('main').show();
 
-        // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
         setTimeout(() => {
             document.querySelector(div).scrollIntoView({ behavior: 'smooth' });
@@ -2337,7 +2337,7 @@ const showTimeline = (type, cinematicType) => {
                 alt: 'movie img',
                 click: () => {
                     $('#timeline').hide();
-                    // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+                    window.history.replaceState({}, document.title, "/" + "my-movie-list/");
                     chosenMovie(cinematicArr[i].id, 1);
                 }
             }).appendTo(timelineMovieWrapper)
@@ -2386,7 +2386,7 @@ const showTimeline = (type, cinematicType) => {
                 alt: 'tv show img',
                 click: () => {
                     $('#timeline').hide();
-                    // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+                    window.history.replaceState({}, document.title, "/" + "my-movie-list/");
                     chosenMovie(tvShowTimelineArr[i].id, 2);
                 }
             }).appendTo(timelineMovieWrapper)
@@ -2406,14 +2406,14 @@ const showTimeline = (type, cinematicType) => {
         }
     }
 
-    // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+    window.history.replaceState({}, document.title, "/" + "my-movie-list/");
     const url = new URL(window.location);
     url.searchParams.set('timeline', timelineUrl);
     window.history.pushState({}, '', url);
 
     $(window).on('popstate', function() {
         goHome();
-        // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
     });
 }
 
