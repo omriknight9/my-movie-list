@@ -81,6 +81,14 @@ $(document).ready(() => {
             goHome();
             window.history.replaceState({}, document.title, "/" + "my-movie-list/");
         });
+
+        window.onscroll = () => {
+            scrollBtn();
+            lazyload();
+            scrollIndicator();
+            checkSoundOnScroll();
+        }
+
     } else if (window.location.href.indexOf("?director=") > -1) {
 
         const urlParams = new URLSearchParams(window.location.search);
