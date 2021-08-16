@@ -593,8 +593,10 @@ const lazyload = () => {
 
     lazyloadImages.forEach((img) => {
         if (img.getBoundingClientRect().top + 200 < (window.innerHeight)) {
-            img.src = img.dataset.src;
-            img.classList.remove('lazy');
+            if ($(img).is(':visible')) {
+                img.src = img.dataset.src;
+                img.classList.remove('lazy');
+            }
         }
     });
 }
