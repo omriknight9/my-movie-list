@@ -1705,6 +1705,10 @@ footer span {
     h2 {
         font-size: 3rem;
     }
+
+    .movieWrapper, .tvShowWrapper, .popularPerson, .trendingWrapper {
+        width: 8rem;
+    }
 }
 
 @media only screen and (max-width: 350px) {
@@ -1726,5 +1730,9 @@ footer span {
 @media only screen and (max-width: 340px) {
     #search {
         font-size: .9rem;
+    }
+
+    .movieWrapper, .tvShowWrapper, .popularPerson, .trendingWrapper {
+        width: 7rem;
     }
 }
