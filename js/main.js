@@ -589,8 +589,6 @@ const showResults = (value) => {
 
 const lazyload = () => {
     let lazyloadImages = document.querySelectorAll(".lazy");
-    let scrollTop = window.pageYOffset;
-
     lazyloadImages.forEach((img) => {
         if (img.getBoundingClientRect().top + 200 < (window.innerHeight)) {
             if ($(img).is(':visible')) {
