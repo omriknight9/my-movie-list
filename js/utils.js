@@ -1,4 +1,26 @@
 
+const refreshWindowScroll = (type) => {
+    if (type == 1) {   
+        window.onscroll = () => {
+            scrollBtn();
+            lazyload();
+            scrollIndicator();
+            checkSoundOnScroll();
+        } 
+    } else {
+        window.onscroll = () => {
+            scrollBtn();
+            lazyload();
+            scrollIndicator();
+        }
+    }
+
+    $(window).on('popstate', function() {
+        goHome();
+        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+    });
+}
+
 const scrollIndicator = () => {
     let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
     let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -25,6 +47,43 @@ const checkSoundOnScroll = () => {
             lazyload();
             scrollIndicator();
         }
+    }
+}
+
+const refreshUrl = (value, name, type, directorOrActor, chosenUrl) => {
+    let finalNameToSend;
+    finalNameToSend = name.replace(/'/, "");
+    finalNameToSend = finalNameToSend.replace(/-/, "");
+    finalNameToSend = finalNameToSend.replace(/:/, "");
+    finalNameToSend = finalNameToSend.replace(/\s/g, '');
+
+    window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+
+    const url = new URL(window.location);
+    
+    if (type == 1) {
+        if (directorOrActor == 1) {
+            url.searchParams.set('actor', finalNameToSend);
+        } else {
+            url.searchParams.set('director', finalNameToSend);
+        }
+    } else {
+        url.searchParams.set(chosenUrl, finalNameToSend);
+    }
+
+    url.searchParams.set('value', value);
+    window.history.pushState({}, '', url);
+
+    $(window).on('popstate', function() {
+        goHome();
+        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+    });
+}
+
+const goHome = () => {
+    $('main').show();
+    if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible') || $('#timeline').is(':visible')) {
+        goToDiv('#marvelContainer');
     }
 }
 
@@ -178,6 +237,9 @@ const closeMenus = () => {
     if ($('#socials').hasClass('on')) {
         $('#socials').removeClass('on')
     }
+
+    $('#miscellaneousList').hide();
+    $('#miscellaneousRow').css('border-bottom', 'none');
 }
 
 const checkAudio = (value, type) => {
@@ -303,5 +365,58 @@ const checkAudio = (value, type) => {
         setTimeout(() => {
             $('#audio').trigger('play');
         }, 1500)
+    }
+}
+
+const checkLength = (length, div) => {
+    if (length < 4) {
+        $(div).css('justify-content', 'center');
+    } else {
+        $(div).css('justify-content', 'unset');
+    }
+}
+
+const emptyChosen = () => {
+    $('#productionCompenies, #overview, #watchProviders, #directorsWrapper, #castWrapper, #similarMoviesContent, #chosenMovieImagesWrapper, #videosWrapper, #searchResults').empty();
+    $('#chosenMovieImdb').attr('href', 'https://www.imdb.com');
+    $('#chosenMovieImg').attr('src', '');   
+    $('#chosenMovieSentence, #movieDate, #movieRuntime, #movieRevenue, #movieRating, #movieLang, #castHeader, #similarHeader, #chosenMovieTitle').html('');
+    $('#chosenMovieDate, #chosenMovieRuntime, #chosenMovieRevenue, #chosenMovie, #seasons, #episodes, #chosenMovieRating, #chosenMovieGenres, #chosenMovieLang, #similarMovies, #chosenMovieImagesWrapper, #videosWrapper, #searchResults').hide();
+    $('#personInstagramWrapper, #chosenPersonImgWrapper, #personMovies, #personImages').empty();
+    $('#chosenPersonName, #birthDate, #deathDate, #hometown').html('');
+    $('#personBirthDate, #personDeathDate, #personHometown, #chosenPerson').hide();
+    $('#personCreditsHeader, #audioWrapper, #genresContent').remove();
+}
+
+const updateVotes = () => {
+    setTimeout(() => {
+        $.each($('.voteBackground'), (key, value) => {
+            let height = $(value).attr('voteCount');
+            $(value).css('height', height + '%');
+            let  r = height < 70 ? 255 : Math.floor(255-(height*2-100)*255/100);
+            let  g = height >= 70 ? 255 : Math.floor((height*2)*255/100);
+
+            if (height > 45 && height < 70) {
+                g = g - 100;
+            } else if(height >= 70) {
+                g = g - 50;
+            } else {
+                g = g;
+            }
+            $(value).css('background-color', 'rgb('+r+','+g+',0)');          
+        });
+    }, 500)
+}
+
+const goToTop = () => {
+    $('html,body').animate({ scrollTop: 0 }, 1000);
+}
+
+const scrollBtn = () =>{
+    if ($(this).scrollTop() > 550) {
+        $('#goToTopBtn').fadeIn();
+    }
+    else {
+        $('#goToTopBtn').fadeOut();
     }
 }
