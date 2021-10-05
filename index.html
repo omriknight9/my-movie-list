@@ -55,7 +55,7 @@
         <div id="menu">
             <ul>
                 <li onclick="showPlayingNow()" class="pointer">
-                    <img src="./images/theater.png" alt="movie theater" class="menuImg" id="playingNowLink">
+                    <img src="./images/popcorn.png" alt="popcorn" class="menuImg" id="playingNowLink">
                     <span>Playing Now</span>
                 </li>
                 
@@ -74,6 +74,14 @@
                     <span>Popular People</span>
                 </li>
 
+                <li onclick="showMiscellaneous()" class="pointer" id="miscellaneousRow">
+                    <img src="./images/miscellaneous.png" alt="miscellaneous" class="menuImg" id="miscellaneousLink">
+                    <span>Miscellaneous</span>
+                </li>
+            </ul>
+
+            <ul id="miscellaneousList">
+                
                 <li onclick="goToDiv('#marvelContainer')" class="pointer">
                     <img src="./images/ironman.png" alt="ironman" class="menuImg">
                     <span>Marvel</span>
@@ -98,9 +106,10 @@
                     <img src="./images/shows.png" alt="shows" class="menuImg">
                     <span>TV Shows</span>
                 </li>
-                <li onclick="goToDiv('#ultraContainer')" class="pointer">
-                    <img src="./images/ultra.png" alt="ultra" class="menuImg" id="ultraLink">
-                    <span>4K</span>
+                
+                <li onclick="showWishlist()" class="pointer">
+                    <img src="./images/wishlist.png" alt="wishlist" class="menuImg" id="wishlistLink">
+                    <span>Wishlist</span>
                 </li>
             </ul>
         </div>
@@ -130,13 +139,13 @@
         <div class="container" id="othersContainer"></div>
         <div class="container" id="animationContainer"></div>
         <div class="container" id="tvShowContainer"></div>
-        <div class="container" id="ultraContainer"></div>
         <div class="container" id="upcomingContainer"></div>
         <div class="container" id="playingNowContainer"></div>
         <div class="container" id="popular"></div>
         <div class="container" id="genreChosen"></div>
         <div class="container" id="trendingContainer"></div>
         <div class="container" id="providerContainer"></div>
+        <div class="container" id="wishlistContainer"></div>
 
     </main>
 
