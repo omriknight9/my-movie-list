@@ -1,13 +1,4 @@
-
-let marvelMovies = [];
-let dcMovies = [];
-let valiantMovies = [];
-let otherMovies = [];
-let animationMovies = [];
-let tvShows = [];
-let ultraMovies = [];
 let cinematicType;
-let selectedDiv;
 let lastChar;
 let searchVal;
 let cinematicArr = [];
@@ -39,90 +30,42 @@ $(document).ready(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const value = Number(urlParams.get('value'));
         chosenMovie(value, 1);
+        refreshWindowScroll(1);
 
-        $(window).on('popstate', function() {
-            goHome();
-            window.history.replaceState({}, document.title, "/" + "my-movie-list/");
-        });
-
-        window.onscroll = () => {
-            scrollBtn();
-            lazyload();
-            scrollIndicator();
-            checkSoundOnScroll();
-        }
     } else if (window.location.href.indexOf("?tvShow=") > -1) {
         const urlParams = new URLSearchParams(window.location.search);
         const value = Number(urlParams.get('value'));
         chosenMovie(value, 2);
+        refreshWindowScroll(1);
 
-        $(window).on('popstate', function() {
-            goHome();
-            window.history.replaceState({}, document.title, "/" + "my-movie-list/");
-        });
-
-        window.onscroll = () => {
-            scrollBtn();
-            lazyload();
-            scrollIndicator();
-            checkSoundOnScroll();
-        }
     } else if (window.location.href.indexOf("?actor=") > -1) {
         const urlParams = new URLSearchParams(window.location.search);
         const value = Number(urlParams.get('value'));
 
-        $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #searchResults, #genreChosen, #providerContainer').empty().hide();
+        $('#wishlistContainer, #playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #searchResults, #genreChosen, #providerContainer').empty().hide();
         $('#search').val('');
         $('main').hide();
 
         getPersonDetails(value, 1);
-
-        $(window).on('popstate', function() {
-            goHome();
-            window.history.replaceState({}, document.title, "/" + "my-movie-list/");
-        });
-
-        window.onscroll = () => {
-            scrollBtn();
-            lazyload();
-            scrollIndicator();
-            checkSoundOnScroll();
-        }
+        refreshWindowScroll(1);
 
     } else if (window.location.href.indexOf("?director=") > -1) {
 
         const urlParams = new URLSearchParams(window.location.search);
         const value = Number(urlParams.get('value'));
 
-        $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #searchResults, #genreChosen, #providerContainer').empty().hide();
+        $('#wishlistContainer, #playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #searchResults, #genreChosen, #providerContainer').empty().hide();
         $('#search').val('');
         $('main').hide();
 
         getPersonDetails(value, 2);
+        refreshWindowScroll(2);
 
-        $(window).on('popstate', function() {
-            goHome();
-            window.history.replaceState({}, document.title, "/" + "my-movie-list/");
-        });
-
-        window.onscroll = () => {
-            scrollBtn();
-            lazyload();
-            scrollIndicator();
-        }
     } else if (window.location.href.indexOf("?timeline=") > -1) {
         window.history.replaceState({}, document.title, "/" + "my-movie-list/");
-        window.onscroll = () => {
-            scrollBtn();
-            lazyload();
-            scrollIndicator();
-        }
+        refreshWindowScroll(2);
     } else {
-        window.onscroll = () => {
-            scrollBtn();
-            lazyload();
-            scrollIndicator();
-        }
+        refreshWindowScroll(2);
     }
 
     loadJson();
@@ -144,7 +87,7 @@ $(document).ready(() => {
         $('.searchContainer').show();
         $('button').show();
         $('.container, footer').css('display', 'flex');
-        $('#upcomingContainer, #playingNowContainer, #popular, #genreChosen, #trendingContainer, #providerContainer').hide();
+        $('#wishlistContainer, #upcomingContainer, #playingNowContainer, #popular, #genreChosen, #trendingContainer, #providerContainer').hide();
     }, 2000);
 
     $('#search').on('keyup', () => {
@@ -166,43 +109,42 @@ $(document).ready(() => {
     })
 });
 
+const loadJson = () => {
+    let  promise1 = new Promise((resolve) => {
+        resolve(getList(7099604, 'marvel', $('#marvelContainer'), 1, 1));
+    });
+
+    promise1.then(() => {
+        getList(7099603, 'dc', $('#dcContainer'), 2, 1);
+    });
+
+    promise1.then(() => {
+        getList(7099609, 'valiant', $('#valiantContainer'), 3, 1);
+    });
+
+    promise1.then(() => {
+        getList(7099605, 'others', $('#othersContainer'), 4, 1);
+    });
+
+    promise1.then(() => {
+        getList(7099575, 'animation', $('#animationContainer'), 5, 1);
+    });
+
+    promise1.then(() => {
+        getList(7099607, 'tvShow', $('#tvShowContainer'), null, 2);
+    });
+}
+
 const getList = (value, div, wrapper, type, movieOrTv) => {
     let arr = [];
 
     $.get('https://api.themoviedb.org/4/list/' + value + '?api_key=' + tmdbKey + '&language=en-US', (data) => {
-        $.each(data.comments, function (key, value) {
-            if (value !== null) {
-                let obj = {
-                    value: key.replace('movie:', ''),
-                    quality: value
-                }
-
-                commentsArr.push(obj);
-            }
-        });
-
-        for (let i = 0; i < data.results.length; i++) {
-            arr.push(data.results[i]);
-        }
+        getComments(data, movieOrTv, arr);
 
         if (data.total_pages > 1) {
             for (let i = 2; i < data.total_pages + 1; i++) {
                 $.get('https://api.themoviedb.org/4/list/' + value + '?api_key=' + tmdbKey + '&language=en-US&page=' + i, (data) => {
-
-                    $.each(data.comments, function (key, value) {
-                        if (value !== null) {   
-                            let obj = {
-                                value: key.replace('movie:', ''),
-                                quality: value
-                            }
-            
-                            commentsArr.push(obj);
-                        }
-                    });
-
-                    for (let  j = 0; j < data.results.length; j++) {
-                        arr.push(data.results[j]);
-                    }
+                    getComments(data, movieOrTv, arr);
                 });
             }
 
@@ -226,6 +168,92 @@ const getList = (value, div, wrapper, type, movieOrTv) => {
     });
 }
 
+const getComments = (data, movieOrTv, arr) => {
+    $.each(data.comments, function (key, value) {
+        if (value !== null) {
+            let finalOrder;
+            if(value.split(',')[1] == undefined) {
+                finalOrder = 0;
+            } else {
+                finalOrder = value.split(',')[1].trim();
+            }
+
+            let finalValue;
+
+            if (movieOrTv == 1) {
+                finalValue = key.replace('movie:', '');
+            } else {
+                finalValue = key.replace('tv:', '');
+            }
+
+            let obj = {
+                value: finalValue,
+                quality: value.split(',')[0].trim(),
+                order: finalOrder
+            }
+
+            commentsArr.push(obj);
+        }
+    });
+
+    for (let i = 0; i < data.results.length; i++) {
+        arr.push(data.results[i]); 
+    }
+
+    $.each(arr, function (key, value) {      
+        for (let w = 0; w < commentsArr.length; w++) {     
+            if (value.id == commentsArr[w].value) {
+                arr[key].quality = commentsArr[w].quality;
+                arr[key].order = commentsArr[w].order;
+            }  
+        }
+    });
+}
+
+const showWishlist = () => {
+
+    if ($("#wishlistContainer").text().length > 0) {
+        return;
+    }
+
+    $('#miscellaneousList').hide();
+    $('#miscellaneousRow').css('border-bottom', 'none');
+
+    $('#spinnerWrapper').show();
+    $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
+
+    setTimeout(() => {
+        $('#spinnerWrapper').hide();
+        $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+    }, 2000)
+
+    if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible') || $('#timeline').is(':visible')) {
+        goToDiv('#wishlistContainer');
+    }
+
+    $('.container').hide();
+    $('#wishlistContainer, #playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
+
+    let arr = [];
+
+    $.get('https://api.themoviedb.org/4/list/' + 7110189 + '?api_key=' + tmdbKey + '&language=en-US', (data) => {
+        getComments(data, 1, arr);
+
+        if (data.total_pages > 1) {
+            for (let i = 2; i < data.total_pages + 1; i++) {
+                $.get('https://api.themoviedb.org/4/list/' + value + '?api_key=' + tmdbKey + '&language=en-US&page=' + i, (data) => {
+                    getComments(data, 1);
+                });
+            }
+        }
+
+        setTimeout(() => {     
+            $('#wishlistContainer').css('display', 'flex');
+            buildMovies(arr, 'wishlist', $('#wishlistContainer'), 10);
+        }, 1000)
+    });
+}
+
 const showTrending = () => {
     if ($("#trendingContainer").text().length > 0) {
         return;
@@ -244,7 +272,7 @@ const showTrending = () => {
     }
 
     $('.container').hide();
-    $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
+    $('#wishlistContainer, #playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
 
     let totalPages;
     let arr = [];
@@ -310,7 +338,7 @@ const showProvider = (providerId) => {
     }
 
     $('.container').hide();
-    $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
+    $('#wishlistContainer, #playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
 
     let totalPages;
     let arr = [];
@@ -323,18 +351,7 @@ const showProvider = (providerId) => {
         totalPages = data.total_pages;
 
         if (totalPages > 1) {
-            setTimeout(() => {
-                $.get(providerUpcomingUrl + providerId + '&page=2', (data) => {
-                    for (let j = 0; j < data.results.length; j++) {
-                        arr.push(data.results[j]);
-                    }
-
-                    setTimeout(() => {
-                        $('#providerContainer').css('display', 'flex');
-                        buildMovies(arr, 'provider', $('#providerContainer'), 10);
-                    }, 500)
-                });
-            }, 1000)
+            getInfo(providerUpcomingUrl, arr, 'provider', $('#providerContainer'), 9, providerId);
         }
     });
 }
@@ -357,7 +374,7 @@ const showPlayingNow = () => {
     }
 
     $('.container').hide();
-    $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
+    $('#wishlistContainer, #playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
 
     let totalPages;
     let arr = [];
@@ -370,18 +387,7 @@ const showPlayingNow = () => {
         totalPages = data.total_pages;
 
         if (totalPages > 1) {
-            setTimeout(() => {
-                $.get(nowPlayingUrl + 2, (data) => {
-                    for (let  j = 0; j < data.results.length; j++) {
-                        arr.push(data.results[j]);
-                    }
-        
-                    setTimeout(() => {
-                        $('#playingNowContainer').css('display', 'flex');
-                        buildMovies(arr, 'playingNow', $('#playingNowContainer'), 8);
-                    }, 500)
-                });
-            }, 1000)
+            getInfo(nowPlayingUrl, arr, 'playingNow', $('#playingNowContainer'), 7);
         }
     });
 }
@@ -404,7 +410,7 @@ const showUpcoming = () => {
     }
 
     $('.container').hide();
-    $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
+    $('#wishlistContainer, #playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
 
     let totalPages;
     let arr = [];
@@ -417,20 +423,24 @@ const showUpcoming = () => {
         totalPages = data.total_pages;
 
         if (totalPages > 1) {
-            setTimeout(() => {
-                $.get(upcomingUrl + 2, (data) => {
-                    for (let  j = 0; j < data.results.length; j++) {
-                        arr.push(data.results[j]);
-                    }
-        
-                    setTimeout(() => {
-                        $('#upcomingContainer').css('display', 'flex');
-                        buildMovies(arr, 'upcoming', $('#upcomingContainer'), 7);
-                    }, 500)
-                });
-            }, 1000)
+            getInfo(upcomingUrl, arr, 'upcoming', $('#upcomingContainer'), 6);
         }
     });
+}
+
+const getInfo = (url, arr, className, container, type, providerId) => {
+    setTimeout(() => {
+        $.get(url + providerId + '&page=2', (data) => {
+            for (let j = 0; j < data.results.length; j++) {
+                arr.push(data.results[j]);
+            }
+
+            setTimeout(() => {
+                $(container).css('display', 'flex');
+                buildMovies(arr, className, container, type);
+            }, 500)
+        });
+    }, 1000)
 }
 
 const switchContent = (type) => {
@@ -599,48 +609,6 @@ const lazyload = () => {
     });
 }
 
-const loadJson = () => {
-    let  promise1 = new Promise((resolve) => {
-        resolve(getList(7099604, 'marvel', $('#marvelContainer'), 1, 1));
-    });
-
-    promise1.then(() => {
-        getList(7099603, 'dc', $('#dcContainer'), 2, 1);
-    });
-
-    promise1.then(() => {
-        getList(7099609, 'valiant', $('#valiantContainer'), 3, 1);
-    });
-
-    promise1.then(() => {
-        getList(7099605, 'others', $('#othersContainer'), 4, 1);
-    });
-
-    promise1.then(() => {
-        getList(7099575, 'animation', $('#animationContainer'), 5, 1);
-    });
-
-    promise1.then(() => {
-        getList(7099607, 'tvShow', $('#tvShowContainer'), null, 2);
-    });
-
-    promise1.then(() => {
-        getList(7099559, '4k', $('#ultraContainer'), 6, 1);
-    });
-
-    promise1.then(() => {
-        setTimeout(() => {
-            $.each($('.movieWrapper:not(#ultraContainer .movieWrapper)'), function (key, value) {
-                for (let i = 0; i < commentsArr.length; i++) {
-                    if (commentsArr[i].value == $(value).attr('value')) {
-                        $(value).attr('quality', commentsArr[i].quality);
-                    } 
-                }
-            });
-        }, 3000)
-    });
-}
-
 const buildTrending = (data, div, wrapper) => {
 
     $('#trendingContainer').attr({'nameCounter': '1', 'dateCounter': '1'})
@@ -783,7 +751,10 @@ const buildTrending = (data, div, wrapper) => {
 }
 
 const buildMovies = (data, div, wrapper, type) => {
+
     $(wrapper).attr({'nameCounter': '1', 'dateCounter': '1'});
+
+    data.sort(function (a, b) { return (a.order - b.order); });
 
     let headerText;
     let headerLineClass;
@@ -810,24 +781,24 @@ const buildMovies = (data, div, wrapper, type) => {
             headerLineClass = 'lineAnimation';
             break;
         case 6:
-            headerText = '4K Movies';
-            headerLineClass = 'lineUltra';
-            break;
-        case 7:
             headerText = 'Upcoming';
             headerLineClass = 'lineUpcoming';
             break;
-        case 8:
+        case 7:
             headerText = 'Playing Now';
             headerLineClass = 'linePlayingNow';
-            break;   
-        case 9:
+            break;
+        case 8:
             headerText = 'Movies';
             headerLineClass = 'lineGenre';
             break;
-        case 10:
+        case 9:
             headerText = providerTitle;
             headerLineClass = 'lineProvider ' + providerClass;
+            break;
+        case 10:
+            headerText = 'Wishlist';
+            headerLineClass = 'lineWishlist ';
             break;
     }
 
@@ -845,7 +816,7 @@ const buildMovies = (data, div, wrapper, type) => {
     }).appendTo(headerLine);
 
     let moviesContent = $('<div>', {
-        id: 'moviesContent',
+        class: 'moviesContent',
     }).appendTo(wrapper);
 
     if (type !== 6 && type !== 3) {
@@ -893,9 +864,7 @@ const buildMovies = (data, div, wrapper, type) => {
                 src: finalImgSrc,
                 alt: 'cinematic',
                 click: () => {
-
                     closeMenus();
-
                     $('main, #menuOpenWrapper, footer, #goToTopBtn').css({'pointer-events': 'none', 'opacity': '0'});
                     $('.popUpInfo').css({'pointer-events': 'none', 'opacity': '.1'});
                     $('#spinnerWrapper').show();
@@ -914,6 +883,8 @@ const buildMovies = (data, div, wrapper, type) => {
             class: 'movieWrapper hoverEffect pointer ' + div,
             'date': data[i].release_date,
             'value': data[i].id,
+            'quality': data[i].quality,
+            'order': data[i].order,
             click: () => {
                 chosenMovie(data[i].id, 1);
             }
@@ -998,8 +969,95 @@ const buildMovies = (data, div, wrapper, type) => {
     }
 }
 
+const buildTvShows = (data, div, wrapper) => {
+
+    data.sort(function (a, b) { return (a.order - b.order); });
+
+    let typeheader = $('<h2>', {
+        class: 'typeheader',
+        text: 'TV Shows'
+    }).appendTo(wrapper);
+
+    let headerLine = $('<div>', {
+        class: 'line lineTvShows',
+    }).appendTo(wrapper);
+
+    let headerLogo = $('<span>', {
+        class: 'headerLogo',
+    }).appendTo(headerLine);
+
+    let tvShowContent = $('<div>', {
+        id: 'tvShowContent',
+    }).appendTo(wrapper);
+
+    for (let i = 0; i < data.length; i++) {
+        let tvShowWrapper = $('<div>', {
+            class: 'tvShowWrapper hoverEffect pointer ' + div,
+            'year': data[i].first_air_date.substr(0, 4),
+            'value': data[i].id,
+            'quality': data[i].quality,
+            'order': data[i].order,
+            click: function () {
+                chosenMovie(data[i].id, 2);
+            }
+        }).appendTo(tvShowContent);
+
+        let tvShowImg = $('<img>', {
+            class: 'tvShowImg',
+            alt: 'tvShowImg',
+            src: 'https://image.tmdb.org/t/p/w1280' + data[i].poster_path
+        }).appendTo(tvShowWrapper);
+
+        let tvShowName = $('<p>', {
+            class: 'name',
+            text: capitalize(data[i].name)
+        }).appendTo(tvShowWrapper);
+
+        let tvShowYear = $('<p>', {
+            class: 'year',
+            text: 'Year: ' + data[i].first_air_date.substr(0, 4)
+        }).appendTo(tvShowWrapper);
+
+        if (data[i].vote_average !== null || data[i].vote_average !== 0) {
+            let finalVoteText;
+            finalVoteText = data[i].vote_average.toString();
+    
+            if ((finalVoteText.length == 1 && data[i].vote_average !== '0') || data[i].vote_average == '10') {
+                finalVoteText = data[i].vote_average + '0'
+            } else {
+                finalVoteText = data[i].vote_average;
+            }
+    
+            finalVoteText = finalVoteText.toString();
+            finalVoteText = finalVoteText.replace('.', '') + '%';
+
+            if (finalVoteText !== 0 && finalVoteText !== undefined) {
+                let voteWrapper = $('<div>', {
+                    class: 'voteWrapper',
+                }).appendTo(tvShowWrapper);
+
+                let voteBackground = $('<span>', {
+                    class: 'voteBackground',
+                    voteCount: finalVoteText.replace('%', '')
+                }).appendTo(voteWrapper);
+
+                let voteTextContent = $('<div>', {
+                    class: 'voteTextContent',
+                }).appendTo(voteWrapper);
+
+                let vote = $('<span>', {
+                    class: 'vote',
+                    text: finalVoteText
+                }).appendTo(voteTextContent);
+            }
+
+            updateVotes();
+        }
+    }
+}
+
 const chosenMovie = (value, type) => {
-    $('#playingNowContainer, #trendingContainer,  #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
+    $('#wishlistContainer, #playingNowContainer, #trendingContainer,  #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
     $('.searchContainer').addClass('chosenSearch');
     $('#spinnerWrapper').show();
     $('#chosenMovie, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
@@ -1033,23 +1091,7 @@ const chosenMovie = (value, type) => {
             finalTitle = data.name;
         }
 
-        let finalNameToSend;
-        finalNameToSend = finalTitle.replace(/'/, "");
-        finalNameToSend = finalNameToSend.replace(/-/, "");
-        finalNameToSend = finalNameToSend.replace(/:/, "");
-        finalNameToSend = finalNameToSend.replace(/\s/g, '');
-        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
-    
-        const url = new URL(window.location);
-        url.searchParams.set(chosenUrl, finalNameToSend);
-        url.searchParams.set('value', value);
-        
-        window.history.pushState({}, '', url);
-    
-        $(window).on('popstate', function() {
-            goHome();
-            window.history.replaceState({}, document.title, "/" + "my-movie-list/");
-        });
+        refreshUrl(value, finalTitle, 2, null, chosenUrl);
 
         let finalImg;
 
@@ -1200,7 +1242,7 @@ const chosenMovie = (value, type) => {
 
                             goToDiv('#genreChosen');
                             $('.container').hide();
-                            $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #providerContainer').empty().hide();
+                            $('#wishlistContainer, #playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #providerContainer').empty().hide();
 
                             let totalPages;
                             let arr = [];
@@ -1229,7 +1271,7 @@ const chosenMovie = (value, type) => {
                                             setTimeout(() => {
                                                 $('#genreChosen').css('display', 'flex');
                                                 if (type == 1) {
-                                                    buildMovies(arr, 'genreMovie', $('#genreChosen'), 9);
+                                                    buildMovies(arr, 'genreMovie', $('#genreChosen'), 8);
                                                 } else {
                                                     buildTvShows(arr, 'genreMovie', $('#genreChosen'));
                                                 } 
@@ -1249,12 +1291,7 @@ const chosenMovie = (value, type) => {
     });
 
     setTimeout(() => {
-        window.onscroll = () => {
-            scrollBtn();
-            lazyload();
-            scrollIndicator();
-            checkSoundOnScroll();
-        }
+        refreshWindowScroll(1);
     }, 1000)
 
     getCredits(value, type);
@@ -1546,6 +1583,8 @@ const getCredits = (value, type) => {
                     console.log(e);
                 }
             }
+
+            checkLength(finalLength, '#castContent');
         }
     });
 }
@@ -1567,29 +1606,7 @@ const getPersonDetails = (value, type) => {
     $.get(movieActorsUrl + value + "?api_key=" + tmdbKey + "&language=en-US", (data) => {
         $('#chosenPersonName').html(data.name);
 
-        let finalNameToSend;
-        finalNameToSend = data.name.replace(/'/, "");
-        finalNameToSend = finalNameToSend.replace(/-/, "");
-        finalNameToSend = finalNameToSend.replace(/:/, "");
-        finalNameToSend = finalNameToSend.replace(/\s/g, '');
-
-        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
-
-        const url = new URL(window.location);
-        
-        if (type == 1) {
-            url.searchParams.set('actor', finalNameToSend);
-        } else {
-            url.searchParams.set('director', finalNameToSend);
-        }
-
-        url.searchParams.set('value', value);
-        window.history.pushState({}, '', url);
-
-        $(window).on('popstate', function() {
-            goHome();
-            window.history.replaceState({}, document.title, "/" + "my-movie-list/");
-        });
+        refreshUrl(value, data.name, 1, type, null);
 
         let finalImg;
 
@@ -1693,7 +1710,7 @@ const getPopular = () => {
     }
 
     $('.container').hide();
-    $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
+    $('#wishlistContainer, #playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
 
     switchContent(2);
 
@@ -1778,7 +1795,7 @@ const buildPopular = (arr) => {
             'src': finalSrc,
             'data-src': dataSrc,
             click: () => {
-                $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
+                $('#wishlistContainer, #playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
                 $('#search').val('');
                 $('main').hide();
                 getPersonDetails(arr[i].id, 1);
@@ -1955,6 +1972,8 @@ const getPersonCredits = (value, type) => {
                     sortPopularMovies($('#personMovies'), 'popularity', 3);
                 }, 500);
             }
+
+            checkLength(finalData.length, '#personMovies');
         }
     })
 }
@@ -2090,6 +2109,8 @@ const getSimilar = (value, type) => {
                     console.log(e);
                 }
             }
+
+            checkLength(data.results.length, '#similarMoviesContent');
         }
     });
 }
@@ -2160,12 +2181,28 @@ const getVideos = (value, type) => {
     });
 }
 
+const showMiscellaneous = () => {
+
+    if ($('#miscellaneousList').is(':visible')) {
+        $('#miscellaneousRow').css('border-bottom', 'none');
+        $('#miscellaneousList').fadeOut(100);
+    } else {
+
+        $('#miscellaneousRow').css('border-bottom', '1px solid #ff7b00');
+        $('#miscellaneousList').fadeIn(100);
+    }
+
+    setTimeout(() => {
+        $('#toggle').addClass('on');
+    }, 0)
+}
+
 const goToDiv = (div) => {
     $('.searchContainer').removeClass('chosenSearch');
 
     if (!$('#marvelContainer').is(':visible')) {
         $('.container').css('display', 'flex');
-        $('#playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
+        $('#wishlistContainer, #playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
         switchContent(2);
     }
     
@@ -2184,18 +2221,9 @@ const goToDiv = (div) => {
     } else {
         document.querySelector(div).scrollIntoView({ behavior: 'smooth' });
     }
-}
 
-const emptyChosen = () => {
-    $('#productionCompenies, #overview, #watchProviders, #directorsWrapper, #castContent, #similarMoviesContent, #chosenMovieImagesWrapper, #videosWrapper, #searchResults').empty();
-    $('#chosenMovieImdb').attr('href', 'https://www.imdb.com');
-    $('#chosenMovieImg').attr('src', '');   
-    $('#chosenMovieSentence, #movieDate, #movieRuntime, #movieRevenue, #movieRating, #movieLang, #castHeader, #similarHeader, #chosenMovieTitle').html('');
-    $('#chosenMovieDate, #chosenMovieRuntime, #chosenMovieRevenue, #chosenMovie, #seasons, #episodes, #chosenMovieRating, #chosenMovieGenres, #chosenMovieLang, #similarMovies, #chosenMovieImagesWrapper, #videosWrapper, #searchResults').hide();
-    $('#personInstagramWrapper, #chosenPersonImgWrapper, #personMovies, #personImages').empty();
-    $('#chosenPersonName, #birthDate, #deathDate, #hometown').html('');
-    $('#personBirthDate, #personDeathDate, #personHometown, #chosenPerson').hide();
-    $('#personCreditsHeader, #audioWrapper, #genresContent').remove();
+    $('#miscellaneousList').hide();
+    $('#miscellaneousRow').css('border-bottom', 'none');
 }
 
 const getCinematicInfo = (url, type) => {
@@ -2425,13 +2453,6 @@ const showTimeline = (type, cinematicType) => {
     });
 }
 
-const goHome = () => {
-    $('main').show();
-    if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible') || $('#timeline').is(':visible')) {
-        goToDiv('#marvelContainer');
-    }
-}
-
 const sortPopularMovies = (container, elem1, type) => {
     let children;
     $.each($(container), function (key, value) {
@@ -2447,7 +2468,6 @@ const sortPopularMovies = (container, elem1, type) => {
             case 3: 
                 children = $(this).find('.credit');
                 break;
-
             case 4: 
                 children = $(this).find('.popularPerson');
                 break;
@@ -2467,121 +2487,6 @@ const sortPopularMovies = (container, elem1, type) => {
             $(this).append(ids[i].element);
         }
     });
-}
-
-const buildTvShows = (data, div, wrapper) => {
-    let typeheader = $('<h2>', {
-        class: 'typeheader',
-        text: 'TV Shows'
-    }).appendTo(wrapper);
-
-    let headerLine = $('<div>', {
-        class: 'line lineTvShows',
-    }).appendTo(wrapper);
-
-    let headerLogo = $('<span>', {
-        class: 'headerLogo',
-    }).appendTo(headerLine);
-
-    let tvShowContent = $('<div>', {
-        id: 'tvShowContent',
-    }).appendTo(wrapper);
-
-    for (let i = 0; i < data.length; i++) {
-        let tvShowWrapper = $('<div>', {
-            class: 'tvShowWrapper hoverEffect pointer ' + div,
-            'year': data[i].first_air_date.substr(0, 4),
-            'value': data[i].id,
-            click: function () {
-                chosenMovie(data[i].id, 2);
-            }
-        }).appendTo(tvShowContent);
-
-        let tvShowImg = $('<img>', {
-            class: 'tvShowImg',
-            alt: 'tvShowImg',
-            src: 'https://image.tmdb.org/t/p/w1280' + data[i].poster_path
-        }).appendTo(tvShowWrapper);
-
-        let tvShowName = $('<p>', {
-            class: 'name',
-            text: capitalize(data[i].name)
-        }).appendTo(tvShowWrapper);
-
-        let tvShowYear = $('<p>', {
-            class: 'year',
-            text: 'Year: ' + data[i].first_air_date.substr(0, 4)
-        }).appendTo(tvShowWrapper);
-
-        if (data[i].vote_average !== null || data[i].vote_average !== 0) {
-            let finalVoteText;
-            finalVoteText = data[i].vote_average.toString();
-    
-            if ((finalVoteText.length == 1 && data[i].vote_average !== '0') || data[i].vote_average == '10') {
-                finalVoteText = data[i].vote_average + '0'
-            } else {
-                finalVoteText = data[i].vote_average;
-            }
-    
-            finalVoteText = finalVoteText.toString();
-            finalVoteText = finalVoteText.replace('.', '') + '%';
-
-            if (finalVoteText !== 0 && finalVoteText !== undefined) {
-                let voteWrapper = $('<div>', {
-                    class: 'voteWrapper',
-                }).appendTo(tvShowWrapper);
-
-                let voteBackground = $('<span>', {
-                    class: 'voteBackground',
-                    voteCount: finalVoteText.replace('%', '')
-                }).appendTo(voteWrapper);
-
-                let voteTextContent = $('<div>', {
-                    class: 'voteTextContent',
-                }).appendTo(voteWrapper);
-
-                let vote = $('<span>', {
-                    class: 'vote',
-                    text: finalVoteText
-                }).appendTo(voteTextContent);
-            }
-
-            updateVotes();
-        }
-    }
-}
-
-const updateVotes = () => {
-    setTimeout(() => {
-        $.each($('.voteBackground'), (key, value) => {
-            let height = $(value).attr('voteCount');
-            $(value).css('height', height + '%');
-            let  r = height < 70 ? 255 : Math.floor(255-(height*2-100)*255/100);
-            let  g = height >= 70 ? 255 : Math.floor((height*2)*255/100);
-
-            if (height > 45 && height < 70) {
-                g = g - 100;
-            } else if(height >= 70) {
-                g = g - 50;
-            } else {
-                g = g;
-            }
-            $(value).css('background-color', 'rgb('+r+','+g+',0)');          
-        });
-    }, 500)
-}
-
-const goToTop = () => {
-    $('html,body').animate({ scrollTop: 0 }, 1000);
-}
-
-const scrollBtn = () =>{
-    if ($(this).scrollTop() > 550) {
-        $('#goToTopBtn').fadeIn();
-    }
-    else {
-        $('#goToTopBtn').fadeOut();
-    }
 }
 
 const sortByName = (container, type) => {
@@ -2705,14 +2610,4 @@ const sortByDate = (container, type) => {
             $(this).append(ids[i].element);
         }
     });
-}
-
-const removePopup = (container) => {
-    $(document).mouseup((e) => {
-        if (container.is(e.target) && container.has(e.target).length === 0) {
-            container.hide();
-            e.stopPropagation();
-            $(document).off('mouseup');
-        }
-    })
 }
