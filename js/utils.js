@@ -1,4 +1,3 @@
-
 const refreshWindowScroll = (type) => {
     if (type == 1) {   
         window.onscroll = () => {
@@ -376,36 +375,41 @@ const checkLength = (length, div) => {
     }
 }
 
-const emptyChosen = () => {
-    $('#productionCompenies, #overview, #watchProviders, #directorsWrapper, #castWrapper, #similarMoviesContent, #chosenMovieImagesWrapper, #videosWrapper, #searchResults').empty();
+const emptyChosen = (type, hideMain) => {
+
+	$('#spinnerWrapper').show();
+    $('main, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
+    $('html, body').scrollTop(0);
+    $('#progressBar').css('width', 0); 
+
+    $.each($('.sortable'), function (key, value) {   
+        if ($(value).attr('isSorted') == 'true') {
+            $(value).attr('isSorted', 'false');
+            sortByOrder($(value));
+        }
+    })
+
+	if(hideMain) {
+		$('main').hide();
+        $('.searchContainer').addClass('chosenSearch');
+	}
+
+	if(type == 1) {
+	    $('#chosenMovie').css({'pointer-events': 'none', 'opacity': 0});
+		$('#overview, #personOverviewWrapper, #tvShowSeasonsWrapper, #guestCast, #guestCastHeader').remove();
+		$('#wishlistContainer, #playingNowContainer, #trendingContainer,  #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
+	} else {
+		$('.searchContainer').removeClass('chosenSearch');
+	}
+
+    $('#personInstagramWrapper, #chosenPersonImgWrapper, #personMovies, #personImages, #productionCompenies, #overview, #watchProviders, #directorsWrapper, #castWrapper, #similarMoviesContent, #chosenMovieImagesWrapper, #videosWrapper, #searchResults').empty();
     $('#chosenMovieImdb').attr('href', 'https://www.imdb.com');
     $('#chosenMovieImg').attr('src', '');   
     $('#chosenMovieSentence, #movieDate, #movieRuntime, #movieRevenue, #movieRating, #movieLang, #castHeader, #similarHeader, #chosenMovieTitle').html('');
-    $('#chosenMovieDate, #chosenMovieRuntime, #chosenMovieRevenue, #chosenMovie, #seasons, #episodes, #chosenMovieRating, #chosenMovieGenres, #chosenMovieLang, #similarMovies, #chosenMovieImagesWrapper, #videosWrapper, #searchResults').hide();
-    $('#personInstagramWrapper, #chosenPersonImgWrapper, #personMovies, #personImages').empty();
+    $('#personBirthDate, #personDeathDate, #personHometown, #chosenPerson, #chosenMovieDate, #chosenMovieRuntime, #chosenMovieRevenue, #chosenMovie, #seasons, #episodes, #chosenMovieRating, #chosenMovieGenres, #chosenMovieLang, #similarMovies, #chosenMovieImagesWrapper, #videosWrapper, #searchResults').hide();
     $('#chosenPersonName, #birthDate, #deathDate, #hometown').html('');
-    $('#personBirthDate, #personDeathDate, #personHometown, #chosenPerson').hide();
-    $('#personCreditsHeader, #audioWrapper, #genresContent').remove();
-}
-
-const updateVotes = () => {
-    setTimeout(() => {
-        $.each($('.voteBackground'), (key, value) => {
-            let height = $(value).attr('voteCount');
-            $(value).css('height', height + '%');
-            let  r = height < 70 ? 255 : Math.floor(255-(height*2-100)*255/100);
-            let  g = height >= 70 ? 255 : Math.floor((height*2)*255/100);
-
-            if (height > 45 && height < 70) {
-                g = g - 100;
-            } else if(height >= 70) {
-                g = g - 50;
-            } else {
-                g = g;
-            }
-            $(value).css('background-color', 'rgb('+r+','+g+',0)');          
-        });
-    }, 500)
+    $('#personCreditsHeader, #audioWrapper, #genresContent, #overview, #personOverviewWrapper, #tvShowSeasonsWrapper, #guestCast, #guestCastHeader').remove();
+	$('#wishlistContainer, #playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
 }
 
 const goToTop = () => {
@@ -418,5 +422,44 @@ const scrollBtn = () =>{
     }
     else {
         $('#goToTopBtn').fadeOut();
+    }
+}
+
+const updateVotes = (data, wrapper) => {
+    if (data !== null || data !== 0) {
+        let finalVoteText;
+        finalVoteText = data.toString();
+
+        if ((finalVoteText.length == 1 && data !== '0') || data == '10') {
+            finalVoteText = data + '.0'
+        } else {
+            finalVoteText = data;
+        }
+
+        finalVoteText = finalVoteText.toString();
+
+        if (finalVoteText !== 0 && finalVoteText !== undefined) {
+            let voteWrapper = $('<div>', {
+                class: 'voteWrapper',
+            }).appendTo(wrapper);
+
+            let voteBackground = $('<span>', {
+                class: 'voteBackground',
+                voteCount: finalVoteText
+            }).appendTo(voteWrapper);
+
+            let voteTextContent = $('<div>', {
+                class: 'voteTextContent',
+            }).appendTo(voteWrapper);
+
+            let voteStar = $('<i>', {
+                class: 'fas fa-star voteStar',
+            }).appendTo(voteTextContent);
+
+            let vote = $('<span>', {
+                class: 'vote',
+                text: finalVoteText
+            }).appendTo(voteTextContent);
+        }
     }
 }
