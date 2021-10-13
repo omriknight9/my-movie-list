@@ -19,7 +19,6 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script src="js/main.js"></script>
         <script src="js/utils.js"></script>
-
     </head>
 <body>
 
@@ -58,30 +57,25 @@
                     <img src="./images/popcorn.png" alt="popcorn" class="menuImg" id="playingNowLink">
                     <span>Playing Now</span>
                 </li>
-                
                 <li onclick="showUpcoming()" class="pointer">
                     <img src="./images/comingSoon.png" alt="comingSoon" class="menuImg" id="comingSoonLink">
                     <span>Upcoming</span>
                 </li>
-
                 <li onclick="showTrending()" class="pointer">
                     <img src="./images/fire.png" alt="trendind" class="menuImg" id="trendingLink">
                     <span>Trending</span>
                 </li>
-
                 <li onclick="getPopular()" class="pointer">
                     <img src="./images/star.png" alt="star" class="menuImg">
                     <span>Popular People</span>
                 </li>
-
                 <li onclick="showMiscellaneous()" class="pointer" id="miscellaneousRow">
                     <img src="./images/miscellaneous.png" alt="miscellaneous" class="menuImg" id="miscellaneousLink">
                     <span>Miscellaneous</span>
                 </li>
             </ul>
 
-            <ul id="miscellaneousList">
-                
+            <ul id="miscellaneousList">         
                 <li onclick="goToDiv('#marvelContainer')" class="pointer">
                     <img src="./images/ironman.png" alt="ironman" class="menuImg">
                     <span>Marvel</span>
@@ -105,8 +99,7 @@
                 <li onclick="goToDiv('#tvShowContainer')" class="pointer">
                     <img src="./images/shows.png" alt="shows" class="menuImg">
                     <span>TV Shows</span>
-                </li>
-                
+                </li>   
                 <li onclick="showWishlist()" class="pointer">
                     <img src="./images/wishlist.png" alt="wishlist" class="menuImg" id="wishlistLink">
                     <span>Wishlist</span>
@@ -133,20 +126,19 @@
     </div>
 
     <main>
-        <div class="container" id="marvelContainer"></div>
-        <div class="container" id="dcContainer"></div>
+        <div class="container sortable" id="marvelContainer" isSorted="false"></div>
+        <div class="container sortable" id="dcContainer" isSorted="false"></div>
         <div class="container" id="valiantContainer"></div>
-        <div class="container" id="othersContainer"></div>
-        <div class="container" id="animationContainer"></div>
+        <div class="container sortable" id="othersContainer" isSorted="false"></div>
+        <div class="container sortable" id="animationContainer" isSorted="false"></div>
         <div class="container" id="tvShowContainer"></div>
-        <div class="container" id="upcomingContainer"></div>
-        <div class="container" id="playingNowContainer"></div>
-        <div class="container" id="popular"></div>
-        <div class="container" id="genreChosen"></div>
-        <div class="container" id="trendingContainer"></div>
-        <div class="container" id="providerContainer"></div>
-        <div class="container" id="wishlistContainer"></div>
-
+        <div class="container emptyable" id="upcomingContainer"></div>
+        <div class="container emptyable" id="playingNowContainer"></div>
+        <div class="container emptyable" id="popular"></div>
+        <div class="container emptyable" id="genreChosen"></div>
+        <div class="container emptyable" id="trendingContainer"></div>
+        <div class="container emptyable" id="providerContainer"></div>
+        <div class="container emptyable" id="wishlistContainer"></div>
     </main>
 
     <div id="timeline">
@@ -183,7 +175,6 @@
         </div>
         <div id="chosenMovieImagesWrapper"></div>
         <div id="videosWrapper"></div>
-
     </div>
 
     <div id="chosenPerson">
@@ -198,7 +189,6 @@
         <div id="personCredits">
             <div id="personMovies" class="content"></div>
         </div>
-
         <div id="personImages"></div> 
         <div id="personMovieImages"></div> 
     </div>
@@ -222,12 +212,10 @@
                 Release Date:
                 <span id="dateOfNextMovie"></span>
             </p>
-
             <p>
                 Next In Line:
                 <span id="afterNextMovieTitle"></span>
             </p>
-
             <p>
                 Relese Date:
                 <span id="afterNextMovieDate"></span>
