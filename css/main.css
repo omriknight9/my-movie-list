@@ -37,10 +37,8 @@ main {
 }
 
 #audioWrapper {
-    /* display: none; */
     position: fixed;
     bottom: 0;
-    /* text-align: center; */
     width: 100%;
     color: white;
     background-color: rgba(0, 0, 0, 0.4);
@@ -191,7 +189,6 @@ audio {
     -webkit-transition: .2s;
     -o-transition: .2s;
     -moz-transition: .2s;
-
 }
 
 #socials i {
@@ -250,30 +247,21 @@ h1 {
 
 button {
     border: none;
-    min-width: 5rem;
+    background: none;
+    outline: none;
     padding: .6rem;
     margin: 1rem;
-    background: white;
-    outline: none;
     border-radius: 5px;
-    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
-    transition: .2s;
-    -webkit-transition: .2s;
-    -o-transition: .2s;
-    -moz-transition: .2s;
-}
-
-button:active {
-    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
-    transform: translateY(4px);
-    -ms-transform: translateY(4px);
-    -moz-transform: translateY(4px);
-    -webkit-transform: translateY(4px);
-    -o-transform: translateY(4px);
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8)); 
+    color: var(--orange);
+    font-weight: 600;
+    font-size: 1rem;
+    font-family: Ubuntu, "Helvetica Neue", Helvetica, sans-serif;
 }
 
 .searchContainer {
-    display: none;
+    opacity: 0;
+    pointer-events: 0;
     position: absolute;
     top: 0;
     width: 100%;
@@ -901,8 +889,6 @@ p {
 .voteWrapper {
     width: 2.5rem;
     height: 2.5rem;
-    background-color: white;
-    border: 1px solid #323538; 
     border-radius: 50%;
     position: absolute;
     top: 9rem;
@@ -911,6 +897,7 @@ p {
     text-align: center;
     line-height: 3rem;
     overflow: hidden;
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.4))
 }
 
 .tvShowWrapper .voteWrapper {
@@ -922,6 +909,8 @@ p {
     bottom: 0;
     left: 0;
     width: 100%;
+    background-color: #272532;
+    height: 100%;
 }
 
 .voteTextContent {
@@ -932,9 +921,17 @@ p {
 
 .vote {
     z-index: 1;
-    font-size: .9rem;
+    font-size: 1rem;
     font-weight: 600;
-    color: #323538;
+    color: var(--orange);
+}
+
+.voteStar {
+    color: yellow;
+    position: absolute;
+    top: .25rem;
+    font-size: .8rem;
+    left: .8rem;  
 }
 
 .movieImg, .tvShowImg, .popularPersonImg {
@@ -1073,12 +1070,12 @@ footer span {
 }
 
 #chosenMovieSentence {
-    color:  var(--orange);
+    color: var(--orange);
     font-weight: 600;
     text-align: center;
 }
 
-#overview, .directorHeader, #castHeader, #similarHeader, #personCreditsHeader {
+#overview, .directorHeader, #castHeader, #similarHeader, #personCreditsHeader, #guestCastHeader, .overviewText  {
     color: lightgray;
     font-weight: 600;
     text-align: center;
@@ -1090,6 +1087,66 @@ footer span {
 
 #seasons, #episodes {
     display: none;
+}
+
+#allSeasonsBtn, .seasonBtn, .episodeBtn, #seasonBackBtn, #episodeBackBtn {
+    margin-left: 0;
+}
+
+.seasonBtn, .episodeBtn {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--orange);
+    color: black;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#seasonBackBtn, #episodeBackBtn {
+    display: block;
+}
+
+.longText {
+    height: 2rem;
+    overflow: hidden;
+}
+
+.overviewWrapper {
+    position: relative;
+}
+
+.overviewHeader {
+    font-size: 2rem !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+    color: var(--orange) !important;
+}
+
+.overviewArrowWrapper {
+    position: absolute;
+    bottom: -1.5rem;
+    text-align: center;
+    width: 100%;
+}
+
+.overviewArrow {
+    font-size: 1.8rem;
+    width: 1.8rem;
+    line-height: 2rem !important;
+    height: 1.8rem;
+    color: black;
+    background-color: lightgray;
+    border-radius: 50%;
+}
+
+.turnArrow {
+    bottom: -2.5rem;
+}
+
+.turnArrow .overviewArrow {
+    transform: rotate(180deg);
 }
 
 #productionCompenies, #watchProviders {
@@ -1112,19 +1169,18 @@ footer span {
     margin: 1rem;
 }
 
-#movieDesc {
+#movieDesc, #personOverviewWrapper {
     width: 80%;
     margin: 3rem auto;
 }
 
-#overview {
+#overview, .overviewText  {
     line-height: 1.4rem;
 }
 
 .details {
     width: 50%;
     margin: auto;
-    text-align: center;
 }
 
 #genresContent {
@@ -1231,6 +1287,7 @@ footer span {
 
 .chosenHeader {
     font-size: 2rem;
+    color: var(--orange) !important;
 }
 
 .director {
@@ -1241,9 +1298,14 @@ footer span {
     text-align: center;
 }
 
-.directorImdbLink, .directorInstagramLink {
+.directorImdbLink {
     width: 50px;
     height: 50px;
+}
+
+.directorInstagramLink {
+    width: 47px;
+    height: 47px;
 }
 
 .linksWrapper, .directorLinksWrapper {
@@ -1286,8 +1348,12 @@ footer span {
     text-align: center;
 }
 
-.actorImdbLink, .actorInstagramLink {
+.actorImdbLink {
     width: 40px;
+}
+
+.actorInstagramLink {
+    width: 39px;
 }
 
 .imdbLinkWrapper {
@@ -1643,8 +1709,12 @@ footer span {
         height: 160px;
     }
 
-    .actorImdbLink, .actorInstagramLink {
+    .actorImdbLink {
         width: 30px;
+    }
+
+    .actorInstagramLink {
+        width: 29px;
     }
 }
 
