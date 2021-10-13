@@ -7,6 +7,8 @@ let providerTitle;
 let providerClass;
 let directorCounter = 0;
 let commentsArr = [];
+let valueFromUrl;
+let searchAjax;
 
 const baseUrl = 'https://api.themoviedb.org/3';
 const tmdbKey = '0271448f9ff674b76c353775fa9e6a82';
@@ -26,39 +28,26 @@ const tvGenreUrl = baseUrl + '/discover/tv?api_key=' + tmdbKey + '&language=en-U
 const providerUpcomingUrl = baseUrl + '/discover/movie?api_key=' + tmdbKey + '&language=en-US&watch_region=US&with_watch_providers=';
 
 $(document).ready(() => {
-    if (window.location.href.indexOf("?movie=") > -1) {
+
+    if (window.location.href.indexOf("?movie=") > -1 || window.location.href.indexOf("?tvShow=") > -1 || window.location.href.indexOf("?actor=") > -1 || window.location.href.indexOf("?director=") > -1) { 
         const urlParams = new URLSearchParams(window.location.search);
-        const value = Number(urlParams.get('value'));
-        chosenMovie(value, 1);
+        valueFromUrl = Number(urlParams.get('value'));
+    }
+
+    if (window.location.href.indexOf("?movie=") > -1) {
+        chosenMovie(valueFromUrl, 1);
         refreshWindowScroll(1);
 
     } else if (window.location.href.indexOf("?tvShow=") > -1) {
-        const urlParams = new URLSearchParams(window.location.search);
-        const value = Number(urlParams.get('value'));
-        chosenMovie(value, 2);
+        chosenMovie(valueFromUrl, 2);
         refreshWindowScroll(1);
 
     } else if (window.location.href.indexOf("?actor=") > -1) {
-        const urlParams = new URLSearchParams(window.location.search);
-        const value = Number(urlParams.get('value'));
-
-        $('#wishlistContainer, #playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #searchResults, #genreChosen, #providerContainer').empty().hide();
-        $('#search').val('');
-        $('main').hide();
-
-        getPersonDetails(value, 1);
+        getPersonDetails(valueFromUrl, 1);
         refreshWindowScroll(1);
 
     } else if (window.location.href.indexOf("?director=") > -1) {
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const value = Number(urlParams.get('value'));
-
-        $('#wishlistContainer, #playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #searchResults, #genreChosen, #providerContainer').empty().hide();
-        $('#search').val('');
-        $('main').hide();
-
-        getPersonDetails(value, 2);
+        getPersonDetails(valueFromUrl, 2);
         refreshWindowScroll(2);
 
     } else if (window.location.href.indexOf("?timeline=") > -1) {
@@ -82,16 +71,10 @@ $(document).ready(() => {
         $(this).parent().parent().fadeOut(150);
     })
 
-    setTimeout(() => {
-        $('#spinnerWrapper').hide();
-        $('.searchContainer').show();
-        $('button').show();
-        $('.container, footer').css('display', 'flex');
-        $('#wishlistContainer, #upcomingContainer, #playingNowContainer, #popular, #genreChosen, #trendingContainer, #providerContainer').hide();
-    }, 2000);
-
     $('#search').on('keyup', () => {
-
+        setTimeout(() => {
+            searchAjax.abort();
+        }, 0)
         closeMenus();
 
         searchVal = $('#search').val();
@@ -99,12 +82,14 @@ $(document).ready(() => {
     
         if (lastChar == ' ') {
             return;
-        } 
+        }
 
         if (searchVal.length == 0) {
             $('#searchResults').empty().hide();
         } else {
-            showResults(searchVal);
+            setTimeout(() => {
+                showResults(searchVal);
+            }, 100)
         }
     })
 });
@@ -112,39 +97,34 @@ $(document).ready(() => {
 const loadJson = () => {
     let  promise1 = new Promise((resolve) => {
         resolve(getList(7099604, 'marvel', $('#marvelContainer'), 1, 1));
-    });
-
-    promise1.then(() => {
+    })
+    .then(() => {
         getList(7099603, 'dc', $('#dcContainer'), 2, 1);
-    });
-
-    promise1.then(() => {
+    })
+    .then(() => {
         getList(7099609, 'valiant', $('#valiantContainer'), 3, 1);
-    });
-
-    promise1.then(() => {
+    })
+    .then(() => {
         getList(7099605, 'others', $('#othersContainer'), 4, 1);
-    });
-
-    promise1.then(() => {
+    })
+    .then(() => {
         getList(7099575, 'animation', $('#animationContainer'), 5, 1);
-    });
-
-    promise1.then(() => {
+    })
+    .then(() => {
         getList(7099607, 'tvShow', $('#tvShowContainer'), null, 2);
-    });
+    })
 }
 
 const getList = (value, div, wrapper, type, movieOrTv) => {
     let arr = [];
 
     $.get('https://api.themoviedb.org/4/list/' + value + '?api_key=' + tmdbKey + '&language=en-US', (data) => {
-        getComments(data, movieOrTv, arr);
+        getComments(data, movieOrTv, arr, 1);
 
         if (data.total_pages > 1) {
             for (let i = 2; i < data.total_pages + 1; i++) {
                 $.get('https://api.themoviedb.org/4/list/' + value + '?api_key=' + tmdbKey + '&language=en-US&page=' + i, (data) => {
-                    getComments(data, movieOrTv, arr);
+                    getComments(data, movieOrTv, arr, 1);
                 });
             }
 
@@ -168,8 +148,10 @@ const getList = (value, div, wrapper, type, movieOrTv) => {
     });
 }
 
-const getComments = (data, movieOrTv, arr) => {
-    $.each(data.comments, function (key, value) {
+const getComments = (data, movieOrTv, arr, type) => {
+
+    $.each(data.comments, (key, value) =>  {
+
         if (value !== null) {
             let finalOrder;
             if(value.split(',')[1] == undefined) {
@@ -186,10 +168,21 @@ const getComments = (data, movieOrTv, arr) => {
                 finalValue = key.replace('tv:', '');
             }
 
-            let obj = {
-                value: finalValue,
-                quality: value.split(',')[0].trim(),
-                order: finalOrder
+            let obj;
+
+            if (type == 1) {
+                obj = {
+                    value: finalValue,
+                    quality: value.split(',')[0].trim(),
+                    order: finalOrder
+                }
+            } else {
+                obj = {
+                    value: finalValue,
+                    quality: value.split(',')[0].trim(),
+                    order: finalOrder,
+                    delete: value.split(',')[2].trim()
+                }
             }
 
             commentsArr.push(obj);
@@ -200,7 +193,7 @@ const getComments = (data, movieOrTv, arr) => {
         arr.push(data.results[i]); 
     }
 
-    $.each(arr, function (key, value) {      
+    $.each(arr, (key, value) => {      
         for (let w = 0; w < commentsArr.length; w++) {     
             if (value.id == commentsArr[w].value) {
                 arr[key].quality = commentsArr[w].quality;
@@ -218,31 +211,32 @@ const showWishlist = () => {
 
     $('#miscellaneousList').hide();
     $('#miscellaneousRow').css('border-bottom', 'none');
-
     $('#spinnerWrapper').show();
     $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
-
-    setTimeout(() => {
-        $('#spinnerWrapper').hide();
-        $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
-    }, 2000)
 
     if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible') || $('#timeline').is(':visible')) {
         goToDiv('#wishlistContainer');
     }
 
     $('.container').hide();
-    $('#wishlistContainer, #playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
+    emptyContainers();
 
     let arr = [];
 
+    commentsArr.reduceRight(function(acc, item, index, object) {
+        if (item.delete === 'yes') {
+          object.splice(index, 1);
+        }
+    }, []);
+
     $.get('https://api.themoviedb.org/4/list/' + 7110189 + '?api_key=' + tmdbKey + '&language=en-US', (data) => {
-        getComments(data, 1, arr);
+        
+        getComments(data, 1, arr, 2);
 
         if (data.total_pages > 1) {
             for (let i = 2; i < data.total_pages + 1; i++) {
-                $.get('https://api.themoviedb.org/4/list/' + value + '?api_key=' + tmdbKey + '&language=en-US&page=' + i, (data) => {
-                    getComments(data, 1);
+                $.get('https://api.themoviedb.org/4/list/' + 7110189 + '?api_key=' + tmdbKey + '&language=en-US&page=' + i, (data) => {
+                    getComments(data, 1, arr, 2);
                 });
             }
         }
@@ -251,7 +245,19 @@ const showWishlist = () => {
             $('#wishlistContainer').css('display', 'flex');
             buildMovies(arr, 'wishlist', $('#wishlistContainer'), 10);
         }, 1000)
-    });
+    })
+    .done(() => {
+        setTimeout(() => {
+            $('#spinnerWrapper').hide();
+            $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+        }, 1500)
+    })
+    .fail(() => {
+        setTimeout(() => {
+            $('#spinnerWrapper').hide();
+            $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+        }, 1500)
+    })
 }
 
 const showTrending = () => {
@@ -262,17 +268,12 @@ const showTrending = () => {
     $('#spinnerWrapper').show();
     $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
 
-    setTimeout(() => {
-        $('#spinnerWrapper').hide();
-        $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
-    }, 2000)
-
     if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible') || $('#timeline').is(':visible')) {
         goToDiv('#trendingContainer');
     }
 
     $('.container').hide();
-    $('#wishlistContainer, #playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
+    emptyContainers();
 
     let totalPages;
     let arr = [];
@@ -298,10 +299,11 @@ const showTrending = () => {
                 });
             }, 1000)
         }
-    });
+    })
 }
 
 const showProvider = (providerId) => {
+
     switch (providerId) {
         case 337:
             providerTitle = 'Disney Plus';
@@ -328,17 +330,12 @@ const showProvider = (providerId) => {
     $('#spinnerWrapper').show();
     $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
 
-    setTimeout(() => {
-        $('#spinnerWrapper').hide();
-        $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
-    }, 2000)
-
     if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible') || $('#timeline').is(':visible')) {
         goToDiv('#providerContainer');
     }
 
     $('.container').hide();
-    $('#wishlistContainer, #playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
+    emptyContainers();
 
     let totalPages;
     let arr = [];
@@ -353,7 +350,19 @@ const showProvider = (providerId) => {
         if (totalPages > 1) {
             getInfo(providerUpcomingUrl, arr, 'provider', $('#providerContainer'), 9, providerId);
         }
-    });
+    })
+    .done(() => {
+        setTimeout(() => {
+            $('#spinnerWrapper').hide();
+            $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+        }, 1500)
+    })
+    .fail(() => {
+        setTimeout(() => {
+            $('#spinnerWrapper').hide();
+            $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+        }, 1500)
+    })
 }
 
 const showPlayingNow = () => {
@@ -364,17 +373,12 @@ const showPlayingNow = () => {
     $('#spinnerWrapper').show();
     $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
 
-    setTimeout(() => {
-        $('#spinnerWrapper').hide();
-        $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
-    }, 2000)
-
     if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible') || $('#timeline').is(':visible')) {
         goToDiv('#playingNowContainer');
     }
 
     $('.container').hide();
-    $('#wishlistContainer, #playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
+    emptyContainers();
 
     let totalPages;
     let arr = [];
@@ -389,7 +393,7 @@ const showPlayingNow = () => {
         if (totalPages > 1) {
             getInfo(nowPlayingUrl, arr, 'playingNow', $('#playingNowContainer'), 7);
         }
-    });
+    })
 }
 
 const showUpcoming = () => {
@@ -400,17 +404,12 @@ const showUpcoming = () => {
     $('#spinnerWrapper').show();
     $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
 
-    setTimeout(() => {
-        $('#spinnerWrapper').hide();
-        $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
-    }, 2000)
-
     if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible') || $('#timeline').is(':visible')) {
         goToDiv('#upcomingContainer');
     }
 
     $('.container').hide();
-    $('#wishlistContainer, #playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
+    emptyContainers();
 
     let totalPages;
     let arr = [];
@@ -424,6 +423,14 @@ const showUpcoming = () => {
 
         if (totalPages > 1) {
             getInfo(upcomingUrl, arr, 'upcoming', $('#upcomingContainer'), 6);
+        }
+    })
+}
+
+const emptyContainers = () => {
+    $.each($('.emptyable'), function (key, value) {
+        if ($(value).text().length > 0) {
+            $(value).empty();
         }
     });
 }
@@ -439,33 +446,24 @@ const getInfo = (url, arr, className, container, type, providerId) => {
                 $(container).css('display', 'flex');
                 buildMovies(arr, className, container, type);
             }, 500)
-        });
+        })
+        .done(() => {
+            setTimeout(() => {
+                $('#spinnerWrapper').hide();
+                $('main, #chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+            }, 1000)
+        })
+        .fail(() => {
+            setTimeout(() => {
+                $('#spinnerWrapper').hide();
+                $('main, #chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+            }, 1000)
+        })
     }, 1000)
 }
 
-const switchContent = (type) => {
-    emptyChosen();
-    $('#spinnerWrapper').show();
-    $('main, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
-    $('html,body').scrollTop(0);
-    $('#progressBar').css('width', 0);
-
-    let time;
-
-    if (type == 1) {
-        time = 500;
-    } else {
-        time = 2000;
-    }
-
-    setTimeout(() => {
-        $('#spinnerWrapper').hide();
-        $('main, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
-    }, time)
-}
-
 const showResults = (value) => {
-    $.get(searchMovieUrl + value + "&language=en-US", (data) => {
+    searchAjax = $.get(searchMovieUrl + value + "&language=en-US", (data) => {
         if (data == 'undefind' || data == null) {
             return;
         }
@@ -600,7 +598,7 @@ const showResults = (value) => {
 const lazyload = () => {
     let lazyloadImages = document.querySelectorAll(".lazy");
     lazyloadImages.forEach((img) => {
-        if (img.getBoundingClientRect().top + 200 < (window.innerHeight)) {
+        if (img.getBoundingClientRect().top + 100 < (window.innerHeight)) {
             if ($(img).is(':visible')) {
                 img.src = img.dataset.src;
                 img.classList.remove('lazy');
@@ -712,42 +710,15 @@ const buildTrending = (data, div, wrapper) => {
                 class: 'date',
                 text: configureDate(finalDate)
             }).appendTo(trendingWrapper);
-    
-            if (data[i].vote_average !== null && data[i].vote_average !== 0) {
-                let finalVoteText;
-                finalVoteText = data[i].vote_average.toString();
-        
-                if ((finalVoteText.length == 1 && data[i].vote_average !== '0') || data[i].vote_average == '10') {
-                    finalVoteText = data[i].vote_average + '0'
-                } else {
-                    finalVoteText = data[i].vote_average;
-                }
-        
-                finalVoteText = finalVoteText.toString();
-                finalVoteText = finalVoteText.replace('.', '') + '%';
-    
-                let voteWrapper = $('<div>', {
-                    class: 'voteWrapper',
-                }).appendTo(trendingWrapper);
-    
-                let voteBackground = $('<span>', {
-                    class: 'voteBackground',
-                    voteCount: finalVoteText.replace('%', '')
-                }).appendTo(voteWrapper);
-    
-                let voteTextContent = $('<div>', {
-                    class: 'voteTextContent',
-                }).appendTo(voteWrapper);
-    
-                let vote = $('<span>', {
-                    class: 'vote',
-                    text: finalVoteText
-                }).appendTo(voteTextContent);
-    
-                updateVotes();
-            }
+
+            updateVotes(data[i].vote_average, trendingWrapper);
         }
-    } 
+    }
+
+    setTimeout(() => {
+        $('#spinnerWrapper').hide();
+        $('main, #chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+    }, 2000)
 }
 
 const buildMovies = (data, div, wrapper, type) => {
@@ -879,6 +850,15 @@ const buildMovies = (data, div, wrapper, type) => {
     }
 
     for (let i = 0; i < data.length; i++) {
+
+        let finalReleaseDate;
+        if (data[i].release_date == '' || data[i].release_date == null || data[i].release_date == undefined) {
+            finalReleaseDate = 'Unknown';
+ 
+        } else {
+            finalReleaseDate = configureDate(data[i].release_date); 
+        }
+
         let movieWrapper = $('<div>', {
             class: 'movieWrapper hoverEffect pointer ' + div,
             'date': data[i].release_date,
@@ -928,44 +908,19 @@ const buildMovies = (data, div, wrapper, type) => {
 
         let movieDate = $('<p>', {
             class: 'date',
-            text: configureDate(data[i].release_date)
+            text: finalReleaseDate
         }).appendTo(movieWrapper);
 
-        if (data[i].vote_average !== null && data[i].vote_average !== 0) {
+        updateVotes(data[i].vote_average, movieWrapper);
+    }
 
-            let finalVoteText;
-
-            finalVoteText = data[i].vote_average.toString();
-    
-            if ((finalVoteText.length == 1 && data[i].vote_average !== '0') || data[i].vote_average == '10') {
-                finalVoteText = data[i].vote_average + '0'
-            } else {
-                finalVoteText = data[i].vote_average;
-            }
-    
-            finalVoteText = finalVoteText.toString();
-            finalVoteText = finalVoteText.replace('.', '') + '%';
-
-            let voteWrapper = $('<div>', {
-                class: 'voteWrapper',
-            }).appendTo(movieWrapper);
-
-            let voteBackground = $('<span>', {
-                class: 'voteBackground',
-                voteCount: finalVoteText.replace('%', '')
-            }).appendTo(voteWrapper);
-
-            let voteTextContent = $('<div>', {
-                class: 'voteTextContent',
-            }).appendTo(voteWrapper);
-
-            let vote = $('<span>', {
-                class: 'vote',
-                text: finalVoteText
-            }).appendTo(voteTextContent);
-
-            updateVotes();
-        }
+    if (type == 1) {
+        setTimeout(() => {
+            $('#spinnerWrapper').hide();
+            $('.searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+            $('button').show();
+            $('.container, footer').css('display', 'flex');
+        }, 500);
     }
 }
 
@@ -1018,59 +973,14 @@ const buildTvShows = (data, div, wrapper) => {
             text: 'Year: ' + data[i].first_air_date.substr(0, 4)
         }).appendTo(tvShowWrapper);
 
-        if (data[i].vote_average !== null || data[i].vote_average !== 0) {
-            let finalVoteText;
-            finalVoteText = data[i].vote_average.toString();
-    
-            if ((finalVoteText.length == 1 && data[i].vote_average !== '0') || data[i].vote_average == '10') {
-                finalVoteText = data[i].vote_average + '0'
-            } else {
-                finalVoteText = data[i].vote_average;
-            }
-    
-            finalVoteText = finalVoteText.toString();
-            finalVoteText = finalVoteText.replace('.', '') + '%';
-
-            if (finalVoteText !== 0 && finalVoteText !== undefined) {
-                let voteWrapper = $('<div>', {
-                    class: 'voteWrapper',
-                }).appendTo(tvShowWrapper);
-
-                let voteBackground = $('<span>', {
-                    class: 'voteBackground',
-                    voteCount: finalVoteText.replace('%', '')
-                }).appendTo(voteWrapper);
-
-                let voteTextContent = $('<div>', {
-                    class: 'voteTextContent',
-                }).appendTo(voteWrapper);
-
-                let vote = $('<span>', {
-                    class: 'vote',
-                    text: finalVoteText
-                }).appendTo(voteTextContent);
-            }
-
-            updateVotes();
-        }
+        updateVotes(data[i].vote_average, tvShowWrapper);
     }
 }
 
 const chosenMovie = (value, type) => {
-    $('#wishlistContainer, #playingNowContainer, #trendingContainer,  #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
-    $('.searchContainer').addClass('chosenSearch');
-    $('#spinnerWrapper').show();
-    $('#chosenMovie, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
-
-    setTimeout(() => {
-        $('#spinnerWrapper').hide();
-        $('#chosenMovie, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
-    }, 2000)
-
     closeMenus();
-
-    $('main').hide();
-    switchContent(2);
+    emptyChosen(1, true);
+    
     $('#chosenMovie').show();
 
     let chosenUrl;
@@ -1182,6 +1092,22 @@ const chosenMovie = (value, type) => {
             $('#chosenMovieRuntime, #chosenMovieRevenue').hide();
             $('#seriesSeasons').html('Seasons: ' + data.number_of_seasons);
             $('#seriesEpisodes').html('Episodes: ' + data.number_of_episodes);
+
+            if(data.number_of_seasons > 1) {
+ 
+                let tvShowSeasonsWrapper = $('<div>', {
+                    id: 'tvShowSeasonsWrapper',
+                }).insertAfter($('#chosenMovieGenres'));
+
+                let allSeasonsBtn = $('<button>', {
+                    id: 'allSeasonsBtn',
+                    text: 'View All Seasons',
+                    click: () => {
+                        $('.overviewWrapper').remove();
+                        showSeasonsBtns(data.number_of_seasons);
+                    }
+                }).appendTo($('#tvShowSeasonsWrapper'));
+            }
         }
 
         let finalVoteText;
@@ -1194,7 +1120,6 @@ const chosenMovie = (value, type) => {
         }
 
         finalVoteText = finalVoteText.toString();
-        finalVoteText = finalVoteText.replace('.', '') + '%';
     
         if (finalVoteText !== 0 && finalVoteText !== undefined) {
             $('#movieRating').html('Rating: ' + finalVoteText);
@@ -1242,7 +1167,7 @@ const chosenMovie = (value, type) => {
 
                             goToDiv('#genreChosen');
                             $('.container').hide();
-                            $('#wishlistContainer, #playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #providerContainer').empty().hide();
+                            emptyContainers();
 
                             let totalPages;
                             let arr = [];
@@ -1301,6 +1226,307 @@ const chosenMovie = (value, type) => {
     getWatchProviders(value, type);
 }
 
+const showSeasonsBtns = (seasonsNum) => {
+
+    $('#guestCast, #guestCastHeader').remove();
+
+    $('#allSeasonsBtn').hide();
+
+    $('#seasonBackBtn, #seasonBtnWrapper').remove();
+
+    let seasonBtnWrapper = $('<div>', {
+        id: 'seasonBtnWrapper',
+    }).appendTo($('#tvShowSeasonsWrapper'));
+
+    let seasonBackBtn = $('<button>', {
+        id: 'seasonBackBtn',
+        text: 'Back',
+        click: () => {
+            $('#seasonBtnWrapper').hide();
+            setTimeout(() => {
+                $('#seasonBtnWrapper').show(); 
+            }, 500)
+            $('#allSeasonsBtn').show();
+            $('#seasonBtnWrapper, .overviewWrapper').remove();
+        }
+    }).appendTo(seasonBtnWrapper); 
+
+    for (let i = 0; i < seasonsNum; i++) {  
+
+        let seasonBtn = $('<button>', {
+            class: 'seasonBtn',
+            text: (i + 1),
+            click: () => {
+                $('#seasonBtnWrapper').hide();
+                setTimeout(() => {
+                    $('#seasonBtnWrapper').show(); 
+                }, 500)
+                seasonClicked(i + 1);
+            }
+        }).appendTo(seasonBtnWrapper); 
+    }  
+}
+
+const seasonClicked = (seasonNum) => {
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const value = Number(urlParams.get('value'));
+
+    $('#seasonBackBtn').hide();
+
+    let episodeBackBtn = $('<button>', {
+        id: 'episodeBackBtn',
+        text: 'Back',
+        click: () => {
+            $('#seasonBtnWrapper').hide();
+            setTimeout(() => {
+                $('#seasonBtnWrapper').show(); 
+            }, 500)
+            $('.episodeBtn, #episodeBackBtn, .overviewWrapper').remove();
+            $('.seasonBtn, #seasonBackBtn').show();
+        }
+    }).appendTo($('#seasonBtnWrapper')); 
+
+    $.get('https://api.themoviedb.org/3/tv/' + value + '/season/' + seasonNum + '?api_key=' + tmdbKey + '&language=en-US', (data) => {
+
+        $('.seasonBtn').hide();
+
+        if(data.overview !== null && data.overview !== '' && data.overview !== undefined) {
+            showOverview(data.overview, 1);
+        }
+
+        for (let i = 0; i < data.episodes.length; i++) {
+            let episodeBtn = $('<button>', {
+                class: 'episodeBtn',
+                text: (i + 1),
+                click: () => {
+                    $('#seasonBtnWrapper').hide();
+                    setTimeout(() => {
+                        $('#seasonBtnWrapper').show(); 
+                    }, 500)
+                    episodeClicked(seasonNum, i + 1);
+                }
+            }).appendTo($('#seasonBtnWrapper'));        
+        }
+    });
+}
+
+const showOverview = (text, type) => {
+
+    let divToAppend;
+
+    if (type == 1) {
+        divToAppend = $('#tvShowSeasonsWrapper');
+        $('#tvShowSeasonsWrapper').find($('.overviewWrapper')).remove();
+    } else {
+        divToAppend = $('#personOverviewWrapper');
+    }
+
+    let overviewWrapper = $('<div>', {
+        class: 'overviewWrapper'
+    }).appendTo(divToAppend);
+
+    let overviewHeader = $('<p>', {
+        class: 'overviewHeader',
+        text: 'Overview'
+    }).appendTo(overviewWrapper);
+
+    let overview = $('<p>', {
+        class: 'overviewText',
+        text: text
+    }).appendTo(overviewWrapper);
+
+    $(overview).removeClass('longText');
+    $(overviewWrapper).find($('.overviewArrowWrapper')).remove();
+
+    if (text.length > 300) {
+        $(overview).addClass('longText');
+
+        let overviewArrowWrapper = $('<div>', {
+            class: 'overviewArrowWrapper',
+        }).appendTo(overview);
+
+        let overviewArrow = $('<i>', {
+            class: 'overviewArrow fas fa-angle-double-down pointer',
+            click: function () {
+
+                if ($(overview).hasClass('longText')) {
+                    $(overview).removeClass('longText');
+                    $(overviewArrowWrapper).addClass('turnArrow');
+                } else {
+                    $(overview).addClass('longText');
+                    $(overviewArrowWrapper).removeClass('turnArrow');
+                }
+            }
+        }).appendTo(overviewArrowWrapper);
+    }
+}
+
+const episodeClicked = (seasonNum, episodeNum) => {
+
+    $('#guestCast, #guestCastHeader').remove();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const value = Number(urlParams.get('value'));
+
+    $.get('https://api.themoviedb.org/3/tv/' + value + '/season/' + seasonNum + '/episode/' + episodeNum + '?api_key=' + tmdbKey + '&language=en-US', (data) => {
+
+        if(data.overview !== null && data.overview !== '' && data.overview !== undefined) {
+            showOverview(data.overview, 1);
+        }
+
+        $('.seasonBtn, .episodeBtn, #seasonBackBtn, #episodeBackBtn').remove();
+
+        $('#allSeasonsBtn').show();
+
+        if (data.guest_stars.length > 0) {
+            if (data.guest_stars.length < 21) {
+                finalLength = data.guest_stars.length;
+            } else {
+                finalLength = 21;
+            }
+
+            let guestCast = $('<div>', {
+                id: 'guestCast',
+                class: 'content'
+            }).insertAfter($('#watchProviders'));
+
+            let guestCastHeader = $('<p>', {
+                id: 'guestCastHeader',
+                class: 'chosenHeader',
+                text: 'Guest Cast'
+            }).insertBefore(guestCast);
+
+            for (let i = 0; i < finalLength; i++) {
+                try {
+                    let actorImgPath;
+
+                    if (data.guest_stars[i].profile_path == 'undefined' || data.guest_stars[i].profile_path == null || data.guest_stars[i].profile_path == '') {
+
+                        switch (data.guest_stars[i].gender) {
+                            case 0:
+                                actorImgPath = './images/actor.jpg';
+                                break;
+                            case 1:
+                                actorImgPath = './images/actress.jpg';
+                                break;
+                            case 2:
+                                actorImgPath = './images/actor.jpg';
+                                break;
+                        }
+                    } else {
+                        actorImgPath = 'https://image.tmdb.org/t/p/w1280' + data.guest_stars[i].profile_path;
+                    }
+
+                    let trimmedString;
+
+                    if (data.guest_stars[i].character.length > 25) {
+                        if (countInstances(data.guest_stars[i].character, '/') > 1) {
+                            trimmedString = data.guest_stars[i].character.substr(0, 25);
+                            trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
+                            trimmedString = data.guest_stars[i].character.split('/');
+
+                            if (trimmedString.length > 2) {
+                                trimmedString = trimmedString[0] + '/' + trimmedString[1] + '& More';
+                            } else {
+                                trimmedString = trimmedString[0] + '/' + trimmedString[1];
+                            }
+                        } else {
+                            trimmedString = data.guest_stars[i].character;
+                        }
+                    } else {
+                        trimmedString = data.guest_stars[i].character;
+                    }
+
+                    let actor = $('<div>', {
+                        class: 'actor',
+                    }).appendTo(guestCast);
+
+                    let actorImg = $('<img>', {
+                        class: 'actorImg hoverEffect lazy pointer',
+                        'data-src': actorImgPath,
+                        'src': './images/actor.jpg',
+                        alt: 'actorImg',
+                        id: data.guest_stars[i].id,
+                        click: () => {
+                            getPersonDetails(data.guest_stars[i].id, 1);
+                        }
+                    }).appendTo(actor);
+
+                    let finalActorName;
+
+                    if (data.guest_stars[i].character == '') {
+                        finalActorName = data.guest_stars[i].name;
+                    } else {
+                        finalActorName = data.guest_stars[i].name + ':';
+                    }
+
+                    let actorName = $('<span>', {
+                        class: 'actorName',
+                        text: finalActorName
+                    }).appendTo(actor);
+
+                    let characterName = $('<span>', {
+                        class: 'characterName',
+                        text: trimmedString
+                    }).appendTo(actor);
+
+                    let actorLinksWrapper = $('<div>', {
+                        class: 'linksWrapper',
+                    }).appendTo(actor);
+
+                    $.get(movieActorsUrl + data.guest_stars[i].id + "/external_ids?api_key=" + tmdbKey + "&language=en-US", (data) => {
+                        if(data.imdb_id !== null) {
+                            let imdbLinkWrapper = $('<a>', {
+                                class: 'imdbLinkWrapper',
+                                rel: 'noopener',
+                                target: '_blank',
+                                href: 'https://www.imdb.com/name/' + data.imdb_id
+                            }).appendTo(actorLinksWrapper);
+        
+                            let imdbLink = $('<img>', {
+                                class: 'actorImdbLink',
+                                src: './images/imdb.png',
+                                alt: 'imdbImg'
+                            }).appendTo(imdbLinkWrapper);
+                        }
+
+                        if(data.instagram_id !== null) {         
+                            let instagramWrapper = $('<a>', {
+                                class: 'instagramWrapper',
+                                rel: 'noopener',
+                                target: '_blank',
+                                href: 'https://www.instagram.com/' + data.instagram_id
+                            }).appendTo(actorLinksWrapper);
+        
+                            let instagramLink = $('<img>', {
+                                class: 'actorInstagramLink',
+                                src: './images/instagram.png',
+                                alt: 'instagramImg',
+                            }).appendTo(instagramWrapper);
+                        }
+
+                        if(data.instagram_id == null && data.imdb_id !== null) {
+                            $(actorLinksWrapper).find($('.imdbLinkWrapper')).css('margin-right', 0);
+                        } else if(data.instagram_id !== null && data.imdb_id == null) {
+                            $(actorLinksWrapper).find($('.instagramWrapper')).css('margin-left', 0);
+                        }
+                    });
+
+                    setTimeout(() => {
+                        document.querySelector('#guestCastHeader').scrollIntoView({ behavior: 'smooth' });
+                    }, 0)
+
+                } catch (e) {
+                    console.log(e);
+                }
+
+                checkLength(finalLength, '#castContent');
+            }        
+        }
+    });
+}
+
 const getFinalUrl = (type) => {
     if (type == 1) {
         return movieInfoUrl;
@@ -1328,7 +1554,19 @@ const getWatchProviders = (value, type) => {
                 }
             }
         }
-    });
+    })
+    .done(() => {
+        setTimeout(() => {
+            $('#spinnerWrapper').hide();
+            $('#chosenMovie, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+        }, 1500)
+    })
+    .fail(() => {
+        setTimeout(() => {
+            $('#spinnerWrapper').hide();
+            $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+        }, 1500)
+    })
 }
 
 const getCredits = (value, type) => {
@@ -1433,6 +1671,12 @@ const getCredits = (value, type) => {
                                         src: './images/instagram.png',
                                         alt: 'instagramImg',
                                     }).appendTo(instagramWrapper);
+                                }
+
+                                if(data.instagram_id == null && data.imdb_id !== null) {
+                                    $(directorLinksWrapper).find($('.imdbLinkWrapper')).css('margin-right', 0);
+                                } else if(data.instagram_id !== null && data.imdb_id == null) {
+                                    $(directorLinksWrapper).find($('.instagramWrapper')).css('margin-left', 0);
                                 }
                             });
         
@@ -1578,6 +1822,12 @@ const getCredits = (value, type) => {
                                 alt: 'instagramImg',
                             }).appendTo(instagramWrapper);
                         }
+
+                        if(data.instagram_id == null && data.imdb_id !== null) {
+                            $(actorLinksWrapper).find($('.imdbLinkWrapper')).css('margin-right', 0);
+                        } else if(data.instagram_id !== null && data.imdb_id == null) {
+                            $(actorLinksWrapper).find($('.instagramWrapper')).css('margin-left', 0);
+                        }
                     });
                 } catch (e) {
                     console.log(e);
@@ -1590,21 +1840,20 @@ const getCredits = (value, type) => {
 }
 
 const getPersonDetails = (value, type) => {
-    $('.searchContainer').addClass('chosenSearch');
-    $('#spinnerWrapper').show();
-    $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'none', 'opacity': 0});
 
-    setTimeout(() => {
-        $('#spinnerWrapper').hide();
-        $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
-    }, 2000)
-
-    switchContent(2);
-
-    $('#chosenPerson').show();
+    emptyChosen(1, true);
 
     $.get(movieActorsUrl + value + "?api_key=" + tmdbKey + "&language=en-US", (data) => {
         $('#chosenPersonName').html(data.name);
+
+        if(data.biography !== null && data.biography !== '' && data.biography !== undefined) {
+
+            let personOverviewWrapper = $('<div>', {
+                id: 'personOverviewWrapper',
+            }).insertAfter($('#chosenPersonDetails'));
+
+            showOverview(data.biography, 2);
+        }
 
         refreshUrl(value, data.name, 1, type, null);
 
@@ -1697,22 +1946,27 @@ const getPersonExternalIds = (value) => {
                 alt: 'instagramImg',
             }).appendTo(personInstagramLink);
         }
+
+        if(data.instagram_id == null && data.imdb_id !== null) {
+            $('#personInstagramWrapper').find($('.imdbLinkWrapper')).css('margin-right', 0);
+        } else if(data.instagram_id !== null && data.imdb_id == null) {
+            $('#personInstagramWrapper').find($('.instagramWrapper')).css('margin-left', 0);
+        }
     })
 }
 
 const getPopular = () => {
-    if ($("#popular").text().length > 0) {
+    if ($("#popularContent").text().length > 0) {
         return;
     }
 
-    if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible')) {
+    if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible') || $('#timeline').is(':visible')) {
         goToDiv('#popular');
     }
 
     $('.container').hide();
-    $('#wishlistContainer, #playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
-
-    switchContent(2);
+    emptyContainers();
+    emptyChosen(1);
 
     let totalPages;
     let arr = [];
@@ -1738,6 +1992,18 @@ const getPopular = () => {
                 });
             }, 1000)
         }
+    })
+    .done(() => {
+        setTimeout(() => {
+            $('#spinnerWrapper').hide();
+            $('main, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+        }, 1500)
+    })
+    .fail(() => {
+        setTimeout(() => {
+            $('#spinnerWrapper').hide();
+            $('main, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+        }, 1500)
     })
 }
 
@@ -1795,7 +2061,6 @@ const buildPopular = (arr) => {
             'src': finalSrc,
             'data-src': dataSrc,
             click: () => {
-                $('#wishlistContainer, #playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
                 $('#search').val('');
                 $('main').hide();
                 getPersonDetails(arr[i].id, 1);
@@ -2046,7 +2311,21 @@ const getPersonMovieImages = (value) => {
                 }).appendTo($('#personMovieImages'));
             }
         }
-    });
+    }) 
+    .done(() => {
+        setTimeout(() => {
+            $('#spinnerWrapper').hide();
+            $('#chosenPerson').show();
+            $('footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+        }, 1500)
+    })
+    .fail(() => {
+        setTimeout(() => {
+            $('#spinnerWrapper').hide();
+            $('#chosenPerson').show();
+            $('footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+        }, 1500)
+    })
 }
 
 const getSimilar = (value, type) => {
@@ -2202,8 +2481,13 @@ const goToDiv = (div) => {
 
     if (!$('#marvelContainer').is(':visible')) {
         $('.container').css('display', 'flex');
-        $('#wishlistContainer, #playingNowContainer, #trendingContainer, #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
-        switchContent(2);
+
+        emptyChosen(2);
+
+        setTimeout(() => {
+            $('#spinnerWrapper').hide();
+            $('main, #chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+        }, 2000)
     }
     
     if ($('#timeline').is(':visible')) {
@@ -2495,60 +2779,62 @@ const sortByName = (container, type) => {
         $(container).attr('dateCounter', '1');
     }
 
+    if ($(container).attr('isSorted') == 'false') {
+        $(container).attr('isSorted', 'true');
+    }
+
     let children;
-    $.each($(container), function (key, value) {
-        let ids = [], obj, i, len;
+    let ids = [], obj, i, len;
 
-        if(type == 1){
-            children = $(this).find('.movieWrapper');
-        } else {
-            children = $(this).find('.trendingWrapper');
-        }
+    if(type == 1){
+        children = $(container).find('.movieWrapper');
+    } else {
+        children = $(container).find('.trendingWrapper');
+    }
 
-        for (i = 0, len = children.length; i < len; i++) { 
-            obj = {};
-            obj.element = children[i];
-            let elem2 = $(children[i]).find($('.name')).html();
-			obj.idNum = elem2;
-            ids.push(obj);
-        }
+    for (i = 0, len = children.length; i < len; i++) { 
+        obj = {};
+        obj.element = children[i];
+        let elem2 = $(children[i]).find($('.name')).html();
+        obj.idNum = elem2;
+        ids.push(obj);
+    }
 
-        if ($(container).attr('nameCounter') == '1') {   
-            ids.sort(function (a, b) { 
+    if ($(container).attr('nameCounter') == '1') {   
+        ids.sort(function (a, b) { 
 
-                if(a.idNum < b.idNum) { 
-                    return -1; 
-                }
-                if(a.idNum > b.idNum) {
-                    return 1; 
-                }
-                
-                return 0;  
-            });
+            if(a.idNum < b.idNum) { 
+                return -1; 
+            }
+            if(a.idNum > b.idNum) {
+                return 1; 
+            }
+            
+            return 0;  
+        });
 
-            $(container).attr('nameCounter', '2');
-            $(container).find($('.sortNameBtn ').attr('class', 'sortNameBtn fas fa-sort-alpha-down-alt pointer'));
+        $(container).attr('nameCounter', '2');
+        $(container).find($('.sortNameBtn ').attr('class', 'sortNameBtn fas fa-sort-alpha-down-alt pointer'));
 
-        } else {
-            ids.sort(function (a, b) { 
+    } else {
+        ids.sort(function (a, b) { 
 
-                if(b.idNum < a.idNum) { 
-                    return -1; 
-                }
-                if(b.idNum > a.idNum) {
-                    return 1; 
-                }
-                return 0;    
-            });
+            if(b.idNum < a.idNum) { 
+                return -1; 
+            }
+            if(b.idNum > a.idNum) {
+                return 1; 
+            }
+            return 0;    
+        });
 
-            $(container).attr('nameCounter', '1');
-            $(container).find($('.sortNameBtn ').attr('class', 'sortNameBtn fas fa-sort-alpha-up pointer'));
-        }
+        $(container).attr('nameCounter', '1');
+        $(container).find($('.sortNameBtn ').attr('class', 'sortNameBtn fas fa-sort-alpha-up pointer'));
+    }
 
-        for (i = 0; i < ids.length; i++) {
-            $(this).append(ids[i].element);
-        }
-    });
+    for (i = 0; i < ids.length; i++) {
+        $(container).append(ids[i].element);
+    }
 }
 
 const sortByDate = (container, type) => {
@@ -2558,56 +2844,85 @@ const sortByDate = (container, type) => {
         $(container).find($('.sortNameBtn ').attr('class', 'sortNameBtn fas fa-sort-alpha-up pointer'));
     }
 
+    if ($(container).attr('isSorted') == 'false') {
+        $(container).attr('isSorted', 'true');
+    }
+
     let children;
-    $.each($(container), function (key, value) {
-        if(type == 1){
-            children = $(this).find('.movieWrapper');
-        } else {
-            children = $(this).find('.trendingWrapper');
-        }
-        let ids = [], obj, i, len;
 
-        for (i = 0, len = children.length; i < len; i++) {
-            obj = {};
-            obj.element = children[i];
-            let elem2 = $(children[i]).attr('date');
-            obj.idNum = new Date(elem2);
-            ids.push(obj);
-        }
+    if(type == 1) {
+        children = $(container).find('.movieWrapper');
+    } else {
+        children = $(container).find('.trendingWrapper');
+    }
+    let ids = [], obj, i, len;
 
-        if ($(container).attr('dateCounter') == '1') {
+    for (i = 0, len = children.length; i < len; i++) {
+        obj = {};
+        obj.element = children[i];
+        let elem2 = $(children[i]).attr('date');
+        obj.idNum = new Date(elem2);
+        ids.push(obj);
+    }
+
+    if ($(container).attr('dateCounter') == '1') {
+        
+        ids.sort(function (a, b) { 
+
+            if(a.idNum < b.idNum) { 
+                return -1; 
+            }
+            if(a.idNum > b.idNum) {
+                return 1; 
+            }
             
-            ids.sort(function (a, b) { 
+            return 0;    
+        });
 
-                if(a.idNum < b.idNum) { 
-                    return -1; 
-                }
-                if(a.idNum > b.idNum) {
-                    return 1; 
-                }
-                
-                return 0;    
-            });
+        $(container).attr('dateCounter', '2');
 
-            $(container).attr('dateCounter', '2');
+    } else {
+        ids.sort(function (a, b) { 
 
-        } else {
-            ids.sort(function (a, b) { 
+            if(b.idNum < a.idNum) { 
+                return -1; 
+            }
+            if(b.idNum > a.idNum) {
+                return 1; 
+            }
+            return 0;    
+        });
 
-                if(b.idNum < a.idNum) { 
-                    return -1; 
-                }
-                if(b.idNum > a.idNum) {
-                    return 1; 
-                }
-                return 0;    
-            });
+        $(container).attr('dateCounter', '1');
+    }
 
-            $(container).attr('dateCounter', '1');
-        }
+    for (i = 0; i < ids.length; i++) {
+        $(container).append(ids[i].element);
+    }
+}
 
-        for (i = 0; i < ids.length; i++) {
-            $(this).append(ids[i].element);
-        }
-    });
+const sortByOrder = (container) => {
+
+    $(container).attr({'nameCounter': '1', 'dateCounter': '1'});
+    $(container).find($('.sortNameBtn ').attr('class', 'sortNameBtn fas fa-sort-alpha-up pointer'));
+
+    let children;
+
+    let ids = [], obj, i, len;
+
+    children = $(container).find('.movieWrapper');
+
+    for (i = 0, len = children.length; i < len; i++) { 
+        obj = {};
+        obj.element = children[i];
+        let elem2 = $(children[i]).attr('order');
+        obj.idNum = elem2;
+        ids.push(obj);
+    }
+
+    ids.sort(function (a, b) { return (a.idNum - b.idNum); });
+
+    for (i = 0; i < ids.length; i++) {
+        $(container).append(ids[i].element);
+    }
 }
