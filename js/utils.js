@@ -16,7 +16,7 @@ const refreshWindowScroll = (type) => {
 
     $(window).on('popstate', function() {
         goHome();
-        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+        // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
     });
 }
 
@@ -56,7 +56,7 @@ const refreshUrl = (value, name, type, directorOrActor, chosenUrl) => {
     finalNameToSend = finalNameToSend.replace(/:/, "");
     finalNameToSend = finalNameToSend.replace(/\s/g, '');
 
-    window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+    // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
     const url = new URL(window.location);
     
@@ -75,7 +75,7 @@ const refreshUrl = (value, name, type, directorOrActor, chosenUrl) => {
 
     $(window).on('popstate', function() {
         goHome();
-        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+        // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
     });
 }
 
