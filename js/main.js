@@ -51,7 +51,7 @@ $(document).ready(() => {
         refreshWindowScroll(2);
 
     } else if (window.location.href.indexOf("?timeline=") > -1) {
-        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+        // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
         refreshWindowScroll(2);
     } else {
         refreshWindowScroll(2);
@@ -537,7 +537,7 @@ const showResults = (value) => {
                 id: data.results[i].id,
                 type: data.results[i].media_type,
                 click: () => {
-                    window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+                    // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
                     switch (data.results[i].media_type) {
                         case 'movie':
@@ -611,8 +611,8 @@ const buildTrending = (data, div, wrapper) => {
 
     $('#trendingContainer').attr({'nameCounter': '1', 'dateCounter': '1'})
 
-    let typeheader = $('<h2>', {
-        class: 'typeheader',
+    let trendingHeader = $('<h2>', {
+        class: 'trendingHeader',
         text: 'Trending'
     }).appendTo(wrapper);
 
@@ -928,8 +928,8 @@ const buildTvShows = (data, div, wrapper) => {
 
     data.sort(function (a, b) { return (a.order - b.order); });
 
-    let typeheader = $('<h2>', {
-        class: 'typeheader',
+    let tvShowsHeader = $('<h2>', {
+        class: 'tvShowsHeader',
         text: 'TV Shows'
     }).appendTo(wrapper);
 
@@ -1035,15 +1035,20 @@ const chosenMovie = (value, type) => {
 
         $('#chosenMovieImg').attr('src', finalImg);
         $('#chosenMovieSentence').html(data.tagline);
+
+        let companiesArr = [];
         
         if (data.production_companies.length > 0) {
             for (let i = 0; i < data.production_companies.length; i++) {
-                if (data.production_companies[i].logo_path !== null && data.production_companies[i].id !== 7297) { 
-                    let companyImg = $('<img>', {
-                        class: 'companyImg',
-                        alt: 'company img',
-                        src: 'https://image.tmdb.org/t/p/w1280' + data.production_companies[i].logo_path
-                    }).appendTo($('#productionCompenies')); 
+                if (data.production_companies[i].logo_path !== null && data.production_companies[i].id !== 7297) {
+                    if (!companiesArr.includes(data.production_companies[i].logo_path)) {
+                        companiesArr.push(data.production_companies[i].logo_path);
+                        let companyImg = $('<img>', {
+                            class: 'companyImg',
+                            alt: 'company img',
+                            src: 'https://image.tmdb.org/t/p/w1280' + data.production_companies[i].logo_path
+                        }).appendTo($('#productionCompenies'));
+                    }
                 }
             }
         }
@@ -1559,6 +1564,11 @@ const getWatchProviders = (value, type) => {
         setTimeout(() => {
             $('#spinnerWrapper').hide();
             $('#chosenMovie, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+            // let list = $("IMG[SRC='https://image.tmdb.org/t/p/w1280/2Tc1P3Ac8M479naPp1kYT3izLS5.png']");
+
+            // if (list.length > 1) {
+            //     $(list[0]).remove();
+            // }
         }, 1500)
     })
     .fail(() => {
@@ -2008,8 +2018,8 @@ const getPopular = () => {
 }
 
 const buildPopular = (arr) => {
-    let typeheader = $('<h2>', {
-        class: 'typeheader',
+    let popularHeader = $('<h2>', {
+        class: 'popularHeader',
         text: 'Popular People'
     }).appendTo($('#popular'));
 
@@ -2290,6 +2300,8 @@ const getPersonMovieImages = (value) => {
                 finalLength = data.results.length;
             }
 
+            let personMovieArr = [];
+
             for (let i = 0; i < finalLength; i++) {
                 let finalImg;
 
@@ -2303,12 +2315,15 @@ const getPersonMovieImages = (value) => {
                     finalImg = 'https://image.tmdb.org/t/p/w1280' + data.results[i].media.backdrop_path;
                 }
 
-                let personMovieImg = $('<img>', {
-                    class: 'personMovieImg lazy',
-                    src: './images/stockMovie.jpg',
-                    'data-src': finalImg,
-                    alt: 'person tagged img',
-                }).appendTo($('#personMovieImages'));
+                if (!personMovieArr.includes(finalImg)) {
+                    personMovieArr.push(finalImg);
+                    let personMovieImg = $('<img>', {
+                        class: 'personMovieImg lazy',
+                        src: './images/stockMovie.jpg',
+                        'data-src': finalImg,
+                        alt: 'person tagged img',
+                    }).appendTo($('#personMovieImages'));
+                }
             }
         }
     }) 
@@ -2497,7 +2512,7 @@ const goToDiv = (div) => {
     if ($('main').is(":hidden")) {
         $('main').show();
 
-        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+        // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
         setTimeout(() => {
             document.querySelector(div).scrollIntoView({ behavior: 'smooth' });
@@ -2657,7 +2672,7 @@ const showTimeline = (type, cinematicType) => {
                 alt: 'movie img',
                 click: () => {
                     $('#timeline').hide();
-                    window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+                    // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
                     chosenMovie(cinematicArr[i].id, 1);
                 }
             }).appendTo(timelineMovieWrapper)
@@ -2706,7 +2721,7 @@ const showTimeline = (type, cinematicType) => {
                 alt: 'tv show img',
                 click: () => {
                     $('#timeline').hide();
-                    window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+                    // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
                     chosenMovie(tvShowTimelineArr[i].id, 2);
                 }
             }).appendTo(timelineMovieWrapper)
@@ -2726,14 +2741,14 @@ const showTimeline = (type, cinematicType) => {
         }
     }
 
-    window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+    // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
     const url = new URL(window.location);
     url.searchParams.set('timeline', timelineUrl);
     window.history.pushState({}, '', url);
 
     $(window).on('popstate', function() {
         goHome();
-        window.history.replaceState({}, document.title, "/" + "my-movie-list/");
+        // window.history.replaceState({}, document.title, "/" + "my-movie-list/");
     });
 }
 
