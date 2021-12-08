@@ -239,10 +239,12 @@ h1 {
 
 .mcuBtn {
     width: 130px;
+    height: 65px;
 }
 
 .dceuBtn {
     width: 100px;
+    height: 52px;
 }
 
 button {
