@@ -25,25 +25,36 @@
     <div id="progressContainer">
         <div id="progressBar"></div>
     </div>
-    
+
+    <header id="headerWrapper">
+        <div id="header">
+            <h1 id="siteHeader">My Movies</h1>    
+        </div>
+        
+        <div id="logoWrapper">
+            <div id="logo" class="pointer" onclick="goHome()"></div>
+        </div>
+        
+    </header>
+
     <div id="socialsBtn" class="pointer">
-        <i class="fas fa-link" id="social" onclick="toggleClass($('#socials')[0], 'on')"></i>
+        <i class="fas fa-link filter" id="social" onclick="toggleClass($('#socials')[0], 'on')"></i>
     </div>
 
-    <div id="socials">
-        <a href="https://www.facebook.com/omri.shalev.31" id="facebook" rel="noopener" target="_blank" aria-label="facebook">
+    <div id="socials" class="filter">
+        <a href="https://www.facebook.com/omri.shalev.31" id="facebook" rel="noopener" target="_blank" aria-label="facebook" title="facebook">
             <i class="fa fa-facebook"></i>
         </a>
-        <a href="https://github.com/omriknight9" id="github" rel="noopener" target="_blank" aria-label="github">
+        <a href="https://github.com/omriknight9" id="github" rel="noopener" target="_blank" aria-label="github" title="github">
             <i class="fab fa-github"></i>
         </a>
-        <a href="https://www.linkedin.com/in/omri-shalev-8b3515119/" id="linkedin" rel="noopener" target="_blank" aria-label="linkedin">
+        <a href="https://www.linkedin.com/in/omri-shalev-8b3515119/" id="linkedin" rel="noopener" target="_blank" aria-label="linkedin" title="linkedin">
             <i class="fa fa-linkedin"></i>
         </a>
     </div>
 
     <div id="menuOpenWrapper" class="pointer" onclick="toggleClass($('#toggle')[0], 'on')">
-        <div href="#menu" id="toggle" class="pointer">
+        <div href="#menu" id="toggle" class="pointer filter">
             <span class="menuSpan"></span>
             <span class="menuSpan"></span>
             <span class="menuSpan"></span>
@@ -51,77 +62,90 @@
             <span class="menuSpan"></span>
             <span class="menuSpan"></span>
         </div>
-        <div id="menu">
+        <div id="menu" class="filter">
             <ul>
                 <li onclick="showPlayingNow()" class="pointer">
                     <img src="./images/popcorn.png" alt="popcorn" class="menuImg" id="playingNowLink">
-                    <span>Playing Now</span>
+                    <span id="playingNowMenuHeader">Playing Now</span>
                 </li>
                 <li onclick="showUpcoming()" class="pointer">
                     <img src="./images/comingSoon.png" alt="comingSoon" class="menuImg" id="comingSoonLink">
-                    <span>Upcoming</span>
+                    <span id="upcomingMenuHeader">Upcoming</span>
                 </li>
                 <li onclick="showTrending()" class="pointer">
                     <img src="./images/fire.png" alt="trendind" class="menuImg" id="trendingLink">
-                    <span>Trending</span>
+                    <span id="trendingMenuHeader">Trending</span>
                 </li>
                 <li onclick="getPopular()" class="pointer">
                     <img src="./images/star.png" alt="star" class="menuImg">
-                    <span>Popular People</span>
+                    <span id="popularPeoplegMenuHeader">Popular People</span>
                 </li>
                 <li onclick="showMiscellaneous()" class="pointer" id="miscellaneousRow">
                     <img src="./images/miscellaneous.png" alt="miscellaneous" class="menuImg" id="miscellaneousLink">
-                    <span>Miscellaneous</span>
+                    <span id="miscellaneousMenuHeader">Miscellaneous</span>
                 </li>
             </ul>
 
             <ul id="miscellaneousList">         
                 <li onclick="goToDiv('#marvelContainer')" class="pointer">
                     <img src="./images/ironman.png" alt="ironman" class="menuImg">
-                    <span>Marvel</span>
+                    <span id="marvelMenuHeader">Marvel</span>
                 </li>
                 <li onclick="goToDiv('#dcContainer')" class="pointer">
                     <img src="./images/superman.png" alt="superman" class="menuImg">
-                    <span>DC</span>
+                    <span id="dcMenuHeader">DC</span>
                 </li>
                 <li onclick="goToDiv('#valiantContainer')" class="pointer">
                     <img src="./images/valiant.png" alt="valiant" class="menuImg" id="valiantLink">
-                    <span>Valiant</span>
+                    <span id="valiantMenuHeader">Valiant</span>
                 </li>
                 <li onclick="goToDiv('#othersContainer')" class="pointer">
                     <img src="./images/others.png" alt="others" class="menuImg">
-                    <span>Others</span>
+                    <span id="othersMenuHeader">Others</span>
                 </li>
                 <li onclick="goToDiv('#animationContainer')" class="pointer">
                     <img src="./images/animation.png" alt="animation" class="menuImg">
-                    <span>Animation</span>
+                    <span id="animationMenuHeader">Animation</span>
                 </li>
                 <li onclick="goToDiv('#tvShowContainer')" class="pointer">
                     <img src="./images/shows.png" alt="shows" class="menuImg">
-                    <span>TV Shows</span>
+                    <span id="tVShowsMenuHeader">TV Shows</span>
                 </li>   
                 <li onclick="showWishlist()" class="pointer">
                     <img src="./images/wishlist.png" alt="wishlist" class="menuImg" id="wishlistLink">
-                    <span>Wishlist</span>
+                    <span id="wishlistMenuHeader">Wishlist</span>
                 </li>
             </ul>
         </div>
     </div>
 
     <div id="spinnerWrapper">
-        <div id="spinner">
-            <div class="bounce1"></div>
-            <div class="bounce2"></div>
-            <div class="bounce3"></div>
-            <div class="bounce4"></div>
+        <div class="loader">
+            <div class="loaderContainer">
+                <div class="loaderFilm">
+                    <img class="loaderFilmImg" src="images/loaderTop.png" alt="" />
+                    <img class="loaderFilmImg" src="images/loaderTop.png" alt="" />
+                </div>
+                <img class="loaderCamera" src="images/loaderBase.png" alt="" />
+            </div>
         </div>
     </div>
 
+    <div id="breadcrumbs">  
+        <ul>
+            <li class="active">
+                <img src="" id="contentPoster" alt="poster">
+            </li>
+            <li><span><i id="typeOfContent"></i></span></li>
+            <li onclick="goHome();" id="goHomeBtn" class="pointer"><span><i class="fa fa-home"></i></a></li>
+        </ul>
+    </div> 
+
     <div class="searchContainer">
         <div class="searchContant">
-            <input type="text" placeholder="Type A Movie, TV Show Or Person" id="search" aria-label="Search" autocomplete="off" />
+            <input type="text" name="search" role="search" placeholder="Type A Movie, TV Show Or Person" id="search" class="filter" aria-label="Search" autocomplete="off" />
             <span class="focus-border"></span>
-            <div id="searchResults"></div>
+            <div id="searchResults" class="filter"></div>
         </div>
     </div>
 
@@ -142,18 +166,18 @@
     </main>
 
     <div id="timeline">
-        <h2>Timeline</h2>
+        <h2 id="timelineText">Timeline</h2>
         <div id="timelineContent"></div>
     </div>
 
     <div id="chosenMovie">
-        <h2 id="chosenMovieTitle"></h2>
+        <h2 id="chosenMovieTitle" class="filter"></h2>
         <div id="chosenMovieImgWrapper">
             <a href="https://www.imdb.com" id="chosenMovieImdb" target="_blank" rel="noopener">
-                <img src="" id="chosenMovieImg" alt="movie img">
+                <img src="" id="chosenMovieImg" class="filter" alt="movie img">
             </a>
         </div>
-        <p id="chosenMovieSentence"></p>
+        <p id="chosenMovieSentence" class="filter"></p>
         <div id="productionCompenies"></div>
         <div id="movieDesc"></div>
         <div id="chosenMovieDetails" class="details">
@@ -163,14 +187,14 @@
             <p id="seasons"><i class="fas fa-tv detailIcon" aria-hidden="true"></i><span id="seriesSeasons"></span></p>
             <p id="episodes"><i class="fas fa-clone detailIcon" aria-hidden="true"></i><span id="seriesEpisodes"></span></p>
             <p id="chosenMovieRating"><i class="fas fa-star detailIcon" aria-hidden="true"></i><span id="movieRating"></span></p>
-            <div id="chosenMovieGenres"><i class="fas fa-window-restore detailIcon" aria-hidden="true"></i><span>Genres: </span></div>
+            <div id="chosenMovieGenres" class="filter"><i class="fas fa-window-restore detailIcon" aria-hidden="true"></i><span id="genresText"></span></div>
             <p id="chosenMovieLang"><i class="fas fa-language detailIcon" aria-hidden="true"></i><span id="movieLang"></span></p>
         </div>
         <div id="watchProviders"></div>
         <div id="directorsWrapper"></div>
         <div id="castWrapper"></div>
         <div id="similarMovies">
-            <p id="similarHeader" class="chosenHeader"></p>
+            <p id="similarHeader" class="chosenHeader filter"></p>
             <div id="similarMoviesContent" class="content"></div>
         </div>
         <div id="chosenMovieImagesWrapper"></div>
@@ -178,7 +202,7 @@
     </div>
 
     <div id="chosenPerson">
-        <h2 id="chosenPersonName"></h2>
+        <h2 id="chosenPersonName" class="filter"></h2>
         <div id="chosenPersonImgWrapper"></div>
         <div id="personInstagramWrapper"></div>
         <div id="chosenPersonDetails" class="details">
@@ -198,26 +222,40 @@
         <a href="https://www.themoviedb.org/" target="_blank" rel="noopener"><img id="tmdbImg" src="images/tmdb.png" alt="tmdb" /></a>
     </footer>
 
-    <svg id="goToTopBtn" class="pointer" onclick="goToTop()" xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 24 24">
+    <svg id="goToTopBtn" class="pointer filter" onclick="goToTop()" xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 24 24">
         <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm0 7.58l5.995 5.988-1.416 1.414-4.579-4.574-4.59 4.574-1.416-1.414 6.006-5.988z"/>
     </svg>
+
+    <div id="darkToggle" class="pointer toggleSwitch">
+        <div class="modeSwitch">
+            <i class="fas fa-cloud-sun sun"></i>
+            <i class="fas fa-cloud-moon moon"></i>
+        </div>
+    </div>
+
+    <div id="langToggle" class="pointer toggleSwitch">
+        <div class="modeSwitch">
+            <i class="fas fa-star-of-david isFlag"></i>
+            <i class="fas fa-flag-usa usFlag"></i>
+        </div>
+    </div>
 
     <!----------------POPUPS---------------->
 
     <div id="nextCinematicFilmPop" class="popUpInfo">
         <div class="popupCont">
-            <div class='Xbtn pointer'></div>
+            <i class="closeBtn fas fa-times pointer" aria-label="close"></i>
             <span id="nextCinematicTitle"></span>
             <p>
-                Release Date:
+                <span id="nextMovieRelease">Release Date:</span>
                 <span id="dateOfNextMovie"></span>
             </p>
             <p>
-                Next In Line:
+                <span id="nextInline">Next In Line:</span>
                 <span id="afterNextMovieTitle"></span>
             </p>
             <p>
-                Relese Date:
+                <span id="afterNextRelease">Release Date:</span>
                 <span id="afterNextMovieDate"></span>
             </p>
             <button id="timelineBtn">Timeline</button>
