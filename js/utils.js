@@ -1,3 +1,12 @@
+const refreshUrls = () => {
+    upcomingUrl = movieInfoUrl + 'upcoming?api_key=' + tmdbKey + '&language=' + lang + '&region=US&page=';
+    nowPlayingUrl = movieInfoUrl + 'now_playing?api_key=' + tmdbKey + '&language=' + lang + '&region=US&page=';
+    getTrendingUrl = baseUrl + '/trending/all/day?api_key=' + tmdbKey + '&language=' + lang + '&page=';
+    moviesGenreUrl = baseUrl + '/discover/movie?api_key=' + tmdbKey + '&language=' + lang + '&with_genres=';
+    tvGenreUrl = baseUrl + '/discover/tv?api_key=' + tmdbKey + '&language=' + lang + '&with_genres=';
+}
+
+
 const refreshWindowScroll = (type) => {
     if (type == 1) {   
         window.onscroll = () => {
@@ -80,10 +89,18 @@ const refreshUrl = (value, name, type, directorOrActor, chosenUrl) => {
 }
 
 const goHome = () => {
-    $('main').show();
-    if ($('#chosenMovie').is(':visible') || $('#chosenPerson').is(':visible') || $('#timeline').is(':visible')) {
-        goToDiv('#marvelContainer');
+
+    if (!$('#marvelContainer').is(':visible')) {
+        goToDiv('#breadcrumbs');
+    } 
+
+    if (!$("#marvelContainer").text().length > 0) {
+        loadJson();
     }
+
+    $('#breadcrumbs').hide();
+    $('#typeOfContent').attr('class', '');
+    $('#contentPoster').css('background', '').hide();
 }
 
 const hasClass = (elem, className) => {
@@ -109,65 +126,120 @@ const toggleClass = (elem, className) => {
 }
 
 const changeMonthName = (month, type) => {
+
     switch (month) {
         case 0: {
-            return 'Jan';
+            if (langNum == 1) {
+                return 'Jan';
+            } else {
+                return 'ינואר';
+            }
         }
         case 1: {
-            return 'Feb';
+            if (langNum == 1) {
+                return 'Feb';
+            } else {
+                return 'פברואר';
+            }
         }
         case 2: {
-            return 'March';
+            if (langNum == 1) {
+                return 'March';
+            } else {
+                return 'מרץ';
+            }
         }
         case 3: {
-            return 'April';
+            if (langNum == 1) {
+                return 'April';
+            } else {
+                return 'אפריל';
+            }
         }
         case 4: {
-            return 'May';
+            if (langNum == 1) {
+                return 'May';
+            } else {
+                return 'מאי';
+            }
         }
         case 5: {
-            return 'June';
+            if (langNum == 1) {
+                return 'June';
+            } else {
+                return 'יוני';
+            }
         }
         case 6: {
-            return 'July';
+            if (langNum == 1) {
+                return 'July';
+            } else {
+                return 'יולי';
+            }
         }
         case 7: {
-            return 'Aug';
+            if (langNum == 1) {
+                return 'Aug';
+            } else {
+                return 'אוגוסט';
+            }
         }
         case 8: {
-            return 'Sep';
+            if (langNum == 1) {
+                return 'Sep';
+            } else {
+                return 'ספטמבר';
+            }
         }
         case 9: {
-            return 'Oct';
+            if (langNum == 1) {
+                return 'Oct';
+            } else {
+                return 'אוקטובר';
+            }
         }
         case 10: {
+            if (langNum == 1) {
+                return 'Nov';
+            } else {
+                return 'נובמבר';
+            }
             return 'Nov';
         }
         case 11: {
-            return 'Dec';
+            if (langNum == 1) {
+                return 'Dec';
+            } else {
+                return 'דצמבר';
+            }
         }
     }
 }
 
 const changeDayName = (day) => {
-    switch (day) {
-        case 1:
-        case 21:
-        case 31: {
-            return day + 'st';
+    
+    if (langNum == 1) {
+        switch (day) {
+            case 1:
+            case 21:
+            case 31: {
+                return day + 'st';
+            }
+            case 2:
+            case 22: {
+                return day + 'nd';
+            }
+            case 3:
+            case 23: {
+                return day + 'rd';
+            }
+    
+            default: {
+                return day + 'th';
+            }
         }
-        case 2:
-        case 22: {
-            return day + 'nd';
-        }
-        case 3:
-        case 23: {
-            return day + 'rd';
-        }
-
-        default: {
-            return day + 'th';
-        }
+    } else {
+        return day;
     }
 }
 
@@ -181,10 +253,24 @@ const convertMinsToHrsMins = (mins) => {
     h = h < 10 ? '' + h : h;
     m = m < 10 ? '' + m : m;
 
-    if (h > 0) {
-        return h + 'h ' + m + ' m';
+    if (langNum == 1) {
+        if (h > 0) {
+            return h + 'h ' + m + ' m';
+        } else {
+            return m + ' m';
+        }
     } else {
-        return m + ' m';
+        if (h > 0) {
+            if (h == 2) {
+                return ' שעתיים ו ' + m + ' דקות';
+            } else if(h == 1) {
+                return ' שעה ו ' + m + ' דקות';
+            } else {
+                return h + ' שעות ו ' + m + ' דקות'; 
+            }    
+        } else {
+            return m + ' דקות';
+        }
     }
 }
 
@@ -391,16 +477,13 @@ const emptyChosen = (type, hideMain) => {
 
 	if(hideMain) {
 		$('main').hide();
-        $('.searchContainer').addClass('chosenSearch');
 	}
 
 	if(type == 1) {
 	    $('#chosenMovie').css({'pointer-events': 'none', 'opacity': 0});
 		$('#overview, #personOverviewWrapper, #tvShowSeasonsWrapper, #guestCast, #guestCastHeader').remove();
 		$('#wishlistContainer, #playingNowContainer, #trendingContainer,  #upcomingContainer, #popular, #genreChosen, #providerContainer').empty().hide();
-	} else {
-		$('.searchContainer').removeClass('chosenSearch');
-	}
+	} 
 
     $('#personInstagramWrapper, #chosenPersonImgWrapper, #personMovies, #personImages, #productionCompenies, #overview, #watchProviders, #directorsWrapper, #castWrapper, #similarMoviesContent, #chosenMovieImagesWrapper, #videosWrapper, #searchResults').empty();
     $('#chosenMovieImdb').attr('href', 'https://www.imdb.com');
@@ -440,7 +523,7 @@ const updateVotes = (data, wrapper) => {
 
         if (finalVoteText !== 0 && finalVoteText !== undefined) {
             let voteWrapper = $('<div>', {
-                class: 'voteWrapper',
+                class: 'voteWrapper filter',
             }).appendTo(wrapper);
 
             let voteBackground = $('<span>', {
@@ -461,5 +544,60 @@ const updateVotes = (data, wrapper) => {
                 text: finalVoteText
             }).appendTo(voteTextContent);
         }
+    }
+}
+
+const translate = () => {
+    if (langNum == 1) {
+        $('#siteHeader').html('My Movies');
+        $('#playingNowMenuHeader').html('Playing Now');
+        $('#upcomingMenuHeader').html('Upcoming');
+        $('#trendingMenuHeader').html('Trending');
+        $('#popularPeoplegMenuHeader').html('Popular People');
+        $('#miscellaneousMenuHeader').html('Miscellaneous');
+        $('#miscellaneousMenuHeader').html('Miscellaneous');
+        $('#marvelMenuHeader').html('Marvel');
+        $('#dcMenuHeader').html('DC');
+        $('#valiantMenuHeader').html('Valiant');
+        $('#othersMenuHeader').html('Others');
+        $('#animationMenuHeader').html('Animation');
+        $('#tVShowsMenuHeader').html('TV Show');
+        $('#wishlistMenuHeader').html('Wishlist');
+
+        $('#nextMovieRelease').html('Release Date:');
+        $('#nextInline').html('Next In Line:');
+        $('#afterNextRelease').html('Release Date:');
+        $('#timelineBtn').html('Timeline');
+        $('#timelineTVBtn').html('TV Timeline');
+        $('#timelineText').html('Timeline');
+
+        $('#search').attr('placeholder', 'Type A Movie, TV Show Or Person');
+
+        
+
+
+    } else {
+        $('#siteHeader').html('הסרטים שלי');
+        $('#playingNowMenuHeader').html('בקולנוע');
+        $('#upcomingMenuHeader').html('בקרוב');
+        $('#trendingMenuHeader').html('טרנדי');
+        $('#popularPeoplegMenuHeader').html('אנשים פופולרים');
+        $('#miscellaneousMenuHeader').html('שונות');
+        $('#marvelMenuHeader').html('מארוול');
+        $('#dcMenuHeader').html('די סי');
+        $('#valiantMenuHeader').html('ואליאנט');
+        $('#othersMenuHeader').html('אחרים');
+        $('#animationMenuHeader').html('אנימציה');
+        $('#tVShowsMenuHeader').html('סדרות');
+        $('#wishlistMenuHeader').html('סרטים להוריד');
+
+        $('#nextMovieRelease').html('תאריך הוצאה:');
+        $('#nextInline').html('הסרט הבא:');
+        $('#afterNextRelease').html('תאריך הוצאה:');
+        $('#timelineBtn').html('ציר זמן');
+        $('#timelineTVBtn').html('ציר זמן סדרות');
+        $('#timelineText').html('ציר זמן');
+
+        $('#search').attr('placeholder', 'חפש סרט, סדרה או אדם');
     }
 }
