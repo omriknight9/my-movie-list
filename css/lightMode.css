@@ -1,0 +1,86 @@
+body {
+    background: url('../images/lightMode.jpeg');
+    background-size: 100% 100%;
+    background-attachment: fixed;
+}
+
+header {
+    position: relative;
+    width: 100%;
+    height: 6rem;
+    background-color: var(--orange);
+    box-shadow: 0 1px 5px black;
+}
+
+#header, #search, .name, .date {
+    color: black;
+}
+
+#logo {
+    box-shadow: 0 1px 5px black;
+    background-color: var(--orange);
+}
+
+#toggle {
+    filter: none;
+}
+
+#toggle span {
+    background: black;
+}
+
+#menu li:not(:last-child) {
+    border-bottom: 1px solid black;
+}
+
+#breadcrumbs ul li span {
+    background-color: white;
+    color: black;
+}
+
+#goHomeBtn:hover span {
+    background-color: black;
+    color: white;
+}
+
+#social {
+    background-color: black;
+    color: var(--orange);
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.8));
+}
+
+#socials a {
+    background-color: black;
+    color: var(--orange);
+}
+
+#goToTopBtn {
+    fill: black;
+}
+
+.actorName, .similarMovieName, .actorMovieName, #chosenMovieGenres, #chosenMovieTitle, #chosenPersonName, #chosenMovieSentence {
+    color: black;
+    filter: none;
+}
+
+#overview, .directorHeader, #castHeader, #similarHeader, #personCreditsHeader, #guestCastHeader, .overviewText, .details p {
+    color: black;
+}
+
+.details p, #goToTopBtn {
+    filter: none;
+}
+
+.popupCont {
+    background: url('../images/lightMode.jpeg');
+    color: black;
+}
+
+.closeBtn {
+    color: black;
+}
+
+.chosenHeader {
+    color: black !important;
+    filter: none;
+}
