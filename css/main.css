@@ -1158,10 +1158,6 @@ footer span {
     text-align: center;
 }
 
-.overviewText {
-    text-align: center !important;
-}
-
 #chosenMovieRuntime, #chosenMovieRevenue {
     display: none;
 }
@@ -1261,6 +1257,9 @@ footer span {
 }
 
 .overviewText {
+    color: lightgray;
+    font-weight: 600;
+    text-align: center !important;
     filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.8));
 }
 
