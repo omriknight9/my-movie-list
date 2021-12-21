@@ -58,7 +58,7 @@ header {
     fill: black;
 }
 
-.actorName, .similarMovieName, .actorMovieName, #chosenMovieGenres, #chosenMovieTitle, #chosenPersonName, #chosenMovieSentence {
+.actorName, .similarMovieName, .actorMovieName, #chosenMovieGenres, #chosenMovieTitle, #chosenPersonName, #chosenMovieSentence, .overviewText {
     color: black;
     filter: none;
 }
