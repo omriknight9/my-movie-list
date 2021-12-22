@@ -8,6 +8,10 @@ body {
     font-family: 'font', serif;
 }
 
+.rtl {
+    direction: rtl;
+}
+
 #menu ul {
     text-align: right;
     direction: rtl;
