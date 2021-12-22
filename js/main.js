@@ -138,6 +138,16 @@ $(document).ready(() => {
                     break;
             }
 
+        } else if($('#chosenPerson').is(':visible')) {
+            const chosenUrlParams = new URLSearchParams(window.location.search);
+            let chosenValue = Number(chosenUrlParams.get('value'));
+
+            if (chosenUrlParams.get('director') == null) {
+                getPersonDetails(chosenValue, 1);
+            } else {
+                getPersonDetails(chosenValue, 2);
+            }
+
         } else if ($('#chosenMovie').is(':visible')) {
 
             const chosenUrlParams = new URLSearchParams(window.location.search);
@@ -629,7 +639,8 @@ const showResults = (value) => {
                 name: finalTitle,
                 id: data.results[i].id,
                 type: data.results[i].media_type,
-                click: () => {
+                knownFor: data.results[i].known_for_department,
+                click: function () {
                     window.history.replaceState({}, document.title, "/" + "my-movie-list/");
 
                     switch (data.results[i].media_type) {
@@ -646,7 +657,15 @@ const showResults = (value) => {
                         case 'person':
                             $('#search').val('');
                             $('main').hide();
-                            getPersonDetails(data.results[i].id, 1);
+
+                            if ($(this).attr('knownFor') == 'Directing') {
+                                getPersonDetails(data.results[i].id, 2);
+                            } else if($(this).attr('knownFor') == 'Acting') {
+                                getPersonDetails(data.results[i].id, 1);
+                            } else if($(this).attr('knownFor') == 'Writing') {
+                                getPersonDetails(data.results[i].id, 3);
+                            }
+                            
                             break;
                     }
                 }
@@ -1209,7 +1228,12 @@ const chosenMovie = (value, type) => {
 
         $('#chosenMovieImg').attr('src', finalImg);
         $('#chosenMovieSentence').html(data.tagline);
-        $('#contentPoster').attr('src', finalImg).show();
+        
+        if (finalImg == './images/stockMovie.jpg') {
+            $('#contentPoster').css('background', '').hide();   
+        } else {
+            $('#contentPoster').attr('src', finalImg).show();
+        }
 
         let companiesArr = [];
         
@@ -1821,7 +1845,6 @@ const getWatchProviders = (value, type) => {
             $('#chosenMovie, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
 
             $('#breadcrumbs').show();
-
             $('#logo').css('pointerEvents', 'all');
 
             let iconClass;
@@ -2189,9 +2212,18 @@ const getPersonDetails = (value, type) => {
             let finalAgeText;
 
             if (data.deathday == null) {
-                finalAgeText = 'Birth Date: ' + configureDate(data.birthday) + ' (Age: ' + finalAge + ')';
+                if (langNum == 1) {
+                    finalAgeText = 'Birth Date: ' + configureDate(data.birthday) + ' (Age: ' + finalAge + ')';
+                } else {
+                    finalAgeText = 'תאריך לידה: ' + configureDate(data.birthday) + ' (Age: ' + finalAge + ')';
+                }
+                
             } else {
-                finalAgeText = 'Birth Date: ' + configureDate(data.birthday);
+                if (langNum == 1) {
+                    finalAgeText = 'Birth Date: ' + configureDate(data.birthday);
+                } else {
+                    finalAgeText = 'תאריך לידה: ' + configureDate(data.birthday);
+                }
             }
 
             $('#birthDate').html(finalAgeText);
@@ -2202,20 +2234,36 @@ const getPersonDetails = (value, type) => {
         if(data.deathday !== null) {
             $('#personDeathDate').show();
             let deathAge = getAge(data.deathday, 2, data.birthday);
-            $('#deathDate').html('Death Date: ' + configureDate(data.deathday) + ' (Age: ' + deathAge + ')');
+
+            if (langNum == 1) {
+                $('#deathDate').html('Death Date: ' + configureDate(data.deathday) + ' (Age: ' + deathAge + ')');
+            } else {
+                $('#deathDate').html('תאריך פטירה: ' + configureDate(data.deathday) + ' (Age: ' + deathAge + ')');
+            }
         } else {
             $('#personDeathDate').hide();
         }
 
         if(data.place_of_birth !== null) {
             $('#personHometown').show();
-            $('#hometown').html('Hometown: ' + data.place_of_birth);
+            if (langNum == 1) {
+                $('#hometown').html('Hometown: ' + data.place_of_birth);
+            } else {
+                $('#hometown').html('מקום לידה: ' + data.place_of_birth);
+            }
         } else {
             $('#personHometown').hide();
         }
     });
 
-    getPersonCredits(value, type);
+    if (type == 1) {
+        getPersonCredits(value, type);
+    } else {
+        getPersonCredits(value, type);
+        getPersonCredits(value, type + 1);
+    }
+
+    
     getPersonExternalIds(value);
     getPersonImages(value);
     getPersonMovieImages(value);
@@ -2402,11 +2450,22 @@ const getPersonCredits = (value, type) => {
         }
 
         if (finalData.length !== 0) {
-            let creditsHeader = $('<p>', {
-                id: 'personCreditsHeader',
-                class: 'chosenHeader filter',
-                text: 'Credits',
-            }).insertBefore($('#personMovies'));
+
+            let creditHeader;
+
+            if (langNum == 1) {
+                creditHeader = 'Credits';
+            } else {
+                creditHeader = 'קרדיטים';
+            }
+
+            if (type !== 3) {
+                let creditsHeader = $('<p>', {
+                    id: 'personCreditsHeader',
+                    class: 'chosenHeader filter',
+                    text: creditHeader,
+                }).insertBefore($('#personMovies'));
+            }
 
             for (let i = 0; i < finalData.length; i++) {
                 try {
@@ -2489,9 +2548,17 @@ const getPersonCredits = (value, type) => {
                                 chosenMovie(finalData[i].id, typeOfContent);
                             }
                         }).appendTo(imageLink);
-    
+
+                        let actorMovieClass;
+
+                        if (/[\u0590-\u05FF]/.test(finalTitle)) {
+                            actorMovieClass = 'actorMovieName filter rtl';
+                        } else {
+                            actorMovieClass = 'actorMovieName filter';
+                        }
+
                         let actorMovieName = $('<span>', {
-                            class: 'actorMovieName filter',
+                            class: actorMovieClass,
                             text: finalTitle
                         }).appendTo(credit);
     
@@ -2501,42 +2568,81 @@ const getPersonCredits = (value, type) => {
                         }).appendTo(credit);
                     }
 
-                    if (finalData[i].job == 'Director' && type == 2) {
-                        let credit = $('<div>', {
-                            class: 'credit',
-                            popularity: finalData[i].popularity
-                        }).appendTo($('#personMovies'));
+                    if (finalData[i].job == 'Director' && type == 2 || finalData[i].department == 'Writing' && type == 3) {
+                        if (finalData[i].job !== 'Novel' && finalData[i].job !== 'Teleplay' && finalData[i].job !== 'Story') {
+                            console.log('type: ' + type);
+                            console.log('finalData[i].job : ' + finalData[i].job );
+                            console.log('finalData[i].department : ' + finalData[i].department);
     
-                        let imageLink = $('<a>', {
-                            class: 'imageLink',
-                            'target': '_blank'
-                        }).appendTo(credit);
+                            let credit = $('<div>', {
+                                class: 'credit',
+                                popularity: finalData[i].popularity
+                            }).appendTo($('#personMovies'));
+        
+                            let imageLink = $('<a>', {
+                                class: 'imageLink',
+                                'target': '_blank'
+                            }).appendTo(credit);
+        
+                            let actorImg = $('<img>', {
+                                class: 'actorImg hoverEffect pointer lazy filter',
+                                'data-src': movieImgPath,
+                                'src': './images/stock.png',
+                                alt: 'actorMovieImg',
+                                mediaType: finalData[i].media_type,
+                                id: finalData[i].id,
+                                click: () => {
+                                    let typeOfContent;
+                                    if (finalData[i].media_type == 'movie') {
+                                        typeOfContent = 1;
+                                    } else {
+                                        typeOfContent = 2;
+                                    }
     
-                        let actorImg = $('<img>', {
-                            class: 'actorImg hoverEffect pointer lazy filter',
-                            'data-src': movieImgPath,
-                            'src': './images/stock.png',
-                            alt: 'actorMovieImg',
-                            mediaType: finalData[i].media_type,
-                            id: finalData[i].id,
-                            click: () => {
-                                let typeOfContent;
-                                if (finalData[i].media_type == 'movie') {
-                                    typeOfContent = 1;
-                                } else {
-                                    typeOfContent = 2;
+                                    $('#chosenPerson').hide();
+    
+                                    chosenMovie(finalData[i].id, typeOfContent);
                                 }
-
-                                $('#chosenPerson').hide();
-
-                                chosenMovie(finalData[i].id, typeOfContent);
-                            }
-                        }).appendTo(imageLink);
+                            }).appendTo(imageLink);
     
-                        let actorMovieName = $('<span>', {
-                            class: 'actorMovieName filter',
-                            text: finalTitle
-                        }).appendTo(credit);
+                            let directorMovieClass;
+    
+                            if (/[\u0590-\u05FF]/.test(finalTitle)) {
+                                directorMovieClass = 'actorMovieName filter rtl';
+                            } else {
+                                directorMovieClass = 'actorMovieName filter';
+                            }
+        
+                            let actorMovieName = $('<span>', {
+                                class: directorMovieClass,
+                                text: finalTitle
+                            }).appendTo(credit);
+    
+                            let jobTitleName;
+
+                            if (langNum == 1) {
+                                jobTitleName = finalData[i].job;
+                            } else {
+                                if (finalData[i].job == 'Writer') {
+                                    jobTitleName = 'כותב/ת';
+                                } else if(finalData[i].job == 'Short Story') {
+                                    jobTitleName = 'סיפור קצר';
+                                } else if(finalData[i].job == 'Characters') {
+                                    jobTitleName = 'דמויות';
+                                } else if(finalData[i].job == 'Screenplay') {
+                                    jobTitleName = 'תסריט';
+                                } else if(finalData[i].job == 'Screenplay') {
+                                    jobTitleName = 'תסריט';
+                                } else if(finalData[i].job == 'Director') {
+                                    jobTitleName = 'במאי/ת';
+                                }
+                            }
+
+                            let jobTitle = $('<span>', {
+                                class: 'characterName filter',
+                                text: jobTitleName
+                            }).appendTo(credit);
+                        }        
                     }
 
                 } catch (e) {
@@ -2632,6 +2738,11 @@ const getPersonMovieImages = (value) => {
             $('#spinnerWrapper').hide();
             $('#chosenPerson').show();
             $('footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+
+            $('#breadcrumbs').show();
+            $('#logo').css('pointerEvents', 'all');
+            $('#typeOfContent').attr('class', 'fas fa-user-alt');
+            $('#contentPoster').css('background', '').hide();
         }, 1500)
     })
     .fail(() => {
