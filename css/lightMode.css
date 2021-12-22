@@ -84,3 +84,8 @@ header {
     color: black !important;
     filter: none;
 }
+
+.characterName {
+    filter: none;
+    text-shadow: 0px 2px 5px #000000
+}
