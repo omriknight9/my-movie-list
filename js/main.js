@@ -31,7 +31,6 @@ let tvGenreUrl = baseUrl + '/discover/tv?api_key=' + tmdbKey + '&language=' + la
 const providerUpcomingUrl = baseUrl + '/discover/movie?api_key=' + tmdbKey + '&language=' + lang + '&watch_region=US';
 
 $(document).ready(() => {
-
     if (window.location.href.indexOf("?movie=") > -1 || window.location.href.indexOf("?tvShow=") > -1 || window.location.href.indexOf("?actor=") > -1 || window.location.href.indexOf("?director=") > -1) { 
         const urlParams = new URLSearchParams(window.location.search);
         valueFromUrl = Number(urlParams.get('value'));
@@ -1171,6 +1170,15 @@ const buildTvShows = (data, div, wrapper) => {
 }
 
 const chosenMovie = (value, type) => {
+
+    if (!$('.searchContainer').is(':visible')) {
+        $('.searchContainer').show();
+    }
+
+    $('#chosenMovieIMDBRating, #chosenMovieRottenRating, #chosenMovieMetaRating').hide();
+    $('#movieRottenRating').removeClass('fresh');
+    $('#movieRottenRating').removeClass('rotten');
+
     closeMenus();
     emptyChosen(1, true);
     
@@ -1211,6 +1219,7 @@ const chosenMovie = (value, type) => {
                 if (data.imdb_id !== null) {
                     $('#chosenMovieImdb').attr('href', 'https://www.imdb.com/title/' + data.imdb_id);
                     $('#chosenMovieImdb').css('pointer-events', 'all');
+                    checkSiteRatings(data.imdb_id);
                 } else {
                     $('#chosenMovieImdb').css('pointer-events', 'none');
                 }
@@ -1218,9 +1227,9 @@ const chosenMovie = (value, type) => {
         } else {
             $('#chosenMovieTitle').html(capitalize(data.title));
             if (data.imdb_id !== null) {
-
                 $('#chosenMovieImdb').attr('href', 'https://www.imdb.com/title/' + data.imdb_id);
                 $('#chosenMovieImdb').css('pointer-events', 'all');
+                checkSiteRatings(data.imdb_id);
             } else {
                 $('#chosenMovieImdb').css('pointer-events', 'none');
             }
@@ -1294,7 +1303,6 @@ const chosenMovie = (value, type) => {
                 } else {
                     $('#movieRevenue').html('הכנסות: ' + withCommas + ' $ ');
                 }
-    
                 
                 $('#chosenMovieRevenue').show();
             } else {
@@ -1347,27 +1355,27 @@ const chosenMovie = (value, type) => {
             }
         }
 
-        let finalVoteText;
-        finalVoteText = data.vote_average.toString();
+        // let finalVoteText;
+        // finalVoteText = data.vote_average.toString();
 
-        if ((finalVoteText.length == 1 && data.vote_average !== 0) || data.vote_average == '10') {
-            finalVoteText = data.vote_average + '0';
-        } else {
-            finalVoteText = data.vote_average;
-        }
+        // if ((finalVoteText.length == 1 && data.vote_average !== 0) || data.vote_average == '10') {
+        //     finalVoteText = data.vote_average + '0';
+        // } else {
+        //     finalVoteText = data.vote_average;
+        // }
 
-        finalVoteText = finalVoteText.toString();
+        // finalVoteText = finalVoteText.toString();
     
-        if (finalVoteText !== 0 && finalVoteText !== undefined) {
-            if (langNum == 1) {
-                $('#movieRating').html('Rating: ' + finalVoteText);
-            } else {
-                $('#movieRating').html('ציון: ' + finalVoteText);
-            }
-            $('#chosenMovieRating').show();
-        } else {
-            $('#chosenMovieRating').hide();
-        }
+        // if (finalVoteText !== 0 && finalVoteText !== undefined) {
+        //     if (langNum == 1) {
+        //         $('#movieRating').html('Rating: ' + finalVoteText);
+        //     } else {
+        //         $('#movieRating').html('ציון: ' + finalVoteText);
+        //     }
+        //     $('#chosenMovieRating').show();
+        // } else {
+        //     $('#chosenMovieRating').hide();
+        // }
 
         if (data.original_language !== 0 && data.original_language !== undefined) {
             if (langNum == 1) {
@@ -1478,6 +1486,43 @@ const chosenMovie = (value, type) => {
     getImages(value, type);
     getVideos(value, type);
     getWatchProviders(value, type);
+}
+
+const checkSiteRatings = (imdbId) => {
+    $.post('http://www.omdbapi.com/?apikey=59556c8e&i=' + imdbId, function( result ) {
+        if (result.Ratings !== undefined) {
+            for (let l = 0; l < result.Ratings.length; l++) {
+                switch (result.Ratings[l].Source) {
+                    case 'Internet Movie Database':
+                            $('#movieIMDBRating').html(result.Ratings[l].Value);
+                            $('#chosenMovieIMDBRating').show();
+                        break;
+                    case 'Rotten Tomatoes':
+                        $('#movieRottenRating').html(result.Ratings[l].Value);
+                        if (result.Ratings[l].Value > '60%') {
+                            $('#rottenImg').attr('src', './images/fresh.png');
+                            $('#movieRottenRating').addClass('fresh');
+                        } else {
+                            $('#rottenImg').attr('src', './images/rotten.png');
+                            $('#movieRottenRating').addClass('rotten');
+                        }
+
+                        $('#chosenMovieRottenRating').show();
+
+                        break;
+                    case 'Metacritic':
+                        $('#movieMetaRating').html(result.Ratings[l].Value);
+                        $('#chosenMovieMetaRating').show();
+                        break;
+                    default:
+                        $('#chosenMovieIMDBRating, #chosenMovieRottenRating, #chosenMovieMetaRating').hide();
+                        break;
+                }         
+            }
+        } else {
+            $('#chosenMovieIMDBRating, #chosenMovieRottenRating, #chosenMovieMetaRating').hide();
+        }
+    })
 }
 
 const showSeasonsBtns = (seasonsNum) => {
@@ -2570,10 +2615,7 @@ const getPersonCredits = (value, type) => {
 
                     if (finalData[i].job == 'Director' && type == 2 || finalData[i].department == 'Writing' && type == 3) {
                         if (finalData[i].job !== 'Novel' && finalData[i].job !== 'Teleplay' && finalData[i].job !== 'Story') {
-                            console.log('type: ' + type);
-                            console.log('finalData[i].job : ' + finalData[i].job );
-                            console.log('finalData[i].department : ' + finalData[i].department);
-    
+
                             let credit = $('<div>', {
                                 class: 'credit',
                                 popularity: finalData[i].popularity
