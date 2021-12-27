@@ -1489,7 +1489,7 @@ const chosenMovie = (value, type) => {
 }
 
 const checkSiteRatings = (imdbId) => {
-    $.post('http://www.omdbapi.com/?apikey=59556c8e&i=' + imdbId, function( result ) {
+    $.post('https://www.omdbapi.com/?apikey=59556c8e&i=' + imdbId, function( result ) {
         if (result.Ratings !== undefined) {
             for (let l = 0; l < result.Ratings.length; l++) {
                 switch (result.Ratings[l].Source) {
