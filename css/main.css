@@ -1238,6 +1238,42 @@ footer span {
     align-items: center;
 }
 
+#siteRatings {
+    display: flex;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    justify-content: center;
+}
+
+.ratingImg {
+    width: 6rem;
+}
+
+#siteRatings span {
+    color: lightgray;
+    font-weight: 600;
+    margin-top: .5rem;
+}
+
+.fresh {
+    margin-top: 1.3rem !important;
+}
+
+.rotten {
+    margin-top: .8rem !important;
+}
+
+#chosenMovieIMDBRating, #chosenMovieRottenRating, #chosenMovieMetaRating {
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem;
+}
+
 #watchProviders {
     margin-top: 2rem;
 }
@@ -1314,6 +1350,16 @@ footer span {
 
 .detailIcon {
     margin-right: .5rem;
+}
+
+.ratingSite {
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.ratingSite img {
+    width: 1.3rem;
 }
 
 #directorsWrapper {
@@ -1721,7 +1767,7 @@ footer span {
 }
 
 @media only screen and (min-width: 765px) {
-
+    
     #goHomeBtn:hover span {
         background-color: #ff8e24;
     }
@@ -1736,7 +1782,6 @@ footer span {
         -moz-transform: perspective(800px) rotateY(20deg) scale(1.05);
         -ms-transform: perspective(800px) rotateY(20deg) scale(1.05);
         -o-transform: perspective(800px) rotateY(20deg) scale(1.05);
-        filter: grayscale(0) blur(0) drop-shadow(0 1px 4px rgba(10, 10, 10, 0.5));
     }
     
     #facebook:hover {
@@ -1968,6 +2013,10 @@ footer span {
 
     .searchContant {
         width: 80%;
+    }
+
+    .ratingImg {
+        width: 4rem;
     }
 
     .resultName, .resultDate, .knownFor {
