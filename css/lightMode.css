@@ -63,11 +63,11 @@ header {
     filter: none;
 }
 
-#overview, .directorHeader, #castHeader, #similarHeader, #personCreditsHeader, #guestCastHeader, .overviewText, .details p {
+#overview, .directorHeader, #castHeader, #similarHeader, #personCreditsHeader, #guestCastHeader, .overviewText, .details p, #siteRatings span {
     color: black;
 }
 
-.details p, #goToTopBtn {
+.details p, #goToTopBtn, #chosenMovieIMDBRating, #chosenMovieRottenRating, #chosenMovieMetaRating {
     filter: none;
 }
 
