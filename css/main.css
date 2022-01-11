@@ -1582,8 +1582,18 @@ footer span {
 }
 
 #langToggle {
+    position: fixed;
+    background: white;
+    border-radius: 100%;
+    z-index: 999;
+    filter: drop-shadow(0 1px 4px rgba(100, 100, 100, 0.8));
     bottom: 10rem;
     left: 1rem;
+    padding: .6rem .4rem
+}
+
+#langBtn {
+    font-size: 1.5rem;
 }
 
 .modeSwitch {
@@ -1603,16 +1613,12 @@ footer span {
     font-size: 1.5rem;
 }
 
-.modeSwitch .moon, .modeSwitch .usFlag {
+.modeSwitch .moon {
     opacity: 0;
 }
 
 .modeSwitch .sun {
     width: 30px;
-}
-
-.modeSwitch .isFlag {
-    width: 23px;
 }
 
 .dark {
@@ -1625,12 +1631,7 @@ footer span {
     width: 30px;
 }
 
-.heb .usFlag {
-    opacity: 1;
-    width: 23px;
-}
-
-.dark .sun, .heb .isFlag {
+.dark .sun {
     opacity: 0;
     width: 0;
 }
@@ -1640,14 +1641,6 @@ footer span {
 }
 
 .moon {
-    color: white;
-}
-
-.isFlag {
-    color: blue;
-}
-
-.usFlag {
     color: white;
 }
 
@@ -1951,6 +1944,17 @@ footer span {
     }
 }
 
+@media only screen and (max-width: 430px) {
+
+    .ratingImg {
+        width: 4rem;
+    }
+    
+    .freshImg {
+        width: 4.6rem;
+    }
+}
+
 @media only screen and (max-width: 400px) {
 
     #siteHeader {
@@ -2008,10 +2012,6 @@ footer span {
 
     .searchContant {
         width: 80%;
-    }
-
-    .ratingImg {
-        width: 4rem;
     }
 
     .resultName, .resultDate, .knownFor {
