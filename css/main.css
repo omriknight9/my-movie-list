@@ -1258,8 +1258,8 @@ footer span {
     margin-top: .5rem;
 }
 
-.fresh {
-    margin-top: 1.3rem !important;
+.freshImg {
+    width: 7rem;
 }
 
 .rotten {
