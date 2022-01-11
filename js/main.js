@@ -1179,6 +1179,9 @@ const chosenMovie = (value, type) => {
     $('#movieRottenRating').removeClass('fresh');
     $('#movieRottenRating').removeClass('rotten');
 
+    $('#rottenImg').removeClass('freshImg');
+    $('#rottenImg').removeClass('rottenImg');
+
     closeMenus();
     emptyChosen(1, true);
     
@@ -1244,19 +1247,16 @@ const chosenMovie = (value, type) => {
             $('#contentPoster').attr('src', finalImg).show();
         }
 
-        let companiesArr = [];
+        let companiesArr = [56, 79, 104, 308, 435, 779, 1225, 6573, 7297, 10246, 13184, 16615, 30148, 103673];
         
         if (data.production_companies.length > 0) {
             for (let i = 0; i < data.production_companies.length; i++) {
-                if (data.production_companies[i].logo_path !== null && data.production_companies[i].id !== 7297) {
-                    if (!companiesArr.includes(data.production_companies[i].logo_path)) {
-                        companiesArr.push(data.production_companies[i].logo_path);
-                        let companyImg = $('<img>', {
-                            class: 'companyImg',
-                            alt: 'company img',
-                            src: 'https://image.tmdb.org/t/p/w1280' + data.production_companies[i].logo_path
-                        }).appendTo($('#productionCompenies'));
-                    }
+                if (data.production_companies[i].logo_path !== null && !companiesArr.includes(data.production_companies[i].id)) {
+                    let companyImg = $('<img>', {
+                        class: 'companyImg',
+                        alt: 'company img',
+                        src: 'https://image.tmdb.org/t/p/w1280' + data.production_companies[i].logo_path
+                    }).appendTo($('#productionCompenies'));
                 }
             }
         }
@@ -1354,28 +1354,6 @@ const chosenMovie = (value, type) => {
                 }).appendTo($('#tvShowSeasonsWrapper'));
             }
         }
-
-        // let finalVoteText;
-        // finalVoteText = data.vote_average.toString();
-
-        // if ((finalVoteText.length == 1 && data.vote_average !== 0) || data.vote_average == '10') {
-        //     finalVoteText = data.vote_average + '0';
-        // } else {
-        //     finalVoteText = data.vote_average;
-        // }
-
-        // finalVoteText = finalVoteText.toString();
-    
-        // if (finalVoteText !== 0 && finalVoteText !== undefined) {
-        //     if (langNum == 1) {
-        //         $('#movieRating').html('Rating: ' + finalVoteText);
-        //     } else {
-        //         $('#movieRating').html('ציון: ' + finalVoteText);
-        //     }
-        //     $('#chosenMovieRating').show();
-        // } else {
-        //     $('#chosenMovieRating').hide();
-        // }
 
         if (data.original_language !== 0 && data.original_language !== undefined) {
             if (langNum == 1) {
@@ -1501,9 +1479,11 @@ const checkSiteRatings = (imdbId) => {
                         $('#movieRottenRating').html(result.Ratings[l].Value);
                         if (result.Ratings[l].Value > '60%') {
                             $('#rottenImg').attr('src', './images/fresh.png');
+                            $('#rottenImg').addClass('freshImg');
                             $('#movieRottenRating').addClass('fresh');
                         } else {
                             $('#rottenImg').attr('src', './images/rotten.png');
+                            $('#rottenImg').addClass('rottenImg');
                             $('#movieRottenRating').addClass('rotten');
                         }
 
@@ -1867,13 +1847,15 @@ const getFinalUrl = (type) => {
 const getWatchProviders = (value, type) => {
     let finalUrl = getFinalUrl(type);
 
+    let providerArr = [337, 8, 384, 37, 9, 15, 350];
+
     $.get(finalUrl + value + "/watch/providers?api_key=" + tmdbKey + '&language=' + lang + '&sort_by=popularity.desc', (data) => {
         if (data.results.US !== undefined && data.results.US.flatrate !== undefined) {
             let results = data.results.US.flatrate;
 
             for (let i = 0; i < results.length; i++) {
                 if (results[i].logo_path !== null) {
-                    if (results[i].provider_id == 337 || results[i].provider_id == 8 || results[i].provider_id == 384 || results[i].provider_id == 37 || results[i].provider_id == 9 || results[i].provider_id == 15 || results[i].provider_id == 350) {
+                    if (providerArr.includes(results[i].provider_id)) {
                         let watchProvider = $('<img>', {
                             class: 'watchProvider',
                             alt: 'watch provider img',
