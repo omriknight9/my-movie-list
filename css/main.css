@@ -1620,11 +1620,6 @@ footer span {
     filter: drop-shadow(0 1px 4px rgba(255, 255, 255, 1)) !important;
 }
 
-.heb {
-    background-image: linear-gradient(red, blue);
-    filter: drop-shadow(0 1px 4px rgba(255, 255, 255, 1)) !important;
-}
-
 .dark .moon {
     opacity: 1;
     width: 30px;
