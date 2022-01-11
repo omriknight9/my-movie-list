@@ -204,7 +204,6 @@ const changeMonthName = (month, type) => {
             } else {
                 return 'נובמבר';
             }
-            return 'Nov';
         }
         case 11: {
             if (langNum == 1) {
