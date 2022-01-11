@@ -562,18 +562,13 @@ const translate = () => {
         $('#animationMenuHeader').html('Animation');
         $('#tVShowsMenuHeader').html('TV Show');
         $('#wishlistMenuHeader').html('Wishlist');
-
         $('#nextMovieRelease').html('Release Date:');
         $('#nextInline').html('Next In Line:');
         $('#afterNextRelease').html('Release Date:');
         $('#timelineBtn').html('Timeline');
         $('#timelineTVBtn').html('TV Timeline');
         $('#timelineText').html('Timeline');
-
         $('#search').attr('placeholder', 'Type A Movie, TV Show Or Person');
-
-        
-
 
     } else {
         $('#siteHeader').html('הסרטים שלי');
@@ -589,14 +584,12 @@ const translate = () => {
         $('#animationMenuHeader').html('אנימציה');
         $('#tVShowsMenuHeader').html('סדרות');
         $('#wishlistMenuHeader').html('סרטים להוריד');
-
         $('#nextMovieRelease').html('תאריך הוצאה:');
         $('#nextInline').html('הסרט הבא:');
         $('#afterNextRelease').html('תאריך הוצאה:');
         $('#timelineBtn').html('ציר זמן');
         $('#timelineTVBtn').html('ציר זמן סדרות');
         $('#timelineText').html('ציר זמן');
-
         $('#search').attr('placeholder', 'חפש סרט, סדרה או אדם');
     }
 }
