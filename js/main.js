@@ -197,7 +197,7 @@ $(document).ready(() => {
 });
 
 const loadJson = () => {
-    let  promise1 = new Promise((resolve) => {
+    let promise1 = new Promise((resolve) => {
         resolve(getList(7099604, 'marvel', $('#marvelContainer'), 1, 1));
     })
     .then(() => {
@@ -670,19 +670,19 @@ const showResults = (value) => {
                 }
             }).appendTo($('#searchResults'));
 
-            let resultPoster = $('<img>', {
+            $('<img>', {
                 class: 'resultPoster',
                 alt: 'poster',
                 src: posterUrl
             }).appendTo(resultWrapper);
 
-            let resultName = $('<p>', {
+            $('<p>', {
                 class: 'resultName',
                 text: capitalize(finalTitle)
             }).appendTo(resultWrapper);
 
             if (data.results[i].media_type !== 'person') {
-                let resultDate = $('<p>', {
+                $('<p>', {
                     class: 'resultDate',
                     text: finalReleaseDate
                 }).appendTo(resultWrapper);
@@ -694,7 +694,7 @@ const showResults = (value) => {
                     } else {
                         finalKnownFor = data.results[i].known_for[0].original_name;
                     }
-                    let knownFor = $('<p>', {
+                    $('<p>', {
                         class: 'knownFor',
                         text: finalKnownFor
                     }).appendTo(resultWrapper);
@@ -739,7 +739,7 @@ const buildTrending = (data, div, wrapper) => {
         trendingHeaderText = 'טרנדי';
     }
 
-    let trendingHeader = $('<h2>', {
+    $('<h2>', {
         class: 'trendingHeader',
         text: trendingHeaderText
     }).appendTo(wrapper);
@@ -748,7 +748,7 @@ const buildTrending = (data, div, wrapper) => {
         class: 'line lineTrending',
     }).appendTo(wrapper);
 
-    let headerLogo = $('<span>', {
+    $('<span>', {
         class: 'headerLogo',
     }).appendTo(headerLine);
 
@@ -760,14 +760,14 @@ const buildTrending = (data, div, wrapper) => {
         class: 'btnWrapper filter',
     }).appendTo(trendingContent);
 
-    let sortNameBtn = $('<i>', {
+    $('<i>', {
         class: 'sortNameBtn fas fa-sort-alpha-down pointer',
         click: function () {
             sortByName(wrapper, 2);
         }
     }).appendTo(btnWrapper);
 
-    let sortDateBtn = $('<i>', {
+    $('<i>', {
         class: 'sortDateBtn far fa-calendar-alt pointer',
         click: function () {
             sortByDate(wrapper, 2);
@@ -822,19 +822,19 @@ const buildTrending = (data, div, wrapper) => {
                 finalClass = 'movieImg lazy';
             }
     
-            let movieImg = $('<img>', {
+            $('<img>', {
                 class: finalClass,
                 alt: 'movieImg',
                 'data-src': dataSrc,
                 'src': finalSrc
             }).appendTo(trendingWrapper);
     
-            let movieFullName = $('<p>', {
+            $('<p>', {
                 class: 'name',
                 text: capitalize(finalTitle),
             }).appendTo(trendingWrapper);
     
-            let movieDate = $('<p>', {
+            $('<p>', {
                 class: 'date',
                 text: configureDate(finalDate)
             }).appendTo(trendingWrapper);
@@ -952,7 +952,7 @@ const buildMovies = (data, div, wrapper, type) => {
         $('#logo').css('pointerEvents', 'all');
     }
 
-    let typeheader = $('<h2>', {
+    $('<h2>', {
         class: 'typeheader',
         text: headerText
     }).appendTo(wrapper);
@@ -961,7 +961,7 @@ const buildMovies = (data, div, wrapper, type) => {
         class: 'line ' + headerLineClass,
     }).appendTo(wrapper);
 
-    let headerLogo = $('<span>', {
+    $('<span>', {
         class: 'headerLogo',
     }).appendTo(headerLine);
 
@@ -974,14 +974,14 @@ const buildMovies = (data, div, wrapper, type) => {
             class: 'btnWrapper filter',
         }).appendTo(moviesContent);
 
-        let sortNameBtn = $('<i>', {
+        $('<i>', {
             class: 'sortNameBtn fas fa-sort-alpha-down pointer',
             click: function () {
                 sortByName(wrapper, 1);
             }
         }).appendTo(btnWrapper);
 
-        let sortDateBtn = $('<i>', {
+        $('<i>', {
             class: 'sortDateBtn far fa-calendar-alt pointer',
             click: function () {
                 sortByDate(wrapper, 1);
@@ -1006,7 +1006,7 @@ const buildMovies = (data, div, wrapper, type) => {
                 finalCinematicClass = 'dceuBtn';
             }
 
-            let nextInLineBtn = $('<img>', {
+            $('<img>', {
                 class: 'pointer ' + finalCinematicClass,
                 src: finalImgSrc,
                 alt: 'cinematic',
@@ -1070,19 +1070,19 @@ const buildMovies = (data, div, wrapper, type) => {
             finalClass = 'movieImg lazy';
         }
 
-        let movieImg = $('<img>', {
+        $('<img>', {
             class: finalClass,
             alt: 'movieImg',
             'data-src': dataSrc,
             'src': finalSrc
         }).appendTo(movieWrapper);
 
-        let movieFullName = $('<p>', {
+        $('<p>', {
             class: 'name',
             text: capitalize(data[i].title),
         }).appendTo(movieWrapper);
 
-        let movieDate = $('<p>', {
+        $('<p>', {
             class: 'date',
             text: finalReleaseDate
         }).appendTo(movieWrapper);
@@ -1112,7 +1112,7 @@ const buildTvShows = (data, div, wrapper) => {
         tvShowText = 'סדרות';
     }
 
-    let tvShowsHeader = $('<h2>', {
+    $('<h2>', {
         class: 'tvShowsHeader',
         text: tvShowText
     }).appendTo(wrapper);
@@ -1121,7 +1121,7 @@ const buildTvShows = (data, div, wrapper) => {
         class: 'line lineTvShows',
     }).appendTo(wrapper);
 
-    let headerLogo = $('<span>', {
+    $('<span>', {
         class: 'headerLogo',
     }).appendTo(headerLine);
 
@@ -1141,13 +1141,13 @@ const buildTvShows = (data, div, wrapper) => {
             }
         }).appendTo(tvShowContent);
 
-        let tvShowImg = $('<img>', {
+        $('<img>', {
             class: 'tvShowImg',
             alt: 'tvShowImg',
             src: 'https://image.tmdb.org/t/p/w1280' + data[i].poster_path
         }).appendTo(tvShowWrapper);
 
-        let tvShowName = $('<p>', {
+        $('<p>', {
             class: 'name',
             text: capitalize(data[i].name)
         }).appendTo(tvShowWrapper);
@@ -1160,7 +1160,7 @@ const buildTvShows = (data, div, wrapper) => {
             tvShowYearText = 'שנה: ' + data[i].first_air_date.substr(0, 4);
         }
 
-        let tvShowYear = $('<p>', {
+        $('<p>', {
             class: 'year',
             text: tvShowYearText
         }).appendTo(tvShowWrapper);
@@ -1252,7 +1252,7 @@ const chosenMovie = (value, type) => {
         if (data.production_companies.length > 0) {
             for (let i = 0; i < data.production_companies.length; i++) {
                 if (data.production_companies[i].logo_path !== null && !companiesArr.includes(data.production_companies[i].id)) {
-                    let companyImg = $('<img>', {
+                    $('<img>', {
                         class: 'companyImg',
                         alt: 'company img',
                         src: 'https://image.tmdb.org/t/p/w1280' + data.production_companies[i].logo_path
@@ -1262,7 +1262,7 @@ const chosenMovie = (value, type) => {
         }
 
         if(data.overview !== null && data.overview !== '' && data.overview !== undefined) {
-            let overview = $('<p>', {
+            $('<p>', {
                 id: 'overview',
                 text: data.overview
             }).appendTo($('#movieDesc'));
@@ -1330,11 +1330,11 @@ const chosenMovie = (value, type) => {
                 $('#seriesEpisodes').html('פרקים: ' + data.number_of_episodes);
             }
 
+            $('<div>', {
+                id: 'tvShowSeasonsWrapper',
+            }).insertAfter($('#chosenMovieGenres'));
+
             if(data.number_of_seasons > 1) {
- 
-                let tvShowSeasonsWrapper = $('<div>', {
-                    id: 'tvShowSeasonsWrapper',
-                }).insertAfter($('#chosenMovieGenres'));
 
                 let allSeasonsBtnText;
 
@@ -1344,14 +1344,16 @@ const chosenMovie = (value, type) => {
                     allSeasonsBtnText = 'ראה את כל העונות';
                 }
 
-                let allSeasonsBtn = $('<button>', {
+                $('<button>', {
                     id: 'allSeasonsBtn',
                     text: allSeasonsBtnText,
                     click: () => {
                         $('.overviewWrapper').remove();
-                        showSeasonsBtns(data.number_of_seasons);
+                        showSeasonsBtns(data.number_of_seasons, 1);
                     }
                 }).appendTo($('#tvShowSeasonsWrapper'));
+            } else {
+                showSeasonsBtns(data.number_of_seasons, 2);
             }
         }
 
@@ -1393,7 +1395,7 @@ const chosenMovie = (value, type) => {
                 }).appendTo($('#chosenMovieGenres'));
 
                 for (let w = 0; w < movieObj.length; w++) {
-                    let genre = $('<span>', {
+                    $('<span>', {
                         class: 'genre pointer',
                         text: movieObj[w].name,
                         click: () => {
@@ -1505,7 +1507,7 @@ const checkSiteRatings = (imdbId) => {
     })
 }
 
-const showSeasonsBtns = (seasonsNum) => {
+const showSeasonsBtns = (seasonsNum, type) => {
 
     $('#guestCast, #guestCastHeader').remove();
     $('#allSeasonsBtn').hide();
@@ -1514,71 +1516,92 @@ const showSeasonsBtns = (seasonsNum) => {
     let seasonBtnWrapper = $('<div>', {
         id: 'seasonBtnWrapper',
     }).appendTo($('#tvShowSeasonsWrapper'));
-    
-    let seasonBackBtnText;
 
-    if (langNum == 1) {
-        seasonBackBtnText = 'Back';
-    } else {
-        seasonBackBtnText = 'חזור';
-    }
+    if (type == 1) {
+        let seasonBackBtnText;
 
-    let seasonBackBtn = $('<button>', {
-        id: 'seasonBackBtn',
-        text: seasonBackBtnText,
-        click: () => {
-            $('#seasonBtnWrapper').hide();
-            setTimeout(() => {
-                $('#seasonBtnWrapper').show(); 
-            }, 500)
-            $('#allSeasonsBtn').show();
-            $('#seasonBtnWrapper, .overviewWrapper').remove();
+        if (langNum == 1) {
+            seasonBackBtnText = 'Back';
+        } else {
+            seasonBackBtnText = 'חזור';
         }
-    }).appendTo(seasonBtnWrapper); 
-
-    for (let i = 0; i < seasonsNum; i++) {  
-
-        let seasonBtn = $('<button>', {
-            class: 'seasonBtn',
-            text: (i + 1),
+    
+        $('<button>', {
+            id: 'seasonBackBtn',
+            text: seasonBackBtnText,
             click: () => {
                 $('#seasonBtnWrapper').hide();
                 setTimeout(() => {
                     $('#seasonBtnWrapper').show(); 
                 }, 500)
-                seasonClicked(i + 1);
+                $('#allSeasonsBtn').show();
+                $('#seasonBtnWrapper, .overviewWrapper').remove();
             }
         }).appendTo(seasonBtnWrapper); 
-    }  
+
+        for (let i = 0; i < seasonsNum; i++) {
+            $('<button>', {
+                class: 'seasonBtn',
+                text: (i + 1),
+                click: () => {
+                    $('#seasonBtnWrapper').hide();
+                    setTimeout(() => {
+                        $('#seasonBtnWrapper').show(); 
+                    }, 500)
+                    seasonClicked(i + 1, 1);
+                }
+            }).appendTo(seasonBtnWrapper); 
+        }  
+
+    } else {
+
+        let episodeHeaderText;
+
+        if (langNum == 1) {
+            episodeHeaderText = 'Episodes';
+        } else {
+            episodeHeaderText = 'פרקים';
+        } 
+
+        $('<span>', {
+            id: 'episodeHeader',
+            class: 'chosenHeader filter',
+            text: episodeHeaderText,
+        }).appendTo(seasonBtnWrapper); 
+
+        seasonClicked(1, 2);
+    }
 }
 
-const seasonClicked = (seasonNum) => {
+const seasonClicked = (seasonNum, type) => {
 
     const urlParams = new URLSearchParams(window.location.search);
     const value = Number(urlParams.get('value'));
 
     $('#seasonBackBtn').hide();
 
-    let episodeBackBtnText;
+    if (type == 1) {
+        let episodeBackBtnText;
 
-    if (langNum == 1) {
-        episodeBackBtnText = 'Back';
-    } else {
-        episodeBackBtnText = 'חזור';
-    }
-
-    let episodeBackBtn = $('<button>', {
-        id: 'episodeBackBtn',
-        text: episodeBackBtnText,
-        click: () => {
-            $('#seasonBtnWrapper').hide();
-            setTimeout(() => {
-                $('#seasonBtnWrapper').show(); 
-            }, 500)
-            $('.episodeBtn, #episodeBackBtn, .overviewWrapper').remove();
-            $('.seasonBtn, #seasonBackBtn').show();
+        if (langNum == 1) {
+            episodeBackBtnText = 'Back';
+        } else {
+            episodeBackBtnText = 'חזור';
         }
-    }).appendTo($('#seasonBtnWrapper')); 
+    
+        $('<button>', {
+            id: 'episodeBackBtn',
+            text: episodeBackBtnText,
+            click: () => {
+                $('#seasonBtnWrapper').hide();
+                setTimeout(() => {
+                    $('#seasonBtnWrapper').show(); 
+                }, 500)
+                $('.episodeBtn, #episodeBackBtn, .overviewWrapper').remove();
+                $('.seasonBtn, #seasonBackBtn').show();
+            }
+        }).appendTo($('#seasonBtnWrapper')); 
+    }
 
     $.get('https://api.themoviedb.org/3/tv/' + value + '/season/' + seasonNum + '?api_key=' + tmdbKey + '&language=' + lang, (data) => {
 
@@ -1589,7 +1612,7 @@ const seasonClicked = (seasonNum) => {
         }
 
         for (let i = 0; i < data.episodes.length; i++) {
-            let episodeBtn = $('<button>', {
+            $('<button>', {
                 class: 'episodeBtn',
                 text: (i + 1),
                 click: () => {
@@ -1597,7 +1620,12 @@ const seasonClicked = (seasonNum) => {
                     setTimeout(() => {
                         $('#seasonBtnWrapper').show(); 
                     }, 500)
-                    episodeClicked(seasonNum, i + 1);
+                    if (type == 1) {
+                        episodeClicked(seasonNum, i + 1, 1); 
+                    } else {
+                        episodeClicked(seasonNum, i + 1, 2);
+                    }
+                    
                 }
             }).appendTo($('#seasonBtnWrapper'));        
         }
@@ -1627,7 +1655,7 @@ const showOverview = (text, type) => {
         overviewHeaderText = 'סקירה כללית';
     }
 
-    let overviewHeader = $('<p>', {
+    $('<p>', {
         class: 'overviewHeader filter',
         text: overviewHeaderText
     }).appendTo(overviewWrapper);
@@ -1647,7 +1675,7 @@ const showOverview = (text, type) => {
             class: 'overviewArrowWrapper',
         }).appendTo(overview);
 
-        let overviewArrow = $('<i>', {
+        $('<i>', {
             class: 'overviewArrow fas fa-angle-double-down pointer',
             click: function () {
 
@@ -1663,7 +1691,7 @@ const showOverview = (text, type) => {
     }
 }
 
-const episodeClicked = (seasonNum, episodeNum) => {
+const episodeClicked = (seasonNum, episodeNum, type) => {
 
     $('#guestCast, #guestCastHeader').remove();
 
@@ -1676,9 +1704,10 @@ const episodeClicked = (seasonNum, episodeNum) => {
             showOverview(data.overview, 1);
         }
 
-        $('.seasonBtn, .episodeBtn, #seasonBackBtn, #episodeBackBtn').remove();
-
-        $('#allSeasonsBtn').show();
+        if (type == 1) {
+            $('.seasonBtn, .episodeBtn, #seasonBackBtn, #episodeBackBtn').remove();
+            $('#allSeasonsBtn').show();
+        }
 
         if (data.guest_stars.length > 0) {
             if (data.guest_stars.length < 21) {
@@ -1700,7 +1729,7 @@ const episodeClicked = (seasonNum, episodeNum) => {
                 guestCastHeaderText = 'קאסט אורח';
             }
 
-            let guestCastHeader = $('<p>', {
+            $('<p>', {
                 id: 'guestCastHeader',
                 class: 'chosenHeader filter',
                 text: guestCastHeaderText
@@ -1751,7 +1780,7 @@ const episodeClicked = (seasonNum, episodeNum) => {
                         class: 'actor',
                     }).appendTo(guestCast);
 
-                    let actorImg = $('<img>', {
+                    $('<img>', {
                         class: 'actorImg hoverEffect lazy pointer filter',
                         'data-src': actorImgPath,
                         'src': './images/actor.jpg',
@@ -1770,12 +1799,12 @@ const episodeClicked = (seasonNum, episodeNum) => {
                         finalActorName = data.guest_stars[i].name + ':';
                     }
 
-                    let actorName = $('<span>', {
+                    $('<span>', {
                         class: 'actorName filter',
                         text: finalActorName
                     }).appendTo(actor);
 
-                    let characterName = $('<span>', {
+                    $('<span>', {
                         class: 'characterName filter',
                         text: trimmedString
                     }).appendTo(actor);
@@ -1793,7 +1822,7 @@ const episodeClicked = (seasonNum, episodeNum) => {
                                 href: 'https://www.imdb.com/name/' + data.imdb_id
                             }).appendTo(actorLinksWrapper);
         
-                            let imdbLink = $('<img>', {
+                            $('<img>', {
                                 class: 'actorImdbLink',
                                 src: './images/imdb.png',
                                 alt: 'imdbImg'
@@ -1808,7 +1837,7 @@ const episodeClicked = (seasonNum, episodeNum) => {
                                 href: 'https://www.instagram.com/' + data.instagram_id
                             }).appendTo(actorLinksWrapper);
         
-                            let instagramLink = $('<img>', {
+                            $('<img>', {
                                 class: 'actorInstagramLink',
                                 src: './images/instagram.png',
                                 alt: 'instagramImg',
@@ -1821,10 +1850,6 @@ const episodeClicked = (seasonNum, episodeNum) => {
                             $(actorLinksWrapper).find($('.instagramWrapper')).css('margin-left', 0);
                         }
                     });
-
-                    setTimeout(() => {
-                        document.querySelector('#guestCastHeader').scrollIntoView({ behavior: 'smooth' });
-                    }, 0)
 
                 } catch (e) {
                     console.log(e);
@@ -1856,7 +1881,7 @@ const getWatchProviders = (value, type) => {
             for (let i = 0; i < results.length; i++) {
                 if (results[i].logo_path !== null) {
                     if (providerArr.includes(results[i].provider_id)) {
-                        let watchProvider = $('<img>', {
+                        $('<img>', {
                             class: 'watchProvider',
                             alt: 'watch provider img',
                             src: 'https://image.tmdb.org/t/p/w1280' + results[i].logo_path
@@ -1905,7 +1930,7 @@ const getCredits = (value, type) => {
 
                 $('#directorsWrapper').show();
 
-                let directorHeader = $('<p>', {
+                $('<p>', {
                     class: 'directorHeader chosenHeader filter',
                 }).appendTo($('#directorsWrapper'));
     
@@ -1944,7 +1969,7 @@ const getCredits = (value, type) => {
                                 class: 'directorName',
                             }).appendTo(director);
         
-                            let directorImg = $('<img>', {
+                            $('<img>', {
                                 class: 'directorImg hoverEffect lazy pointer filter',
                                 'data-src': directorImgPath,
                                 'src': './images/actor.jpg',
@@ -1955,7 +1980,7 @@ const getCredits = (value, type) => {
                                 }
                             }).appendTo(directorName);
     
-                            let actorName = $('<span>', {
+                            $('<span>', {
                                 class: 'actorName filter',
                                 text: data.crew[w].name
                             }).appendTo(directorName);
@@ -1974,7 +1999,7 @@ const getCredits = (value, type) => {
                                         href: 'https://www.imdb.com/name/' + data.imdb_id
                                     }).appendTo(directorLinksWrapper);
                 
-                                    let imdbLink = $('<img>', {
+                                    $('<img>', {
                                         class: 'directorImdbLink',
                                         src: './images/imdb.png',
                                         alt: 'imdbImg'
@@ -1989,7 +2014,7 @@ const getCredits = (value, type) => {
                                         href: 'https://www.instagram.com/' + data.instagram_id
                                     }).appendTo(directorLinksWrapper);
                 
-                                    let instagramLink = $('<img>', {
+                                    $('<img>', {
                                         class: 'directorInstagramLink',
                                         src: './images/instagram.png',
                                         alt: 'instagramImg',
@@ -2043,7 +2068,7 @@ const getCredits = (value, type) => {
                 castHeaderText = 'קאסט';
             }
             
-            let castHeader = $('<p>', {
+            $('<p>', {
                 id: 'castHeader',
                 class: 'chosenHeader filter',
                 text: castHeaderText
@@ -2099,7 +2124,7 @@ const getCredits = (value, type) => {
                         class: 'actor',
                     }).appendTo(castContent);
 
-                    let actorImg = $('<img>', {
+                    $('<img>', {
                         class: 'actorImg hoverEffect lazy pointer filter',
                         'data-src': actorImgPath,
                         'src': './images/actor.jpg',
@@ -2118,12 +2143,12 @@ const getCredits = (value, type) => {
                         finalActorName = data.cast[k].name + ':';
                     }
 
-                    let actorName = $('<span>', {
+                    $('<span>', {
                         class: 'actorName filter',
                         text: finalActorName
                     }).appendTo(actor);
 
-                    let characterName = $('<span>', {
+                    $('<span>', {
                         class: 'characterName filter',
                         text: trimmedString
                     }).appendTo(actor);
@@ -2141,7 +2166,7 @@ const getCredits = (value, type) => {
                                 href: 'https://www.imdb.com/name/' + data.imdb_id
                             }).appendTo(actorLinksWrapper);
         
-                            let imdbLink = $('<img>', {
+                            $('<img>', {
                                 class: 'actorImdbLink',
                                 src: './images/imdb.png',
                                 alt: 'imdbImg'
@@ -2156,7 +2181,7 @@ const getCredits = (value, type) => {
                                 href: 'https://www.instagram.com/' + data.instagram_id
                             }).appendTo(actorLinksWrapper);
         
-                            let instagramLink = $('<img>', {
+                            $('<img>', {
                                 class: 'actorInstagramLink',
                                 src: './images/instagram.png',
                                 alt: 'instagramImg',
@@ -2188,7 +2213,7 @@ const getPersonDetails = (value, type) => {
 
         if(data.biography !== null && data.biography !== '' && data.biography !== undefined) {
 
-            let personOverviewWrapper = $('<div>', {
+            $('<div>', {
                 id: 'personOverviewWrapper',
             }).insertAfter($('#chosenPersonDetails'));
 
@@ -2217,7 +2242,7 @@ const getPersonDetails = (value, type) => {
                 href: 'https://www.imdb.com/name/' + data.imdb_id
             }).appendTo($('#chosenPersonImgWrapper'));
 
-            let personImdbImg = $('<img>', {
+            $('<img>', {
                 id: 'chosenPersonImg',
                 class: 'filter',
                 src: finalImg,
@@ -2306,7 +2331,7 @@ const getPersonExternalIds = (value) => {
                 href: 'https://www.instagram.com/' + data.instagram_id
             }).appendTo($('#personInstagramWrapper'));
 
-            let personInstagramImg = $('<img>', {
+            $('<img>', {
                 id: 'personInstagramImg',
                 class: 'filter',
                 src: './images/instagram.png',
@@ -2393,7 +2418,7 @@ const buildPopular = (arr) => {
         popularHeaderText = 'אנשים פופולרים';
     }
 
-    let popularHeader = $('<h2>', {
+    $('<h2>', {
         class: 'popularHeader',
         text: popularHeaderText
     }).appendTo($('#popular'));
@@ -2402,7 +2427,7 @@ const buildPopular = (arr) => {
         class: 'line linePopular',
     }).appendTo($('#popular'));
 
-    let headerLogo = $('<span>', {
+    $('<span>', {
         class: 'headerLogo',
     }).appendTo(headerLine);
 
@@ -2440,7 +2465,7 @@ const buildPopular = (arr) => {
             finalClass = 'popularPersonImg lazy';
         }
 
-        let popularPersonImg = $('<img>', {
+        $('<img>', {
             class: finalClass,
             alt: 'popular person',
             'src': finalSrc,
@@ -2452,7 +2477,7 @@ const buildPopular = (arr) => {
             }
         }).appendTo(popularPerson)
 
-        let popularPersonName = $('<p>', {
+        $('<p>', {
             class: 'name',
             text: arr[i].name
         }).appendTo(popularPerson)
@@ -2487,7 +2512,7 @@ const getPersonCredits = (value, type) => {
             }
 
             if (type !== 3) {
-                let creditsHeader = $('<p>', {
+                $('<p>', {
                     id: 'personCreditsHeader',
                     class: 'chosenHeader filter',
                     text: creditHeader,
@@ -2555,7 +2580,7 @@ const getPersonCredits = (value, type) => {
                             'target': '_blank'
                         }).appendTo(credit);
     
-                        let actorImg = $('<img>', {
+                        $('<img>', {
                             class: 'actorImg hoverEffect pointer lazy filter',
                             'data-src': movieImgPath,
                             'src': './images/stock.png',
@@ -2584,12 +2609,12 @@ const getPersonCredits = (value, type) => {
                             actorMovieClass = 'actorMovieName filter';
                         }
 
-                        let actorMovieName = $('<span>', {
+                        $('<span>', {
                             class: actorMovieClass,
                             text: finalTitle
                         }).appendTo(credit);
     
-                        let characterName = $('<span>', {
+                        $('<span>', {
                             class: 'characterName filter',
                             text: trimmedString
                         }).appendTo(credit);
@@ -2608,7 +2633,7 @@ const getPersonCredits = (value, type) => {
                                 'target': '_blank'
                             }).appendTo(credit);
         
-                            let actorImg = $('<img>', {
+                            $('<img>', {
                                 class: 'actorImg hoverEffect pointer lazy filter',
                                 'data-src': movieImgPath,
                                 'src': './images/stock.png',
@@ -2637,7 +2662,7 @@ const getPersonCredits = (value, type) => {
                                 directorMovieClass = 'actorMovieName filter';
                             }
         
-                            let actorMovieName = $('<span>', {
+                            $('<span>', {
                                 class: directorMovieClass,
                                 text: finalTitle
                             }).appendTo(credit);
@@ -2662,7 +2687,7 @@ const getPersonCredits = (value, type) => {
                                 }
                             }
 
-                            let jobTitle = $('<span>', {
+                            $('<span>', {
                                 class: 'characterName filter',
                                 text: jobTitleName
                             }).appendTo(credit);
@@ -2706,7 +2731,7 @@ const getPersonImages = (value) => {
                     finalImg = 'https://image.tmdb.org/t/p/w1280' + data.profiles[i].file_path;
                 }
 
-                let personPoster = $('<img>', {
+                $('<img>', {
                     class: 'personPoster lazy filter',
                     src: './images/stock.png',
                     'data-src': finalImg,
@@ -2747,7 +2772,7 @@ const getPersonMovieImages = (value) => {
 
                 if (!personMovieArr.includes(finalImg)) {
                     personMovieArr.push(finalImg);
-                    let personMovieImg = $('<img>', {
+                    $('<img>', {
                         class: 'personMovieImg lazy filter',
                         src: './images/stockMovie.jpg',
                         'data-src': finalImg,
@@ -2828,7 +2853,7 @@ const getSimilar = (value, type) => {
                         finalTitle = data.results[i].name;
                     }
 
-                    let similarMovieImg = $('<img>', {
+                    $('<img>', {
                         class: 'similarMovieImg hoverEffect lazy pointer filter',
                         'data-src': img,
                         'src': './images/stock.png',
@@ -2838,7 +2863,7 @@ const getSimilar = (value, type) => {
                         }
                     }).appendTo(credit);
 
-                    let similarMovieName = $('<span>', {
+                    $('<span>', {
                         class: 'similarMovieName filter',
                         text: finalTitle
                     }).appendTo(credit);
@@ -2874,7 +2899,7 @@ const getImages = (value, type) => {
                         galleryImg = 'https://image.tmdb.org/t/p/w1280' + data.backdrops[i].file_path;
                     }
     
-                    let movieGalleryImg = $('<img>', {
+                    $('<img>', {
                         class: 'movieGalleryImg lazy filter',
                         src: './images/stockMovie.jpg',
                         'data-src': galleryImg,
@@ -2905,7 +2930,7 @@ const getVideos = (value, type) => {
 
             for (let i = 0; i < finalLength; i++) {
                 let objectUrl = youtubeVideo + data.results[i].key + '?showinfo=0&enablejsapi=1';
-                let movieVideo = $('<iframe>', {
+                $('<iframe>', {
                     class: 'movieVideo',
                     title: 'video',
                     src: objectUrl,
@@ -3031,7 +3056,7 @@ const getCinematicInfo = (url, type, showPopup) => {
                 $('#nextCinematicTitle').html(capitalize(closest.name));
                 $('#nextCinematicImg').remove();
     
-                let cinematicImg = $('<img>', {
+                $('<img>', {
                     id: 'nextCinematicImg',
                     class: 'pointer',
                     alt: closest.name,
@@ -3144,7 +3169,7 @@ const showTimeline = (type, cinematicType) => {
                 class: 'timelineMovieWrapper'
             }).appendTo($('#timelineContent'))
     
-            let timelineMovieName = $('<p>', {
+            $('<p>', {
                 class: 'timelineMovieName',
                 text: capitalize(cinematicArr[i].name)
             }).appendTo(timelineMovieWrapper)
@@ -3161,7 +3186,7 @@ const showTimeline = (type, cinematicType) => {
                 finalImg = 'https://image.tmdb.org/t/p/w1280' + cinematicArr[i].background;
             }
     
-            let timelineMovieImg = $('<img>', {
+            $('<img>', {
                 class: 'timelineMovieImg hoverEffect background pointer',
                 src: finalImg,
                 alt: 'movie img',
@@ -3172,7 +3197,7 @@ const showTimeline = (type, cinematicType) => {
                 }
             }).appendTo(timelineMovieWrapper)
 
-            let timelineMovieDate = $('<p>', {
+            $('<p>', {
                 class: 'timelineMovieDate',
                 text: configureDate(cinematicArr[i].date)
             }).appendTo(timelineMovieWrapper)    
@@ -3194,7 +3219,7 @@ const showTimeline = (type, cinematicType) => {
                 class: 'timelineMovieWrapper'
             }).appendTo($('#timelineContent'))
     
-            let timelineMovieName = $('<p>', {
+            $('<p>', {
                 class: 'timelineMovieName',
                 text: tvShowTimelineArr[i].name
             }).appendTo(timelineMovieWrapper)
@@ -3211,7 +3236,7 @@ const showTimeline = (type, cinematicType) => {
                 finalImg = 'https://image.tmdb.org/t/p/w1280' + tvShowTimelineArr[i].background;
             }
     
-            let timelineMovieImg = $('<img>', {
+            $('<img>', {
                 class: 'timelineMovieImg hoverEffect background pointer',
                 src: finalImg,
                 alt: 'tv show img',
@@ -3230,7 +3255,7 @@ const showTimeline = (type, cinematicType) => {
                 finalDate = configureDate(tvShowTimelineArr[i].date);
             }
 
-            let timelineMovieDate = $('<p>', {
+            $('<p>', {
                 class: 'timelineMovieDate',
                 text: finalDate
             }).appendTo(timelineMovieWrapper)    
