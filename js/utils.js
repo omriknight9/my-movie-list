@@ -6,7 +6,6 @@ const refreshUrls = () => {
     tvGenreUrl = baseUrl + '/discover/tv?api_key=' + tmdbKey + '&language=' + lang + '&with_genres=';
 }
 
-
 const refreshWindowScroll = (type) => {
     if (type == 1) {   
         window.onscroll = () => {
@@ -392,16 +391,16 @@ const checkAudio = (value, type) => {
             id: 'audio',
         }).appendTo(audioWrapper)
 
-        let audioText = $('<span>', {
+        $('<span>', {
             id: 'audioText',
             text: finalAudioText
         }).appendTo(audioWrapper)
 
-        let source = $('<source>', {
+        $('<source>', {
             src: './audio/' + audioFile,
         }).appendTo(audio)
 
-        let pause = $('<i>', {
+        $('<i>', {
             id: 'pause',
             class: 'fas fa-pause pointer',
             click: () => {
@@ -411,7 +410,7 @@ const checkAudio = (value, type) => {
             }
         }).appendTo(audioWrapper)
     
-        let play = $('<i>', {
+        $('<i>', {
             id: 'play',
             class: 'fas fa-play pointer',
             click: () => {
@@ -421,7 +420,7 @@ const checkAudio = (value, type) => {
             }
         }).appendTo(audioWrapper)
 
-        let stop = $('<i>', {
+        $('<i>', {
             id: 'stop',
             class: 'fas fa-stop pointer',
             click: () => {
@@ -432,7 +431,7 @@ const checkAudio = (value, type) => {
             }
         }).appendTo(audioWrapper)
 
-        let closeAudio = $('<i>', {
+        $('<i>', {
             id: 'closeAudio',
             class: 'fas fa-times pointer',
             click: () => {
@@ -525,7 +524,7 @@ const updateVotes = (data, wrapper) => {
                 class: 'voteWrapper filter',
             }).appendTo(wrapper);
 
-            let voteBackground = $('<span>', {
+            $('<span>', {
                 class: 'voteBackground',
                 voteCount: finalVoteText
             }).appendTo(voteWrapper);
@@ -534,11 +533,11 @@ const updateVotes = (data, wrapper) => {
                 class: 'voteTextContent',
             }).appendTo(voteWrapper);
 
-            let voteStar = $('<i>', {
+            $('<i>', {
                 class: 'fas fa-star voteStar',
             }).appendTo(voteTextContent);
 
-            let vote = $('<span>', {
+            $('<span>', {
                 class: 'vote',
                 text: finalVoteText
             }).appendTo(voteTextContent);
