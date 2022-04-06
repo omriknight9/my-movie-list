@@ -10,8 +10,6 @@ let commentsArr = [];
 let valueFromUrl;
 let searchAjax;
 let lightMode = false;
-// let lang = 'en-US';
-// let langNum = 1;
 
 const baseUrl = 'https://api.themoviedb.org/3';
 const tmdbKey = '0271448f9ff674b76c353775fa9e6a82';
