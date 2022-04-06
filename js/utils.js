@@ -1,9 +1,9 @@
 const refreshUrls = () => {
-    upcomingUrl = movieInfoUrl + 'upcoming?api_key=' + tmdbKey + '&language=' + lang + '&region=US&page=';
-    nowPlayingUrl = movieInfoUrl + 'now_playing?api_key=' + tmdbKey + '&language=' + lang + '&region=US&page=';
-    getTrendingUrl = baseUrl + '/trending/all/day?api_key=' + tmdbKey + '&language=' + lang + '&page=';
-    moviesGenreUrl = baseUrl + '/discover/movie?api_key=' + tmdbKey + '&language=' + lang + '&with_genres=';
-    tvGenreUrl = baseUrl + '/discover/tv?api_key=' + tmdbKey + '&language=' + lang + '&with_genres=';
+    upcomingUrl = movieInfoUrl + 'upcoming?api_key=' + tmdbKey + '&region=US&page=';
+    nowPlayingUrl = movieInfoUrl + 'now_playing?api_key=' + tmdbKey + '&region=US&page=';
+    getTrendingUrl = baseUrl + '/trending/all/day?api_key=' + tmdbKey + '&page=';
+    moviesGenreUrl = baseUrl + '/discover/movie?api_key=' + tmdbKey + '&with_genres=';
+    tvGenreUrl = baseUrl + '/discover/tv?api_key=' + tmdbKey + '&with_genres=';
 }
 
 const refreshWindowScroll = (type) => {
@@ -128,116 +128,64 @@ const changeMonthName = (month, type) => {
 
     switch (month) {
         case 0: {
-            if (langNum == 1) {
-                return 'Jan';
-            } else {
-                return 'ינואר';
-            }
+            return 'Jan';
         }
         case 1: {
-            if (langNum == 1) {
-                return 'Feb';
-            } else {
-                return 'פברואר';
-            }
+            return 'Feb';
         }
         case 2: {
-            if (langNum == 1) {
-                return 'March';
-            } else {
-                return 'מרץ';
-            }
+            return 'March';
         }
         case 3: {
-            if (langNum == 1) {
-                return 'April';
-            } else {
-                return 'אפריל';
-            }
+            return 'April';
         }
         case 4: {
-            if (langNum == 1) {
-                return 'May';
-            } else {
-                return 'מאי';
-            }
+            return 'May';
         }
         case 5: {
-            if (langNum == 1) {
-                return 'June';
-            } else {
-                return 'יוני';
-            }
+            return 'June';
+
         }
         case 6: {
-            if (langNum == 1) {
-                return 'July';
-            } else {
-                return 'יולי';
-            }
+            return 'July';
         }
         case 7: {
-            if (langNum == 1) {
-                return 'Aug';
-            } else {
-                return 'אוגוסט';
-            }
+            return 'Aug';
         }
         case 8: {
-            if (langNum == 1) {
-                return 'Sep';
-            } else {
-                return 'ספטמבר';
-            }
+            return 'Sep';
         }
         case 9: {
-            if (langNum == 1) {
-                return 'Oct';
-            } else {
-                return 'אוקטובר';
-            }
+            return 'Oct';
         }
         case 10: {
-            if (langNum == 1) {
-                return 'Nov';
-            } else {
-                return 'נובמבר';
-            }
+            return 'Nov';
         }
         case 11: {
-            if (langNum == 1) {
-                return 'Dec';
-            } else {
-                return 'דצמבר';
-            }
+            return 'Dec';
         }
     }
 }
 
 const changeDayName = (day) => {
-    
-    if (langNum == 1) {
-        switch (day) {
-            case 1:
-            case 21:
-            case 31: {
-                return day + 'st';
-            }
-            case 2:
-            case 22: {
-                return day + 'nd';
-            }
-            case 3:
-            case 23: {
-                return day + 'rd';
-            }
-    
-            default: {
-                return day + 'th';
-            }
+    switch (day) {
+        case 1:
+        case 21:
+        case 31: {
+            return day + 'st';
         }
-    } else {
-        return day;
+        case 2:
+        case 22: {
+            return day + 'nd';
+        }
+        case 3:
+        case 23: {
+            return day + 'rd';
+        }
+
+        default: {
+            return day + 'th';
+        }
     }
 }
 
@@ -251,24 +199,10 @@ const convertMinsToHrsMins = (mins) => {
     h = h < 10 ? '' + h : h;
     m = m < 10 ? '' + m : m;
 
-    if (langNum == 1) {
-        if (h > 0) {
-            return h + 'h ' + m + ' m';
-        } else {
-            return m + ' m';
-        }
+    if (h > 0) {
+        return h + 'h ' + m + ' m';
     } else {
-        if (h > 0) {
-            if (h == 2) {
-                return ' שעתיים ו ' + m + ' דקות';
-            } else if(h == 1) {
-                return ' שעה ו ' + m + ' דקות';
-            } else {
-                return h + ' שעות ו ' + m + ' דקות'; 
-            }    
-        } else {
-            return m + ' דקות';
-        }
+        return m + ' m';
     }
 }
 
@@ -542,53 +476,5 @@ const updateVotes = (data, wrapper) => {
                 text: finalVoteText
             }).appendTo(voteTextContent);
         }
-    }
-}
-
-const translate = () => {
-    if (langNum == 1) {
-        $('#siteHeader').html('My Movies');
-        $('#playingNowMenuHeader').html('Playing Now');
-        $('#upcomingMenuHeader').html('Upcoming');
-        $('#trendingMenuHeader').html('Trending');
-        $('#popularPeoplegMenuHeader').html('Popular People');
-        $('#miscellaneousMenuHeader').html('Miscellaneous');
-        $('#miscellaneousMenuHeader').html('Miscellaneous');
-        $('#marvelMenuHeader').html('Marvel');
-        $('#dcMenuHeader').html('DC');
-        $('#valiantMenuHeader').html('Valiant');
-        $('#othersMenuHeader').html('Others');
-        $('#animationMenuHeader').html('Animation');
-        $('#tVShowsMenuHeader').html('TV Show');
-        $('#wishlistMenuHeader').html('Wishlist');
-        $('#nextMovieRelease').html('Release Date:');
-        $('#nextInline').html('Next In Line:');
-        $('#afterNextRelease').html('Release Date:');
-        $('#timelineBtn').html('Timeline');
-        $('#timelineTVBtn').html('TV Timeline');
-        $('#timelineText').html('Timeline');
-        $('#search').attr('placeholder', 'Type A Movie, TV Show Or Person');
-
-    } else {
-        $('#siteHeader').html('הסרטים שלי');
-        $('#playingNowMenuHeader').html('בקולנוע');
-        $('#upcomingMenuHeader').html('בקרוב');
-        $('#trendingMenuHeader').html('טרנדי');
-        $('#popularPeoplegMenuHeader').html('אנשים פופולרים');
-        $('#miscellaneousMenuHeader').html('שונות');
-        $('#marvelMenuHeader').html('מארוול');
-        $('#dcMenuHeader').html('די סי');
-        $('#valiantMenuHeader').html('ואליאנט');
-        $('#othersMenuHeader').html('אחרים');
-        $('#animationMenuHeader').html('אנימציה');
-        $('#tVShowsMenuHeader').html('סדרות');
-        $('#wishlistMenuHeader').html('סרטים להוריד');
-        $('#nextMovieRelease').html('תאריך הוצאה:');
-        $('#nextInline').html('הסרט הבא:');
-        $('#afterNextRelease').html('תאריך הוצאה:');
-        $('#timelineBtn').html('ציר זמן');
-        $('#timelineTVBtn').html('ציר זמן סדרות');
-        $('#timelineText').html('ציר זמן');
-        $('#search').attr('placeholder', 'חפש סרט, סדרה או אדם');
     }
 }
