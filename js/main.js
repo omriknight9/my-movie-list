@@ -884,7 +884,7 @@ const buildMovies = (data, div, wrapper, type) => {
 
                     getCinematicInfo(finalCinematicUrl, type, true);
                     setTimeout(() => {
-                        getTVShowInfo(finalTvUrl, type, false);
+                        getTVShowInfo(finalTvUrl, type);
                     }, 1000);
                 }
             }).appendTo(btnWrapper);
@@ -2679,7 +2679,7 @@ const getCinematicInfo = (url, type, showPopup) => {
     })
 }
 
-const getTVShowInfo = (url, type, langChange) => {
+const getTVShowInfo = (url, type) => {
     $.get(url, (data) => {
         let elements = data.items;    
         tvShowTimelineArr = [];
@@ -2700,31 +2700,9 @@ const getTVShowInfo = (url, type, langChange) => {
             $('#timelineTVBtn').attr('onclick', 'showTimeline(2,' + type + ')');
             $('main, #menuOpenWrapper, #goToTopBtn').css({'pointer-events': 'all', 'opacity': '1'});
             $('.popUpInfo').css({'pointer-events': 'all', 'opacity': '1'});
-            if (!langChange) {
-                $('#spinnerWrapper').hide(); 
-                $('footer').css({'pointer-events': 'all', 'opacity': '1'});
-            }
-  
+            $('#spinnerWrapper').hide(); 
+            $('footer').css({'pointer-events': 'all', 'opacity': '1'});
         }, 0)   
-
-    }).done(() => {
-        if (langChange) {
-            if (type == 1) {
-                setTimeout(() => {
-                    showTimeline(2, 1);
-                    $('footer').css({'pointer-events': 'all', 'opacity': 1});
-                    $('#spinnerWrapper').hide();
-                }, 1500)
-            } else {
-                setTimeout(() => {
-                    showTimeline(2, 2);
-                    $('footer').css({'pointer-events': 'all', 'opacity': 1});
-                    $('#spinnerWrapper').hide();
-                }, 1500)
-            }
-        }
-    }).fail(() => {
-        $('#spinnerWrapper').hide();
     })
 }
 
