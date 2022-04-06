@@ -1152,10 +1152,15 @@ footer span {
     text-align: center;
 }
 
-#overview, .directorHeader, #castHeader, #similarHeader, #personCreditsHeader, #guestCastHeader  {
+#overview, .directorHeader, #castHeader, #similarHeader, #personCreditsHeader, #guestCastHeader, #episodeHeader {
     color: lightgray;
     font-weight: 600;
     text-align: center;
+}
+
+#episodeHeader {
+    display: block;
+    margin: 1rem 0;
 }
 
 #chosenMovieRuntime, #chosenMovieRevenue {
@@ -1236,42 +1241,6 @@ footer span {
     -webkit-flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-}
-
-#siteRatings {
-    display: flex;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    flex-wrap: wrap;
-    -webkit-flex-wrap: wrap;
-    justify-content: center;
-}
-
-.ratingImg {
-    width: 6rem;
-}
-
-#siteRatings span {
-    color: lightgray;
-    font-weight: 600;
-    margin-top: .5rem;
-}
-
-.freshImg {
-    width: 7rem;
-}
-
-.rotten {
-    margin-top: .8rem !important;
-}
-
-#chosenMovieIMDBRating, #chosenMovieRottenRating, #chosenMovieMetaRating {
-    display: flex;
-    box-sizing: border-box;
-    flex-direction: column;
-    align-items: center;
-    margin: 1rem;
 }
 
 #watchProviders {
@@ -1579,21 +1548,6 @@ footer span {
 #darkToggle {
     bottom: 6rem;
     left: 1rem;
-}
-
-#langToggle {
-    position: fixed;
-    background: white;
-    border-radius: 100%;
-    z-index: 999;
-    filter: drop-shadow(0 1px 4px rgba(100, 100, 100, 0.8));
-    bottom: 10rem;
-    left: 1rem;
-    padding: .6rem .4rem
-}
-
-#langBtn {
-    font-size: 1.5rem;
 }
 
 .modeSwitch {
@@ -1941,17 +1895,6 @@ footer span {
 
     .movieGalleryImg {
         width: 150px;
-    }
-}
-
-@media only screen and (max-width: 430px) {
-
-    .ratingImg {
-        width: 4rem;
-    }
-    
-    .freshImg {
-        width: 4.6rem;
     }
 }
 
