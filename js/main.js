@@ -10,8 +10,8 @@ let commentsArr = [];
 let valueFromUrl;
 let searchAjax;
 let lightMode = false;
-let lang = 'en-US';
-let langNum = 1;
+// let lang = 'en-US';
+// let langNum = 1;
 
 const baseUrl = 'https://api.themoviedb.org/3';
 const tmdbKey = '0271448f9ff674b76c353775fa9e6a82';
@@ -21,14 +21,14 @@ const movieActorsUrl = baseUrl + '/person/';
 const youtubeVideo = 'https://www.youtube.com/embed/';
 const listUrl = baseUrl + '/list/';
 const searchMovieUrl = baseUrl + '/search/multi?api_key=' + tmdbKey + '&query=';
-let upcomingUrl = movieInfoUrl + 'upcoming?api_key=' + tmdbKey + '&language=' + lang + '&region=US&page=';
-let nowPlayingUrl = movieInfoUrl + 'now_playing?api_key=' + tmdbKey + '&language=' + lang + '&region=US&page=';
-let getTrendingUrl = baseUrl + '/trending/all/day?api_key=' + tmdbKey + '&language=' + lang + '&page=';
-let moviesGenreUrl = baseUrl + '/discover/movie?api_key=' + tmdbKey + '&language=' + lang + '&with_genres=';
-let tvGenreUrl = baseUrl + '/discover/tv?api_key=' + tmdbKey + '&language=' + lang + '&with_genres=';
+let upcomingUrl = movieInfoUrl + 'upcoming?api_key=' + tmdbKey + '&region=US&page=';
+let nowPlayingUrl = movieInfoUrl + 'now_playing?api_key=' + tmdbKey + '&region=US&page=';
+let getTrendingUrl = baseUrl + '/trending/all/day?api_key=' + tmdbKey + '&page=';
+let moviesGenreUrl = baseUrl + '/discover/movie?api_key=' + tmdbKey + '&with_genres=';
+let tvGenreUrl = baseUrl + '/discover/tv?api_key=' + tmdbKey + '&with_genres=';
 
-// const providerUpcomingUrl = baseUrl + '/discover/movie?api_key=' + tmdbKey + '&language=' + lang + '&watch_region=US&primary_release_date.gte=' + new Date().toISOString().substring(0, 10);
-const providerUpcomingUrl = baseUrl + '/discover/movie?api_key=' + tmdbKey + '&language=' + lang + '&watch_region=US';
+// const providerUpcomingUrl = baseUrl + '/discover/movie?api_key=' + tmdbKey + '&watch_region=US&primary_release_date.gte=' + new Date().toISOString().substring(0, 10);
+const providerUpcomingUrl = baseUrl + '/discover/movie?api_key=' + tmdbKey + '&watch_region=US';
 
 $(document).ready(() => {
     if (window.location.href.indexOf("?movie=") > -1 || window.location.href.indexOf("?tvShow=") > -1 || window.location.href.indexOf("?actor=") > -1 || window.location.href.indexOf("?director=") > -1) { 
@@ -75,94 +75,6 @@ $(document).ready(() => {
         }
       
         $('#darkToggle').toggleClass('dark');
-    });
-
-    $('#langToggle').click(() => {
-        $('#spinnerWrapper').show();
-        $('.container').empty();
-
-        $('#goToTopBtn, #langToggle, #darkToggle').hide();
-
-        closeMenus(); 
-
-        if (!$('#langToggle').hasClass('heb')) {
-            lang = 'he-IL';
-            langNum = 2;
-            translate();
-            refreshUrls();
-            $("head").append("<link rel='stylesheet' type='text/css' href='css/heb.css' id='hebCss'/>");
-        } else {
-            lang = 'en-US';
-            langNum = 1;
-            translate();
-            refreshUrls();
-            $('#hebCss').remove();
-        }
-      
-        $('#langToggle').toggleClass('heb');
-
-        if ($('#marvelContainer').is(':visible')) {
-            emptyChosen(2);
-            loadJson();
-        } else if ($('#trendingContainer').is(':visible')) {
-            showTrending();
-        } else if ($('#playingNowContainer').is(':visible')) {
-            showPlayingNow();
-        } else if ($('#upcomingContainer').is(':visible')) {
-            showUpcoming();
-        } else if ($('#popular').is(':visible')) {
-            getPopular();
-        } else if ($('#wishlistContainer').is(':visible')) {
-            showWishlist();
-        } else if($('#timeline').is(':visible')) {
-
-            $('#timelineContent').empty();
-            $('footer').css({'pointer-events': 'none', 'opacity': 0});
-
-            const timelineUrlParams = new URLSearchParams(window.location.search);
-            timelineValue = timelineUrlParams.get('timeline');
-
-            switch(timelineValue) {
-                case 'MCUTimeline':
-                    getCinematicInfo(listUrl + '7099064?api_key=' + tmdbKey + '&language=' + lang, 1, false);                    
-                    break;
-                case 'DCEUTimeline':
-                    getCinematicInfo(listUrl + '7099063?api_key=' + tmdbKey + '&language=' + lang, 2, false);
-                    break;
-                case 'MarvelTVUniverseTimeline':
-                    getTVShowInfo(listUrl + '7099128?api_key=' + tmdbKey + '&language=' + lang, 1, true);
-                    break;
-                case 'DCTVUniverseTimeline':
-                    getTVShowInfo(listUrl + '7099130?api_key=' + tmdbKey + '&language=' + lang, 2), true;
-                    break;
-            }
-
-        } else if($('#chosenPerson').is(':visible')) {
-            const chosenUrlParams = new URLSearchParams(window.location.search);
-            let chosenValue = Number(chosenUrlParams.get('value'));
-
-            if (chosenUrlParams.get('director') == null) {
-                getPersonDetails(chosenValue, 1);
-            } else {
-                getPersonDetails(chosenValue, 2);
-            }
-
-        } else if ($('#chosenMovie').is(':visible')) {
-
-            const chosenUrlParams = new URLSearchParams(window.location.search);
-            let chosenValue = Number(chosenUrlParams.get('value'));
-
-            if (chosenUrlParams.get('tvShow') == null) {
-                chosenMovie(chosenValue, 1);
-            } else {
-                chosenMovie(chosenValue, 2);
-            }
-        }
-        
-        setTimeout(() => {
-            $('main, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
-            $('#goToTopBtn, #langToggle, #darkToggle').show();
-        }, 2000)
     });
 
     $('.closeBtn').click(function () {
@@ -220,12 +132,12 @@ const loadJson = () => {
 const getList = (value, div, wrapper, type, movieOrTv) => {
     let arr = [];
 
-    $.get('https://api.themoviedb.org/4/list/' + value + '?api_key=' + tmdbKey + '&language=' + lang + '', (data) => {
+    $.get('https://api.themoviedb.org/4/list/' + value + '?api_key=' + tmdbKey, (data) => {
         getComments(data, movieOrTv, arr, 1);
 
         if (data.total_pages > 1) {
             for (let i = 2; i < data.total_pages + 1; i++) {
-                $.get('https://api.themoviedb.org/4/list/' + value + '?api_key=' + tmdbKey + '&language=' + lang + '&page=' + i, (data) => {
+                $.get('https://api.themoviedb.org/4/list/' + value + '?api_key=' + tmdbKey + '&page=' + i, (data) => {
                     getComments(data, movieOrTv, arr, 1);
                 });
             }
@@ -331,13 +243,13 @@ const showWishlist = () => {
         }
     }, []);
 
-    $.get('https://api.themoviedb.org/4/list/' + 7110189 + '?api_key=' + tmdbKey + '&language=' + lang, (data) => {
+    $.get('https://api.themoviedb.org/4/list/' + 7110189 + '?api_key=' + tmdbKey, (data) => {
         
         getComments(data, 1, arr, 2);
 
         if (data.total_pages > 1) {
             for (let i = 2; i < data.total_pages + 1; i++) {
-                $.get('https://api.themoviedb.org/4/list/' + 7110189 + '?api_key=' + tmdbKey + '&language=' + lang + '&page=' + i, (data) => {
+                $.get('https://api.themoviedb.org/4/list/' + 7110189 + '?api_key=' + tmdbKey + '&page=' + i, (data) => {
                     getComments(data, 1, arr, 2);
                 });
             }
@@ -565,7 +477,7 @@ const getInfo = (url, arr, className, container, type, ) => {
 }
 
 const showResults = (value) => {
-    searchAjax = $.get(searchMovieUrl + value + '&language=' + lang, (data) => {
+    searchAjax = $.get(searchMovieUrl + value, (data) => {
         if (data == 'undefind' || data == null) {
             return;
         }
@@ -731,17 +643,9 @@ const buildTrending = (data, div, wrapper) => {
 
     $('#trendingContainer').attr({'nameCounter': '1', 'dateCounter': '1'})
 
-    let trendingHeaderText;
-
-    if (langNum == 1) {
-        trendingHeaderText = 'Trending';
-    } else {
-        trendingHeaderText = 'טרנדי';
-    }
-
     $('<h2>', {
         class: 'trendingHeader',
-        text: trendingHeaderText
+        text: 'Trending'
     }).appendTo(wrapper);
 
     let headerLine = $('<div>', {
@@ -861,69 +765,37 @@ const buildMovies = (data, div, wrapper, type) => {
 
     switch (type) {
         case 1:
-            if (langNum == 1) {
-                headerText = 'Marvel';
-            } else {
-                headerText = 'מארוול';
-            }
+            headerText = 'Marvel';
             headerLineClass = 'lineMarvel';
             break;
         case 2:
-            if (langNum == 1) {
-                headerText = 'DC';
-            } else {
-                headerText = 'די סי';
-            }
+            headerText = 'DC';
             headerLineClass = 'lineDc';
             break;
         case 3:
-            if (langNum == 1) {
-                headerText = 'Valiant';
-            } else {
-                headerText = 'ואליאנט';
-            }
+            headerText = 'Valiant';
             headerLineClass = 'lineValiant';
             break;
         case 4:
-            if (langNum == 1) {
-                headerText = 'Others';
-            } else {
-                headerText = 'אחרים';
-            }
+            headerText = 'Others';
             headerLineClass = 'lineOthers';
             break;
         case 5:
-            if (langNum == 1) {
-                headerText = 'Animation';
-            } else {
-                headerText = 'אנימציה';
-            }
+            headerText = 'Animation';
             headerLineClass = 'lineAnimation';
             break;
         case 6:
-            if (langNum == 1) {
-                headerText = 'Upcoming';
-            } else {
-                headerText = 'בקרוב';
-            }
+            headerText = 'Upcoming';
             headerLineClass = 'lineUpcoming';
             iconForBreadcrumb = 'fas fa-calendar-day';
             break;
         case 7:
-            if (langNum == 1) {
-                headerText = 'Playing Now';
-            } else {
-                headerText = 'בקולנוע';
-            }
+            headerText = 'Playing Now';
             headerLineClass = 'linePlayingNow';
             iconForBreadcrumb = 'fas fa-ticket-alt';
             break;
         case 8:
-            if (langNum == 1) {
-                headerText = 'Movies';
-            } else {
-                headerText = 'סרטים';
-            }
+            headerText = 'Movies';
             headerLineClass = 'lineGenre';
             iconForBreadcrumb = 'fas fa-theater-masks';
             break;
@@ -933,11 +805,7 @@ const buildMovies = (data, div, wrapper, type) => {
             iconForBreadcrumb = 'fas fa-satellite-dish';
             break;
         case 10:
-            if (langNum == 1) {
-                headerText = 'Wishlist';
-            } else {
-                headerText = 'סרטים להוריד';
-            }
+            headerText = 'Wishlist';
             headerLineClass = 'lineWishlist';
             iconForBreadcrumb = 'fas fa-clipboard-list';
             break;
@@ -995,13 +863,13 @@ const buildMovies = (data, div, wrapper, type) => {
             let finalCinematicClass;
 
             if (type == 1) {
-                finalCinematicUrl = listUrl + '7099064?api_key=' + tmdbKey + '&language=' + lang;
-                finalTvUrl = listUrl + '7099128?api_key=' + tmdbKey + '&language=' + lang;
+                finalCinematicUrl = listUrl + '7099064?api_key=' + tmdbKey;
+                finalTvUrl = listUrl + '7099128?api_key=' + tmdbKey;
                 finalImgSrc = './images/mcu.png';
                 finalCinematicClass = 'mcuBtn';
             } else {
-                finalCinematicUrl = listUrl + '7099063?api_key=' + tmdbKey + '&language=' + lang;
-                finalTvUrl = listUrl + '7099130?api_key=' + tmdbKey + '&language=' + lang;
+                finalCinematicUrl = listUrl + '7099063?api_key=' + tmdbKey;
+                finalTvUrl = listUrl + '7099130?api_key=' + tmdbKey;
                 finalImgSrc = './images/dceu.png';
                 finalCinematicClass = 'dceuBtn';
             }
@@ -1104,17 +972,9 @@ const buildTvShows = (data, div, wrapper) => {
 
     data.sort(function (a, b) { return (a.order - b.order); });
 
-    let tvShowText;
-
-    if (langNum == 1) {
-        tvShowText = 'TV Shows';
-    } else {
-        tvShowText = 'סדרות';
-    }
-
     $('<h2>', {
         class: 'tvShowsHeader',
-        text: tvShowText
+        text: 'TV Shows'
     }).appendTo(wrapper);
 
     let headerLine = $('<div>', {
@@ -1152,17 +1012,9 @@ const buildTvShows = (data, div, wrapper) => {
             text: capitalize(data[i].name)
         }).appendTo(tvShowWrapper);
 
-        let tvShowYearText;
-
-        if (langNum == 1) {
-            tvShowYearText = 'Year: ' + data[i].first_air_date.substr(0, 4);
-        } else {
-            tvShowYearText = 'שנה: ' + data[i].first_air_date.substr(0, 4);
-        }
-
         $('<p>', {
             class: 'year',
-            text: tvShowYearText
+            text: 'Year: ' + data[i].first_air_date.substr(0, 4)
         }).appendTo(tvShowWrapper);
 
         updateVotes(data[i].vote_average, tvShowWrapper);
@@ -1174,13 +1026,6 @@ const chosenMovie = (value, type) => {
     if (!$('.searchContainer').is(':visible')) {
         $('.searchContainer').show();
     }
-
-    $('#chosenMovieIMDBRating, #chosenMovieRottenRating, #chosenMovieMetaRating').hide();
-    $('#movieRottenRating').removeClass('fresh');
-    $('#movieRottenRating').removeClass('rotten');
-
-    $('#rottenImg').removeClass('freshImg');
-    $('#rottenImg').removeClass('rottenImg');
 
     closeMenus();
     emptyChosen(1, true);
@@ -1196,7 +1041,13 @@ const chosenMovie = (value, type) => {
         chosenUrl = 'tvShow';
     }
 
-    $.get(finalUrl + value + "?api_key=" + tmdbKey + '&language=' + lang, (data) => {
+    // getCredits(value, type);
+    // getSimilar(value, type);
+    // getImages(value, type);
+    // getVideos(value, type);
+    // getWatchProviders(value, type);
+
+    $.get(finalUrl + value + "?api_key=" + tmdbKey + '&append_to_response=images,similar,videos,keywords,credits,watch/providers,external_ids', (data) => {
         let finalTitle;
 
         if (type == 1) {
@@ -1217,25 +1068,15 @@ const chosenMovie = (value, type) => {
         
         if (type == 2) {
             $('#chosenMovieTitle').html(capitalize(data.name));
-
-            $.get(finalUrl + value + "/external_ids?api_key=" + tmdbKey + '&language=' + lang, (data) => {
-                if (data.imdb_id !== null) {
-                    $('#chosenMovieImdb').attr('href', 'https://www.imdb.com/title/' + data.imdb_id);
-                    $('#chosenMovieImdb').css('pointer-events', 'all');
-                    checkSiteRatings(data.imdb_id);
-                } else {
-                    $('#chosenMovieImdb').css('pointer-events', 'none');
-                }
-            })
         } else {
             $('#chosenMovieTitle').html(capitalize(data.title));
-            if (data.imdb_id !== null) {
-                $('#chosenMovieImdb').attr('href', 'https://www.imdb.com/title/' + data.imdb_id);
-                $('#chosenMovieImdb').css('pointer-events', 'all');
-                checkSiteRatings(data.imdb_id);
-            } else {
-                $('#chosenMovieImdb').css('pointer-events', 'none');
-            }
+        }
+
+        if (data.external_ids.imdb_id !== null) {
+            $('#chosenMovieImdb').attr('href', 'https://www.imdb.com/title/' + data.external_ids.imdb_id);
+            $('#chosenMovieImdb').css('pointer-events', 'all');
+        } else {
+            $('#chosenMovieImdb').css('pointer-events', 'none');
         }
 
         $('#chosenMovieImg').attr('src', finalImg);
@@ -1272,38 +1113,22 @@ const chosenMovie = (value, type) => {
             $('#seasons, #episodes').hide();
 
             if (data.release_date !== '') {
-                if (langNum == 1) {
-                    $('#movieDate').html('Release Date: ' + configureDate(data.release_date)); 
-                } else {
-                    $('#movieDate').html('תאריך הוצאה: ' + configureDate(data.release_date));
-                }
-                
+                $('#movieDate').html('Release Date: ' + configureDate(data.release_date)); 
                 $('#chosenMovieDate').show();
             } else {
                 $('#chosenMovieDate').hide();
             }
 
             if (data.runtime !== '0' && data.runtime !== 0) {
-                if (langNum == 1) {
-                    $('#movieRuntime').html('Runtime: ' + convertMinsToHrsMins(data.runtime));
-                } else {
-                    $('#movieRuntime').html('זמן: ' + convertMinsToHrsMins(data.runtime));
-                }
-                
+                $('#movieRuntime').html('Runtime: ' + convertMinsToHrsMins(data.runtime));
                 $('#chosenMovieRuntime').show();
             } else {
                 $('#chosenMovieRuntime').hide();
             }
 
             if (data.revenue !== '0' && data.revenue !== 0) {
-
                 let withCommas = numberWithCommas(data.revenue);
-                if (langNum == 1) {
-                    $('#movieRevenue').html('Revenue: ' + ' $ ' + withCommas);
-                } else {
-                    $('#movieRevenue').html('הכנסות: ' + withCommas + ' $ ');
-                }
-                
+                $('#movieRevenue').html('Revenue: ' + ' $ ' + withCommas);   
                 $('#chosenMovieRevenue').show();
             } else {
                 $('#chosenMovieRevenue').hide();
@@ -1311,42 +1136,22 @@ const chosenMovie = (value, type) => {
         } else {
             $('#seasons, #episodes').show();
             if (data.release_date !== '') {
-                if (langNum == 1) {
-                    $('#movieDate').html('First Aired: ' + configureDate(data.first_air_date)); 
-                } else {
-                    $('#movieDate').html('פרק ראשון: ' + configureDate(data.first_air_date));
-                }
-               
+                $('#movieDate').html('First Aired: ' + configureDate(data.first_air_date)); 
                 $('#chosenMovieDate').show();
             } else {
                 $('#chosenMovieDate').hide();
             }
             $('#chosenMovieRuntime, #chosenMovieRevenue').hide();
-            if (langNum == 1) {
-                $('#seriesSeasons').html('Seasons: ' + data.number_of_seasons);
-                $('#seriesEpisodes').html('Episodes: ' + data.number_of_episodes);
-            } else {
-                $('#seriesSeasons').html('עונות: ' + data.number_of_seasons);
-                $('#seriesEpisodes').html('פרקים: ' + data.number_of_episodes);
-            }
-
+            $('#seriesSeasons').html('Seasons: ' + data.number_of_seasons);
+            $('#seriesEpisodes').html('Episodes: ' + data.number_of_episodes);
             $('<div>', {
                 id: 'tvShowSeasonsWrapper',
             }).insertAfter($('#chosenMovieGenres'));
 
             if(data.number_of_seasons > 1) {
-
-                let allSeasonsBtnText;
-
-                if (langNum == 1) {
-                    allSeasonsBtnText = 'View All Seasons';
-                } else {
-                    allSeasonsBtnText = 'ראה את כל העונות';
-                }
-
                 $('<button>', {
                     id: 'allSeasonsBtn',
-                    text: allSeasonsBtnText,
+                    text: 'View All Seasons',
                     click: () => {
                         $('.overviewWrapper').remove();
                         showSeasonsBtns(data.number_of_seasons, 1);
@@ -1358,13 +1163,8 @@ const chosenMovie = (value, type) => {
         }
 
         if (data.original_language !== 0 && data.original_language !== undefined) {
-            if (langNum == 1) {
-                $('#movieLang').html('Language: ' + data.original_language);  
-            } else {
-                $('#movieLang').html('שפה: ' + data.original_language);  
-            }
-            
-            $('#chosenMovieLang').hide();
+            $('#movieLang').html('Language: ' + data.original_language);        
+            $('#chosenMovieLang').show();
         } else {
             $('#chosenMovieLang').hide();
         }
@@ -1382,13 +1182,7 @@ const chosenMovie = (value, type) => {
             }
 
             setTimeout(() => {
-
-                if (langNum == 1) {
-                    $('#genresText').html('Genres: ');
-
-                } else {
-                    $('#genresText').html(`ז'אנרים:`);
-                }
+                $('#genresText').html('Genres: ');
 
                 let genresContent = $('<div>', {
                     id: 'genresContent',
@@ -1455,56 +1249,444 @@ const chosenMovie = (value, type) => {
         } else {
             $('#chosenMovieGenres').hide();
         }
+
+        getImages(data.images);
+        getVideos(data.videos);
+        getSimilar(data.similar, type);
+        getCredits(data.credits, type);
+        getWatchProviders(data['watch/providers'], type);
     });
 
     setTimeout(() => {
         refreshWindowScroll(1);
     }, 1000)
-
-    getCredits(value, type);
-    getSimilar(value, type);
-    getImages(value, type);
-    getVideos(value, type);
-    getWatchProviders(value, type);
 }
 
-const checkSiteRatings = (imdbId) => {
-    $.post('https://www.omdbapi.com/?apikey=59556c8e&i=' + imdbId, function( result ) {
-        if (result.Ratings !== undefined) {
-            for (let l = 0; l < result.Ratings.length; l++) {
-                switch (result.Ratings[l].Source) {
-                    case 'Internet Movie Database':
-                            $('#movieIMDBRating').html(result.Ratings[l].Value);
-                            $('#chosenMovieIMDBRating').show();
-                        break;
-                    case 'Rotten Tomatoes':
-                        $('#movieRottenRating').html(result.Ratings[l].Value);
-                        if (result.Ratings[l].Value > '60%') {
-                            $('#rottenImg').attr('src', './images/fresh.png');
-                            $('#rottenImg').addClass('freshImg');
-                            $('#movieRottenRating').addClass('fresh');
+const getWatchProviders = (data, type) => {
+    let providerArr = [337, 8, 384, 37, 9, 15, 350];
+
+    if (data.results.US !== undefined && data.results.US.flatrate !== undefined) {
+        let results = data.results.US.flatrate;
+
+        for (let i = 0; i < results.length; i++) {
+            if (results[i].logo_path !== null) {
+                if (providerArr.includes(results[i].provider_id)) {
+                    $('<img>', {
+                        class: 'watchProvider',
+                        alt: 'watch provider img',
+                        src: 'https://image.tmdb.org/t/p/w1280' + results[i].logo_path
+                    }).appendTo($('#watchProviders')); 
+                }
+            }
+        }
+    }
+
+    setTimeout(() => {
+        $('#spinnerWrapper').hide();
+        $('#chosenMovie, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+
+        $('#breadcrumbs').show();
+        $('#logo').css('pointerEvents', 'all');
+
+        let iconClass;
+        if (type == 1) {
+            iconClass = 'fas fa-video';
+        } else {
+            iconClass = 'fas fa-tv';
+        }
+        $('#typeOfContent').attr('class', iconClass);
+
+    }, 1500)
+}
+
+const getCredits = (data, type) => {
+    directorCounter = 0;
+    $('#directorsWrapper').hide();
+    $('#castHeader').remove();
+
+    if (type == 1) {
+        if (data.crew.length > 0) {
+
+            $('#directorsWrapper').show();
+
+            $('<p>', {
+                class: 'directorHeader chosenHeader filter',
+            }).appendTo($('#directorsWrapper'));
+
+            let directorContent = $('<div>', {
+                id: 'directorContent',
+            }).appendTo($('#directorsWrapper'));
+
+            for (let w = 0; w < data.crew.length; w++) {
+                if(data.crew[w].job == 'Director') {
+                    directorCounter++;
+
+                    try {
+                        let directorImgPath;
+                        if (data.crew[w].profile_path == 'undefined' || data.crew[w].profile_path == null || data.crew[w].profile_path == '') {
+    
+                            switch (data.crew[w].gender) {
+                                case 0:
+                                    directorImgPath = './images/actor.jpg';
+                                    break;
+                                case 1:
+                                    directorImgPath = './images/actress.jpg';
+                                    break;
+                                case 2:
+                                    directorImgPath = './images/actor.jpg';
+                                    break;
+                            }
                         } else {
-                            $('#rottenImg').attr('src', './images/rotten.png');
-                            $('#rottenImg').addClass('rottenImg');
-                            $('#movieRottenRating').addClass('rotten');
+                            directorImgPath = 'https://image.tmdb.org/t/p/w1280' + data.crew[w].profile_path;
                         }
 
-                        $('#chosenMovieRottenRating').show();
+                        let director = $('<div>', {
+                            class: 'director'
+                        }).appendTo(directorContent);
 
-                        break;
-                    case 'Metacritic':
-                        $('#movieMetaRating').html(result.Ratings[l].Value);
-                        $('#chosenMovieMetaRating').show();
-                        break;
-                    default:
-                        $('#chosenMovieIMDBRating, #chosenMovieRottenRating, #chosenMovieMetaRating').hide();
-                        break;
-                }         
+                        let directorName = $('<div>', {
+                            class: 'directorName',
+                        }).appendTo(director);
+    
+                        $('<img>', {
+                            class: 'directorImg hoverEffect lazy pointer filter',
+                            'data-src': directorImgPath,
+                            'src': './images/actor.jpg',
+                            alt: 'director',
+                            id: data.crew[w].id,
+                            click: () => {
+                                getPersonDetails(data.crew[w].id, 2);
+                            }
+                        }).appendTo(directorName);
+
+                        $('<span>', {
+                            class: 'actorName filter',
+                            text: data.crew[w].name
+                        }).appendTo(directorName);
+
+                        let directorLinksWrapper = $('<div>', {
+                            class: 'directorLinksWrapper',
+                        }).appendTo(directorName);
+
+                        $.get(movieActorsUrl + data.crew[w].id + "/external_ids?api_key=" + tmdbKey, (data) => {
+                            if(data.imdb_id !== null) {
+
+                                let imdbLinkWrapper = $('<a>', {
+                                    class: 'imdbLinkWrapper',
+                                    rel: 'noopener',
+                                    target: '_blank',
+                                    href: 'https://www.imdb.com/name/' + data.imdb_id
+                                }).appendTo(directorLinksWrapper);
+            
+                                $('<img>', {
+                                    class: 'directorImdbLink',
+                                    src: './images/imdb.png',
+                                    alt: 'imdbImg'
+                                }).appendTo(imdbLinkWrapper);
+                            }
+
+                            if(data.instagram_id !== null) {     
+                                let instagramWrapper = $('<a>', {
+                                    class: 'instagramWrapper',
+                                    rel: 'noopener',
+                                    target: '_blank',
+                                    href: 'https://www.instagram.com/' + data.instagram_id
+                                }).appendTo(directorLinksWrapper);
+            
+                                $('<img>', {
+                                    class: 'directorInstagramLink',
+                                    src: './images/instagram.png',
+                                    alt: 'instagramImg',
+                                }).appendTo(instagramWrapper);
+                            }
+
+                            if(data.instagram_id == null && data.imdb_id !== null) {
+                                $(directorLinksWrapper).find($('.imdbLinkWrapper')).css('margin-right', 0);
+                            } else if(data.instagram_id !== null && data.imdb_id == null) {
+                                $(directorLinksWrapper).find($('.instagramWrapper')).css('margin-left', 0);
+                            }
+                        });
+    
+                    } catch (e) {
+                        console.log(e);
+                    }
+                }
             }
-        } else {
-            $('#chosenMovieIMDBRating, #chosenMovieRottenRating, #chosenMovieMetaRating').hide();
+
+            setTimeout(() => {
+                if (directorCounter > 1) {
+                    $('.directorHeader').html('Directors');   
+                } else {
+                    $('.directorHeader').html('Director');
+                }
+            }, 1000)
         }
-    })
+    }
+
+    if (data.cast.length > 0) {
+        if (data.cast.length < 21) {
+            finalLength = data.cast.length;
+        } else {
+            finalLength = 21;
+        }
+        
+        $('<p>', {
+            id: 'castHeader',
+            class: 'chosenHeader filter',
+            text: 'Cast'
+        }).appendTo($('#castWrapper'));
+
+        let castContent = $('<div>', {
+            id: 'castContent',
+            class: 'content'
+        }).appendTo($('#castWrapper'));
+
+        for (let k = 0; k < finalLength; k++) {
+            try {
+                let actorImgPath;
+
+                if (data.cast[k].profile_path == 'undefined' || data.cast[k].profile_path == null || data.cast[k].profile_path == '') {
+
+                    switch (data.cast[k].gender) {
+                        case 0:
+                            actorImgPath = './images/actor.jpg';
+                            break;
+                        case 1:
+                            actorImgPath = './images/actress.jpg';
+                            break;
+                        case 2:
+                            actorImgPath = './images/actor.jpg';
+                            break;
+                    }
+                } else {
+                    actorImgPath = 'https://image.tmdb.org/t/p/w1280' + data.cast[k].profile_path;
+                }
+
+                let trimmedString;
+
+                if (data.cast[k].character.length > 25) {
+                    if (countInstances(data.cast[k].character, '/') > 1) {
+                        trimmedString = data.cast[k].character.substr(0, 25);
+                        trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
+                        trimmedString = data.cast[k].character.split('/');
+
+                        if (trimmedString.length > 2) {
+                            trimmedString = trimmedString[0] + '/' + trimmedString[1] + '& More';
+                        } else {
+                            trimmedString = trimmedString[0] + '/' + trimmedString[1];
+                        }
+                    } else {
+                        trimmedString = data.cast[k].character;
+                    }
+                } else {
+                    trimmedString = data.cast[k].character;
+                }
+
+                let actor = $('<div>', {
+                    class: 'actor',
+                }).appendTo(castContent);
+
+                $('<img>', {
+                    class: 'actorImg hoverEffect lazy pointer filter',
+                    'data-src': actorImgPath,
+                    'src': './images/actor.jpg',
+                    alt: 'actorImg',
+                    id: data.cast[k].id,
+                    click: () => {
+                        getPersonDetails(data.cast[k].id, 1);
+                    }
+                }).appendTo(actor);
+
+                let finalActorName;
+
+                if (data.cast[k].character == '') {
+                    finalActorName = data.cast[k].name;
+                } else {
+                    finalActorName = data.cast[k].name + ':';
+                }
+
+                $('<span>', {
+                    class: 'actorName filter',
+                    text: finalActorName
+                }).appendTo(actor);
+
+                $('<span>', {
+                    class: 'characterName filter',
+                    text: trimmedString
+                }).appendTo(actor);
+
+                let actorLinksWrapper = $('<div>', {
+                    class: 'linksWrapper',
+                }).appendTo(actor);
+
+                $.get(movieActorsUrl + data.cast[k].id + "/external_ids?api_key=" + tmdbKey, (data) => {
+                    if(data.imdb_id !== null) {
+                        let imdbLinkWrapper = $('<a>', {
+                            class: 'imdbLinkWrapper',
+                            rel: 'noopener',
+                            target: '_blank',
+                            href: 'https://www.imdb.com/name/' + data.imdb_id
+                        }).appendTo(actorLinksWrapper);
+    
+                        $('<img>', {
+                            class: 'actorImdbLink',
+                            src: './images/imdb.png',
+                            alt: 'imdbImg'
+                        }).appendTo(imdbLinkWrapper);
+                    }
+
+                    if(data.instagram_id !== null) {         
+                        let instagramWrapper = $('<a>', {
+                            class: 'instagramWrapper',
+                            rel: 'noopener',
+                            target: '_blank',
+                            href: 'https://www.instagram.com/' + data.instagram_id
+                        }).appendTo(actorLinksWrapper);
+    
+                        $('<img>', {
+                            class: 'actorInstagramLink',
+                            src: './images/instagram.png',
+                            alt: 'instagramImg',
+                        }).appendTo(instagramWrapper);
+                    }
+
+                    if(data.instagram_id == null && data.imdb_id !== null) {
+                        $(actorLinksWrapper).find($('.imdbLinkWrapper')).css('margin-right', 0);
+                    } else if(data.instagram_id !== null && data.imdb_id == null) {
+                        $(actorLinksWrapper).find($('.instagramWrapper')).css('margin-left', 0);
+                    }
+                });
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        checkLength(finalLength, '#castContent');
+    }
+
+}
+
+const getImages = (data) => {
+    $('#chosenMovieImagesWrapper').hide();
+
+    if (data.backdrops.length > 0) {
+        $('#chosenMovieImagesWrapper').css('display', 'flex');
+        let finalLength;
+        if (data.backdrops.length > 10) {
+            finalLength = 10;
+        } else {
+            finalLength = data.backdrops.length;
+        }
+
+        for (let q = 0; q < finalLength; q++) {
+            try {
+                if (data.backdrops[q].file_path == null || data.backdrops[q].file_path == '') {
+                    galleryImg = './images/stockMovie.jpg';
+                } else {
+                    galleryImg = 'https://image.tmdb.org/t/p/w1280' + data.backdrops[q].file_path;
+                }
+
+                $('<img>', {
+                    class: 'movieGalleryImg lazy filter',
+                    src: './images/stockMovie.jpg',
+                    'data-src': galleryImg,
+                    alt: 'movieGalleryImg',
+                }).appendTo($('#chosenMovieImagesWrapper'));
+            
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    }
+}
+
+const getVideos = (data) => {
+    $('#videosWrapper').hide();
+
+    if (data.results.length > 0) {
+        $('#videosWrapper').css('display', 'flex');
+        let finalLength;
+        if (data.results.length > 5) {
+            finalLength = 5;
+        } else {
+            finalLength = data.results.length;
+        }
+
+        for (let t = 0; t < finalLength; t++) {
+            let objectUrl = youtubeVideo + data.results[t].key + '?showinfo=0&enablejsapi=1';
+            $('<iframe>', {
+                class: 'movieVideo',
+                title: 'video',
+                src: objectUrl,
+                width: '420',
+                height: '315',
+                allowfullscreen: true,
+            }).appendTo($('#videosWrapper'));
+        }
+    }
+}
+
+const getSimilar = (data, type) => {
+    if (type == 1) {
+        $('#similarHeader').html('Similar Movies'); 
+    } else {
+        $('#similarHeader').html('Similar TV Shows'); 
+    }
+
+    $('#similarMovies').hide();
+
+    if (data.results.length !== 0) {
+        $('#similarMovies').show();
+
+        for (let i = 0; i < data.results.length; i++) {
+            try {
+                let img;
+
+                if (data.results[i].poster_path == 'undefined' || data.results[i].poster_path == null || data.results[i].poster_path == '') {
+                    img = './images/stock.png';
+                } else {
+                    img = 'https://image.tmdb.org/t/p/w1280' + data.results[i].poster_path;
+                }
+
+                let credit = $('<div>', {
+                    class: 'credit',
+                    popularity: data.results[i].popularity,
+                    value: data.results[i].id,
+                }).appendTo($('#similarMoviesContent'));
+
+                setTimeout(() => {
+                    sortPopularMovies($('#similarMoviesContent'), 'popularity', 3);
+                }, 500);
+
+                let finalTitle;
+
+                if (type == 1) {
+                    finalTitle = data.results[i].title;
+                } else {
+                    finalTitle = data.results[i].name;
+                }
+
+                $('<img>', {
+                    class: 'similarMovieImg hoverEffect lazy pointer filter',
+                    'data-src': img,
+                    'src': './images/stock.png',
+                    alt: 'similarMovieImg',
+                    click: () => {
+                        chosenMovie(data.results[i].id, type);
+                    }
+                }).appendTo(credit);
+
+                $('<span>', {
+                    class: 'similarMovieName filter',
+                    text: finalTitle
+                }).appendTo(credit);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        checkLength(data.results.length, '#similarMoviesContent');
+    }
 }
 
 const showSeasonsBtns = (seasonsNum, type) => {
@@ -1518,17 +1700,9 @@ const showSeasonsBtns = (seasonsNum, type) => {
     }).appendTo($('#tvShowSeasonsWrapper'));
 
     if (type == 1) {
-        let seasonBackBtnText;
-
-        if (langNum == 1) {
-            seasonBackBtnText = 'Back';
-        } else {
-            seasonBackBtnText = 'חזור';
-        }
-    
         $('<button>', {
             id: 'seasonBackBtn',
-            text: seasonBackBtnText,
+            text: 'Back',
             click: () => {
                 $('#seasonBtnWrapper').hide();
                 setTimeout(() => {
@@ -1554,19 +1728,10 @@ const showSeasonsBtns = (seasonsNum, type) => {
         }  
 
     } else {
-
-        let episodeHeaderText;
-
-        if (langNum == 1) {
-            episodeHeaderText = 'Episodes';
-        } else {
-            episodeHeaderText = 'פרקים';
-        } 
-
         $('<span>', {
             id: 'episodeHeader',
             class: 'chosenHeader filter',
-            text: episodeHeaderText,
+            text: 'Episodes',
         }).appendTo(seasonBtnWrapper); 
 
         seasonClicked(1, 2);
@@ -1581,17 +1746,9 @@ const seasonClicked = (seasonNum, type) => {
     $('#seasonBackBtn').hide();
 
     if (type == 1) {
-        let episodeBackBtnText;
-
-        if (langNum == 1) {
-            episodeBackBtnText = 'Back';
-        } else {
-            episodeBackBtnText = 'חזור';
-        }
-    
         $('<button>', {
             id: 'episodeBackBtn',
-            text: episodeBackBtnText,
+            text: 'Back',
             click: () => {
                 $('#seasonBtnWrapper').hide();
                 setTimeout(() => {
@@ -1603,7 +1760,7 @@ const seasonClicked = (seasonNum, type) => {
         }).appendTo($('#seasonBtnWrapper')); 
     }
 
-    $.get('https://api.themoviedb.org/3/tv/' + value + '/season/' + seasonNum + '?api_key=' + tmdbKey + '&language=' + lang, (data) => {
+    $.get('https://api.themoviedb.org/3/tv/' + value + '/season/' + seasonNum + '?api_key=' + tmdbKey, (data) => {
 
         $('.seasonBtn').hide();
 
@@ -1647,17 +1804,9 @@ const showOverview = (text, type) => {
         class: 'overviewWrapper'
     }).appendTo(divToAppend);
 
-    let overviewHeaderText;
-
-    if (langNum == 1) {
-        overviewHeaderText = 'Overview';
-    } else {
-        overviewHeaderText = 'סקירה כללית';
-    }
-
     $('<p>', {
         class: 'overviewHeader filter',
-        text: overviewHeaderText
+        text: 'Overview'
     }).appendTo(overviewWrapper);
 
     let overview = $('<p>', {
@@ -1698,7 +1847,7 @@ const episodeClicked = (seasonNum, episodeNum, type) => {
     const urlParams = new URLSearchParams(window.location.search);
     const value = Number(urlParams.get('value'));
 
-    $.get('https://api.themoviedb.org/3/tv/' + value + '/season/' + seasonNum + '/episode/' + episodeNum + '?api_key=' + tmdbKey + '&language=' + lang, (data) => {
+    $.get('https://api.themoviedb.org/3/tv/' + value + '/season/' + seasonNum + '/episode/' + episodeNum + '?api_key=' + tmdbKey, (data) => {
 
         if(data.overview !== null && data.overview !== '' && data.overview !== undefined) {
             showOverview(data.overview, 1);
@@ -1721,18 +1870,10 @@ const episodeClicked = (seasonNum, episodeNum, type) => {
                 class: 'content'
             }).insertAfter($('#watchProviders'));
 
-            let guestCastHeaderText;
-
-            if (langNum == 1) {
-                guestCastHeaderText = 'Guest Cast';
-            } else {
-                guestCastHeaderText = 'קאסט אורח';
-            }
-
             $('<p>', {
                 id: 'guestCastHeader',
                 class: 'chosenHeader filter',
-                text: guestCastHeaderText
+                text: 'Guest Cast'
             }).insertBefore(guestCast);
 
             for (let i = 0; i < finalLength; i++) {
@@ -1813,7 +1954,7 @@ const episodeClicked = (seasonNum, episodeNum, type) => {
                         class: 'linksWrapper',
                     }).appendTo(actor);
 
-                    $.get(movieActorsUrl + data.guest_stars[i].id + "/external_ids?api_key=" + tmdbKey + '&language=' + lang, (data) => {
+                    $.get(movieActorsUrl + data.guest_stars[i].id + "/external_ids?api_key=" + tmdbKey, (data) => {
                         if(data.imdb_id !== null) {
                             let imdbLinkWrapper = $('<a>', {
                                 class: 'imdbLinkWrapper',
@@ -1869,346 +2010,11 @@ const getFinalUrl = (type) => {
     }
 }
 
-const getWatchProviders = (value, type) => {
-    let finalUrl = getFinalUrl(type);
-
-    let providerArr = [337, 8, 384, 37, 9, 15, 350];
-
-    $.get(finalUrl + value + "/watch/providers?api_key=" + tmdbKey + '&language=' + lang + '&sort_by=popularity.desc', (data) => {
-        if (data.results.US !== undefined && data.results.US.flatrate !== undefined) {
-            let results = data.results.US.flatrate;
-
-            for (let i = 0; i < results.length; i++) {
-                if (results[i].logo_path !== null) {
-                    if (providerArr.includes(results[i].provider_id)) {
-                        $('<img>', {
-                            class: 'watchProvider',
-                            alt: 'watch provider img',
-                            src: 'https://image.tmdb.org/t/p/w1280' + results[i].logo_path
-                        }).appendTo($('#watchProviders')); 
-                    }
-                }
-            }
-        }
-    })
-    .done(() => {
-        setTimeout(() => {
-            $('#spinnerWrapper').hide();
-            $('#chosenMovie, footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
-
-            $('#breadcrumbs').show();
-            $('#logo').css('pointerEvents', 'all');
-
-            let iconClass;
-            if (type == 1) {
-                iconClass = 'fas fa-video';
-            } else {
-                iconClass = 'fas fa-tv';
-            }
-            $('#typeOfContent').attr('class', iconClass);
-
-        }, 1500)
-    })
-    .fail(() => {
-        setTimeout(() => {
-            $('#spinnerWrapper').hide();
-            $('#chosenMovie, footer, #menuOpenWrapper, #chosenPerson, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
-        }, 1500)
-    })
-}
-
-const getCredits = (value, type) => {
-    directorCounter = 0;
-    $('#directorsWrapper').hide();
-    $('#castHeader').remove();
-
-    let finalUrl = getFinalUrl(type);
-
-    $.get(finalUrl + value + "/credits?api_key=" + tmdbKey + '&language=' + lang, (data) => {
-        if (type == 1) {
-            if (data.crew.length > 0) {
-
-                $('#directorsWrapper').show();
-
-                $('<p>', {
-                    class: 'directorHeader chosenHeader filter',
-                }).appendTo($('#directorsWrapper'));
-    
-                let directorContent = $('<div>', {
-                    id: 'directorContent',
-                }).appendTo($('#directorsWrapper'));
-    
-                for (let w = 0; w < data.crew.length; w++) {
-                    if(data.crew[w].job == 'Director') {
-                        directorCounter++;
-
-                        try {
-                            let directorImgPath;
-                            if (data.crew[w].profile_path == 'undefined' || data.crew[w].profile_path == null || data.crew[w].profile_path == '') {
-        
-                                switch (data.crew[w].gender) {
-                                    case 0:
-                                        directorImgPath = './images/actor.jpg';
-                                        break;
-                                    case 1:
-                                        directorImgPath = './images/actress.jpg';
-                                        break;
-                                    case 2:
-                                        directorImgPath = './images/actor.jpg';
-                                        break;
-                                }
-                            } else {
-                                directorImgPath = 'https://image.tmdb.org/t/p/w1280' + data.crew[w].profile_path;
-                            }
-
-                            let director = $('<div>', {
-                                class: 'director'
-                            }).appendTo(directorContent);
-    
-                            let directorName = $('<div>', {
-                                class: 'directorName',
-                            }).appendTo(director);
-        
-                            $('<img>', {
-                                class: 'directorImg hoverEffect lazy pointer filter',
-                                'data-src': directorImgPath,
-                                'src': './images/actor.jpg',
-                                alt: 'director',
-                                id: data.crew[w].id,
-                                click: () => {
-                                    getPersonDetails(data.crew[w].id, 2);
-                                }
-                            }).appendTo(directorName);
-    
-                            $('<span>', {
-                                class: 'actorName filter',
-                                text: data.crew[w].name
-                            }).appendTo(directorName);
-    
-                            let directorLinksWrapper = $('<div>', {
-                                class: 'directorLinksWrapper',
-                            }).appendTo(directorName);
-    
-                            $.get(movieActorsUrl + data.crew[w].id + "/external_ids?api_key=" + tmdbKey + '&language=' + lang, (data) => {
-                                if(data.imdb_id !== null) {
-    
-                                    let imdbLinkWrapper = $('<a>', {
-                                        class: 'imdbLinkWrapper',
-                                        rel: 'noopener',
-                                        target: '_blank',
-                                        href: 'https://www.imdb.com/name/' + data.imdb_id
-                                    }).appendTo(directorLinksWrapper);
-                
-                                    $('<img>', {
-                                        class: 'directorImdbLink',
-                                        src: './images/imdb.png',
-                                        alt: 'imdbImg'
-                                    }).appendTo(imdbLinkWrapper);
-                                }
-    
-                                if(data.instagram_id !== null) {     
-                                    let instagramWrapper = $('<a>', {
-                                        class: 'instagramWrapper',
-                                        rel: 'noopener',
-                                        target: '_blank',
-                                        href: 'https://www.instagram.com/' + data.instagram_id
-                                    }).appendTo(directorLinksWrapper);
-                
-                                    $('<img>', {
-                                        class: 'directorInstagramLink',
-                                        src: './images/instagram.png',
-                                        alt: 'instagramImg',
-                                    }).appendTo(instagramWrapper);
-                                }
-
-                                if(data.instagram_id == null && data.imdb_id !== null) {
-                                    $(directorLinksWrapper).find($('.imdbLinkWrapper')).css('margin-right', 0);
-                                } else if(data.instagram_id !== null && data.imdb_id == null) {
-                                    $(directorLinksWrapper).find($('.instagramWrapper')).css('margin-left', 0);
-                                }
-                            });
-        
-                        } catch (e) {
-                            console.log(e);
-                        }
-                    }
-                }
-    
-                setTimeout(() => {
-                    if (directorCounter > 1) {
-                        if (langNum == 1) {
-                            $('.directorHeader').html('Directors');
-                        } else {
-                            $('.directorHeader').html('במאים');
-                        }
-                        
-                    } else {
-                        if (langNum == 1) {
-                            $('.directorHeader').html('Director');
-                        } else {
-                            $('.directorHeader').html('במאי');
-                        }
-                    }
-                }, 1000)
-            }
-        }
-
-        if (data.cast.length > 0) {
-            if (data.cast.length < 21) {
-                finalLength = data.cast.length;
-            } else {
-                finalLength = 21;
-            }
-
-            let castHeaderText;
-
-            if (langNum == 1) {
-                castHeaderText = 'Cast';
-            } else {
-                castHeaderText = 'קאסט';
-            }
-            
-            $('<p>', {
-                id: 'castHeader',
-                class: 'chosenHeader filter',
-                text: castHeaderText
-            }).appendTo($('#castWrapper'));
-
-            let castContent = $('<div>', {
-                id: 'castContent',
-                class: 'content'
-            }).appendTo($('#castWrapper'));
-
-            for (let k = 0; k < finalLength; k++) {
-                try {
-                    let actorImgPath;
-
-                    if (data.cast[k].profile_path == 'undefined' || data.cast[k].profile_path == null || data.cast[k].profile_path == '') {
-
-                        switch (data.cast[k].gender) {
-                            case 0:
-                                actorImgPath = './images/actor.jpg';
-                                break;
-                            case 1:
-                                actorImgPath = './images/actress.jpg';
-                                break;
-                            case 2:
-                                actorImgPath = './images/actor.jpg';
-                                break;
-                        }
-                    } else {
-                        actorImgPath = 'https://image.tmdb.org/t/p/w1280' + data.cast[k].profile_path;
-                    }
-
-                    let trimmedString;
-
-                    if (data.cast[k].character.length > 25) {
-                        if (countInstances(data.cast[k].character, '/') > 1) {
-                            trimmedString = data.cast[k].character.substr(0, 25);
-                            trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
-                            trimmedString = data.cast[k].character.split('/');
-
-                            if (trimmedString.length > 2) {
-                                trimmedString = trimmedString[0] + '/' + trimmedString[1] + '& More';
-                            } else {
-                                trimmedString = trimmedString[0] + '/' + trimmedString[1];
-                            }
-                        } else {
-                            trimmedString = data.cast[k].character;
-                        }
-                    } else {
-                        trimmedString = data.cast[k].character;
-                    }
-
-                    let actor = $('<div>', {
-                        class: 'actor',
-                    }).appendTo(castContent);
-
-                    $('<img>', {
-                        class: 'actorImg hoverEffect lazy pointer filter',
-                        'data-src': actorImgPath,
-                        'src': './images/actor.jpg',
-                        alt: 'actorImg',
-                        id: data.cast[k].id,
-                        click: () => {
-                            getPersonDetails(data.cast[k].id, 1);
-                        }
-                    }).appendTo(actor);
-
-                    let finalActorName;
-
-                    if (data.cast[k].character == '') {
-                        finalActorName = data.cast[k].name;
-                    } else {
-                        finalActorName = data.cast[k].name + ':';
-                    }
-
-                    $('<span>', {
-                        class: 'actorName filter',
-                        text: finalActorName
-                    }).appendTo(actor);
-
-                    $('<span>', {
-                        class: 'characterName filter',
-                        text: trimmedString
-                    }).appendTo(actor);
-
-                    let actorLinksWrapper = $('<div>', {
-                        class: 'linksWrapper',
-                    }).appendTo(actor);
-
-                    $.get(movieActorsUrl + data.cast[k].id + "/external_ids?api_key=" + tmdbKey + '&language=' + lang, (data) => {
-                        if(data.imdb_id !== null) {
-                            let imdbLinkWrapper = $('<a>', {
-                                class: 'imdbLinkWrapper',
-                                rel: 'noopener',
-                                target: '_blank',
-                                href: 'https://www.imdb.com/name/' + data.imdb_id
-                            }).appendTo(actorLinksWrapper);
-        
-                            $('<img>', {
-                                class: 'actorImdbLink',
-                                src: './images/imdb.png',
-                                alt: 'imdbImg'
-                            }).appendTo(imdbLinkWrapper);
-                        }
-
-                        if(data.instagram_id !== null) {         
-                            let instagramWrapper = $('<a>', {
-                                class: 'instagramWrapper',
-                                rel: 'noopener',
-                                target: '_blank',
-                                href: 'https://www.instagram.com/' + data.instagram_id
-                            }).appendTo(actorLinksWrapper);
-        
-                            $('<img>', {
-                                class: 'actorInstagramLink',
-                                src: './images/instagram.png',
-                                alt: 'instagramImg',
-                            }).appendTo(instagramWrapper);
-                        }
-
-                        if(data.instagram_id == null && data.imdb_id !== null) {
-                            $(actorLinksWrapper).find($('.imdbLinkWrapper')).css('margin-right', 0);
-                        } else if(data.instagram_id !== null && data.imdb_id == null) {
-                            $(actorLinksWrapper).find($('.instagramWrapper')).css('margin-left', 0);
-                        }
-                    });
-                } catch (e) {
-                    console.log(e);
-                }
-            }
-
-            checkLength(finalLength, '#castContent');
-        }
-    });
-}
-
 const getPersonDetails = (value, type) => {
 
     emptyChosen(1, true);
 
-    $.get(movieActorsUrl + value + "?api_key=" + tmdbKey + '&language=' + lang, (data) => {
+    $.get(movieActorsUrl + value + "?api_key=" + tmdbKey + '&append_to_response=combined_credits,images,external_ids,tagged_images', (data) => {
         $('#chosenPersonName').html(data.name);
 
         if(data.biography !== null && data.biography !== '' && data.biography !== undefined) {
@@ -2264,18 +2070,9 @@ const getPersonDetails = (value, type) => {
             let finalAgeText;
 
             if (data.deathday == null) {
-                if (langNum == 1) {
-                    finalAgeText = 'Birth Date: ' + configureDate(data.birthday) + ' (Age: ' + finalAge + ')';
-                } else {
-                    finalAgeText = 'תאריך לידה: ' + configureDate(data.birthday) + ' (Age: ' + finalAge + ')';
-                }
-                
+                finalAgeText = 'Birth Date: ' + configureDate(data.birthday) + ' (Age: ' + finalAge + ')';
             } else {
-                if (langNum == 1) {
-                    finalAgeText = 'Birth Date: ' + configureDate(data.birthday);
-                } else {
-                    finalAgeText = 'תאריך לידה: ' + configureDate(data.birthday);
-                }
+                finalAgeText = 'Birth Date: ' + configureDate(data.birthday);
             }
 
             $('#birthDate').html(finalAgeText);
@@ -2286,65 +2083,321 @@ const getPersonDetails = (value, type) => {
         if(data.deathday !== null) {
             $('#personDeathDate').show();
             let deathAge = getAge(data.deathday, 2, data.birthday);
-
-            if (langNum == 1) {
-                $('#deathDate').html('Death Date: ' + configureDate(data.deathday) + ' (Age: ' + deathAge + ')');
-            } else {
-                $('#deathDate').html('תאריך פטירה: ' + configureDate(data.deathday) + ' (Age: ' + deathAge + ')');
-            }
+            $('#deathDate').html('Death Date: ' + configureDate(data.deathday) + ' (Age: ' + deathAge + ')');
         } else {
             $('#personDeathDate').hide();
         }
 
         if(data.place_of_birth !== null) {
             $('#personHometown').show();
-            if (langNum == 1) {
-                $('#hometown').html('Hometown: ' + data.place_of_birth);
-            } else {
-                $('#hometown').html('מקום לידה: ' + data.place_of_birth);
-            }
+            $('#hometown').html('Hometown: ' + data.place_of_birth);
         } else {
             $('#personHometown').hide();
         }
+
+        getPersonCredits(data.combined_credits, type);
+        if (type == 2) {
+            getPersonCredits(data.combined_credits, type + 1);
+        }
+        getPersonExternalIds(data.external_ids);
+        getPersonImages(data.images);
+        getPersonMovieImages(data.tagged_images);
+
     });
-
-    if (type == 1) {
-        getPersonCredits(value, type);
-    } else {
-        getPersonCredits(value, type);
-        getPersonCredits(value, type + 1);
-    }
-
-    
-    getPersonExternalIds(value);
-    getPersonImages(value);
-    getPersonMovieImages(value);
 }
 
-const getPersonExternalIds = (value) => {
-    $.get(movieActorsUrl + value + "/external_ids?api_key=" + tmdbKey + '&language=' + lang, (data) => {
-        if(data.instagram_id !== null) {                               
-            let personInstagramLink = $('<a>', {
-                id: 'personInstagramLink',
-                rel: 'noopener',
-                target: '_blank',
-                href: 'https://www.instagram.com/' + data.instagram_id
-            }).appendTo($('#personInstagramWrapper'));
+const getPersonCredits = (data, type) => {
+    $('#personMovies').empty();
+    $('#personCreditsHeader').remove();
+    let finalData;
+
+    if (type == 1) {
+        finalData = data.cast;
+    } else {
+        finalData = data.crew;
+    }
+
+    if (finalData.length !== 0) {
+        if (type !== 3) {
+            $('<p>', {
+                id: 'personCreditsHeader',
+                class: 'chosenHeader filter',
+                text: 'Credits',
+            }).insertBefore($('#personMovies'));
+        }
+
+        for (let i = 0; i < finalData.length; i++) {
+            try {
+                let movieImgPath = 'https://image.tmdb.org/t/p/w1280' + finalData[i].poster_path;
+
+                if (finalData[i].poster_path == 'undefined' || finalData[i].poster_path == null || finalData[i].poster_path == '') {
+                    movieImgPath = './images/stock.png';
+                }
+
+                let trimmedString;
+
+                if (type == 1) { 
+                    if (finalData[i].character && finalData[i].character.length > 25) {
+                        if (countInstances(finalData[i].character, '/') > 1) {
+                            trimmedString = finalData[i].character.substr(0, 25);
+                            trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
+                            trimmedString = finalData[i].character.split('/');
+
+                            if (trimmedString.length > 2) {
+                                trimmedString = trimmedString[0] + '/' + trimmedString[1] + '& More';
+                            } else {
+                                trimmedString = trimmedString[0] + '/' + trimmedString[1];
+                            }
+                        } else {
+                            trimmedString = finalData[i].character;
+                        }
+                    } else {
+                        trimmedString = finalData[i].character;
+                    }
+
+                    if (trimmedString == '') {
+                        trimmedString = 'Unknown';
+                    }
+                }
+
+                let finalTitle;
+
+                if (finalData[i].media_type == 'movie') {
+                    if (type == 1) {
+                        finalTitle = finalData[i].title + ':';
+                    } else {
+                        finalTitle = finalData[i].title;
+                    }
+                } else {
+                    if (type == 1) {
+                        finalTitle = finalData[i].name + ':';
+                    } else {
+                        finalTitle = finalData[i].name;
+                    }
+                }
+
+                if (finalData[i].character && type == 1) {
+                    let credit = $('<div>', {
+                        class: 'credit',
+                        popularity: finalData[i].popularity
+                    }).appendTo($('#personMovies'));
+
+                    let imageLink = $('<a>', {
+                        class: 'imageLink',
+                        'target': '_blank'
+                    }).appendTo(credit);
+
+                    $('<img>', {
+                        class: 'actorImg hoverEffect pointer lazy filter',
+                        'data-src': movieImgPath,
+                        'src': './images/stock.png',
+                        alt: 'actorMovieImg',
+                        mediaType: finalData[i].media_type,
+                        id: finalData[i].id,
+                        click: () => {
+                            let typeOfContent;
+                            if (finalData[i].media_type == 'movie') {
+                                typeOfContent = 1;
+                            } else {
+                                typeOfContent = 2;
+                            }
+
+                            $('#chosenPerson').hide();
+
+                            chosenMovie(finalData[i].id, typeOfContent);
+                        }
+                    }).appendTo(imageLink);
+
+                    let actorMovieClass;
+
+                    if (/[\u0590-\u05FF]/.test(finalTitle)) {
+                        actorMovieClass = 'actorMovieName filter rtl';
+                    } else {
+                        actorMovieClass = 'actorMovieName filter';
+                    }
+
+                    $('<span>', {
+                        class: actorMovieClass,
+                        text: finalTitle
+                    }).appendTo(credit);
+
+                    $('<span>', {
+                        class: 'characterName filter',
+                        text: trimmedString
+                    }).appendTo(credit);
+                }
+
+                if (finalData[i].job == 'Director' && type == 2 || finalData[i].department == 'Writing' && type == 3) {
+                    if (finalData[i].job !== 'Novel' && finalData[i].job !== 'Teleplay' && finalData[i].job !== 'Story') {
+
+                        let credit = $('<div>', {
+                            class: 'credit',
+                            popularity: finalData[i].popularity
+                        }).appendTo($('#personMovies'));
+    
+                        let imageLink = $('<a>', {
+                            class: 'imageLink',
+                            'target': '_blank'
+                        }).appendTo(credit);
+    
+                        $('<img>', {
+                            class: 'actorImg hoverEffect pointer lazy filter',
+                            'data-src': movieImgPath,
+                            'src': './images/stock.png',
+                            alt: 'actorMovieImg',
+                            mediaType: finalData[i].media_type,
+                            id: finalData[i].id,
+                            click: () => {
+                                let typeOfContent;
+                                if (finalData[i].media_type == 'movie') {
+                                    typeOfContent = 1;
+                                } else {
+                                    typeOfContent = 2;
+                                }
+
+                                $('#chosenPerson').hide();
+
+                                chosenMovie(finalData[i].id, typeOfContent);
+                            }
+                        }).appendTo(imageLink);
+
+                        let directorMovieClass;
+
+                        if (/[\u0590-\u05FF]/.test(finalTitle)) {
+                            directorMovieClass = 'actorMovieName filter rtl';
+                        } else {
+                            directorMovieClass = 'actorMovieName filter';
+                        }
+    
+                        $('<span>', {
+                            class: directorMovieClass,
+                            text: finalTitle
+                        }).appendTo(credit);
+
+                        $('<span>', {
+                            class: 'characterName filter',
+                            text: finalData[i].job
+                        }).appendTo(credit);
+                    }        
+                }
+
+            } catch (e) {
+                console.log(e);
+            }
+
+            setTimeout(() => {
+                sortPopularMovies($('#personMovies'), 'popularity', 3);
+            }, 500);
+        }
+
+        checkLength(finalData.length, '#personMovies');
+    }
+}
+
+const getPersonImages = (data) => {
+    $('#personImages').empty();
+    if (data.profiles.length > 0) {
+        let finalLength;
+
+        if (data.profiles.length > 10) {
+            finalLength = 10;
+        } else {
+            finalLength = data.profiles.length;
+        }
+
+        for (let i = 0; i < finalLength; i++) {
+
+            let finalImg;
+
+            if (data.profiles[i].file_path == null) {
+                finalImg = './images/stock.png';
+            } else {
+                finalImg = 'https://image.tmdb.org/t/p/w1280' + data.profiles[i].file_path;
+            }
 
             $('<img>', {
-                id: 'personInstagramImg',
-                class: 'filter',
-                src: './images/instagram.png',
-                alt: 'instagramImg',
-            }).appendTo(personInstagramLink);
+                class: 'personPoster lazy filter',
+                src: './images/stock.png',
+                'data-src': finalImg,
+                alt: 'person poster',
+            }).appendTo($('#personImages'));
+        }
+    }
+}
+
+const getPersonMovieImages = (data) => {
+    $('#personMovieImages').empty();
+
+    if (data.results.length > 0) {
+        let finalLength;
+
+        if (data.results.length > 10) {
+            finalLength = 10;
+        } else {
+            finalLength = data.results.length;
         }
 
-        if(data.instagram_id == null && data.imdb_id !== null) {
-            $('#personInstagramWrapper').find($('.imdbLinkWrapper')).css('margin-right', 0);
-        } else if(data.instagram_id !== null && data.imdb_id == null) {
-            $('#personInstagramWrapper').find($('.instagramWrapper')).css('margin-left', 0);
+        let personMovieArr = [];
+
+        for (let i = 0; i < finalLength; i++) {
+            let finalImg;
+
+            if (data.results[i].media.backdrop_path == null) {
+                if (data.results[i].file_path == null) {
+                    finalImg = './images/stockMovie.jpg'; 
+                } else {
+                    finalImg = 'https://image.tmdb.org/t/p/w1280' + data.results[i].file_path;
+                }        
+            } else {
+                finalImg = 'https://image.tmdb.org/t/p/w1280' + data.results[i].media.backdrop_path;
+            }
+
+            if (!personMovieArr.includes(finalImg)) {
+                personMovieArr.push(finalImg);
+                $('<img>', {
+                    class: 'personMovieImg lazy filter',
+                    src: './images/stockMovie.jpg',
+                    'data-src': finalImg,
+                    alt: 'person tagged img',
+                }).appendTo($('#personMovieImages'));
+            }
         }
-    })
+    }
+
+    setTimeout(() => {
+        $('#spinnerWrapper').hide();
+        $('#chosenPerson').show();
+        $('footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
+
+        $('#breadcrumbs').show();
+        $('#logo').css('pointerEvents', 'all');
+        $('#typeOfContent').attr('class', 'fas fa-user-alt');
+        $('#contentPoster').css('background', '').hide();
+    }, 1500)
+}
+
+const getPersonExternalIds = (data) => {
+    if(data.instagram_id !== null) {                               
+        let personInstagramLink = $('<a>', {
+            id: 'personInstagramLink',
+            rel: 'noopener',
+            target: '_blank',
+            href: 'https://www.instagram.com/' + data.instagram_id
+        }).appendTo($('#personInstagramWrapper'));
+
+        $('<img>', {
+            id: 'personInstagramImg',
+            class: 'filter',
+            src: './images/instagram.png',
+            alt: 'instagramImg',
+        }).appendTo(personInstagramLink);
+    }
+
+    if(data.instagram_id == null && data.imdb_id !== null) {
+        $('#personInstagramWrapper').find($('.imdbLinkWrapper')).css('margin-right', 0);
+    } else if(data.instagram_id !== null && data.imdb_id == null) {
+        $('#personInstagramWrapper').find($('.instagramWrapper')).css('margin-left', 0);
+    }
 }
 
 const getPopular = () => {
@@ -2363,7 +2416,7 @@ const getPopular = () => {
     let totalPages;
     let arr = [];
 
-    $.get(movieActorsUrl + "popular?api_key=" + tmdbKey + '&language=' + lang, (data) => {
+    $.get(movieActorsUrl + "popular?api_key=" + tmdbKey, (data) => {
         for (let  i = 0; i < data.results.length; i++) {
             arr.push(data.results[i]);
         }
@@ -2372,7 +2425,7 @@ const getPopular = () => {
 
         if (totalPages > 1) {
             setTimeout(() => {
-                $.get(movieActorsUrl + "popular?api_key=" + tmdbKey + '&language=' + lang + '&page=2', (data) => {
+                $.get(movieActorsUrl + "popular?api_key=" + tmdbKey + '&page=2', (data) => {
                     for (let  j = 0; j < data.results.length; j++) {
                         arr.push(data.results[j]);
                     }
@@ -2407,20 +2460,11 @@ const buildPopular = (arr) => {
 
     $('#logo').css('pointerEvents', 'all');
     $('#typeOfContent').attr('class', 'fas fa-star');
-
     $('#contentPoster').css('background', '').hide();
-
-    let popularHeaderText;
-
-    if (langNum == 1) {
-        popularHeaderText = 'Popular People';
-    } else {
-        popularHeaderText = 'אנשים פופולרים';
-    }
 
     $('<h2>', {
         class: 'popularHeader',
-        text: popularHeaderText
+        text: 'Popular People'
     }).appendTo($('#popular'));
 
     let headerLine = $('<div>', {
@@ -2486,461 +2530,6 @@ const buildPopular = (arr) => {
     setTimeout(() => {
         sortPopularMovies($('#popularContent'), 'popularity', 4);
     }, 500);
-}
-
-const getPersonCredits = (value, type) => {
-    $('#personMovies').empty();
-    $('#personCreditsHeader').remove();
-
-    $.get(movieActorsUrl + value + "/combined_credits?api_key=" + tmdbKey + '&language=' + lang, (data) => {
-        let finalData;
-
-        if (type == 1) {
-            finalData = data.cast;
-        } else {
-            finalData = data.crew;
-        }
-
-        if (finalData.length !== 0) {
-
-            let creditHeader;
-
-            if (langNum == 1) {
-                creditHeader = 'Credits';
-            } else {
-                creditHeader = 'קרדיטים';
-            }
-
-            if (type !== 3) {
-                $('<p>', {
-                    id: 'personCreditsHeader',
-                    class: 'chosenHeader filter',
-                    text: creditHeader,
-                }).insertBefore($('#personMovies'));
-            }
-
-            for (let i = 0; i < finalData.length; i++) {
-                try {
-                    let movieImgPath = 'https://image.tmdb.org/t/p/w1280' + finalData[i].poster_path;
-
-                    if (finalData[i].poster_path == 'undefined' || finalData[i].poster_path == null || finalData[i].poster_path == '') {
-                        movieImgPath = './images/stock.png';
-                    }
-
-                    let trimmedString;
-
-                    if (type == 1) { 
-                        if (finalData[i].character && finalData[i].character.length > 25) {
-                            if (countInstances(finalData[i].character, '/') > 1) {
-                                trimmedString = finalData[i].character.substr(0, 25);
-                                trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")));
-                                trimmedString = finalData[i].character.split('/');
-    
-                                if (trimmedString.length > 2) {
-                                    trimmedString = trimmedString[0] + '/' + trimmedString[1] + '& More';
-                                } else {
-                                    trimmedString = trimmedString[0] + '/' + trimmedString[1];
-                                }
-                            } else {
-                                trimmedString = finalData[i].character;
-                            }
-                        } else {
-                            trimmedString = finalData[i].character;
-                        }
-    
-                        if (trimmedString == '') {
-                            trimmedString = 'Unknown';
-                        }
-                    }
-
-                    let finalTitle;
-
-                    if (finalData[i].media_type == 'movie') {
-                        if (type == 1) {
-                            finalTitle = finalData[i].title + ':';
-                        } else {
-                            finalTitle = finalData[i].title;
-                        }
-                    } else {
-                        if (type == 1) {
-                            finalTitle = finalData[i].name + ':';
-                        } else {
-                            finalTitle = finalData[i].name;
-                        }
-                    }
-
-                    if (finalData[i].character && type == 1) {
-                        let credit = $('<div>', {
-                            class: 'credit',
-                            popularity: finalData[i].popularity
-                        }).appendTo($('#personMovies'));
-    
-                        let imageLink = $('<a>', {
-                            class: 'imageLink',
-                            'target': '_blank'
-                        }).appendTo(credit);
-    
-                        $('<img>', {
-                            class: 'actorImg hoverEffect pointer lazy filter',
-                            'data-src': movieImgPath,
-                            'src': './images/stock.png',
-                            alt: 'actorMovieImg',
-                            mediaType: finalData[i].media_type,
-                            id: finalData[i].id,
-                            click: () => {
-                                let typeOfContent;
-                                if (finalData[i].media_type == 'movie') {
-                                    typeOfContent = 1;
-                                } else {
-                                    typeOfContent = 2;
-                                }
-
-                                $('#chosenPerson').hide();
-
-                                chosenMovie(finalData[i].id, typeOfContent);
-                            }
-                        }).appendTo(imageLink);
-
-                        let actorMovieClass;
-
-                        if (/[\u0590-\u05FF]/.test(finalTitle)) {
-                            actorMovieClass = 'actorMovieName filter rtl';
-                        } else {
-                            actorMovieClass = 'actorMovieName filter';
-                        }
-
-                        $('<span>', {
-                            class: actorMovieClass,
-                            text: finalTitle
-                        }).appendTo(credit);
-    
-                        $('<span>', {
-                            class: 'characterName filter',
-                            text: trimmedString
-                        }).appendTo(credit);
-                    }
-
-                    if (finalData[i].job == 'Director' && type == 2 || finalData[i].department == 'Writing' && type == 3) {
-                        if (finalData[i].job !== 'Novel' && finalData[i].job !== 'Teleplay' && finalData[i].job !== 'Story') {
-
-                            let credit = $('<div>', {
-                                class: 'credit',
-                                popularity: finalData[i].popularity
-                            }).appendTo($('#personMovies'));
-        
-                            let imageLink = $('<a>', {
-                                class: 'imageLink',
-                                'target': '_blank'
-                            }).appendTo(credit);
-        
-                            $('<img>', {
-                                class: 'actorImg hoverEffect pointer lazy filter',
-                                'data-src': movieImgPath,
-                                'src': './images/stock.png',
-                                alt: 'actorMovieImg',
-                                mediaType: finalData[i].media_type,
-                                id: finalData[i].id,
-                                click: () => {
-                                    let typeOfContent;
-                                    if (finalData[i].media_type == 'movie') {
-                                        typeOfContent = 1;
-                                    } else {
-                                        typeOfContent = 2;
-                                    }
-    
-                                    $('#chosenPerson').hide();
-    
-                                    chosenMovie(finalData[i].id, typeOfContent);
-                                }
-                            }).appendTo(imageLink);
-    
-                            let directorMovieClass;
-    
-                            if (/[\u0590-\u05FF]/.test(finalTitle)) {
-                                directorMovieClass = 'actorMovieName filter rtl';
-                            } else {
-                                directorMovieClass = 'actorMovieName filter';
-                            }
-        
-                            $('<span>', {
-                                class: directorMovieClass,
-                                text: finalTitle
-                            }).appendTo(credit);
-    
-                            let jobTitleName;
-
-                            if (langNum == 1) {
-                                jobTitleName = finalData[i].job;
-                            } else {
-                                if (finalData[i].job == 'Writer') {
-                                    jobTitleName = 'כותב/ת';
-                                } else if(finalData[i].job == 'Short Story') {
-                                    jobTitleName = 'סיפור קצר';
-                                } else if(finalData[i].job == 'Characters') {
-                                    jobTitleName = 'דמויות';
-                                } else if(finalData[i].job == 'Screenplay') {
-                                    jobTitleName = 'תסריט';
-                                } else if(finalData[i].job == 'Screenplay') {
-                                    jobTitleName = 'תסריט';
-                                } else if(finalData[i].job == 'Director') {
-                                    jobTitleName = 'במאי/ת';
-                                }
-                            }
-
-                            $('<span>', {
-                                class: 'characterName filter',
-                                text: jobTitleName
-                            }).appendTo(credit);
-                        }        
-                    }
-
-                } catch (e) {
-                    console.log(e);
-                }
-
-                setTimeout(() => {
-                    sortPopularMovies($('#personMovies'), 'popularity', 3);
-                }, 500);
-            }
-
-            checkLength(finalData.length, '#personMovies');
-        }
-    })
-}
-
-const getPersonImages = (value) => {
-    $('#personImages').empty();
-
-    $.get(movieActorsUrl + value + "/images?api_key=" + tmdbKey + '&language=' + lang, (data) => {
-        if (data.profiles.length > 0) {
-            let finalLength;
-
-            if (data.profiles.length > 10) {
-                finalLength = 10;
-            } else {
-                finalLength = data.profiles.length;
-            }
-
-            for (let i = 0; i < finalLength; i++) {
-
-                let finalImg;
-
-                if (data.profiles[i].file_path == null) {
-                    finalImg = './images/stock.png';
-                } else {
-                    finalImg = 'https://image.tmdb.org/t/p/w1280' + data.profiles[i].file_path;
-                }
-
-                $('<img>', {
-                    class: 'personPoster lazy filter',
-                    src: './images/stock.png',
-                    'data-src': finalImg,
-                    alt: 'person poster',
-                }).appendTo($('#personImages'));
-            }
-        }
-    });
-}
-
-const getPersonMovieImages = (value) => {
-    $('#personMovieImages').empty();
-
-    $.get(movieActorsUrl + value + "/tagged_images?api_key=" + tmdbKey + '&language=' + lang, (data) => {
-        if (data.results.length > 0) {
-            let finalLength;
-
-            if (data.results.length > 10) {
-                finalLength = 10;
-            } else {
-                finalLength = data.results.length;
-            }
-
-            let personMovieArr = [];
-
-            for (let i = 0; i < finalLength; i++) {
-                let finalImg;
-
-                if (data.results[i].media.backdrop_path == null) {
-                    if (data.results[i].file_path == null) {
-                        finalImg = './images/stockMovie.jpg'; 
-                    } else {
-                        finalImg = 'https://image.tmdb.org/t/p/w1280' + data.results[i].file_path;
-                    }        
-                } else {
-                    finalImg = 'https://image.tmdb.org/t/p/w1280' + data.results[i].media.backdrop_path;
-                }
-
-                if (!personMovieArr.includes(finalImg)) {
-                    personMovieArr.push(finalImg);
-                    $('<img>', {
-                        class: 'personMovieImg lazy filter',
-                        src: './images/stockMovie.jpg',
-                        'data-src': finalImg,
-                        alt: 'person tagged img',
-                    }).appendTo($('#personMovieImages'));
-                }
-            }
-        }
-    }) 
-    .done(() => {
-        setTimeout(() => {
-            $('#spinnerWrapper').hide();
-            $('#chosenPerson').show();
-            $('footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
-
-            $('#breadcrumbs').show();
-            $('#logo').css('pointerEvents', 'all');
-            $('#typeOfContent').attr('class', 'fas fa-user-alt');
-            $('#contentPoster').css('background', '').hide();
-        }, 1500)
-    })
-    .fail(() => {
-        setTimeout(() => {
-            $('#spinnerWrapper').hide();
-            $('#chosenPerson').show();
-            $('footer, #menuOpenWrapper, .searchContainer').css({'pointer-events': 'all', 'opacity': 1});
-        }, 1500)
-    })
-}
-
-const getSimilar = (value, type) => {
-    if (type == 1) {
-        if (langNum == 1) {
-            $('#similarHeader').html('Similar Movies'); 
-        } else {
-            $('#similarHeader').html('סרטים דומים');
-        }
-    } else {
-        if (langNum == 1) {
-            $('#similarHeader').html('Similar TV Shows'); 
-        } else {
-            $('#similarHeader').html('סדרות דומות');
-        }
-    }
-
-    let finalUrl = getFinalUrl(type);
-    $('#similarMovies').hide();
-
-    $.get(finalUrl + value + "/similar?api_key=" + tmdbKey + '&language=' + lang, (data) => {
-        if (data.results.length !== 0) {
-            $('#similarMovies').show();
-
-            for (let i = 0; i < data.results.length; i++) {
-                try {
-                    let img;
-
-                    if (data.results[i].poster_path == 'undefined' || data.results[i].poster_path == null || data.results[i].poster_path == '') {
-                        img = './images/stock.png';
-                    } else {
-                        img = 'https://image.tmdb.org/t/p/w1280' + data.results[i].poster_path;
-                    }
-
-                    let credit = $('<div>', {
-                        class: 'credit',
-                        popularity: data.results[i].popularity,
-                        value: data.results[i].id,
-                    }).appendTo($('#similarMoviesContent'));
-
-                    setTimeout(() => {
-                        sortPopularMovies($('#similarMoviesContent'), 'popularity', 3);
-                    }, 500);
-
-                    let finalTitle;
-
-                    if (type == 1) {
-                        finalTitle = data.results[i].title;
-                    } else {
-                        finalTitle = data.results[i].name;
-                    }
-
-                    $('<img>', {
-                        class: 'similarMovieImg hoverEffect lazy pointer filter',
-                        'data-src': img,
-                        'src': './images/stock.png',
-                        alt: 'similarMovieImg',
-                        click: () => {
-                            chosenMovie(data.results[i].id, type);
-                        }
-                    }).appendTo(credit);
-
-                    $('<span>', {
-                        class: 'similarMovieName filter',
-                        text: finalTitle
-                    }).appendTo(credit);
-                } catch (e) {
-                    console.log(e);
-                }
-            }
-
-            checkLength(data.results.length, '#similarMoviesContent');
-        }
-    });
-}
-
-const getImages = (value, type) => {
-    let finalUrl = getFinalUrl(type);
-    $('#chosenMovieImagesWrapper').hide();
-
-    $.get(finalUrl + value + "/images?api_key=" + tmdbKey, (data) => {
-        if (data.backdrops.length > 0) {
-            $('#chosenMovieImagesWrapper').css('display', 'flex');
-            let finalLength;
-            if (data.backdrops.length > 10) {
-                finalLength = 10;
-            } else {
-                finalLength = data.backdrops.length;
-            }
-
-            for (let i = 0; i < finalLength; i++) {
-                try {
-                    if (data.backdrops[i].file_path == null || data.backdrops[i].file_path == '') {
-                        galleryImg = './images/stockMovie.jpg';
-                    } else {
-                        galleryImg = 'https://image.tmdb.org/t/p/w1280' + data.backdrops[i].file_path;
-                    }
-    
-                    $('<img>', {
-                        class: 'movieGalleryImg lazy filter',
-                        src: './images/stockMovie.jpg',
-                        'data-src': galleryImg,
-                        alt: 'movieGalleryImg',
-                    }).appendTo($('#chosenMovieImagesWrapper'));
-                
-                } catch (e) {
-                    console.log(e);
-                }
-            }
-        }
-    });
-}
-
-const getVideos = (value, type) => {
-    let finalUrl = getFinalUrl(type);
-    $('#videosWrapper').hide();
-
-    $.get(finalUrl + value + "/videos?api_key=" + tmdbKey, (data) => {
-        if (data.results.length > 0) {
-            $('#videosWrapper').css('display', 'flex');
-            let finalLength;
-            if (data.results.length > 5) {
-                finalLength = 5;
-            } else {
-                finalLength = data.results.length;
-            }
-
-            for (let i = 0; i < finalLength; i++) {
-                let objectUrl = youtubeVideo + data.results[i].key + '?showinfo=0&enablejsapi=1';
-                $('<iframe>', {
-                    class: 'movieVideo',
-                    title: 'video',
-                    src: objectUrl,
-                    width: '420',
-                    height: '315',
-                    allowfullscreen: true,
-                }).appendTo($('#videosWrapper'));
-            }
-        }
-    });
 }
 
 const showMiscellaneous = () => {
