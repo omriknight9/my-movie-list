@@ -166,10 +166,10 @@ const getComments = (data, movieOrTv, arr, type) => {
 
         if (value !== null) {
             let finalOrder;
-            if(value.split(',')[1] == undefined) {
+            if(value.split(',')[0] == undefined) {
                 finalOrder = 0;
             } else {
-                finalOrder = value.split(',')[1].trim();
+                finalOrder = value.split(',')[0].trim();
             }
 
             let finalValue;
@@ -185,15 +185,13 @@ const getComments = (data, movieOrTv, arr, type) => {
             if (type == 1) {
                 obj = {
                     value: finalValue,
-                    quality: value.split(',')[0].trim(),
                     order: finalOrder
                 }
             } else {
                 obj = {
                     value: finalValue,
-                    quality: value.split(',')[0].trim(),
                     order: finalOrder,
-                    delete: value.split(',')[2].trim()
+                    delete: value.split(',')[1].trim()
                 }
             }
 
@@ -208,7 +206,6 @@ const getComments = (data, movieOrTv, arr, type) => {
     $.each(arr, (key, value) => {      
         for (let w = 0; w < commentsArr.length; w++) {     
             if (value.id == commentsArr[w].value) {
-                arr[key].quality = commentsArr[w].quality;
                 arr[key].order = commentsArr[w].order;
             }  
         }
@@ -905,7 +902,6 @@ const buildMovies = (data, div, wrapper, type) => {
             class: 'movieWrapper hoverEffect pointer ' + div,
             'date': data[i].release_date,
             'value': data[i].id,
-            'quality': data[i].quality,
             'order': data[i].order,
             click: () => {
                 chosenMovie(data[i].id, 1);
@@ -992,7 +988,6 @@ const buildTvShows = (data, div, wrapper) => {
             class: 'tvShowWrapper hoverEffect pointer ' + div,
             'year': data[i].first_air_date.substr(0, 4),
             'value': data[i].id,
-            'quality': data[i].quality,
             'order': data[i].order,
             click: function () {
                 chosenMovie(data[i].id, 2);
@@ -1038,12 +1033,6 @@ const chosenMovie = (value, type) => {
     } else {
         chosenUrl = 'tvShow';
     }
-
-    // getCredits(value, type);
-    // getSimilar(value, type);
-    // getImages(value, type);
-    // getVideos(value, type);
-    // getWatchProviders(value, type);
 
     $.get(finalUrl + value + "?api_key=" + tmdbKey + '&append_to_response=images,similar,videos,keywords,credits,watch/providers,external_ids', (data) => {
         let finalTitle;
@@ -2956,6 +2945,7 @@ const sortByDate = (container, type) => {
     } else {
         children = $(container).find('.trendingWrapper');
     }
+
     let ids = [], obj, i, len;
 
     for (i = 0, len = children.length; i < len; i++) {
