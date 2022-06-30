@@ -166,6 +166,7 @@ const getComments = (data, movieOrTv, arr, type) => {
 
         if (value !== null) {
             let finalOrder;
+            let finalSize;
             if(value.split(',')[0] == undefined) {
                 finalOrder = 0;
             } else {
@@ -180,17 +181,25 @@ const getComments = (data, movieOrTv, arr, type) => {
                 finalValue = key.replace('tv:', '');
             }
 
+            if(value.split(',')[1] == undefined) {
+                finalSize = 0;
+            } else {
+                finalSize = value.split(',')[1].trim();
+            }
+
             let obj;
 
             if (type == 1) {
                 obj = {
                     value: finalValue,
-                    order: finalOrder
+                    order: finalOrder,
+                    size: finalSize
                 }
             } else {
                 obj = {
                     value: finalValue,
                     order: finalOrder,
+                    size: finalSize,
                     delete: value.split(',')[1].trim()
                 }
             }
@@ -200,13 +209,14 @@ const getComments = (data, movieOrTv, arr, type) => {
     });
 
     for (let i = 0; i < data.results.length; i++) {
-        arr.push(data.results[i]); 
+        arr.push(data.results[i]);
     }
 
     $.each(arr, (key, value) => {      
         for (let w = 0; w < commentsArr.length; w++) {     
             if (value.id == commentsArr[w].value) {
                 arr[key].order = commentsArr[w].order;
+                arr[key].size = commentsArr[w].size;
             }  
         }
     });
@@ -889,7 +899,6 @@ const buildMovies = (data, div, wrapper, type) => {
     }
 
     for (let i = 0; i < data.length; i++) {
-
         let finalReleaseDate;
         if (data[i].release_date == '' || data[i].release_date == null || data[i].release_date == undefined) {
             finalReleaseDate = 'Unknown';
@@ -903,6 +912,7 @@ const buildMovies = (data, div, wrapper, type) => {
             'date': data[i].release_date,
             'value': data[i].id,
             'order': data[i].order,
+            'size': data[i].size,
             click: () => {
                 chosenMovie(data[i].id, 1);
             }
